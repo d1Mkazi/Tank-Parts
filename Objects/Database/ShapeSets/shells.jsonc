@@ -1,0 +1,179 @@
+/*
+* projectile data is stored in ShellDB.lua (Scripts/ShellDB.lua)
+
+* "explosionLevel" : n,
+* "explosionRadius" : n,
+* "impulseLevel" : n,
+* "impulseRadius": n
+*/
+{
+    "partList": [
+        { // AP Shell
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 5,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 1.5,
+					"impulseLevel" : 80,
+					"impulseRadius": 2
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "Armor-Piercing Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "Default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25840"
+		},
+		{ // HE Shell
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 3,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 2.5,
+					"impulseLevel" : 130,
+					"impulseRadius": 4
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "High-Explosive Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : "$CONTENT_DATA/Objects/Renderable/ExplosiveShell.rend",
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "Default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25841"
+		},
+		{ // HEAT Shell
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 3,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 1,
+					"impulseLevel" : 75,
+					"impulseRadius": 1
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "HEAT Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : "$CONTENT_DATA/Objects/Renderable/CumulativeShell.rend",
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "Default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25842"
+		},
+		{ // Artillery Shell
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 4,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 6,
+					"explosionRadius" : 3,
+					"impulseLevel" : 180,
+					"impulseRadius": 4.5
+				}
+			},
+			"ratings": {
+				"density": 8,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "Artillery Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : "$CONTENT_DATA/Objects/Renderable/ArtilleryShell.rend",
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "Default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25843"
+		},
+		{ // APSC Shell
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 2,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"noExplode": true
+				}
+			},
+			"ratings": {
+				"density": 4,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 4
+			},
+			"carryItem" : true,
+			"name" : "Sub-Caliber Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : "$CONTENT_DATA/Objects/Renderable/SubcaliberShell.rend",
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "Default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25844"
+		}
+    ]
+}

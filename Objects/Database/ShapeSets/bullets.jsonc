@@ -1,0 +1,33 @@
+{
+    "partList": [
+        // Armor-Piercing Bullet
+        {
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 3,
+				"diameter" : 1
+			},
+			"name" : "",
+			"physicsMaterial" : "Default",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "rotationSet" : "default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25800",
+            "showInInventory": false
+		}
+    ]
+}

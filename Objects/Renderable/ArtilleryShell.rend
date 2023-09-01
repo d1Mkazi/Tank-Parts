@@ -1,0 +1,16 @@
+{
+    "lodList": [
+        {
+            "mesh": "$CONTENT_DATA/Objects/Mesh/ArtilleryShell.fbx",
+            "subMeshList": [
+                {
+                    "material": "DifAsg",
+                    "textureList": [
+                        "$CONTENT_DATA/Objects/Textures/artilleryShell_dif.tga",
+                        "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "lodList": [
+        {
+            "mesh": "$CONTENT_DATA/Objects/Mesh/CumulativeShell.fbx",
+            "subMeshList": [
+                {
+                    "material": "DifAsgNor",
+                    "textureList": [
+                        "$CONTENT_DATA/Objects/Textures/shell_dif.tga",
+                        "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga",
+						"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_nor.tga"
+                    ]
+                }
+            ]
+        }
+    ]
+}

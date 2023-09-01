@@ -1,0 +1,11 @@
+// why do you wanna read this?
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"Lua.diagnostics.disable": ["need-check-nil", "lowercase-global"]
+	}
+}

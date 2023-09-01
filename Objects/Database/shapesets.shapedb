@@ -1,0 +1,8 @@
+{
+   "shapeSetList" : [
+      "$CONTENT_DATA/Objects/Database/ShapeSets/breeches.jsonc",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/shells.jsonc",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/bullets.jsonc",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.jsonc"
+   ]
+}

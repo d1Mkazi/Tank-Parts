@@ -1,0 +1,70 @@
+{
+    "TankCannon - Shoot": {
+        "parameterList": {
+            "DLM_Volume": 1.0,
+            "DLM_Pitch": 1,
+            "DLM_Reverb": 1.0,
+            "DLM_ReverbIdx": -1.0,
+            "size": 0.0,
+			"color": "ffcc34",
+			"radius": 16.0,
+			"intensity": 4.0,
+			"shakeStrength": 0.25,
+			"shakeRadius": 40.0
+        },
+        "effectList": [
+            {
+                "type": "audio",
+                "name": "Tank_shoot_outside",
+                "parameters": [ "DLM_Volume", "DLM_Pitch", "DLM_Reverb", "DLM_ReverbIdx" ]
+            },
+            {
+				"type": "particle",
+				"name": "Explosion_small_01",
+				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
+				"attached": true,
+				"delay": 0.0
+			},
+			{
+				"type": "pointLight",
+				"name": "",
+				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
+				"parameters":
+				[
+					"color",
+					"radius",
+					"intensity"
+				],
+				"duration": 0.1,
+				"delay": 0.0
+			},
+			{
+				"type": "cameraShake",
+				"name": "",
+				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
+				"parameters":
+				[
+					"shakeStrength",
+					"shakeRadius"
+				],
+				"duration": 0.4,
+				"delay": 0.0
+			}
+        ]
+    },
+    "Breech - Load": {
+        "parameterList": {
+            "DLM_Volume": 1.0,
+            "DLM_Pitch": 1.0,
+            "DLM_Reverb": 1.0,
+            "DLM_ReverbIdx": -1.0
+        },
+        "effectList": [
+            {
+                "type": "audio",
+                "name": "Breech_load",
+                "parameters": [ "DLM_Volume", "DLM_Pitch", "DLM_Reverb", "DLM_ReverbIdx" ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "soundList": {
+        "Tank_shoot_outside": {
+            "path": "$CONTENT_DATA/Effects/Audio/shoot.mp3",
+            "is3D": true
+        },
+        "Breech_load": {
+            "path": "$CONTENT_DATA/Effects/Audio/breech_load.mp3",
+            "is3D": true
+        }
+    }
+}

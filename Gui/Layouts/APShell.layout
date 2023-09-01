@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0.0026041666666666665 0 0.3671875 0.26851851851851855" name="BackPanel">
+        <Widget type="TextBox" skin="TextBox" position_real="0.017021276595744681 0.10000000000000001 0.96879432624113471 0.1310344827586207" name="Title">
+            <Property key="FontName" value="SM_HeaderLarge_Wide"/>
+            <Property key="TextAlign" value="HCenter Top"/>
+            <Property key="Caption" value="Shell Settings"/>
+        </Widget>
+        <Widget type="EditBox" skin="EditBox" position_real="0.021276595744680851 0.55172413793103448 0.19858156028368795 0.13793103448275862" align="HCenter VCenter" name="ExplosiveLevelEdit"/>
+        <Widget type="EditBox" skin="EditBox" position_real="0.41134751773049644 0.55172413793103448 0.19148936170212766 0.13793103448275862" align="HCenter VCenter" name="ExplosiveRadiusEdit"/>
+        <Widget type="EditBox" skin="EditBox" position_real="0.78723404255319152 0.55172413793103448 0.19148936170212766 0.13793103448275862" align="HCenter VCenter" name="InitFlySpEdit"/>
+        <Widget type="TextBox" skin="TextBox" position_real="0 0.39655172413793105 0.24113475177304963 0.10000000000000001" name="LevelTitle">
+            <Property key="Caption" value="Explosion Level"/>
+            <Property key="TextAlign" value="HCenter VCenter"/>
+            <Property key="FontName" value="SM_Button"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.36170212765957449 0.39655172413793105 0.2978723404255319 0.10000000000000001" name="RadiusTitle">
+            <Property key="Caption" value="Explosion Radius"/>
+            <Property key="FontName" value="SM_Button"/>
+            <Property key="TextAlign" value="HCenter VCenter"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.75886524822695034 0.39655172413793105 0.24113475177304963 0.10000000000000001" name="InitFlySpTitle">
+            <Property key="Caption" value="Initial Flight Speed"/>
+            <Property key="TextAlign" value="HCenter VCenter"/>
+            <Property key="FontName" value="SM_Button"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.79432624113475181 0.46551724137931033 0.1702127659574468 0.086206896551724144" name="InitFlySpUnits">
+            <Property key="FontName" value="SM_Button"/>
+            <Property key="TextAlign" value="HCenter VCenter"/>
+            <Property key="Caption" value="meter/sec"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.41843971631205673 0.46551724137931033 0.1702127659574468 0.086206896551724144" name="RadiusUnits">
+            <Property key="Caption" value="blocks"/>
+            <Property key="TextAlign" value="HCenter VCenter"/>
+            <Property key="FontName" value="SM_Button"/>
+        </Widget>
+        <Widget type="Button" skin="ActiveButton" position_real="0.21985815602836881 0.72413793103448276 0.56737588652482274 0.17241379310344829" name="buttonSave">
+            <Property key="Caption" value="SAVE"/>
+            <Property key="FontName" value="SM_HeaderLarge_Wide"/>
+            <Property key="TextAlign" value="HCenter VCenter"/>
+            <Property key="TextColour" value="#ffffff"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>

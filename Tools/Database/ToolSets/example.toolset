@@ -1,0 +1,17 @@
+{
+	"toolList": [
+		{
+			"name": "tank_autotool",
+			"uuid": "7de81ee1-888e-472a-8d37-4945aeb0b1c2",
+			"previewRenderable": "$GAME_DATA/Character/Char_Tools/char_connecttool_preview.rend",
+			"previewRotation": [1, 0, 0, 0, 0, -1, 0, 1, 0],
+			"script": {
+				"file": "$CONTENT_DATA/Scripts/shellProjectile.lua",
+				"class": "ShellProjectile",
+				"data": {}
+			},
+			"showInInventory": false,
+			"autoTool": true
+		}
+	]
+}
