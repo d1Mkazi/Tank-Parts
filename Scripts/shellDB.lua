@@ -49,11 +49,6 @@ ShellDB = {
                     return false
 
                 elseif result.type == "body" then
-                    if true then
-                        data.vel = data.vel  * result.normalWorld
-                        return true
-                    end
-
                     local shape = result:getShape()
                     local durability = sm.item.getQualityLevel(shape.uuid)
 

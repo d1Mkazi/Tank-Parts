@@ -1,5 +1,5 @@
 /*
-* projectile data is stored in ShellDB.lua (Scripts/ShellDB.lua)
+* projectile data is stored in ShellDB.lua (Scripts/shellDB.lua)
 
 * "explosionLevel" : n,
 * "explosionRadius" : n,
@@ -20,7 +20,7 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 4,
-					"explosionRadius" : 1.5,
+					"explosionRadius" : 2,
 					"impulseLevel" : 80,
 					"impulseRadius": 2
 				}
@@ -66,7 +66,7 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 4,
-					"explosionRadius" : 2.5,
+					"explosionRadius" : 3,
 					"impulseLevel" : 130,
 					"impulseRadius": 4
 				}

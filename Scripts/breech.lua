@@ -210,7 +210,7 @@ end
 function Breech:cl_shoot()
     local pos = self.shape.worldPosition + self.shape.at * self.cl.shootDistance / 2 + sm.vec3.new(0, 0, 0.25)
     if sm.dlm_injected then
-        sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 3.5, DLM_Pitch = 0.8})
+        sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 40, DLM_Pitch = 0.95})
     else
         sm.effect.playEffect("PropaneTank", pos)
     end
