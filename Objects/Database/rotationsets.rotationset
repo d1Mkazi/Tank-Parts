@@ -1,3 +1,24 @@
 {
-	"rotationSet": []
+	"rotationSet": [
+		{
+			"name": "TP_BreechRotation",
+			"rotation": [
+				{ "south": "Z", "east": "X" },
+				{ "south": "Z", "east": "-Y" },
+				{ "south": "Z", "east": "-X" },
+				{ "south": "Z", "east": "Y" }
+			]
+		},
+		{
+			"name": "TP_ShellRotation",
+			"prop": true,
+			"rotation": [
+				{ "south": "-Y", "east": "X" },
+				{ "south": "Z", "east": "X" },
+				{ "south": "Z", "east": "-Y" },
+				{ "south": "Z", "east": "-X" },
+				{ "south": "Z", "east": "Y" }
+			]
+		}
+	]
 }

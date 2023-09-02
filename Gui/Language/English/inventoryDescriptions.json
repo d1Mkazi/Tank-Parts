@@ -6,9 +6,5 @@
     "ec19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "HE Shell",
         "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit.\n\nInitial speed: 120 m/s"
-    },
-    "ec19cdbf-865e-401c-9c5e-f111bad25844": {
-        "title": "APSC Shell",
-        "description": "Armor-Piercing Sub-Caliber shell\nEffective against armored targets.\n\nDoesn't have a fuse.\n\nInitial speed: 210 m/s\nPenetration capacity: 20\nMax durability: 8"
     }
 }

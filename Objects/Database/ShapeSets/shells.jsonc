@@ -51,7 +51,7 @@
                 ]
             },
 			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "Default",
+			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25840"
 		},
 		{ // HE Shell
@@ -97,10 +97,10 @@
                 ]
             },
 			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "Default",
+			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25841"
-		},
-		{ // HEAT Shell
+		}
+		/*{ // HEAT Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -189,6 +189,6 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "Default",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25844"
-		}
+		}*/
     ]
 }
