@@ -5,7 +5,7 @@
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("shellDB.lua")
 dofile("utils.lua")
-dofile("lang.lua")
+dofile("localization.lua")
 
 ---@class Breech : ShapeClass
 Breech = class()
