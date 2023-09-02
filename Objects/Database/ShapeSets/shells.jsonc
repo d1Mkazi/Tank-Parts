@@ -58,7 +58,7 @@
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 3,
+				"depth" : 5,
 				"diameter" : 1
 			},
 			"scripted": {
@@ -80,7 +80,22 @@
 			"carryItem" : true,
 			"name" : "High-Explosive Shell",
 			"physicsMaterial" : "Metal",
-			"renderable" : "$CONTENT_DATA/Objects/Renderable/ExplosiveShell.rend",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "Default",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25841"
