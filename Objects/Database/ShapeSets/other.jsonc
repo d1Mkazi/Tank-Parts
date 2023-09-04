@@ -1,0 +1,21 @@
+{
+   "partList" : [
+      {
+         "color" : "222222",
+         "box" : {
+            "x" : 1,
+            "y" : 1,
+            "z" : 1
+         },
+         "name" : "Player Fixer",
+         "physicsMaterial" : "Mechanical",
+         "renderable" : "$GAME_DATA/Objects/Renderable/Interactive/obj_interactive_logicgate.rend",
+         "rotationSet" : "PropYZ",
+         "scripted" : {
+            "classname" : "Fixer",
+            "filename" : "$CONTENT_DATA/Scripts/Fixer.lua"
+         },
+         "uuid" : "55a069ad-4512-421d-b46b-7d14fb7f3b53"
+      }
+   ]
+}

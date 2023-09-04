@@ -6,5 +6,9 @@
     "ec19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "HE Shell",
         "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit.\n\nInitial speed: 120 m/s"
+    },
+    "55a069ad-4512-421d-b46b-7d14fb7f3b53": {
+        "title": "Player Fixer",
+        "description": "Use this to freeze your character"
     }
 }
