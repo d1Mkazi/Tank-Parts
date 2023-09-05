@@ -165,7 +165,7 @@ end
 function Breech:client_canInteract(character)
     if self.cl.status ~= FIRED then return false end
 
-    local takeCase = GetLocalization("TakeCase", sm.gui.getCurrentLanguage())
+    local takeCase = GetLocalization("breech_TakeCase", sm.gui.getCurrentLanguage())
     sm.gui.setCenterIcon("Use")
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), takeCase)
     return true
@@ -179,7 +179,7 @@ function Breech:client_onInteract(character, state)
 end
 
 function Breech:client_canTinker(character)
-    local settings = GetLocalization("Settings", sm.gui.getCurrentLanguage())
+    local settings = GetLocalization("breech_Settings", sm.gui.getCurrentLanguage())
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), settings)
     return true
 end
@@ -188,7 +188,7 @@ function Breech:client_onTinker(character, state)
     if not state then return end
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
-    local title = GetLocalization("GuiTitle", sm.gui.getCurrentLanguage())
+    local title = GetLocalization("breech_GuiTitle", sm.gui.getCurrentLanguage())
     self.cl.gui:setText("Title", title)
     self.cl.gui:open()
     self.cl.gui:setSliderPosition("breechSlider", self.cl.shootDistance)

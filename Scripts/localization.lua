@@ -5,21 +5,29 @@ local languages = {
             Language = "text"
             -- IMPORTANT: English localization is required.
             -- available languages: Brazilian | Chinese | English | French | German | Italian | Japanese | Korean | Polish | Russian | Spanish
-            -- do NOT add language if it doesn't have a localization. If a language doesn't have a localization, English text will be used.
+            -- English is default language. It means if there is no localization for your language, English localization is used.
         }
     ]]
     -- Interaction texts
-    TakeCase = {
+    breech_TakeCase = {
         English = "Take case",
         Russian = "Взять гильзу"
     },
-    Settings = {
+    breech_Settings = {
         English = "Settings",
         Russian = "Настройки"
     },
+    fixer_Sit = {
+        English = "Mount character",
+        Russian = "Закрепиться"
+    },
+    fixer_StandUp = {
+        English = "Dismount character",
+        Russian = "Спешиться"
+    },
 
     -- GUI
-    GuiTitle = {
+    breech_GuiTitle = {
         English = "Barrel Length",
         Russian = "Длина ствола"
     }
