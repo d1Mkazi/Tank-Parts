@@ -1,4 +1,5 @@
----@diagnostic disable: need-check-nil
+dofile("localization.lua")
+
 ---@class Fixer : ShapeClass
 Fixer = class()
 Fixer.colorNormal = sm.color.new("fd11aa")
@@ -48,22 +49,14 @@ function Fixer:client_onCreate()
     self.cl = {}
 end
 
---[[function Fixer:client_onUpdate___(dt)
-    --sm.camera.setCameraState(1)
-    if not self.cl.character then return end
-
-    local character = sm.localPlayer.getPlayer():getCharacter()
-    local eyePos = character:getHeight()
-    sm.camera.setPosition(character.worldPosition + sm.localPlayer.getUp() * (eyePos - 0.5))
-    sm.camera.setDirection(sm.localPlayer.getDirection())
-end]]
-
 function Fixer:client_canInteract(character)
     if not self.cl.character then
-        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), "Sit")
+        local sit = GetLocalization("fixer_Sit", sm.gui.getCurrentLanguage())
+        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), sit)
         return true
     else
-        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), "Stand up")
+        local standUp = GetLocalization("fixer_StandUp", sm.gui.getCurrentLanguage())
+        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), standUp)
         return self.cl.character == character
     end
 end
