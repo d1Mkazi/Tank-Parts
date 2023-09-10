@@ -58,7 +58,7 @@ function Breech:server_onFixedUpdate(timeStep)
         if self.saved.status == LOADED then
             self:sv_shoot()
         elseif self.saved.status == FIRED then
-            -- case drop
+            self:sv_dropCase()
         end
     end
 end
@@ -117,6 +117,20 @@ function Breech:sv_shoot()
     self.network:sendToClients("cl_shoot")
     self.saved.loaded = nil
     self.saved.status = FIRED
+    self:sv_updateClientData()
+    self.storage:save(self.saved)
+end
+
+function Breech:sv_dropCase()
+    local pos = self.shape.worldPosition + self.shape.right * -0.125
+    local at = self.shape.at
+
+    local offset = self.data.areaOffsetY - 0.6325
+
+    sm.shape.createPart(sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
+    self.network:sendToClients("cl_open")
+
+    self.saved.status = EMPTY
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
