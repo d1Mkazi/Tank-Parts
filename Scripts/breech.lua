@@ -125,7 +125,7 @@ function Breech:sv_dropCase()
     local pos = self.shape.worldPosition + self.shape.right * -0.125
     local at = self.shape.at
 
-    local offset = self.data.areaOffsetY - 0.6325
+    local offset = self.data.areaOffsetY - 0.625
 
     sm.shape.createPart(sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
     self.network:sendToClients("cl_open")

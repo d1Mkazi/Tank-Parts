@@ -1,3 +1,5 @@
+dofile("utils.lua")
+
 ---@class ShellProjectile : ToolClass
 ShellProjectile = class()
 ShellProjectile.projectiles = {}
@@ -108,16 +110,4 @@ function ShellProjectile:destroyShell(shell, key)
             return
         end
     end
-end
-
-function copyTable(originalTable)
-    local newTable = {}
-    for k, v in pairs(originalTable) do
-        if type(v) == "table" then
-            newTable[k] = copyTable(v)
-        else
-            newTable[k] = v
-        end
-    end
-    return newTable
 end

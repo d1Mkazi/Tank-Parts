@@ -31,3 +31,13 @@ function getTableByValue(search, where, special)
     end
     return nil
 end
+
+---@param original table
+function copyTable(original)
+    local new = {}
+    for k, v in pairs(original) do
+        new[k] = type(v) == "table" and copyTable(v) or v
+    end
+
+    return new
+end
