@@ -37,7 +37,11 @@ function Breech:init()
     self.saved = self.storage:load() or {
         loaded = nil,
         shootDistance = 0,
-        status = EMPTY
+        status = EMPTY,
+        reloaded = false,
+
+        carry = nil,
+
     }
     if self.saved.loaded then self:sv_loadShell() end
 
@@ -54,11 +58,15 @@ end
 function Breech:server_onFixedUpdate(timeStep)
     local parent = self.interactable:getSingleParent()
 
+    if self.saved.status == FIRED and self.saved.reloaded == 1 then
+        self:sv_dropCase()
+    end
+
     if parent and parent:isActive() then
-        if self.saved.status == LOADED then
+        if self.saved.status == LOADED and self.saved.reloaded == 0 then
             self:sv_shoot()
         elseif self.saved.status == FIRED then
-            self:sv_dropCase()
+            self.network:sendToClients("cl_open")
         end
     end
 end
@@ -104,6 +112,12 @@ function Breech:sv_loadShell(shape)
     self.storage:save(self.saved)
 end
 
+function Breech:sv_stateUpdate(value)
+    self.saved.reloaded = value
+    self:sv_updateClientData()
+    self.storage:save(self.saved)
+end
+
 function Breech:sv_shoot()
     local pos = self.shape.worldPosition
     local at = self.shape.at
@@ -145,17 +159,17 @@ end
 
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
-    sm.container.beginTransaction()
-    sm.container.collect(container, sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
-    sm.container.endTransaction()
     self.saved.status = EMPTY
     self:sv_updateClientData()
     self.storage:save(self.saved)
+    sm.container.beginTransaction()
+    sm.container.collect(container, sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
+    sm.container.endTransaction()
     self.network:sendToClients("cl_open")
 end
 
 function Breech:sv_updateClientData()
-    self.network:setClientData({shootDistance = self.saved.shootDistance, status = self.saved.status})
+    self.network:setClientData({shootDistance = self.saved.shootDistance, status = self.saved.status, reloaded = self.saved.reloaded})
 end
 
 function Breech:client_onCreate()
@@ -188,8 +202,8 @@ end
 function Breech:client_onInteract(character, state)
     if not state then return end
 
-    local carry = character:getPlayer():getCarry()
-    self.network:sendToServer("sv_unload", carry)
+    self.cl.carry = character:getPlayer():getCarry()
+    self:cl_open()
 end
 
 function Breech:client_canTinker(character)
@@ -210,6 +224,7 @@ end
 
 function Breech:client_onUpdate(dt)
     self:cl_updateAnimation(dt)
+    self:cl_carryCase()
 end
 
 function Breech:cl_loadShell()
@@ -232,15 +247,24 @@ end
 
 function Breech:cl_changeBreech(value) self.network:sendToServer("sv_setBreech", value) end
 
+function Breech:cl_carryCase()
+    if self.cl.carry ~= nil and self.cl.animProgress == 1 then
+        self.network:sendToServer("sv_unload", self.cl.carry)
+        self.cl.carry = nil
+    end
+end
+
 function Breech:cl_updateAnimation(dt)
     if self.cl.animUpdate == 0 then return end
 
     local progress = self.cl.animProgress + dt * self.cl.animUpdate
 
     if progress >= 1 then
+        self.network:sendToServer("sv_stateUpdate", 1)
         progress = 1
         self.cl.animUpdate = 0
     elseif progress <= 0 then
+        self.network:sendToServer("sv_stateUpdate", 0)
         progress = 0
         self.cl.animUpdate = 0
     end
