@@ -19,6 +19,13 @@
 				{ "south": "Z", "east": "-X" },
 				{ "south": "Z", "east": "Y" }
 			]
+		},
+		{
+			"name": "TP_FaceOnly",
+			"prop": true,
+			"rotation": [
+				{ "south": "-X", "east": "-Y" } // south -Y Y Z X
+			]
 		}
 	]
 }

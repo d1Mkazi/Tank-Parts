@@ -41,3 +41,12 @@ function copyTable(original)
 
     return new
 end
+
+---@param has table
+---@param index any
+function hasIndex(has, index)
+    for k, v in pairs(has) do
+        if k == index then return true end
+    end
+    return false
+end

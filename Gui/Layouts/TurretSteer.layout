@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<MyGUI type="Layout" version="3.2.0">
+    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.296875 0.18518518518518517" name="BackPanel">
+        <Widget type="TextBox" skin="TextBox" position_real="0 0.074999999999999997 1 0.25" name="steerTitle">
+            <Property key="FontName" value="SM_HeaderLarge_Narrow"/>
+            <Property key="TextAlign" value="HCenter Top"/>
+            <Property key="Caption" value="steerTitle"/>
+        </Widget>
+        <Widget type="Widget" skin="PanelEmpty" position_real="0.008771929824561403 0.59999999999999998 0.98245614035087714 0.29999999999999999" name="steerSlider"/>
+        <Widget type="TextBox" skin="TextBox" position_real="0.008771929824561403 0.375 0.5 0.22500000000000001" name="steerSpeed">
+            <Property key="Caption" value="steerSpeed"/>
+            <Property key="FontName" value="SM_HeaderLarge_Narrow"/>
+            <Property key="TextAlign" value="Left Top"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.51754385964912286 0.375 0.47368421052631576 0.22500000000000001" name="steerPower">
+            <Property key="Caption" value="steerPower"/>
+            <Property key="TextAlign" value="Right Top"/>
+            <Property key="FontName" value="SM_HeaderLarge_Narrow"/>
+        </Widget>
+    </Widget>
+    <CodeGeneratorSettings/>
+</MyGUI>

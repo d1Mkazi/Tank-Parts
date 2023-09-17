@@ -13,8 +13,8 @@ Breech.maxParentCount = 1
 --Breech.maxChildCount = 1
 Breech.connectionInput = sm.interactable.connectionType.logic
 Breech.connectionOutput = sm.interactable.connectionType.logic
-Breech.colorNormal = sm.color.new( 0x6a306bff )
-Breech.colorHighlight = sm.color.new( 0xa349a4ff )
+Breech.colorNormal = sm.color.new("6a306bff")
+Breech.colorHighlight = sm.color.new("a349a4ff")
 
 -- constants
 local EMPTY = 1
@@ -152,8 +152,6 @@ end
 ---@param distance number shoot distance offset (barrel length)
 function Breech:sv_setBreech(distance)
     self.saved.shootDistance = distance
-    self:sv_updateClientData()
-
     self.storage:save(self.saved)
 end
 
@@ -173,12 +171,12 @@ function Breech:sv_updateClientData()
 end
 
 function Breech:client_onCreate()
-    self.cl = {}
-    self.cl.gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
-    self.cl.gui:createHorizontalSlider("breechSlider", 20, 1, "cl_changeBreech", true)
-
-    self.cl.animUpdate = 0
-    self.cl.animProgress = 0
+    self.cl = {
+        animUpdate = 0,
+        animProgress = 0,
+        gui  = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
+    }
+    self.cl.gui:createHorizontalSlider("breechSlider", 20, 1, "cl_changeSlider", true)
 
     self.interactable:setAnimEnabled("Opening", true)
     self:cl_open()
@@ -207,7 +205,7 @@ function Breech:client_onInteract(character, state)
 end
 
 function Breech:client_canTinker(character)
-    local settings = GetLocalization("breech_Settings", sm.gui.getCurrentLanguage())
+    local settings = GetLocalization("base_Settings", sm.gui.getCurrentLanguage())
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), settings)
     return true
 end
@@ -217,7 +215,7 @@ function Breech:client_onTinker(character, state)
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
     local title = GetLocalization("breech_GuiTitle", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("Title", title)
+    self.cl.gui:setText("steerTitle", title)
     self.cl.gui:open()
     self.cl.gui:setSliderPosition("breechSlider", self.cl.shootDistance)
 end
@@ -245,7 +243,7 @@ function Breech:cl_shoot()
     end
 end
 
-function Breech:cl_changeBreech(value) self.network:sendToServer("sv_setBreech", value) end
+function Breech:cl_changeSlider(value) self.network:sendToServer("sv_setBreech", value) end
 
 function Breech:cl_carryCase()
     if self.cl.carry ~= nil and self.cl.animProgress == 1 then
