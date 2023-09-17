@@ -2,8 +2,8 @@ dofile("localization.lua")
 
 ---@class Fixer : ShapeClass
 Fixer = class()
-Fixer.colorNormal = sm.color.new("fd11aa")
-Fixer.colorHighlight = sm.color.new("fd00af")
+Fixer.colorNormal = sm.color.new("fd11aaff")
+Fixer.colorHighlight = sm.color.new("fd00afff")
 Fixer.connectionInput = sm.interactable.connectionType.logic
 
 
