@@ -9,14 +9,16 @@ local languages = {
         }
     ]]
     -- Interaction texts
+    base_Settings = {
+        English = "Settings",
+        Russian = "Настройки"
+    },
+
     breech_TakeCase = {
         English = "Take case",
         Russian = "Взять гильзу"
     },
-    breech_Settings = {
-        English = "Settings",
-        Russian = "Настройки"
-    },
+
     fixer_Sit = {
         English = "Mount character",
         Russian = "Закрепиться"
@@ -30,6 +32,19 @@ local languages = {
     breech_GuiTitle = {
         English = "Barrel Length",
         Russian = "Длина ствола"
+    },
+
+    steer_GuiTitle = {
+        English = "Steering settings",
+        Russian = "Настройка управления"
+    },
+    steer_GuiSpeed = {
+        English = "Speed",
+        Russian = "Скорость"
+    },
+    steer_GuiPower = {
+        English = "Power",
+        Russian = "Мощность"
     }
 }
 
