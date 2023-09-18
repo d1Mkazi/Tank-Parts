@@ -7,7 +7,6 @@ TurretWheel.connectionOutput = sm.interactable.connectionType.bearing
 TurretWheel.colorNormal = sm.color.new("af730dff")
 TurretWheel.colorHighlight = sm.color.new("afa63eff")
 
-local actions = sm.interactable.actions
 
 function TurretWheel:server_onCreate()
     self:init()
@@ -51,6 +50,14 @@ function TurretWheel:sv_setSteer(value)
     self.storage:save(self.saved)
 end
 
+---@param to number set 1 to turn right, set -1 to turn left and 0 to stop
+function TurretWheel:sv_applyImpulse(to)
+    local bearings = self.interactable:getBearings()
+    for k, bearing in ipairs(bearings) do
+        bearing:setMotorVelocity(self.cl.velocity * to, self.cl.impulse)
+    end
+end
+
 function TurretWheel:client_onCreate()
     self.cl = {
         animUpdate = 0,
@@ -76,6 +83,7 @@ function TurretWheel:client_onAction(action, state)
             self:cl_unlockCharacter()
         end
     else
+        self.network:sendToServer("sv_applyImpulse", 0)
         self.network:sendToServer("sv_setAnimation", 0)
     end
 
@@ -126,10 +134,8 @@ function TurretWheel:cl_turnRight(turn)
     local bearings = self.interactable:getBearings()
 
     if turn then
-        for k, bearing in ipairs(bearings) do
-            bearing:setMotorVelocity(self.cl.velocity, self.cl.impulse)
-        end
-        self.network:sendToServer("cl_setAnimation", 0.6)
+        self.network:sendToServer("sv_applyImpulse", 1)
+        self.network:sendToServer("sv_setAnimation", 0.6)
     else
         for k, bearing in ipairs(bearings) do
             bearing:setMotorVelocity(0, self.cl.impulse / 3 * 2)
@@ -142,10 +148,8 @@ function TurretWheel:cl_turnLeft(turn)
     local bearings = self.interactable:getBearings()
 
     if turn then
-        for k, bearing in ipairs(bearings) do
-            bearing:setMotorVelocity(-self.cl.velocity, self.cl.impulse)
-        end
-        self.network:sendToServer("cl_setAnimation", -0.6)
+        self.network:sendToServer("sv_applyImpulse", -1)
+        self.network:sendToServer("sv_setAnimation", -0.6)
     else
         for k, bearing in ipairs(bearings) do
             bearing:setMotorVelocity(0, self.cl.impulse / 3 * 2)
