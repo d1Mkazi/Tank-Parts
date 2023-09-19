@@ -34,11 +34,11 @@ end
 function ShellProjectile:server_onFixedUpdate(dt)
     for k, proj in pairs(ShellProjectile.projectiles) do
         if proj.hit then
-            local still = proj:onHit()
+            --local still = proj:onHit()
+            if not proj:onHit() then
+                self:destroyShell(proj, k)
+            end
             proj.hit = nil
-            if still then return end
-
-            self:destroyShell(proj, k)
         end
     end
 end
@@ -80,6 +80,10 @@ function ShellProjectile:client_onUpdate(dt)
         pos = pos + vel * dt
         proj.pos = pos
         proj.vel = vel
+
+        if proj.penetrationLoss then
+            proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
+        end
 
         local hit, result = raycast(pos, pos + vel * dt * 1.2)
         if hit then
