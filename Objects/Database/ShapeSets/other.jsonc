@@ -46,8 +46,8 @@
 			},
          "rotationSet" : "TP_FaceOnly",
          "scripted" : {
-            "classname" : "TurretWheel",
-            "filename" : "$CONTENT_DATA/Scripts/TurretWheel.lua"
+            "classname" : "TurretSteer",
+            "filename" : "$CONTENT_DATA/Scripts/TurretSteer.lua"
          },
          "uuid" : "55a069ad-4512-421d-b46b-7d14fb7f3b01"
       }

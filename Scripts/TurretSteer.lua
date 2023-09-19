@@ -1,25 +1,26 @@
 dofile("utils.lua")
+dofile("localization.lua")
 
----@class TurretWheel : ShapeClass
-TurretWheel = class()
-TurretWheel.maxChildCount = -1
-TurretWheel.connectionOutput = sm.interactable.connectionType.bearing
-TurretWheel.colorNormal = sm.color.new("af730dff")
-TurretWheel.colorHighlight = sm.color.new("afa63eff")
+---@class TurretSteer : ShapeClass
+TurretSteer = class()
+TurretSteer.maxChildCount = -1
+TurretSteer.connectionOutput = sm.interactable.connectionType.bearing
+TurretSteer.colorNormal = sm.color.new("af730dff")
+TurretSteer.colorHighlight = sm.color.new("afa63eff")
 
 
-function TurretWheel:server_onCreate()
+function TurretSteer:server_onCreate()
     self:init()
 end
 
-function TurretWheel:server_onRefresh()
+function TurretSteer:server_onRefresh()
     self:init()
     print("RELOADED")
 end
 
-function TurretWheel:init()
+function TurretSteer:init()
     self.saved = self.storage:load() or {
-        slider = 1,
+        slider = 0,
         velocity = 100,
         impulse = 1
     }
@@ -27,95 +28,106 @@ function TurretWheel:init()
     self:sv_updateClientData()
 end
 
-function TurretWheel:sv_updateClientData()
+function TurretSteer:sv_updateClientData()
     self.network:setClientData({ slider = self.saved.slider, velocity = self.saved.velocity, impulse = self.saved.impulse })
 end
 
 ---@param character? Character
-function TurretWheel:sv_setCharacter(character) self.network:sendToClients("cl_setCharacter", character) end
+function TurretSteer:sv_setCharacter(character) self.network:sendToClients("cl_setCharacter", character) end
 
 ---@param value number
-function TurretWheel:sv_setAnimation(value) self.network:sendToClients("cl_setAnimation", value) end
+function TurretSteer:sv_setAnimation(value) self.network:sendToClients("cl_setAnimation", value) end
 
-function TurretWheel:sv_setSteer(value)
+function TurretSteer:sv_setSteer(value)
     self.saved.slider = value
+    value = value + 1
 
     local baseVelocity = 100
     local baseImpulse = 1
 
-    self.saved.velocity = baseVelocity / value
-    self.saved.impulse = baseImpulse * value
+    self.saved.velocity = baseVelocity / (1.5 * value)
+    self.saved.impulse = baseImpulse * (1.8 * value)
 
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
 
 ---@param to number set 1 to turn right, set -1 to turn left and 0 to stop
-function TurretWheel:sv_applyImpulse(to)
+function TurretSteer:sv_applyImpulse(to)
     local bearings = self.interactable:getBearings()
     for k, bearing in ipairs(bearings) do
-        bearing:setMotorVelocity(self.cl.velocity * to, self.cl.impulse)
+        bearing:setMotorVelocity(self.saved.velocity * to, to ~= 0 and self.saved.impulse or self.saved.impulse * 5)
     end
 end
 
-function TurretWheel:client_onCreate()
+function TurretSteer:client_onCreate()
     self.cl = {
         animUpdate = 0,
         animProgress = 0,
         gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TurretSteer.layout")
     }
+
     self.cl.gui:createHorizontalSlider("steerSlider", 100, 1, "cl_changeSlider", false)
     self.interactable:setAnimEnabled("Rotation", true)
 end
 
-function TurretWheel:client_onUpdate(dt)
+function TurretSteer:client_onDestroy()
+    if not self.cl.character then return end
+
+    self.cl.character:setLockingInteractable(nil)
+end
+
+function TurretSteer:client_onUpdate(dt)
     self:cl_updateAnimation(dt)
 end
 
-function TurretWheel:client_onAction(action, state)
+function TurretSteer:client_onAction(action, state)
     local functions = {
         [1] = self.cl_turnLeft, -- left
         [2] = self.cl_turnRight, -- right
     }
 
     if state then
-        if action == 15 then
+        if action == 15 then -- Use (E)
             self:cl_unlockCharacter()
+
+            self.network:sendToServer("sv_applyImpulse", 0)
+            self.network:sendToServer("sv_setAnimation", 0)
         end
     else
         self.network:sendToServer("sv_applyImpulse", 0)
         self.network:sendToServer("sv_setAnimation", 0)
     end
 
-    if not hasIndex(functions, action) then return false end
+    if not hasIndex(functions, action) then return true end
     functions[action](self, state)
 
     return true
 end
 
-function TurretWheel:client_onClientDataUpdate(data, channel)
+function TurretSteer:client_onClientDataUpdate(data)
     for k, v in pairs(data) do
         self.cl[k] = v
     end
 end
 
-function TurretWheel:client_canInteract(character)
+function TurretSteer:client_canInteract(character)
     return self.cl.character == nil and true or false
 end
 
-function TurretWheel:client_onInteract(character, state)
+function TurretSteer:client_onInteract(character, state)
     if not state then return end
 
     self:cl_lockCharacter(character)
 end
 
-function TurretWheel:client_canTinker(character)
+function TurretSteer:client_canTinker(character)
     local settings = GetLocalization("base_Settings", sm.gui.getCurrentLanguage())
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), settings)
-    return self.cl.character == nil and true or false
+    return true
 end
 
-function TurretWheel:client_onTinker(character, state)
+function TurretSteer:client_onTinker(character, state)
     if not state then return end
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
@@ -126,11 +138,11 @@ function TurretWheel:client_onTinker(character, state)
     local power = GetLocalization("steer_GuiPower", sm.gui.getCurrentLanguage())
     self.cl.gui:setText("steerPower", power)
     self.cl.gui:open()
-    self.cl.gui:setSliderPosition("steerSlider", self.cl.slider - 1)
+    self.cl.gui:setSliderPosition("steerSlider", self.cl.slider)
 end
 
 ---@param turn boolean set true to start rotation and false to stop
-function TurretWheel:cl_turnRight(turn)
+function TurretSteer:cl_turnRight(turn)
     local bearings = self.interactable:getBearings()
 
     if turn then
@@ -144,7 +156,7 @@ function TurretWheel:cl_turnRight(turn)
 end
 
 ---@param turn boolean set true to start rotation and false to stop
-function TurretWheel:cl_turnLeft(turn)
+function TurretSteer:cl_turnLeft(turn)
     local bearings = self.interactable:getBearings()
 
     if turn then
@@ -158,12 +170,12 @@ function TurretWheel:cl_turnLeft(turn)
 end
 
 ---@param character Character
-function TurretWheel:cl_lockCharacter(character)
+function TurretSteer:cl_lockCharacter(character)
     character:setLockingInteractable(self.interactable)
     self.network:sendToServer("sv_setCharacter", character)
 end
 
-function TurretWheel:cl_unlockCharacter()
+function TurretSteer:cl_unlockCharacter()
     self.cl.character:setLockingInteractable(nil)
     self.network:sendToServer("sv_setCharacter", nil)
 
@@ -174,7 +186,7 @@ function TurretWheel:cl_unlockCharacter()
     self.cl.animUpdate = 0
 end
 
-function TurretWheel:cl_updateAnimation(dt)
+function TurretSteer:cl_updateAnimation(dt)
     if not self.cl.animUpdate then return end
 
     local progress = self.cl.animProgress + self.cl.animUpdate * dt
@@ -190,9 +202,9 @@ function TurretWheel:cl_updateAnimation(dt)
     self.cl.animProgress = progress
 end
 
-function TurretWheel:cl_setAnimation(value) self.cl.animUpdate = value end
+function TurretSteer:cl_setAnimation(value) self.cl.animUpdate = value end
 
-function TurretWheel:cl_changeSlider(value) self.network:sendToServer("sv_setSteer", value + 1) end
+function TurretSteer:cl_changeSlider(value) self.network:sendToServer("sv_setSteer", value) end
 
 ---@param character? Character
-function TurretWheel:cl_setCharacter(character) self.cl.character = character end
+function TurretSteer:cl_setCharacter(character) self.cl.character = character end
