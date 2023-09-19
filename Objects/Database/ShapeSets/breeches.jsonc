@@ -18,8 +18,8 @@
 				"classname" : "Breech",
 				"data" : {
 					"areaOffsetX" : 0,
-					"areaOffsetY" : -0.5,
-					"areaOffsetZ" : 0.0625,
+					"areaOffsetY" : -0.25,
+					"areaOffsetZ" : 0.125,
 					"type" : "ww2"
 				}
 			},
@@ -67,8 +67,8 @@
 				"classname" : "Breech",
 				"data" : {
 					"areaOffsetX" : 0,
-					"areaOffsetY" : -0.5,
-					"areaOffsetZ" : 0.0625,
+					"areaOffsetY" : -0.25,
+					"areaOffsetZ" : 0.125,
 					"type" : "ww2"
 				}
 			},

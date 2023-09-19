@@ -1,7 +1,3 @@
---------------------------------------------------------------
--- Firstly, I want to say THANK YOU A LOT, The Red Builder! --
---------------------------------------------------------------
-
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("shellDB.lua")
 dofile("utils.lua")
@@ -32,22 +28,18 @@ function Breech:server_onRefresh()
 end
 
 function Breech:init()
-    self.sv = {}
+    self.sv = { animProgress = 0, lastActive = false }
 
     self.saved = self.storage:load() or {
         loaded = nil,
         shootDistance = 0,
-        status = EMPTY,
-        reloaded = false,
-
-        carry = nil,
-
+        status = EMPTY
     }
     if self.saved.loaded then self:sv_loadShell() end
 
     self:sv_updateClientData()
 
-    local size = sm.vec3.new(0.25, 0.25, 0.25)
+    local size = sm.vec3.new(0.125, 0.125, 0.25)
     local offset = sm.vec3.new(self.data.areaOffsetX, self.data.areaOffsetY, self.data.areaOffsetZ)
     local filter = sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
 
@@ -58,16 +50,22 @@ end
 function Breech:server_onFixedUpdate(timeStep)
     local parent = self.interactable:getSingleParent()
 
-    if self.saved.status == FIRED and self.saved.reloaded == 1 then
+    if self.saved.status == FIRED and self.sv.animProgress == 1 then
         self:sv_dropCase()
     end
 
-    if parent and parent:isActive() then
-        if self.saved.status == LOADED and self.saved.reloaded == 0 then
+    if parent and parent.active and not self.sv.lastActive then
+        if self.saved.status == LOADED and self.sv.animProgress == 0 then
             self:sv_shoot()
         elseif self.saved.status == FIRED then
             self.network:sendToClients("cl_open")
         end
+    end
+
+    if parent then
+        self.sv.lastActive = parent.active
+    else
+        self.sv.lastActive = nil
     end
 end
 
@@ -82,11 +80,11 @@ function Breech:trigger_onEnter(trigger, results)
     for _, content in ipairs(results) do
         for _, shape in ipairs(content:getShapes()) do
             if shape.body ~= self.shape.body then
-                if self.saved.status ~= EMPTY or
-                not isAnyOf(tostring(shape.uuid), AllowedShells[self.data.type]) then return end
-
-                self:sv_loadShell(shape)
-                shape:destroyPart(0)
+                if self.saved.status ~= EMPTY then return end
+                if isAnyOf(tostring(shape.uuid), AllowedShells[self.data.type]) then
+                    self:sv_loadShell(shape)
+                    shape:destroyPart(0)
+                end
             end
         end
     end
@@ -95,7 +93,7 @@ end
 ---@param shape? Shape The shell
 function Breech:sv_loadShell(shape)
     if not shape then
-        self.interactable:setActive(true)
+        self.interactable.active = true
         self.network:sendToClients("cl_loadShell")
         return
     end
@@ -104,7 +102,7 @@ function Breech:sv_loadShell(shape)
     self.saved.loaded.shape = shape
     self.saved.loaded.uuid = shape:getShapeUuid()
 
-    self.interactable:setActive(true)
+    self.interactable.active = true
 
     self.network:sendToClients("cl_loadShell")
     self.saved.status = LOADED
@@ -112,18 +110,14 @@ function Breech:sv_loadShell(shape)
     self.storage:save(self.saved)
 end
 
-function Breech:sv_stateUpdate(value)
-    self.saved.reloaded = value
-    self:sv_updateClientData()
-    self.storage:save(self.saved)
-end
+function Breech:sv_updateState(value) self.sv.animProgress = value end
 
 function Breech:sv_shoot()
     local pos = self.shape.worldPosition
     local at = self.shape.at
     local offset = self.saved.shootDistance / 2
 
-    local shell = getTableByValue(tostring(self.saved.loaded.uuid), ShellDB, "shellUUID") --[[@as table]] -- it can't be nil here (look trigger_onEnter)
+    local shell = getTableByValue(tostring(self.saved.loaded.uuid), ShellDB, "shellUUID") --[[@as table]] -- I hate yellow underscores
     ShellProjectile:sv_createShell(shell, pos + at * offset + self.shape.up * 0.125, at * shell.initialSpeed)
 
     sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed^2, true)
@@ -167,7 +161,7 @@ function Breech:sv_unload(container)
 end
 
 function Breech:sv_updateClientData()
-    self.network:setClientData({shootDistance = self.saved.shootDistance, status = self.saved.status, reloaded = self.saved.reloaded})
+    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status })
 end
 
 function Breech:client_onCreate()
@@ -182,7 +176,7 @@ function Breech:client_onCreate()
     self:cl_open()
 end
 
-function Breech:client_onClientDataUpdate(data, channel)
+function Breech:client_onClientDataUpdate(data)
     for key, value in pairs(data) do
         self.cl[key] = value
     end
@@ -258,11 +252,11 @@ function Breech:cl_updateAnimation(dt)
     local progress = self.cl.animProgress + dt * self.cl.animUpdate
 
     if progress >= 1 then
-        self.network:sendToServer("sv_stateUpdate", 1)
+        self.network:sendToServer("sv_updateState", 1)
         progress = 1
         self.cl.animUpdate = 0
     elseif progress <= 0 then
-        self.network:sendToServer("sv_stateUpdate", 0)
+        self.network:sendToServer("sv_updateState", 0)
         progress = 0
         self.cl.animUpdate = 0
     end
