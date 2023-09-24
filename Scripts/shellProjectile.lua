@@ -1,4 +1,5 @@
 dofile("utils.lua")
+dofile("SCS.lua")
 
 ---@class ShellProjectile : ToolClass
 ShellProjectile = class()
@@ -44,6 +45,10 @@ function ShellProjectile:server_onFixedUpdate(dt)
 end
 
 --[[  CLIENT  ]]--
+
+function ShellProjectile:client_onCreate()
+    Check() -- Check is the mod infected
+end
 
 ---@param shell table
 function ShellProjectile:cl_createShell(shell)
