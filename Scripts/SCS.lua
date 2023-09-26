@@ -16,10 +16,6 @@ function onNotInfected()
 end
 
 local json = sm.json.open("$CONTENT_DATA/description.json")
-if not json.dependencies or json.dependencies == {} then
-    onNotInfected()
-    return
-end
 
 local dependencies = json.dependencies
 
@@ -36,15 +32,20 @@ function onInfect()
 
     msg("\nThese mods open backdoors in your game or waiting for a certain amount of people to get infected to start the payload.")
     msg("Go to steamcommunity.com/sharedfiles/filedetails/?id=*id*\nand report them as soon as you can!")
-
+    
     print("[Mod Check] WARNING: "..mod.." IS INFECTED!")
     print("[Mod Check] WARNING: "..mod.." IS INFECTED!")
     print("[Mod Check] WARNING: "..mod.." IS INFECTED!")
 end
 
-function Check()
+function check()
     if CHECKED then return end
     CHECKED = true
+
+    if not dependencies or dependencies == {} then
+        onNotInfected()
+        return
+    end
 
     for k, dependency in pairs(dependencies) do
         if not isAnyOf(dependency.fileId, allowed) then

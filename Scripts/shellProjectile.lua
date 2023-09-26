@@ -35,7 +35,6 @@ end
 function ShellProjectile:server_onFixedUpdate(dt)
     for k, proj in pairs(ShellProjectile.projectiles) do
         if proj.hit then
-            --local still = proj:onHit()
             if not proj:onHit() then
                 self:destroyShell(proj, k)
             end
@@ -47,7 +46,7 @@ end
 --[[  CLIENT  ]]--
 
 function ShellProjectile:client_onCreate()
-    Check() -- Check is the mod infected
+    check() -- Check is the mod infected
 end
 
 ---@param shell table
@@ -75,19 +74,11 @@ function ShellProjectile:client_onUpdate(dt)
         end
 
         local pos = proj.pos
-        if pos.z < -10 then
+        local vel = proj.vel
+
+        if pos.z < -50 then
             self:destroyShell(proj, k)
             return
-        end
-
-        local vel = proj.vel
-        vel = vel * (1 - proj.friction) - sm.vec3.new(0, 0, g * dt)
-        pos = pos + vel * dt
-        proj.pos = pos
-        proj.vel = vel
-
-        if proj.penetrationLoss then
-            proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
         end
 
         local hit, result = raycast(pos, pos + vel * dt * 1.2)
@@ -97,6 +88,16 @@ function ShellProjectile:client_onUpdate(dt)
             proj.effect:setPosition(pos)
             proj.effect:setRotation(sm.vec3.getRotation(yAxis, vel))
         end
+
+        vel = vel * (1 - proj.friction) - sm.vec3.new(0, 0, g * dt)
+        pos = pos + vel * dt
+        proj.pos = pos
+        proj.vel = vel
+
+        if proj.penetrationLoss then
+            proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
+        end
+
 
         proj.dt = dt
     end
