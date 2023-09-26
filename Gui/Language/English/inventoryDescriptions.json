@@ -1,7 +1,7 @@
 {
     "ec19cdbf-865e-401c-9c5e-f111bad25840": {
         "title": "AP Shell",
-        "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor.\n\nInitial speed: 240 m/s\nPenetration capacity: 12\nMax durability: 7\nFuse sensitivity: 5"
+        "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor.\n\nInitial speed: 240 m/s\nPenetration capacity: 12\nMax durability: 7.6\nFuse sensitivity: 5"
     },
     "ec19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "HE Shell",
