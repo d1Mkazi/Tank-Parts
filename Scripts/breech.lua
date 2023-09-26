@@ -39,7 +39,7 @@ function Breech:init()
 
     self:sv_updateClientData()
 
-    local size = sm.vec3.new(0.125, 0.125, 0.25)
+    local size = sm.vec3.new(0.125, 0.25, 0.25)
     local offset = sm.vec3.new(self.data.areaOffsetX, self.data.areaOffsetY, self.data.areaOffsetZ)
     local filter = sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
 
@@ -133,7 +133,7 @@ function Breech:sv_dropCase()
     local pos = self.shape.worldPosition + self.shape.right * -0.125
     local at = self.shape.at
 
-    local offset = self.data.areaOffsetY - 0.625
+    local offset = self.data.areaOffsetY - 0.88
 
     sm.shape.createPart(sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
     self.network:sendToClients("cl_open")
