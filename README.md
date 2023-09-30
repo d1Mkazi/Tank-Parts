@@ -2,7 +2,7 @@
 ### Beta  
   
 This mod adds varoius breeches and shells.  
-To use this mod you should install [SM-DLM](https://github.com/QuestionableM/SM-DLL-Injector/tree/v1.4#readme) first.  
+To use this mod you should install [SM-DLM](https://github.com/QuestionableM/SM-CustomAudioExtension#readme) first.  
 SM-DLM isn't necessary but recommended.  
   
 ## Known issues  
