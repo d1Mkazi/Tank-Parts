@@ -2,6 +2,7 @@
 	"rotationSet": [
 		{
 			"name": "TP_BreechRotation",
+			"prop": false,
 			"rotation": [
 				{ "south": "Z", "east": "X" },
 				{ "south": "Z", "east": "-Y" },

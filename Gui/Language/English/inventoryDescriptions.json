@@ -13,6 +13,7 @@
     },
 
     "55a069ad-4512-421d-b46b-7d14fb7f3b01": {
+		"title": "Turret Steer",
         "description": "Press A or D to rotate your turret instead of using buttons or controllers"
     }
 }

@@ -45,7 +45,7 @@ function TurretSteer:sv_setSteer(value)
     local baseVelocity = 100
     local baseImpulse = 1
 
-    self.saved.velocity = baseVelocity / (1.5 * value)
+    self.saved.velocity = baseVelocity / (1.8 * value)
     self.saved.impulse = baseImpulse * (1.8 * value)
 
     self:sv_updateClientData()
@@ -56,7 +56,7 @@ end
 function TurretSteer:sv_applyImpulse(to)
     local bearings = self.interactable:getBearings()
     for k, bearing in ipairs(bearings) do
-        bearing:setMotorVelocity(self.saved.velocity * to, to ~= 0 and self.saved.impulse or self.saved.impulse * 5)
+        bearing:setMotorVelocity(self.saved.velocity * to, to ~= 0 and self.saved.impulse or 1000)
     end
 end
 
@@ -150,7 +150,7 @@ function TurretSteer:cl_turnRight(turn)
         self.network:sendToServer("sv_setAnimation", 0.6)
     else
         for k, bearing in ipairs(bearings) do
-            bearing:setMotorVelocity(0, self.cl.impulse / 3 * 2)
+            bearing:setMotorVelocity(0, 1000)
         end
     end
 end
@@ -164,7 +164,7 @@ function TurretSteer:cl_turnLeft(turn)
         self.network:sendToServer("sv_setAnimation", -0.6)
     else
         for k, bearing in ipairs(bearings) do
-            bearing:setMotorVelocity(0, self.cl.impulse / 3 * 2)
+            bearing:setMotorVelocity(0, 1000)
         end
     end
 end

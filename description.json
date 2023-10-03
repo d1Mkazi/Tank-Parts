@@ -1,6 +1,6 @@
 {
    "allow_add_mods" : true,
-   "custom_icons" : false,
+   "custom_icons" : true,
    "description" : "This mod adds various breeches and shells for tanks",
    "fileId" : 3016503198,
    "localId" : "88ba8635-775e-4759-9a69-3df71f653f19",

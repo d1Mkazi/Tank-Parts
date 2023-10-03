@@ -120,7 +120,7 @@ function Breech:sv_shoot()
     local shell = getTableByValue(tostring(self.saved.loaded.uuid), ShellDB, "shellUUID") --[[@as table]] -- I hate yellow underscores
     ShellProjectile:sv_createShell(shell, pos + at * offset + self.shape.up * 0.125, at * shell.initialSpeed)
 
-    sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed^2, true)
+    --sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed^2, true)
 
     self.network:sendToClients("cl_shoot")
     self.saved.loaded = nil
@@ -146,18 +146,19 @@ end
 ---@param distance number shoot distance offset (barrel length)
 function Breech:sv_setBreech(distance)
     self.saved.shootDistance = distance
+    self:sv_updateClientData()
     self.storage:save(self.saved)
 end
 
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
     self.saved.status = EMPTY
-    self:sv_updateClientData()
-    self.storage:save(self.saved)
     sm.container.beginTransaction()
     sm.container.collect(container, sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
     sm.container.endTransaction()
     self.network:sendToClients("cl_open")
+    self:sv_updateClientData()
+    self.storage:save(self.saved)
 end
 
 function Breech:sv_updateClientData()
