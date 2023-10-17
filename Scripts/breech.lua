@@ -59,6 +59,7 @@ function Breech:init()
 
     self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable, size, offset, sm.quat.identity(), filter)
     self.sv.areaTrigger:bindOnEnter("trigger_onEnter")
+    self.sv.areaTrigger:setShapeDetection(true)
 end
 
 function Breech:server_onFixedUpdate(timeStep)
@@ -93,28 +94,30 @@ function Breech:trigger_onEnter(trigger, results)
     if isAnyOf(self.saved.status, GateClosing) then return end
 
     local shellTable = ShellList[self.data.caliber]
-    for _, content in ipairs(results) do
-        local shapes = content:getShapes()
-        for _, shape in ipairs(shapes) do
-            if shape.body ~= self.shape.body then
-                local status = self.saved.status
-                if isAnyOf(status, GateClosing) then return end
-                local uuid = shape.uuid
-                if self.data.loading == "unitary" then
-                    if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
-                        self:sv_loadShell(shape)
-                        shape:destroyPart(0)
-                    end
-                else
-                    if status == EMPTY then
+    local shapes = trigger:getShapes()
+    for _, shapeData in ipairs(shapes) do
+        for k, shape in pairs(shapeData) do
+            if k == "shape" then
+                if shape.body ~= self.shape.body then
+                    local status = self.saved.status
+                    if isAnyOf(status, GateClosing) then return end
+                    local uuid = shape.uuid
+                    if self.data.loading == "unitary" then
                         if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
-                            self:sv_loadSeparated(shape)
+                            self:sv_loadShell(shape)
                             shape:destroyPart(0)
                         end
                     else
-                        if isAnyOf(tostring(uuid), shellTable.cartridges) then
-                            self:sv_loadSeparated(shape)
-                            shape:destroyPart(0)
+                        if status == EMPTY then
+                            if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
+                                self:sv_loadSeparated(shape)
+                                shape:destroyPart(0)
+                            end
+                        else
+                            if isAnyOf(tostring(uuid), shellTable.cartridges) then
+                                self:sv_loadSeparated(shape)
+                                shape:destroyPart(0)
+                            end
                         end
                     end
                 end
