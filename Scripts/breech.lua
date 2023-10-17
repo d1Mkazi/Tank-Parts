@@ -195,7 +195,10 @@ function Breech:sv_dropCase()
 
     local offset = self.data.areaOffsetY - 0.88
 
-    local case = getUsedCase(self.saved.loaded.case)
+    local case
+    if self.saved.loaded.case then
+        case = getUsedCase(self.saved.loaded.case)
+    end
     sm.shape.createPart(sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
 
     self.saved.status = EMPTY
@@ -214,7 +217,10 @@ end
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
     sm.container.beginTransaction()
-    local case = getUsedCase(self.saved.loaded.case)
+    local case
+    if self.saved.loaded.case then
+        case = getUsedCase(self.saved.loaded.case)
+    end
     sm.container.collect(container, sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
     sm.container.endTransaction()
 
