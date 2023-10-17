@@ -85,7 +85,7 @@ function Breech:server_onFixedUpdate(timeStep)
 end
 
 function Breech:server_onMelee()
-    if self.saved.status ~= LOADED and self.sv.animProgress ~= 0 then return end
+    if self.saved.status ~= LOADED or self.sv.animProgress ~= 0 then return end
     self:sv_shoot()
 end
 

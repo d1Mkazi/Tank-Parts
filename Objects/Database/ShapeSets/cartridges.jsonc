@@ -1,11 +1,11 @@
 {
     "partList": [
         { // Default Case
-			"color" : "555555",
-			"cylinder" : {
-				"axis" : "Y",
-				"depth" : 3,
-				"diameter" : 1
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 3,
+				"diameter": 1
 			},
 			"ratings": {
 				"density": 2,
@@ -13,10 +13,10 @@
 				"friction": 3,
 				"buoyancy": 2
 			},
-			"carryItem" : true,
-			"name" : "Shell Case",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
+			"carryItem": true,
+			"name": "Shell Case",
+			"physicsMaterial": "Metal",
+			"renderable": {
                 "lodList": [
                     {
                         "mesh": "$CONTENT_DATA/Objects/Mesh/shell_case.fbx",
@@ -33,24 +33,24 @@
                 ]
             },
 			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "TP_ShellRotation",
-			"uuid" : "cc19cdbf-865e-401c-9c5e-f111ccc25800",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "cc19cdbf-865e-401c-9c5e-f111ccc25800",
             "showInInventory": false
 		},
-		{ // Cartridge WW2
-			"color" : "555555",
-			"cylinder" : {
-				"axis" : "Y",
-				"depth" : 2,
-				"diameter" : 1
+		{ // Regular 152mm filled
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 2,
+				"diameter": 1
 			},
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 7,
-					"explosionRadius" : 5,
-					"impulseLevel" : 130,
+					"explosionLevel": 7,
+					"explosionRadius": 5,
+					"impulseLevel": 130,
 					"impulseRadius": 4
 				}
 			},
@@ -60,13 +60,13 @@
 				"friction": 3,
 				"buoyancy": 2
 			},
-			"carryItem" : true,
-			"name" : "Cartridge",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
+			"carryItem": true,
+			"name": "Cartridge",
+			"physicsMaterial": "Metal",
+			"renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridge.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/regular152.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
@@ -80,8 +80,45 @@
                 ]
             },
 			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "TP_ShellRotation",
-			"uuid" : "cc19cdbf-865e-401c-9c5e-f111ccc25801"
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "cc19cdbf-865e-401c-9c5e-f111ccc25801"
+		},
+		{ // Regular 152mm used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 2,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 2,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Cartridge",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/regular152_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25801",
+			"showInInventory": false
 		}
     ]
 }

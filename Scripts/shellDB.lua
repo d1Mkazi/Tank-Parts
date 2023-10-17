@@ -225,6 +225,6 @@ CartridgeList = {
     ]]
     regular152 = {
         original = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
-        used = "cc19cdbf-865e-401c-9c5e-f111ccc25801"
+        used = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
     }
 }
