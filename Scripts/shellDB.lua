@@ -1,6 +1,7 @@
 dofile("utils.lua")
 
 ---@param result RaycastResult
+---@return number
 local function getAngle(result)
     local angle = math.deg(math.acos(result.directionWorld:dot(result.normalWorld) / result.directionWorld:length() * result.normalLocal:length()))
     while angle > 90 do angle = angle - 90 end
@@ -9,12 +10,20 @@ end
 
 ---@param base number base durability of the block/shape
 ---@param angle number hit angle
+---@return number
 local function getDurability(base, angle)
     -- idk how to call them so...
     local x = math.floor(angle * 100 / 90)
     local y = (100 - x) * 0.85
     local z = base / 100
     return base + z * y
+end
+
+---@param vel Vec3 velocity (direction)
+---@param normal Vec3 Normal (world)
+---@return Vec3
+local function doRicochet(vel, normal)
+    return -vel:rotate(math.rad(180), normal) --[[@as Vec3]]
 end
 
 ShellDB = {
@@ -36,7 +45,8 @@ ShellDB = {
             -- you may not set "penetrationCapacity", "penetrationLoss", "maxDurability", "fuseSensitivity" if they are not used
         }
     ]]
-    AP = {
+    --[[ 85mm ]]--
+    AP_85 = {
         type = "armor-piercing",
         shellUUID = "ec19cdbf-865e-401c-9c5e-f111bad25840",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
@@ -76,7 +86,7 @@ ShellDB = {
                     local shape = result:getShape()
                     local durability = sm.item.getQualityLevel(shape.uuid)
                     if angle <= data.maxAngle then
-                        data.vel = -vel:rotate(math.rad(180), result.normalWorld)
+                        data.vel = doRicochet(vel, result.normalWorld)
                         data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
                         return true
                     end
@@ -88,14 +98,10 @@ ShellDB = {
                         return false
                     end
                     if shape.isBlock then
-                        local targetLocalPosition = shape:getClosestBlockLocalPosition( point )
+                        local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
                         shape:destroyBlock(targetLocalPosition)
                     else
-                        if getTableByValue(tostring(shape.uuid), ShellDB, "shellUUID") then
-                            sm.event.sendToInteractable(shape.interactable, "sv_explode")
-                        else
-                            shape:destroyPart(0)
-                        end
+                        shape:destroyPart(0)
                     end
                     point = shape.worldPosition
                     data.penetrationCapacity = data.penetrationCapacity - durability
@@ -126,44 +132,99 @@ ShellDB = {
             return false
         end
     },
-    HE = {
+    HE_85 = {
         type = "high-explosive",
         shellUUID = "ec19cdbf-865e-401c-9c5e-f111bad25841",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
         initialSpeed = 120,
         friction = 0.005,
-        onHit = function (data)
+        onHit = function(data)
             local vel = data.vel
             local pos = data.hit.pointWorld
 
             sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
-            shrapnelExplosion(pos, vel, 20, 360, 70)
+            shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 20, 360, 70)
+
+            return false
+        end
+    },
+
+    --[[ 122mm ]]--
+
+    --[[ 152mm ]]--
+    HE_152 = {
+        type = "high_explosive",
+        shellUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
+        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
+        initialSpeed = 150,
+        friction = 0.01,
+        onHit = function(data)
+            local vel = data.vel
+            local pos = data.hit.pointWorld
+
+            sm.physics.explode(pos, 7, 4, 6, 250, "PropaneTank - ExplosionBig")
+            shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 35, 360, 100)
 
             return false
         end
     }
-    --[[UUIDs = {
-        HEATShell = "ec19cdbf-865e-401c-9c5e-f111bad25842",
-        AShell = "ec19cdbf-865e-401c-9c5e-f111bad25843",
-        SCShell = "ec19cdbf-865e-401c-9c5e-f111bad25844"
-    }]]
+
+    --HEATShell = "ec19cdbf-865e-401c-9c5e-f111bad25842",
+    --AShell = "ec19cdbf-865e-401c-9c5e-f111bad25843", -- DEPRECATED
+    --SCShell = "ec19cdbf-865e-401c-9c5e-f111bad25844"
 }
 
-AllowedShells = {
+ShellList = {
+    [85] = {
+        unitary = {
+            "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
+            "ec19cdbf-865e-401c-9c5e-f111bad25841" -- HE Shell
+        },
+        separated = {
+        },
+        cartridges = {
+        }
+    },
+    [122] = {
+        unitary = {
+        },
+        separated = {
+        },
+        cartridges = {
+        }
+    },
+    [152] = {
+        unitary = {
+        },
+        separated = {
+            "ec19cdbf-865e-401c-9c5e-f122bed25801", -- HE Bullet
+        },
+        cartridges = {
+            "cc19cdbf-865e-401c-9c5e-f111ccc25801" -- regular
+        }
+    }
+
+    -- DEPRECATED --
+    --unitary = {
+    --    "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
+    --    "ec19cdbf-865e-401c-9c5e-f111bad25841" -- HE Shell
+    --},
+    --separated = {
+    --    "ec19cdbf-865e-401c-9c5e-f122bed25801", -- HE Bullet
+    --    "cc19cdbf-865e-401c-9c5e-f111ccc25801", -- WW2 cartridge
+    --}
+}
+
+CartridgeList = {
     --[[
-        template:
-        type = {
-            -- allowed shells (string) 
+    template:
+        name = {
+            original (string) -- UUID of the original (filled) case
+            used (string) -- UUID of the used (empty) case
         }
     ]]
-    ww2 = {
-        "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
-        "ec19cdbf-865e-401c-9c5e-f111bad25841", -- HE shell
-        "", -- HEAT shell
-        "" -- SC shell
-    },
-    artillery = {
-    },
-    modern = {
+    regular152 = {
+        original = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
+        used = "cc19cdbf-865e-401c-9c5e-f111ccc25801"
     }
 }

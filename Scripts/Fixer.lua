@@ -24,29 +24,41 @@ function Fixer:server_onFixedUpdate(dt)
     if not self.sv.character then return end
 
     local character = self.sv.character --[[@as Character]]
+
     local offset = self.sv.offset
-    character:setWorldPosition(self.shape.worldPosition +
-                               self.shape.at * offset.at +
-                               self.shape.right * offset.right +
-                               self.shape.up * offset.up)
+    local offsetPos = self.shape.worldPosition + self.shape.at * offset.at + self.shape.right * offset.right + self.shape.up * offset.up
+    if (offsetPos - character.worldPosition):length() > 0.35 then
+        sm.physics.applyImpulse(character, self.shape.velocity)
+        character:setWorldPosition(offsetPos)
+    end
+
+    sm.physics.applyImpulse(character, self.shape.velocity - character.velocity)
 end
 
 ---@param character? Character
 function Fixer:sv_onClick(character)
     self.sv.character = character
     if character then
-        local offset = character.worldPosition - self.shape.worldPosition
+        local offset = self.shape.worldPosition - character.worldPosition
         local isAt, isRight, isUp = offset:dot(self.shape.at) > 0, offset:dot(self.shape.right) > 0, offset:dot(self.shape.up) > 0
         self.sv.offset = {
             at = (self.shape.at * offset):length() * (isAt == true and 1 or -1),
             right = (self.shape.right * offset):length() * (isRight == true and 1 or -1),
             up = (self.shape.up * offset):length() * (isUp == true and 1 or -1)
         }
+    else
+        self.sv.offset = nil
     end
 end
 
 function Fixer:client_onCreate()
     self.cl = {}
+end
+
+function Fixer:client_onClientDataUpdate(data, channel)
+    for k, v in pairs(data) do
+        self.cl[k] = v
+    end
 end
 
 function Fixer:client_canInteract(character)

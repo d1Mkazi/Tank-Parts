@@ -25,11 +25,12 @@ function TurretSteer:init()
         impulse = 1
     }
 
+    self:sv_applyImpulse(0)
     self:sv_updateClientData()
 end
 
 function TurretSteer:sv_updateClientData()
-    self.network:setClientData({ slider = self.saved.slider, velocity = self.saved.velocity, impulse = self.saved.impulse })
+    self.network:setClientData({ slider = self.saved.slider })
 end
 
 ---@param character? Character
@@ -43,10 +44,12 @@ function TurretSteer:sv_setSteer(value)
     value = value + 1
 
     local baseVelocity = 100
-    local baseImpulse = 1
+    local baseImpulse = 25
 
-    self.saved.velocity = baseVelocity / (1.8 * value)
-    self.saved.impulse = baseImpulse * (1.8 * value)
+    self.saved.velocity = baseVelocity / (2 * value)
+    self.saved.impulse = baseImpulse * (value)
+
+    self:sv_applyImpulse(0)
 
     self:sv_updateClientData()
     self.storage:save(self.saved)
@@ -55,8 +58,16 @@ end
 ---@param to number set 1 to turn right, set -1 to turn left and 0 to stop
 function TurretSteer:sv_applyImpulse(to)
     local bearings = self.interactable:getBearings()
-    for k, bearing in ipairs(bearings) do
-        bearing:setMotorVelocity(self.saved.velocity * to, to ~= 0 and self.saved.impulse or 1000)
+    if to then
+        for k, bearing in ipairs(bearings) do
+            bearing:setMotorVelocity(self.saved.velocity * to, self.saved.impulse)
+        end
+    else
+        for k, bearing in ipairs(bearings) do
+            print(bearing.angle)
+            print(math.deg(bearing.angle))
+            bearing:setTargetAngle(-bearing.angle, 35, self.saved.impulse)
+        end
     end
 end
 

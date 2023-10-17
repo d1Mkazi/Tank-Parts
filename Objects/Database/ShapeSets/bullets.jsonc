@@ -36,7 +36,24 @@
                 "depth" : 3,
                 "diameter" : 1
             },
-			"name" : "",
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 8,
+					"explosionRadius" : 6,
+					"impulseLevel" : 70,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "HE Bullet",
 			"physicsMaterial" : "Metal",
 			"renderable" : {
                 "lodList": [
@@ -46,7 +63,7 @@
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -54,9 +71,10 @@
                     }
                 ]
             },
-            "rotationSet" : "default",
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801",
-            "showInInventory": false
+            "showInInventory": true // temporary. The model and item will be changed in future updates
         }
     ]
 }

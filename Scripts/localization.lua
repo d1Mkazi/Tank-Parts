@@ -11,40 +11,48 @@ local languages = {
     -- Interaction texts
     base_Settings = {
         English = "Settings",
-        Russian = "Настройки"
+        Russian = "Настройки",
+        Czech = "Nastavení"
     },
 
     breech_TakeCase = {
         English = "Take case",
-        Russian = "Взять гильзу"
+        Russian = "Взять гильзу",
+        Czech = "Vzít nábojnici"
     },
 
     fixer_Sit = {
         English = "Mount character",
-        Russian = "Закрепиться"
+        Russian = "Закрепиться",
+        Czech = "Připojit postavu"
     },
     fixer_StandUp = {
         English = "Dismount character",
-        Russian = "Спешиться"
+        Russian = "Спешиться",
+        Czech = "Sesednout"
     },
 
     -- GUI
     breech_GuiTitle = {
         English = "Barrel Length",
-        Russian = "Длина ствола"
+        Russian = "Длина ствола",
+        Czech = "Délka zbraně"
     },
 
     steer_GuiTitle = {
         English = "Steering settings",
-        Russian = "Настройка управления"
+        Russian = "Настройка управления",
+        Czech = "Nastavení řízení"
     },
     steer_GuiSpeed = {
         English = "Speed",
-        Russian = "Скорость"
+        Russian = "Скорость",
+        Czech = "Rychlost"
     },
     steer_GuiPower = {
         English = "Power",
-        Russian = "Мощность"
+        Russian = "Мощность",
+        Czech = "Napájení"
     }
 }
 

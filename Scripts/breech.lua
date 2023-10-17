@@ -16,6 +16,11 @@ Breech.colorHighlight = sm.color.new("a349a4ff")
 local EMPTY = 1
 local LOADED = 2
 local FIRED = 3
+local SHELLED = 4
+
+-- status lists
+local Fireable = { EMPTY, SHELLED, FIRED }
+local GateClosing = { LOADED, FIRED }
 
 
 function Breech:server_onCreate()
@@ -35,12 +40,21 @@ function Breech:init()
         shootDistance = 0,
         status = EMPTY
     }
-    if self.saved.loaded then self:sv_loadShell() end
+    local status, loading = self.saved.status, self.data.loading
+    if status == LOADED or status == SHELLED then
+        if loading == "unitary" then
+            self:sv_loadShell()
+        else
+            self:sv_loadSeparated()
+        end
+    end
+    if status == FIRED then self.network:sendToClients("cl_close") end
 
     self:sv_updateClientData()
 
-    local size = sm.vec3.new(0.125, 0.25, 0.25)
-    local offset = sm.vec3.new(self.data.areaOffsetX, self.data.areaOffsetY, self.data.areaOffsetZ)
+    local data = self.data
+    local size = sm.vec3.new(data.areaSizeX, data.areaSizeY, data.areaSizeZ)
+    local offset = sm.vec3.new(data.areaOffsetX, data.areaOffsetY, data.areaOffsetZ)
     local filter = sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
 
     self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable, size, offset, sm.quat.identity(), filter)
@@ -49,15 +63,16 @@ end
 
 function Breech:server_onFixedUpdate(timeStep)
     local parent = self.interactable:getSingleParent()
+    local status = self.saved.status
 
-    if self.saved.status == FIRED and self.sv.animProgress == 1 then
+    if status == FIRED and self.sv.animProgress == 1 then
         self:sv_dropCase()
     end
 
     if parent and parent.active and not self.sv.lastActive then
-        if self.saved.status == LOADED and self.sv.animProgress == 0 then
+        if status == LOADED and self.sv.animProgress == 0 then
             self:sv_shoot()
-        elseif self.saved.status == FIRED then
+        elseif status == FIRED then
             self.network:sendToClients("cl_open")
         end
     end
@@ -70,20 +85,38 @@ function Breech:server_onFixedUpdate(timeStep)
 end
 
 function Breech:server_onMelee()
-    if self.saved.status ~= LOADED then return end
+    if self.saved.status ~= LOADED and self.sv.animProgress ~= 0 then return end
     self:sv_shoot()
 end
 
 function Breech:trigger_onEnter(trigger, results)
-    if self.saved.status ~= EMPTY then return end
+    if isAnyOf(self.saved.status, GateClosing) then return end
 
+    local shellTable = ShellList[self.data.caliber]
     for _, content in ipairs(results) do
-        for _, shape in ipairs(content:getShapes()) do
+        local shapes = content:getShapes()
+        for _, shape in ipairs(shapes) do
             if shape.body ~= self.shape.body then
-                if self.saved.status ~= EMPTY then return end
-                if isAnyOf(tostring(shape.uuid), AllowedShells[self.data.type]) then
-                    self:sv_loadShell(shape)
-                    shape:destroyPart(0)
+                local status = self.saved.status
+                if isAnyOf(status, GateClosing) then return end
+                local uuid = shape.uuid
+                if self.data.loading == "unitary" then
+                    if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
+                        self:sv_loadShell(shape)
+                        shape:destroyPart(0)
+                    end
+                else
+                    if status == EMPTY then
+                        if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
+                            self:sv_loadSeparated(shape)
+                            shape:destroyPart(0)
+                        end
+                    else
+                        if isAnyOf(tostring(uuid), shellTable.cartridges) then
+                            self:sv_loadSeparated(shape)
+                            shape:destroyPart(0)
+                        end
+                    end
                 end
             end
         end
@@ -99,13 +132,41 @@ function Breech:sv_loadShell(shape)
     end
 
     self.saved.loaded = {}
-    self.saved.loaded.shape = shape
-    self.saved.loaded.uuid = shape:getShapeUuid()
+    self.saved.loaded.shell = shape.uuid
 
     self.interactable.active = true
 
     self.network:sendToClients("cl_loadShell")
     self.saved.status = LOADED
+    self:sv_updateClientData()
+    self.storage:save(self.saved)
+end
+
+---@param shape? Shape The shell
+function Breech:sv_loadSeparated(shape)
+    local status = self.saved.status
+
+    if not shape then
+        if status == LOADED then self.interactable.active = true end
+        self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
+        return
+    end
+
+    if status == EMPTY then
+        self.saved.loaded = {}
+        self.saved.loaded.shell = shape.uuid
+
+        self.interactable.active = true
+        status = SHELLED
+    else
+        self.saved.loaded.case = shape.uuid
+
+        self.interactable.active = true
+        status = LOADED
+    end
+
+    self.saved.status = status
+    self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -117,13 +178,12 @@ function Breech:sv_shoot()
     local at = self.shape.at
     local offset = self.saved.shootDistance / 2
 
-    local shell = getTableByValue(tostring(self.saved.loaded.uuid), ShellDB, "shellUUID") --[[@as table]] -- I hate yellow underscores
+    local shell = getTableByValue(tostring(self.saved.loaded.shell), ShellDB, "shellUUID") --[[@as table]] -- I hate yellow underscores
     ShellProjectile:sv_createShell(shell, pos + at * offset + self.shape.up * 0.125, at * shell.initialSpeed)
 
     --sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed^2, true)
 
     self.network:sendToClients("cl_shoot")
-    self.saved.loaded = nil
     self.saved.status = FIRED
     self:sv_updateClientData()
     self.storage:save(self.saved)
@@ -135,10 +195,11 @@ function Breech:sv_dropCase()
 
     local offset = self.data.areaOffsetY - 0.88
 
-    sm.shape.createPart(sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
-    self.network:sendToClients("cl_open")
+    local case = getUsedCase(self.saved.loaded.case)
+    sm.shape.createPart(sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
 
     self.saved.status = EMPTY
+    self.saved.loaded = nil
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -152,11 +213,13 @@ end
 
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
-    self.saved.status = EMPTY
     sm.container.beginTransaction()
-    sm.container.collect(container, sm.uuid.new("cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
+    local case = getUsedCase(self.saved.loaded.case)
+    sm.container.collect(container, sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
     sm.container.endTransaction()
-    self.network:sendToClients("cl_open")
+
+    self.saved.status = EMPTY
+    self.saved.loaded = nil
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -164,6 +227,8 @@ end
 function Breech:sv_updateClientData()
     self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status })
 end
+
+function Breech:sv_open() self.network:sendToClients("cl_open") end
 
 function Breech:client_onCreate()
     self.cl = {
@@ -196,7 +261,7 @@ function Breech:client_onInteract(character, state)
     if not state then return end
 
     self.cl.carry = character:getPlayer():getCarry()
-    self:cl_open()
+    self.network:sendToServer("sv_open")
 end
 
 function Breech:client_canTinker(character)
@@ -223,6 +288,15 @@ end
 function Breech:cl_loadShell()
     -- load animation
     self:cl_close()
+
+    -- load sound
+    if not sm.dlm_injected then return end
+    sm.effect.playEffect("Breech - Load", self.shape.worldPosition)
+end
+
+---@param final boolean should it be loaded or not
+function Breech:cl_loadSeparated(final)
+    if final then self:cl_close() end -- load animation
 
     -- load sound
     if not sm.dlm_injected then return end
@@ -268,3 +342,9 @@ end
 
 function Breech:cl_open() self.cl.animUpdate = 4 end
 function Breech:cl_close() self.cl.animUpdate = -2 end
+
+
+---@param case Uuid|string the original case
+function getUsedCase(case)
+    return getTableByValue(type(case) == "Uuid" and tostring(case) or case, CartridgeList, "original").used
+end
