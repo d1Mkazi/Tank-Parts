@@ -36,16 +36,16 @@
                 "depth" : 3,
                 "diameter" : 1
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 8,
-					"explosionRadius" : 6,
-					"impulseLevel" : 70,
-					"impulseRadius": 3
-				}
-			},
+			//"scripted": {
+			//	"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+			//	"classname": "Shell",
+			//	"data": {
+			//		"explosionLevel" : 8,
+			//		"explosionRadius" : 6,
+			//		"impulseLevel" : 70,
+			//		"impulseRadius": 3
+			//	}
+			//},
 			"ratings": {
 				"density": 5,
 				"durability": 10,
@@ -74,7 +74,53 @@
 			"sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801",
-            "showInInventory": true // temporary. The model and item will be changed in future updates
+            "showInInventory": false
+        },
+        // High-Explosive 152mm
+        {
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 7,
+					"explosionRadius" : 5.5,
+					"impulseLevel" : 70,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "HE Howitzer Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_152.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell2_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25802"
         }
     ]
 }

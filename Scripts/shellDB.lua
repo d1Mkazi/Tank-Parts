@@ -154,15 +154,15 @@ ShellDB = {
     --[[ 152mm ]]--
     HE_152 = {
         type = "high_explosive",
-        shellUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
-        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
+        shellUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
+        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
         initialSpeed = 150,
         friction = 0.01,
         onHit = function(data)
             local vel = data.vel
             local pos = data.hit.pointWorld
 
-            sm.physics.explode(pos, 7, 4, 6, 250, "PropaneTank - ExplosionBig")
+            sm.physics.explode(pos, 7, 4, 6, 250, "Shell - Howitzer Hit", nil, { DLM_Volume = 30, DLM_Pitch = 0.9 })
             shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 35, 360, 100)
 
             return false
@@ -197,7 +197,7 @@ ShellList = {
         unitary = {
         },
         separated = {
-            "ec19cdbf-865e-401c-9c5e-f122bed25801", -- HE Bullet
+            "ec19cdbf-865e-401c-9c5e-f122bed25802", -- HE Bullet
         },
         cartridges = {
             "cc19cdbf-865e-401c-9c5e-f111ccc25801" -- regular
