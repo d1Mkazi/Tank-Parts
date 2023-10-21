@@ -1,11 +1,23 @@
 {
     "soundList": {
-        "Tank_shoot_outside": {
+        "breech_shoot": {
             "path": "$CONTENT_DATA/Effects/Audio/shoot.mp3",
             "is3D": true
         },
-        "Breech_load": {
+        "breech_shoot_howitzer": {
+            "path": "$CONTENT_DATA/Effects/Audio/breech_howitzerFire.mp3",
+            "is3D": true
+        },
+        "breech_load": {
             "path": "$CONTENT_DATA/Effects/Audio/breech_load.mp3",
+            "is3D": true
+        },
+        "shell_hit_howitzer": {
+            "path": "$CONTENT_DATA/Effects/Audio/bullet_howitzerHit.mp3",
+            "is3D": true
+        },
+        "steer_rolling": {
+            "path": "$CONTENT_DATA/Effects/Audio/steer_rolling.mp3",
             "is3D": true
         }
     }

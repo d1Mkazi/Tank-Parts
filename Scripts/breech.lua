@@ -40,15 +40,13 @@ function Breech:init()
         shootDistance = 0,
         status = EMPTY
     }
-    local status, loading = self.saved.status, self.data.loading
-    if status == LOADED or status == SHELLED then
-        if loading == "unitary" then
-            self:sv_loadShell()
-        else
-            self:sv_loadSeparated()
+    local status
+    if isAnyOf(status, GateClosing) then
+        self.network:sendToClients("cl_close")
+        if status == LOADED then
+            self.interactable.active = true
         end
     end
-    if status == FIRED then self.network:sendToClients("cl_close") end
 
     self:sv_updateClientData()
 
@@ -126,14 +124,8 @@ function Breech:trigger_onEnter(trigger, results)
     end
 end
 
----@param shape? Shape The shell
+---@param shape Shape The shell
 function Breech:sv_loadShell(shape)
-    if not shape then
-        self.interactable.active = true
-        self.network:sendToClients("cl_loadShell")
-        return
-    end
-
     self.saved.loaded = {}
     self.saved.loaded.shell = shape.uuid
 
@@ -148,13 +140,6 @@ end
 ---@param shape? Shape The shell
 function Breech:sv_loadSeparated(shape)
     local status = self.saved.status
-
-    if not shape then
-        if status == LOADED then self.interactable.active = true end
-        self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
-        return
-    end
-
     if status == EMPTY then
         self.saved.loaded = {}
         self.saved.loaded.shell = shape.uuid
@@ -314,8 +299,16 @@ end
 
 function Breech:cl_shoot()
     local pos = self.shape.worldPosition + self.shape.at * self.cl.shootDistance / 2 + sm.vec3.new(0, 0, 0.25)
+
     if sm.dlm_injected then
-        sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 40, DLM_Pitch = 0.95})
+        local caliber = self.data.caliber
+        if caliber == 85 then
+            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 3, DLM_Pitch = 0.95})
+        elseif caliber == 122 then
+            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 5, DLM_Pitch = 0.95})
+        else -- 152
+            sm.effect.playEffect("TankCannon - Howitzer Fire", pos, nil, nil, nil, {DLM_Volume = 90, DLM_Pitch = 0.95})
+        end
     else
         sm.effect.playEffect("PropaneTank", pos)
     end
