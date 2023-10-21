@@ -22,8 +22,8 @@ end
 function getTableByValue(search, where, special)
     for k, t in pairs(where) do
         if t[special] then
-            for i, v in pairs(t) do
-                if i == special and v == search then
+            for k_, v in pairs(t) do
+                if k_ == special and v == search then
                     return t
                 end
             end

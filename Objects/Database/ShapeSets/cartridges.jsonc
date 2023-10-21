@@ -48,8 +48,8 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel": 7,
-					"explosionRadius": 5,
+					"explosionLevel": 6,
+					"explosionRadius": 4.75,
 					"impulseLevel": 130,
 					"impulseRadius": 4
 				}

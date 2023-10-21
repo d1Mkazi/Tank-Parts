@@ -1,32 +1,33 @@
 {
-   "partList" : [
+   "partList": [
       {
-         "color" : "222222",
-         "box" : {
-            "x" : 1,
-            "y" : 1,
-            "z" : 1
+         "color": "222222",
+         "box": {
+            "x": 1,
+            "y": 1,
+            "z": 1
          },
-         "name" : "Player Fixer",
-         "physicsMaterial" : "Mechanical",
-         "renderable" : "$GAME_DATA/Objects/Renderable/Interactive/obj_interactive_logicgate.rend",
-         "rotationSet" : "PropYZ",
-         "scripted" : {
-            "classname" : "Fixer",
-            "filename" : "$CONTENT_DATA/Scripts/Fixer.lua"
+         "name": "Player Fixer",
+         "physicsMaterial": "Mechanical",
+         "renderable": "$GAME_DATA/Objects/Renderable/Interactive/obj_interactive_logicgate.rend",
+         "rotationSet": "PropYZ",
+         "scripted": {
+            "classname": "Fixer",
+            "filename": "$CONTENT_DATA/Scripts/Fixer.lua"
          },
-         "uuid" : "55a069ad-4512-421d-b46b-7d14fb7f3b00"
+         "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b00",
+         "showInInventory": false
       },
       {
-         "color" : "222222",
-         "box" : {
-            "x" : 1,
-            "y" : 1,
-            "z" : 1
+         "color": "222222",
+         "box": {
+            "x": 1,
+            "y": 1,
+            "z": 1
          },
-         "name" : "Turret Steer",
-         "physicsMaterial" : "Mechanical",
-         "renderable" : {
+         "name": "Turret Steer",
+         "physicsMaterial": "Mechanical",
+         "renderable": {
 				"lodList": [
 					{
 						"mesh": "$CONTENT_DATA/Objects/Mesh/fcs_ww2.fbx",
@@ -44,12 +45,12 @@
 					}
 				]
 			},
-         "rotationSet" : "TP_FaceOnly",
-         "scripted" : {
-            "classname" : "TurretSteer",
-            "filename" : "$CONTENT_DATA/Scripts/TurretSteer.lua"
+         "rotationSet": "TP_FaceOnly",
+         "scripted": {
+            "classname": "TurretSteer",
+            "filename": "$CONTENT_DATA/Scripts/TurretSteer.lua"
          },
-         "uuid" : "55a069ad-4512-421d-b46b-7d14fb7f3b01"
+         "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b01"
       }
    ]
 }
