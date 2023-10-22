@@ -6,7 +6,7 @@ dofile("localization.lua")
 ---@class Breech : ShapeClass
 Breech = class()
 Breech.maxParentCount = 1
---Breech.maxChildCount = 1
+Breech.maxChildCount = 1
 Breech.connectionInput = sm.interactable.connectionType.logic
 Breech.connectionOutput = sm.interactable.connectionType.logic
 Breech.colorNormal = sm.color.new("6a306bff")
@@ -19,8 +19,8 @@ local FIRED = 3
 local SHELLED = 4
 
 -- status lists
-local Fireable = { EMPTY, SHELLED, FIRED }
-local GateClosing = { LOADED, FIRED }
+local GateOpened = { EMPTY, SHELLED }
+local GateClosed = { LOADED, FIRED }
 
 
 function Breech:server_onCreate()
@@ -33,7 +33,7 @@ function Breech:server_onRefresh()
 end
 
 function Breech:init()
-    self.sv = { animProgress = 0, lastActive = false }
+    self.sv = { animProgress = 0, dropping = false, lastActive = false }
 
     self.saved = self.storage:load() or {
         loaded = nil,
@@ -41,7 +41,7 @@ function Breech:init()
         status = EMPTY
     }
     local status
-    if isAnyOf(status, GateClosing) then
+    if isAnyOf(status, GateClosed) then
         self.network:sendToClients("cl_close")
         if status == LOADED then
             self.interactable.active = true
@@ -63,16 +63,19 @@ end
 function Breech:server_onFixedUpdate(timeStep)
     local parent = self.interactable:getSingleParent()
     local status = self.saved.status
+    local sv = self.sv
 
-    if status == FIRED and self.sv.animProgress == 1 then
+    if status == FIRED and sv.animProgress == 1 and sv.dropping then
         self:sv_dropCase()
+        self.sv.dropping = false
     end
 
-    if parent and parent.active and not self.sv.lastActive then
-        if status == LOADED and self.sv.animProgress == 0 then
+    if parent and parent.active and not sv.lastActive then
+        if status == LOADED and sv.animProgress == 0 then
             self:sv_shoot()
         elseif status == FIRED then
             self.network:sendToClients("cl_open")
+            self.sv.dropping = true
         end
     end
 
@@ -89,7 +92,7 @@ function Breech:server_onMelee()
 end
 
 function Breech:trigger_onEnter(trigger, results)
-    if isAnyOf(self.saved.status, GateClosing) then return end
+    if isAnyOf(self.saved.status, GateClosed) then return end
 
     local shellTable = ShellList[self.data.caliber]
     local shapes = trigger:getShapes()
@@ -98,16 +101,18 @@ function Breech:trigger_onEnter(trigger, results)
             if k == "shape" then
                 if shape.body ~= self.shape.body then
                     local status = self.saved.status
-                    if isAnyOf(status, GateClosing) then return end
+                    if isAnyOf(status, GateClosed) then return end
+
                     local uuid = shape.uuid
+                    local loading = self.data.loading
                     if self.data.loading == "unitary" then
-                        if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
+                        if isAnyOf(tostring(uuid), shellTable[loading]) then
                             self:sv_loadShell(shape)
                             shape:destroyPart(0)
                         end
                     else
                         if status == EMPTY then
-                            if isAnyOf(tostring(uuid), shellTable[self.data.loading]) then
+                            if isAnyOf(tostring(uuid), shellTable[loading]) then
                                 self:sv_loadSeparated(shape)
                                 shape:destroyPart(0)
                             end
@@ -162,6 +167,8 @@ end
 function Breech:sv_updateState(value) self.sv.animProgress = value end
 
 function Breech:sv_shoot()
+	self.interactable.active = false
+
     local pos = self.shape.worldPosition
     local at = self.shape.at
     local offset = self.saved.shootDistance / 2
@@ -184,7 +191,7 @@ function Breech:sv_dropCase()
     local offset = self.data.areaOffsetY - 0.88
 
     local case
-    if self.saved.loaded.case then
+    if self.saved.loaded ~= nil and self.saved.loaded.case then
         case = getUsedCase(self.saved.loaded.case)
     end
     sm.shape.createPart(sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
@@ -206,7 +213,7 @@ end
 function Breech:sv_unload(container)
     sm.container.beginTransaction()
     local case
-    if self.saved.loaded.case then
+    if self.saved.loaded ~= nil and self.saved.loaded.case then
         case = getUsedCase(self.saved.loaded.case)
     end
     sm.container.collect(container, sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
