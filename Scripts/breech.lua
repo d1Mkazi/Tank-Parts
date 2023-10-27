@@ -291,7 +291,7 @@ function Breech:cl_loadShell()
     self:cl_close()
 
     -- load sound
-    if not sm.dlm_injected then return end
+    if not sm.cae_injected then return end
     sm.effect.playEffect("Breech - Load", self.shape.worldPosition)
 end
 
@@ -300,24 +300,24 @@ function Breech:cl_loadSeparated(final)
     if final then self:cl_close() end -- load animation
 
     -- load sound
-    if not sm.dlm_injected then return end
+    if not sm.cae_injected then return end
     sm.effect.playEffect("Breech - Load", self.shape.worldPosition)
 end
 
 function Breech:cl_shoot()
     local pos = self.shape.worldPosition + self.shape.at * self.cl.shootDistance / 2 + sm.vec3.new(0, 0, 0.25)
 
-    if sm.dlm_injected then
+    if sm.cae_injected then
         local caliber = self.data.caliber
         if caliber == 85 then
-            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 3, DLM_Pitch = 0.95})
+            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {CAE_Volume = 3, CAE_Pitch = 0.95})
         elseif caliber == 122 then
-            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {DLM_Volume = 5, DLM_Pitch = 0.95})
+            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {CAE_Volume = 5, CAE_Pitch = 0.95})
         else -- 152
-            sm.effect.playEffect("TankCannon - Howitzer Fire", pos, nil, nil, nil, {DLM_Volume = 90, DLM_Pitch = 0.95})
+            sm.effect.playEffect("TankCannon - Howitzer Fire", pos, nil, nil, nil, {CAE_Volume = 90, CAE_Pitch = 0.95})
         end
     else
-        sm.effect.playEffect("PropaneTank", pos)
+        sm.effect.playEffect("PropaneTank - ExplosionSmall", pos)
     end
 end
 

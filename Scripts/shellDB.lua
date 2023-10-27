@@ -50,7 +50,7 @@ ShellDB = {
         type = "armor-piercing",
         shellUUID = "ec19cdbf-865e-401c-9c5e-f111bad25840",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
-        initialSpeed = 240,
+        initialSpeed = 680,
         friction = 0.003,
         penetrationCapacity = 20,
         penetrationLoss = 2.5,
@@ -78,10 +78,6 @@ ShellDB = {
                 if result.type == "character" then
                     sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_receiveDamage", { damage = 100 }) -- why don't you work?
 
-                elseif result.type == "terrainSurface" or result.type == "terrainAsset" then
-                    sm.physics.explode(point, 7, 1, 2, 70, "PropaneTank - ExplosionSmall")
-                    return false
-
                 elseif result.type == "body" then
                     local shape = result:getShape()
                     local durability = sm.item.getQualityLevel(shape.uuid)
@@ -92,11 +88,8 @@ ShellDB = {
                     end
                     durability = getDurability(durability, angle)
 
-                    if durability > data.maxDurability or durability > data.penetrationCapacity then
-                        sm.physics.explode(point, 1, 1, 2, 70, "PropaneTank - ExplosionSmall")
-                        shrapnelExplosion(point, vel, 10, 120, 85)
-                        return false
-                    end
+                    if durability > data.maxDurability or durability > data.penetrationCapacity then return false end
+
                     if shape.isBlock then
                         local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
                         shape:destroyBlock(targetLocalPosition)
@@ -136,7 +129,7 @@ ShellDB = {
         type = "high-explosive",
         shellUUID = "ec19cdbf-865e-401c-9c5e-f111bad25841",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
-        initialSpeed = 120,
+        initialSpeed = 460,
         friction = 0.005,
         onHit = function(data)
             local vel = data.vel
@@ -156,14 +149,16 @@ ShellDB = {
         type = "high_explosive",
         shellUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
-        initialSpeed = 150,
-        friction = 0.01,
+        initialSpeed = 250,
         onHit = function(data)
-            local vel = data.vel
             local pos = data.hit.pointWorld
 
-            sm.physics.explode(pos, 7, 4, 6, 250, "Shell - Howitzer Hit", nil, { DLM_Volume = 30, DLM_Pitch = 0.9 })
-            shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 35, 360, 100)
+            if sm.cae_injected then
+                sm.physics.explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit", nil, { CAE_Volume = 30, CAE_Pitch = 0.9 })
+            else
+                sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
+            end
+            shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 50, 360, 100)
 
             return false
         end
@@ -187,6 +182,9 @@ ShellList = {
     },
     [122] = {
         unitary = {
+            -- TEMPORARY
+            "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
+            "ec19cdbf-865e-401c-9c5e-f111bad25841" -- HE Shell
         },
         separated = {
         },
