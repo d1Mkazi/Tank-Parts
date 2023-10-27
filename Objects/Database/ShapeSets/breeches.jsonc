@@ -213,7 +213,7 @@
 							}
 						],
 						"animationList": [
-							{"name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/m10t_breech.fbx"}
+							{"name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/f34_breech.fbx"}
 						]
 					}
 				]
@@ -221,6 +221,59 @@
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25842"
+		},
+		{ // KwK36 8,8
+			"color": "555555",
+			"box": {
+				"x": 1,
+				"y": 3,
+				"z": 2
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Breech.lua",
+				"classname": "Breech",
+				"data": {
+					"areaSizeX": 0.125,
+					"areaSizeY": 0.25,
+					"areaSizeZ": 0.25,
+					"areaOffsetX": 0,
+					"areaOffsetY": -0.25,
+					"areaOffsetZ": 0.125,
+					"loading": "unitary",
+					"caliber": 122
+				}
+			},
+			"ratings": {
+				"density": 7,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"name": "KwK36 Breech",
+			"physicsMaterial": "Metal",
+			"renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/breeches/88_kwk36_breech.fbx",
+						"subMeshList": [
+							{
+								"material": "SkelAnimDifAsgNor",
+								"textureList": [
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_dif.tga",
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga",
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_nor.tga"
+								]
+							}
+						],
+						"animationList": [
+							{"name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/88_kwk36_breech.fbx"}
+						]
+					}
+				]
+			},
+			"sticky": "+X-X+Y+Z-Z",
+			"rotationSet": "TP_BreechRotation",
+			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25843"
 		}
     ]
 }

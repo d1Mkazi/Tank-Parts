@@ -1,10 +1,10 @@
 {
 	"TankCannon - Shoot": {
 		"parameterList": {
-            "DLM_Volume": 1.0,
-            "DLM_Pitch": 1,
-            "DLM_Reverb": 1.0,
-            "DLM_ReverbIdx": -1.0,
+            "CAE_Volume": 1.0,
+            "CAE_Pitch": 1,
+            "CAE_Reverb": 1.0,
+            "CAE_ReverbIdx": -1.0,
             "size": 0.0,
 			"color": "ffcc34",
 			"radius": 25.0,
@@ -16,7 +16,7 @@
             {
                 "type": "audio",
                 "name": "breech_shoot_howitzer",
-                "parameters": [ "DLM_Volume", "DLM_Pitch", "DLM_Reverb", "DLM_ReverbIdx" ]
+                "parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
             },
             {
 				"type": "particle",
@@ -54,10 +54,10 @@
 	},
 	"TankCannon - Howitzer Fire": {
         "parameterList": {
-            "DLM_Volume": 1.0,
-            "DLM_Pitch": 1,
-            "DLM_Reverb": 1.0,
-            "DLM_ReverbIdx": -1.0,
+            "CAE_Volume": 1.0,
+            "CAE_Pitch": 1,
+            "CAE_Reverb": 1.0,
+            "CAE_ReverbIdx": -1.0,
             "size": 0.0,
 			"color": "ffcc34",
 			"radius": 16.0,
@@ -69,7 +69,7 @@
             {
                 "type": "audio",
                 "name": "breech_shoot",
-                "parameters": [ "DLM_Volume", "DLM_Pitch", "DLM_Reverb", "DLM_ReverbIdx" ]
+                "parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
             },
             {
 				"type": "particle",
@@ -107,16 +107,16 @@
     },
     "Breech - Load": {
         "parameterList": {
-            "DLM_Volume": 1.0,
-            "DLM_Pitch": 1.0,
-            "DLM_Reverb": 1.0,
-            "DLM_ReverbIdx": -1.0
+            "CAE_Volume": 1.0,
+            "CAE_Pitch": 1.0,
+            "CAE_Reverb": 1.0,
+            "CAE_ReverbIdx": -1.0
         },
         "effectList": [
             {
                 "type": "audio",
                 "name": "breech_load",
-                "parameters": [ "DLM_Volume", "DLM_Pitch", "DLM_Reverb", "DLM_ReverbIdx" ]
+                "parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
             }
         ]
     },
@@ -125,10 +125,10 @@
 		"maxInstances": 64,
 		"parameterList":
 		{
-			"DLM_Volume": 1.0,
-            "DLM_Pitch": 1,
-            "DLM_Reverb": 1.0,
-            "DLM_ReverbIdx": -1.0,
+			"CAE_Volume": 1.0,
+            "CAE_Pitch": 1,
+            "CAE_Reverb": 1.0,
+            "CAE_ReverbIdx": -1.0,
 			"size": 0.5,
 			"color": "ffcc34",
 			"radius": 20.0,
@@ -160,7 +160,7 @@
 			{
 				"type": "audio",
 				"name": "shell_hit_howitzer",
-				"parameters": [ "DLM_Volume", "DLM_Pitch", "DLM_Reverb", "DLM_ReverbIdx" ]
+				"parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
 			},
 			{
 				"type": "pointLight",
