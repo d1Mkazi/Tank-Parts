@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.22916666666666666 0.18055555555555555" name="BackPanel">
-        <Widget type="TextBox" skin="TextBox" position_real="0.029545454545454545 0.15384615384615385 0.93181818181818177 0.19487179487179487" name="Title">
+    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.28385416666666669 0.24537037037037038" name="BackPanel">
+        <Widget type="TextBox" skin="TextBox" position_real="0.027522935779816515 0.094339622641509441 0.94495412844036697 0.20754716981132076" name="Title">
             <Property key="Caption" value="Barrel length"/>
             <Property key="FontName" value="SM_HeaderLarge_Wide"/>
             <Property key="TextAlign" value="HCenter Top"/>
         </Widget>
-        <Widget type="Widget" skin="PanelEmpty" position="15 120 410 40" name="breechSlider"/>
+        <Widget type="Widget" skin="PanelEmpty" position="15 170 515 60" name="breechSlider"/>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

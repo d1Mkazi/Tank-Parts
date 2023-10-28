@@ -12,6 +12,7 @@ local raycast = sm.physics.raycast
 -- constants
 local g = nil
 local yAxis = sm.vec3.new(0, 1, 0)
+local MINIMAL_HEIGHT = -50
 
 function ShellProjectile:server_onCreate()
     g = sm.physics.getGravity()
@@ -76,30 +77,31 @@ function ShellProjectile:client_onUpdate(dt)
         local pos = proj.pos
         local vel = proj.vel
 
-        if pos.z < -50 then
+        if pos.z < MINIMAL_HEIGHT then
             self:destroyShell(proj, k)
             return
         end
 
-        local hit, result = raycast(pos, pos + vel * dt * 1.2)
+        --vel = vel * (1 - 1 * (vel.z > 0 and 1 or 0)) - sm.vec3.new(0, 0, g * dt)
+        --vel = vel * 0.95 - sm.vec3.new(0, 0, g * dt)
+        vel = vel - sm.vec3.new(0, 0, g^2 * dt)
+        local newPos = pos + vel * dt
+        local hit, result = raycast(pos, newPos)
         if hit then
             proj.hit = result
         else
-            proj.effect:setPosition(pos)
+            proj.effect:setPosition(newPos)
             proj.effect:setRotation(sm.vec3.getRotation(yAxis, vel))
         end
 
-        vel = vel * (1 - proj.friction) - sm.vec3.new(0, 0, g * dt)
-        pos = pos + vel * dt
-        proj.pos = pos
+        --vel = vel * (1 - proj.friction) - sm.vec3.new(0, 0, g * dt) -- OLD WAY OF FLYING
+        --pos = pos + vel * dt
+        proj.pos = newPos
         proj.vel = vel
 
         if proj.penetrationLoss then
             proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
         end
-
-
-        proj.dt = dt
     end
 end
 

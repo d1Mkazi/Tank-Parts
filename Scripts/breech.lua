@@ -237,7 +237,7 @@ function Breech:client_onCreate()
         animProgress = 0,
         gui  = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
     }
-    self.cl.gui:createHorizontalSlider("breechSlider", 20, 1, "cl_changeSlider", true)
+    self.cl.gui:createHorizontalSlider("breechSlider", 30, 1, "cl_changeSlider", true)
 
     self.interactable:setAnimEnabled("Opening", true)
     self:cl_open()

@@ -132,7 +132,6 @@ ShellDB = {
         initialSpeed = 460,
         friction = 0.005,
         onHit = function(data)
-            local vel = data.vel
             local pos = data.hit.pointWorld
 
             sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")

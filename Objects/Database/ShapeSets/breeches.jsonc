@@ -224,10 +224,11 @@
 		},
 		{ // KwK36 8,8
 			"color": "555555",
-			"box": {
+			"hull": {
 				"x": 1,
 				"y": 3,
-				"z": 2
+				"z": 2,
+				"col": "$CONTENT_DATA/Objects/Collision/88_kwk36_breech.obj"
 			},
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Breech.lua",

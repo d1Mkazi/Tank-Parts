@@ -3,7 +3,7 @@
     It checks is the mod infected.
     If it is, user gets a notification.
 
-    Thanks to Questionable Mark for this technology!
+    Thanks to Questionable Mark for this idea!
 ]]--
 
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
@@ -32,7 +32,7 @@ function onInfect()
 
     msg("\nThese mods open backdoors in your game or waiting for a certain amount of people to get infected to start the payload.")
     msg("Go to steamcommunity.com/sharedfiles/filedetails/?id=*id*\nand report them as soon as you can!")
-    
+
     print("[Mod Check] WARNING: "..mod.." IS INFECTED!")
     print("[Mod Check] WARNING: "..mod.." IS INFECTED!")
     print("[Mod Check] WARNING: "..mod.." IS INFECTED!")
