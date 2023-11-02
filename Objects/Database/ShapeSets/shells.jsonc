@@ -8,7 +8,7 @@
 */
 {
     "partList": [
-        { // AP Shell
+        { // 85mm AP Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -54,7 +54,7 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25840"
 		},
-		{ // HE Shell
+		{ // 85mm HE Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -99,22 +99,22 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25841"
-		}
-		/*{ // HEAT Shell
+		},
+		{ // 122mm AP Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 3,
+				"depth" : 6,
 				"diameter" : 1
 			},
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 1,
-					"impulseLevel" : 75,
-					"impulseRadius": 1
+					"explosionLevel" : 6,
+					"explosionRadius" : 3,
+					"impulseLevel" : 80,
+					"impulseRadius": 2
 				}
 			},
 			"ratings": {
@@ -124,18 +124,33 @@
 				"buoyancy": 5
 			},
 			"carryItem" : true,
-			"name" : "HEAT Shell",
+			"name" : "Armor-Piercing Shell",
 			"physicsMaterial" : "Metal",
-			"renderable" : "$CONTENT_DATA/Objects/Renderable/CumulativeShell.rend",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_122.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
 			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "Default",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25842"
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25840"
 		},
-		{ // Artillery Shell
+		{ // 122mm HE Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 4,
+				"depth" : 6,
 				"diameter" : 1
 			},
 			"scripted": {
@@ -143,52 +158,39 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 6,
-					"explosionRadius" : 3,
-					"impulseLevel" : 180,
-					"impulseRadius": 4.5
+					"explosionRadius" : 5,
+					"impulseLevel" : 130,
+					"impulseRadius": 4
 				}
 			},
 			"ratings": {
-				"density": 8,
+				"density": 5,
 				"durability": 10,
 				"friction": 4,
 				"buoyancy": 5
 			},
 			"carryItem" : true,
-			"name" : "Artillery Shell",
+			"name" : "High-Explosive Shell",
 			"physicsMaterial" : "Metal",
-			"renderable" : "$CONTENT_DATA/Objects/Renderable/ArtilleryShell.rend",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell_122.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
 			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "Default",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25843"
-		},
-		{ // APSC Shell
-			"color" : "555555",
-			"cylinder" : {
-				"axis" : "Y",
-				"depth" : 2,
-				"diameter" : 1
-			},
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"noExplode": true
-				}
-			},
-			"ratings": {
-				"density": 4,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 4
-			},
-			"carryItem" : true,
-			"name" : "Sub-Caliber Shell",
-			"physicsMaterial" : "Metal",
-			"renderable" : "$CONTENT_DATA/Objects/Renderable/SubcaliberShell.rend",
-			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "Default",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25844"
-		}*/
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25841"
+		}
     ]
 }

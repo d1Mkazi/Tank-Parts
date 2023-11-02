@@ -1,6 +1,6 @@
 {
     "partList": [
-        { // Default Case
+        { // Unitary 85mm used
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
@@ -35,6 +35,43 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "cc19cdbf-865e-401c-9c5e-f111ccc25800",
+            "showInInventory": false
+		},
+		{ // Unitary 122mm used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 4,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 5,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Shell Case",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/122_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "cc19cdbf-865e-122c-9c5e-f111ccc25800",
             "showInInventory": false
 		},
 		{ // Regular 152mm filled

@@ -30,11 +30,8 @@ ShellDB = {
     --[[
         template:
         Shell = {
-            type (string)
-            shellUUID (string) -- uuid of the shell
             bulletUUID (string) -- uuid of the bullet
             initialSpeed = (number)
-            friction = (number) -- percentage of speed reduction per frame / 1000
             penetrationCapacity (number) -- the maximum sum of block durabilities shell can break
             penetrationLoss (number)
             maxDurability (number) -- the maximum durability of a block shell can break
@@ -47,11 +44,8 @@ ShellDB = {
     ]]
     --[[ 85mm ]]--
     AP_85 = {
-        type = "armor-piercing",
-        shellUUID = "ec19cdbf-865e-401c-9c5e-f111bad25840",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
-        initialSpeed = 680,
-        friction = 0.003,
+        initialSpeed = 550,
         penetrationCapacity = 20,
         penetrationLoss = 2.5,
         maxDurability = 7.6,
@@ -126,27 +120,110 @@ ShellDB = {
         end
     },
     HE_85 = {
-        type = "high-explosive",
-        shellUUID = "ec19cdbf-865e-401c-9c5e-f111bad25841",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
         initialSpeed = 460,
-        friction = 0.005,
         onHit = function(data)
             local pos = data.hit.pointWorld
 
             sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
-            shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 20, 360, 70)
+            shrapnelExplosion(pos, sm.vec3.new(0, 28, 0), 20, 360, 70)
 
             return false
         end
     },
 
     --[[ 122mm ]]--
+    AP_122 = {
+        bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
+        initialSpeed = 620,
+        penetrationCapacity = 35,
+        penetrationLoss = 2.8,
+        maxDurability = 8,
+        fuseSensitivity = 5,
+        maxAngle = 22,
+        onHit = function(data)
+            local vel = data.vel
+            local dir = vel:normalize() / 4
+
+            local capacity = data.penetrationCapacity
+            local random = capacity * 0.15
+            data.penetrationCapacity = capacity - math.random(random, -random)
+
+            local toughness = 0
+            local raycast = sm.physics.raycast
+            local hit, result = true, data.hit
+
+            local angle = getAngle(result)
+
+            local point = nil
+            while hit do
+                point = result.pointWorld
+
+                if result.type == "character" then
+                    sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_takeDamage", { damage = 100, source = "shock" }) -- why don't you work?
+
+                elseif result.type == "body" then
+                    local shape = result:getShape()
+                    local durability = sm.item.getQualityLevel(shape.uuid)
+                    if angle <= data.maxAngle then
+                        data.vel = doRicochet(vel, result.normalWorld)
+                        data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
+                        return true
+                    end
+                    durability = getDurability(durability, angle)
+
+                    if durability > data.maxDurability or durability > data.penetrationCapacity then return false end
+
+                    if shape.isBlock then
+                        local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
+                        shape:destroyBlock(targetLocalPosition)
+                    else
+                        shape:destroyPart(0)
+                    end
+                    point = shape.worldPosition
+                    data.penetrationCapacity = data.penetrationCapacity - durability
+                    toughness = toughness + durability
+
+                elseif result.type == "joint" then
+                    local joint = result:getJoint()
+                    point = joint.worldPosition
+                    data.penetrationCapacity = data.penetrationCapacity - 1
+                    toughness = toughness + 1
+
+                elseif result.type == "harvestable" then
+                    local harvestable = result:getHarvestable()
+                    point = harvestable.worldPosition
+                    harvestable:destroy()
+                    data.penetrationCapacity = data.penetrationCapacity - 3
+                    toughness = toughness + 3
+                end
+
+                hit, result = raycast(point, point + dir)
+            end
+
+            local pos = point + dir
+            shrapnelExplosion(pos, vel, 3, 120, 35)
+            if data.fuseSensitivity > toughness then return true end
+            shrapnelExplosion(pos, vel, 10, 120, 85)
+
+            return false
+        end
+    },
+    HE_122 = {
+        bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
+        initialSpeed = 500,
+        onHit = function(data)
+            local pos = data.hit.pointWorld
+
+            sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
+            shrapnelExplosion(pos, sm.vec3.new(0, 35, 0), 20, 360, 70)
+
+            return false
+        end
+    },
 
     --[[ 152mm ]]--
     HE_152 = {
-        type = "high_explosive",
-        shellUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
         initialSpeed = 250,
         onHit = function(data)
@@ -162,66 +239,69 @@ ShellDB = {
             return false
         end
     }
-
-    --HEATShell = "ec19cdbf-865e-401c-9c5e-f111bad25842",
-    --AShell = "ec19cdbf-865e-401c-9c5e-f111bad25843", -- DEPRECATED
-    --SCShell = "ec19cdbf-865e-401c-9c5e-f111bad25844"
 }
 
 ShellList = {
     [85] = {
         unitary = {
-            "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
-            "ec19cdbf-865e-401c-9c5e-f111bad25841" -- HE Shell
+            {
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
+                caseUuid = nil,
+                shellData = ShellDB.AP_85,
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            },
+            {
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841", -- HE Shell
+                caseUuid = nil,
+                shellData = ShellDB.HE_85,
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            }
         },
         separated = {
-        },
-        cartridges = {
         }
     },
     [122] = {
         unitary = {
-            -- TEMPORARY
-            "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
-            "ec19cdbf-865e-401c-9c5e-f111bad25841" -- HE Shell
+            { -- AP Shell
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
+                caseUuid = nil,
+                shellData = ShellDB.AP_122,
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- HE Shell
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25841",
+                caseUuid = nil,
+                shellData = ShellDB.HE_122,
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
         },
         separated = {
-        },
-        cartridges = {
         }
     },
     [152] = {
         unitary = {
         },
         separated = {
-            "ec19cdbf-865e-401c-9c5e-f122bed25802", -- HE Bullet
-        },
-        cartridges = {
-            "cc19cdbf-865e-401c-9c5e-f111ccc25801" -- regular
+            {
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25802", -- HE Bullet
+                caseUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
+                shellData = ShellDB.HE_152,
+                usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
+            }
         }
     }
-
-    -- DEPRECATED --
-    --unitary = {
-    --    "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
-    --    "ec19cdbf-865e-401c-9c5e-f111bad25841" -- HE Shell
-    --},
-    --separated = {
-    --    "ec19cdbf-865e-401c-9c5e-f122bed25801", -- HE Bullet
-    --    "cc19cdbf-865e-401c-9c5e-f111ccc25801", -- WW2 cartridge
-    --}
 }
 
-CartridgeList = {
-    --[[
-    template:
-        name = {
-            original (string) -- UUID of the original (filled) case
-            used (string) -- UUID of the used (empty) case
-        }
-    ]]
-    regular152 = {
-        original = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
-        used = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
-    }
-}
+--CartridgeList = {
+--    --[[
+--    template:
+--        name = {
+--            original (string) -- UUID of the original (filled) case
+--            used (string) -- UUID of the used (empty) case
+--        }
+--    ]]
+--    regular152 = {
+--        original = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
+--        used = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
+--    }
+--}

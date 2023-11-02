@@ -1,7 +1,6 @@
 {
     "partList": [
-        // Armor-Piercing Bullet
-        {
+        { // Armor-Piercing Bullet
 			"cylinder" : {
 				"axis" : "Y",
 				"depth" : 3,
@@ -29,23 +28,12 @@
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25800",
             "showInInventory": false
 		},
-        // High-Explosive Bullet
-        {
+        { // High-Explosive Bullet
             "cylinder" : {
                 "axis" : "Y",
                 "depth" : 3,
                 "diameter" : 1
             },
-			//"scripted": {
-			//	"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-			//	"classname": "Shell",
-			//	"data": {
-			//		"explosionLevel" : 8,
-			//		"explosionRadius" : 6,
-			//		"impulseLevel" : 70,
-			//		"impulseRadius": 3
-			//	}
-			//},
 			"ratings": {
 				"density": 5,
 				"durability": 10,
@@ -76,8 +64,79 @@
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801",
             "showInInventory": false
         },
-        // High-Explosive 152mm
-        {
+        { // 122mm AP Bullet
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "AP Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_122.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec19cdbf-865e-122c-9c5e-f122bed25800",
+            "showInInventory": false
+        },
+        { // 122mm HE Bullet
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "HE Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_122.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec19cdbf-865e-122c-9c5e-f122bed25801",
+            "showInInventory": false
+        },
+        { // High-Explosive 152mm
             "cylinder" : {
                 "axis" : "Y",
                 "depth" : 3,

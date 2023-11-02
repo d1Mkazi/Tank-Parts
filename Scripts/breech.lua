@@ -94,7 +94,7 @@ end
 function Breech:trigger_onEnter(trigger, results)
     if isAnyOf(self.saved.status, GateClosed) then return end
 
-    local shellTable = ShellList[self.data.caliber]
+    local shellTable = ShellList[self.data.caliber][self.data.loading]
     local shapes = trigger:getShapes()
     for _, shapeData in ipairs(shapes) do
         for k, shape in pairs(shapeData) do
@@ -103,21 +103,21 @@ function Breech:trigger_onEnter(trigger, results)
                     local status = self.saved.status
                     if isAnyOf(status, GateClosed) then return end
 
-                    local uuid = shape.uuid
-                    local loading = self.data.loading
+                    local uuid = tostring(shape.uuid)
+                    local table = getTableByValue(uuid, shellTable, "shellUuid")
                     if self.data.loading == "unitary" then
-                        if isAnyOf(tostring(uuid), shellTable[loading]) then
-                            self:sv_loadShell(shape)
+                        if table then
+                            self:sv_loadShell(shape, table)
                             shape:destroyPart(0)
                         end
                     else
                         if status == EMPTY then
-                            if isAnyOf(tostring(uuid), shellTable[loading]) then
-                                self:sv_loadSeparated(shape)
+                            if table then
+                                self:sv_loadSeparated(shape, table)
                                 shape:destroyPart(0)
                             end
                         else
-                            if isAnyOf(tostring(uuid), shellTable.cartridges) then
+                            if uuid == self.saved.loaded.data.caseUuid then
                                 self:sv_loadSeparated(shape)
                                 shape:destroyPart(0)
                             end
@@ -130,34 +130,40 @@ function Breech:trigger_onEnter(trigger, results)
 end
 
 ---@param shape Shape The shell
-function Breech:sv_loadShell(shape)
-    self.saved.loaded = {}
-    self.saved.loaded.shell = shape.uuid
+---@param dataTable table
+function Breech:sv_loadShell(shape, dataTable)
+    local loaded = {}
+    loaded.data = dataTable
+    loaded.shell = shape.uuid
 
     self.interactable.active = true
 
+    self.saved.loaded = loaded
     self.network:sendToClients("cl_loadShell")
     self.saved.status = LOADED
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
 
----@param shape? Shape The shell
-function Breech:sv_loadSeparated(shape)
+---@param shape Shape The shell
+---@param dataTable? table
+function Breech:sv_loadSeparated(shape, dataTable)
     local status = self.saved.status
+    local loaded = {}
     if status == EMPTY then
-        self.saved.loaded = {}
-        self.saved.loaded.shell = shape.uuid
+        loaded.data = dataTable
+        loaded.shell = shape.uuid
 
         self.interactable.active = true
         status = SHELLED
     else
-        self.saved.loaded.case = shape.uuid
+        loaded.case = shape.uuid
 
         self.interactable.active = true
         status = LOADED
     end
 
+    self.saved.loaded = loaded
     self.saved.status = status
     self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
     self:sv_updateClientData()
@@ -173,10 +179,10 @@ function Breech:sv_shoot()
     local at = self.shape.at
     local offset = self.saved.shootDistance / 2
 
-    local shell = getTableByValue(tostring(self.saved.loaded.shell), ShellDB, "shellUUID") --[[@as table]] -- I hate yellow underscores
+    local shell = self.saved.loaded.data.shellData
     ShellProjectile:sv_createShell(shell, pos + at * offset + self.shape.up * 0.125, at * shell.initialSpeed)
 
-    --sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed^2, true)
+    sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * offset, true)
 
     self.network:sendToClients("cl_shoot")
     self.saved.status = FIRED
@@ -187,14 +193,9 @@ end
 function Breech:sv_dropCase()
     local pos = self.shape.worldPosition + self.shape.right * -0.125
     local at = self.shape.at
-
     local offset = self.data.areaOffsetY - 0.88
 
-    local case
-    if self.saved.loaded ~= nil and self.saved.loaded.case then
-        case = getUsedCase(self.saved.loaded.case)
-    end
-    sm.shape.createPart(sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), pos + at * offset, self.shape.worldRotation)
+    sm.shape.createPart(sm.uuid.new(self.saved.loaded.data.usedUuid), pos + at * offset, self.shape.worldRotation)
 
     self.saved.status = EMPTY
     self.saved.loaded = nil
@@ -212,11 +213,7 @@ end
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
     sm.container.beginTransaction()
-    local case
-    if self.saved.loaded ~= nil and self.saved.loaded.case then
-        case = getUsedCase(self.saved.loaded.case)
-    end
-    sm.container.collect(container, sm.uuid.new(case or "cc19cdbf-865e-401c-9c5e-f111ccc25800"), 1)
+    sm.container.collect(container, sm.uuid.new(self.saved.loaded.data.usedUuid), 1)
     sm.container.endTransaction()
 
     self.saved.status = EMPTY
@@ -308,14 +305,18 @@ function Breech:cl_shoot()
     local pos = self.shape.worldPosition + self.shape.at * self.cl.shootDistance / 2 + sm.vec3.new(0, 0, 0.25)
 
     if sm.cae_injected then
+        local effects = {
+            [85] = "TankCannon - Shoot",
+            [122] = "TankCannon - Shoot",
+            [152] = "TankCannon - Howitzer Fire"
+        }
+        local parameters = {
+            [85] = { CAE_Volume = 3, CAE_Pitch = 0.95 },
+            [122] = { CAE_Volume = 5, CAE_Pitch = 0.95 },
+            [152] = { CAE_Volume = 90, CAE_Pitch = 0.95 }
+        }
         local caliber = self.data.caliber
-        if caliber == 85 then
-            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {CAE_Volume = 3, CAE_Pitch = 0.95})
-        elseif caliber == 122 then
-            sm.effect.playEffect("TankCannon - Shoot", pos, nil, nil, nil, {CAE_Volume = 5, CAE_Pitch = 0.95})
-        else -- 152
-            sm.effect.playEffect("TankCannon - Howitzer Fire", pos, nil, nil, nil, {CAE_Volume = 90, CAE_Pitch = 0.95})
-        end
+        sm.effect.playEffect(effects[caliber], pos, nil, nil, nil, parameters[caliber])
     else
         sm.effect.playEffect("PropaneTank - ExplosionSmall", pos)
     end
