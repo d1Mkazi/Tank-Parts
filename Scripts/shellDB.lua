@@ -138,7 +138,7 @@ ShellDB = {
         initialSpeed = 620,
         penetrationCapacity = 35,
         penetrationLoss = 2.8,
-        maxDurability = 8,
+        maxDurability = 8.5,
         fuseSensitivity = 5,
         maxAngle = 22,
         onHit = function(data)
@@ -216,6 +216,7 @@ ShellDB = {
             local pos = data.hit.pointWorld
 
             sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
+            sm.physics.explode(pos, 5, 0.5, 6, 140)
             shrapnelExplosion(pos, sm.vec3.new(0, 35, 0), 20, 360, 70)
 
             return false
@@ -291,17 +292,3 @@ ShellList = {
         }
     }
 }
-
---CartridgeList = {
---    --[[
---    template:
---        name = {
---            original (string) -- UUID of the original (filled) case
---            used (string) -- UUID of the used (empty) case
---        }
---    ]]
---    regular152 = {
---        original = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
---        used = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
---    }
---}

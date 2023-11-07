@@ -25,7 +25,17 @@
 			"name": "TP_FaceOnly",
 			"prop": true,
 			"rotation": [
-				{ "south": "-X", "east": "-Y" } // south -Y Y Z X
+				{ "south": "-X", "east": "-Y" }
+			]
+		},
+		{
+			"name": "TP_PeriscopeRotation",
+			"prop": false,
+			"rotation": [
+				{ "south": "Y", "east": "X" },
+				{ "south": "X", "east": "-Y" },
+				{ "south": "-Y", "east": "-X" },
+				{ "south": "-X", "east": "Y" }
 			]
 		}
 	]

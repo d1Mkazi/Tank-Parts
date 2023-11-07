@@ -51,6 +51,76 @@
             "filename": "$CONTENT_DATA/Scripts/TurretSteer.lua"
          },
          "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b01"
+      },
+      {
+         "color": "3b3b3b",
+         "box": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+         },
+         "name": "Periscope",
+         "physicsMaterial": "Mechanical",
+         "renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx",
+						"subMeshList": [
+							{
+								"material": "SkelAnimDifAsg",
+								"textureList": [
+									"$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+									"$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+								]
+							}
+						],
+						"animationList": [
+							{"name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx"},
+							{"name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx"}
+						]
+					}
+				]
+			},
+         "sticky": "+Z",
+         "rotationSet": "PropNegZ",
+         "scripted": {
+            "classname": "PeriscopeInput",
+            "filename": "$CONTENT_DATA/Scripts/PeriscopeInput.lua"
+         },
+         "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b22"
+      },
+      {
+         "color": "3b3b3b",
+         "box": {
+            "x": 1,
+            "y": 1,
+            "z": 1
+         },
+         "name": "Periscope Out",
+         "physicsMaterial": "Mechanical",
+         "renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/periscope_outer.fbx",
+						"subMeshList": [
+							{
+								"material": "DifAsg",
+								"textureList": [
+									"$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+									"$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+								]
+							}
+						]
+					}
+				]
+			},
+         "sticky": "-Z",
+         "rotationSet": "PropZ",
+         "scripted": {
+            "classname": "PeriscopeOutput",
+            "filename": "$CONTENT_DATA/Scripts/PeriscopeOutput.lua"
+         },
+         "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b23"
       }
    ]
 }

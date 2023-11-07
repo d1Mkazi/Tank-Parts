@@ -113,6 +113,7 @@ function Breech:trigger_onEnter(trigger, results)
                     else
                         if status == EMPTY then
                             if table then
+                                print(table)
                                 self:sv_loadSeparated(shape, table)
                                 shape:destroyPart(0)
                             end
@@ -153,17 +154,17 @@ function Breech:sv_loadSeparated(shape, dataTable)
     if status == EMPTY then
         loaded.data = dataTable
         loaded.shell = shape.uuid
+        self.saved.loaded = loaded
 
         self.interactable.active = true
         status = SHELLED
     else
-        loaded.case = shape.uuid
+        self.saved.loaded.case = shape.uuid
 
         self.interactable.active = true
         status = LOADED
     end
 
-    self.saved.loaded = loaded
     self.saved.status = status
     self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
     self:sv_updateClientData()
