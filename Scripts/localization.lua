@@ -40,19 +40,23 @@ local languages = {
     },
 
     steer_GuiTitle = {
-        English = "Steering settings",
-        Russian = "Настройка управления",
-        Czech = "Nastavení řízení"
-    },
-    steer_GuiSpeed = {
-        English = "Speed",
-        Russian = "Скорость",
+        English = "Max Speed",
+        Russian = "Максимальная скорость",
         Czech = "Rychlost"
     },
-    steer_GuiPower = {
-        English = "Power",
-        Russian = "Мощность",
-        Czech = "Napájení"
+
+    -- Alerts
+    steer_MsgExit = {
+        English = "You are no longer aiming now",
+        Russian = "Вы вышли из режима наведения"
+    },
+    steer_MsgEnter = {
+        English = "You are aiming now",
+        Russian = "Вы вошли в режим наведения"
+    },
+    steer_MsgRotSpeed = {
+        English = "Rotation speed is",
+        Russian = "Скорость вращения:"
     }
 }
 

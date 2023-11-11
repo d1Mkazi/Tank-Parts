@@ -26,7 +26,10 @@ function PeriscopeInput:sv_init()
             ad = {}
         }
     }
-    self.saved = {}
+
+    if self.sv.character then
+        self:sv_setCharacter(self.sv.character)
+    end
 end
 
 function PeriscopeInput:server_onFixedUpdate(dt)
@@ -64,7 +67,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
 end
 
 function PeriscopeInput:sv_setCharacter(character)
-    self.sv.player = character ~= nil and character:getPlayer() or nil
+    self.sv.character = character
     self.network:sendToClients("cl_setOccupied", character ~= nil and true or false)
 end
 
@@ -134,7 +137,6 @@ function PeriscopeInput:client_onAction(action, state)
     if state then
         if action == 15 then
             self.cl.character:setLockingInteractable(nil)
-            self.cl.character = nil
             self.network:sendToServer("sv_setCharacter", nil)
 
             self.network:sendToServer("sv_turnWS", 0)
