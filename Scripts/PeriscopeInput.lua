@@ -26,16 +26,12 @@ function PeriscopeInput:sv_init()
             ad = {}
         }
     }
-
-    if self.sv.character then
-        self:sv_setCharacter(self.sv.character)
-    end
 end
 
 function PeriscopeInput:server_onFixedUpdate(dt)
     local children = self.interactable:getChildren()
     if #children > 0 then
-        for k, child in pairs(children) do
+        for k, child in ipairs(children) do
             if tostring(child.shape.uuid) == "66a069ab-4512-421d-b46b-7d14fb7f3b23" and (not self.sv.sight or self.sv.sight == child.shape) then
                 self.sv.sight = child.shape
             else
@@ -54,7 +50,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
 
     local bearings = self.interactable:getBearings()
     if bearings then
-        for k, bearing in pairs(bearings) do
+        for k, bearing in ipairs(bearings) do
             if bearing.zAxis == self.shape.zAxis then
                 table.insert(self.sv.bearings.ad, bearing)
             else
@@ -66,9 +62,8 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     end
 end
 
-function PeriscopeInput:sv_setCharacter(character)
-    self.sv.character = character
-    self.network:sendToClients("cl_setOccupied", character ~= nil and true or false)
+function PeriscopeInput:sv_setOccupied(occupied)
+    self.network:sendToClients("cl_setOccupied", occupied)
 end
 
 ---@param turn number
@@ -111,7 +106,9 @@ function PeriscopeInput:cl_init()
         horizontalProgress = 0.5,
 
         verticalReset = false,
-        horizontalReset = false
+        horizontalReset = false,
+
+        occupied = false
     }
 
     self.interactable:setAnimEnabled("RotVertical", true) -- 15
@@ -137,7 +134,7 @@ function PeriscopeInput:client_onAction(action, state)
     if state then
         if action == 15 then
             self.cl.character:setLockingInteractable(nil)
-            self.network:sendToServer("sv_setCharacter", nil)
+            self.network:sendToServer("sv_setOccupied", false)
 
             self.network:sendToServer("sv_turnWS", 0)
             self.network:sendToServer("sv_turnAD", 0)
@@ -193,7 +190,7 @@ function PeriscopeInput:client_onInteract(character, state)
     if not state then return end
 
     character:setLockingInteractable(self.interactable)
-    self.network:sendToServer("sv_setCharacter", character)
+    self.network:sendToServer("sv_setOccupied", true)
 
     self.cl.character = character
     sm.camera.setCameraState(2)

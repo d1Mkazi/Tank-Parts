@@ -33,7 +33,11 @@ function Breech:server_onRefresh()
 end
 
 function Breech:init()
-    self.sv = { animProgress = 0, dropping = false, lastActive = false }
+    self.sv = {
+        animProgress = 0,
+        dropping = false,
+        lastActive = false
+    }
 
     self.saved = self.storage:load() or {
         loaded = nil,
@@ -48,7 +52,7 @@ function Breech:init()
         end
     end
 
-    self:sv_updateClientData()
+    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status })
 
     local data = self.data
     local size = sm.vec3.new(data.areaSizeX, data.areaSizeY, data.areaSizeZ)
@@ -113,7 +117,6 @@ function Breech:trigger_onEnter(trigger, results)
                     else
                         if status == EMPTY then
                             if table then
-                                print(table)
                                 self:sv_loadSeparated(shape, table)
                                 shape:destroyPart(0)
                             end
@@ -181,9 +184,10 @@ function Breech:sv_shoot()
     local offset = self.saved.shootDistance / 2
 
     local shell = self.saved.loaded.data.shellData
-    ShellProjectile:sv_createShell(shell, pos + at * offset + self.shape.up * 0.125, at * shell.initialSpeed)
+    --sm.event.sendToTool(ProjectileTool, "sv_createShell", { data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
+    ShellProjectile:sv_createShell({ data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
 
-    sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * offset, true)
+    sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * shell.mass, true)
 
     self.network:sendToClients("cl_shoot")
     self.saved.status = FIRED
@@ -229,6 +233,9 @@ end
 
 function Breech:sv_open() self.network:sendToClients("cl_open") end
 
+
+--[[ CLIENT ]]--
+
 function Breech:client_onCreate()
     self.cl = {
         animUpdate = 0,
@@ -238,7 +245,6 @@ function Breech:client_onCreate()
     self.cl.gui:createHorizontalSlider("breechSlider", 30, 1, "cl_changeSlider", true)
 
     self.interactable:setAnimEnabled("Opening", true)
-    self:cl_open()
 end
 
 function Breech:client_onClientDataUpdate(data)

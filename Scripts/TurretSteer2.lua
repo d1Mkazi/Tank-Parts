@@ -4,7 +4,7 @@ dofile("localization.lua")
 ---@class TurretSteer2 : ShapeClass
 TurretSteer2 = class()
 TurretSteer2.maxChildCount = -1
-TurretSteer2.connectionOutput = sm.interactable.connectionType.bearing
+TurretSteer2.connectionOutput = sm.interactable.connectionType.bearing + sm.interactable.connectionType.power
 TurretSteer2.colorNormal = sm.color.new("af730dff")
 TurretSteer2.colorHighlight = sm.color.new("afa63eff")
 
@@ -32,6 +32,15 @@ function TurretSteer2:init()
     self.network:setClientData({ slider = self.saved.slider, speed = self.saved.maxSpeed})
 end
 
+function TurretSteer2:server_onFixedUpdate(dt)
+    local bearings = self.interactable:getBearings()
+    if #bearings > 0 then
+        self.interactable.power = -math.floor((math.deg(bearings[1].angle) + 0.5) * 10) / 10
+    else
+        self.interactable.power = 0
+    end
+end
+
 ---@param character? Character
 function TurretSteer2:sv_setCharacter(character) self.network:sendToClients("cl_setCharacter", character) end
 
@@ -45,7 +54,7 @@ function TurretSteer2:sv_setSteer(slider)
     self.storage:save(self.saved)
 end
 
----@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed - rotation speed
+---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
 function TurretSteer2:sv_applyImpulse(args)
     local to, speed = args.to or self.sv.to, args.speed ~= nil and args.speed or 0
     local bearings = self.interactable:getBearings()
@@ -114,10 +123,10 @@ function TurretSteer2:client_onAction(action, state)
             local maxSpeed = (self.cl.slider + 1) / 10
             if speed < 0.1 then
                 speed = 0.1
-            elseif speed >= maxSpeed then
+            elseif speed > maxSpeed then
                 speed = maxSpeed
             end
-            speed = math.floor(speed * 10) / 10
+            speed = math.floor(speed * 10 + 0.4) / 10
 
             self.cl.speed = speed
             local text = GetLocalization("steer_MsgRotSpeed", sm.gui.getCurrentLanguage())

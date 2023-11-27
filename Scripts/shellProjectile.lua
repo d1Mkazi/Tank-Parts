@@ -15,21 +15,24 @@ local yAxis = sm.vec3.new(0, 1, 0)
 local MINIMAL_HEIGHT = -50
 
 function ShellProjectile:server_onCreate()
-    g = sm.physics.getGravity()
+    self:init()
 end
 
 function ShellProjectile:server_onRefresh()
+    self:init()
+end
+
+function ShellProjectile:init()
     g = sm.physics.getGravity()
 end
 
 --[[  SERVER  ]]--
 
----@param data table table with shell data from shellDB.lua
----@param vel Vec3 velocity
-function ShellProjectile:sv_createShell(data, pos, vel)
-    local newShell = copyTable(data)
-    newShell.pos = pos
-    newShell.vel = vel
+---@param data table
+function ShellProjectile:sv_createShell(data)
+    local newShell = copyTable(data.data)
+    newShell.pos = data.pos
+    newShell.vel = data.vel
     table.insert(ShellProjectile.queue, newShell)
 end
 
@@ -113,13 +116,12 @@ function ShellProjectile:destroyShell(shell, key)
 
     if key then
         ShellProjectile.projectiles[key] = nil
-        return
-    end
-
-    for k, proj in pairs(ShellProjectile.projectiles) do
-        if proj == shell then
-            ShellProjectile.projectiles[k] = nil
-            return
+    else
+        for k, proj in pairs(ShellProjectile.projectiles) do
+            if proj == shell then
+                ShellProjectile.projectiles[k] = nil
+                return
+            end
         end
     end
 end
