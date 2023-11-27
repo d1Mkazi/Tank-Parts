@@ -1,6 +1,6 @@
 {
    "partList": [
-      {
+      { // DOESN'T WORK //
          "color": "222222",
          "box": {
             "x": 1,
@@ -18,7 +18,7 @@
          "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b00",
          "showInInventory": false
       },
-      {
+      { // DEPRECATED //
          "color": "222222",
          "box": {
             "x": 1,
@@ -158,6 +158,40 @@
             "filename": "$CONTENT_DATA/Scripts/TurretSteer2.lua"
          },
          "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b55"
+      },
+      {
+         "color": "3b3b3b",
+         "hull": {
+            "x": 1,
+            "y": 1,
+            "z": 1,
+            "col": "$CONTENT_DATA/Objects/Collision/machinegunHandle_collision.obj"
+         },
+         "name": "Machine gun Handle",
+         "physicsMaterial": "Mechanical",
+         "renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/machinegunHandle.fbx",
+                  "pose0": "$CONTENT_DATA/Objects/Mesh/machinegunHandle_active.fbx",
+						"subMeshList": [
+							{
+								"material": "PoseAnimDifAsg",
+								"textureList": [
+									"$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+									"$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+								]
+							}
+						]
+					}
+				]
+			},
+         "rotationSet": "TP_BackOnly",
+         "scripted": {
+            "classname": "Handle",
+            "filename": "$CONTENT_DATA/Scripts/MachinegunHandle.lua"
+         },
+         "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d07"
       }
    ]
 }

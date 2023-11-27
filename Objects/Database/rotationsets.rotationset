@@ -29,6 +29,13 @@
 			]
 		},
 		{
+			"name": "TP_BackOnly",
+			"prop": true,
+			"rotation": [
+				{ "south": "-X", "east": "Y" }
+			]
+		},
+		{
 			"name": "TP_PeriscopeRotation",
 			"prop": false,
 			"rotation": [
@@ -36,6 +43,48 @@
 				{ "south": "X", "east": "-Y" },
 				{ "south": "-Y", "east": "-X" },
 				{ "south": "-X", "east": "Y" }
+			]
+		},
+		{
+			"name": "TP_propALL",
+			"prop": true,
+			"rotation": [
+				{ "south": "X", "east": "X" },
+				{ "south": "X", "east": "Y" },
+				{ "south": "X", "east": "Z" },
+				{ "south": "X", "east": "-X" },
+				{ "south": "X", "east": "-Y" },
+				{ "south": "X", "east": "-Z" },
+				{ "south": "-X", "east": "X" },
+				{ "south": "-X", "east": "Y" }, // 8
+				{ "south": "-X", "east": "Z" },
+				{ "south": "-X", "east": "-X" },
+				{ "south": "-X", "east": "-Y" },
+				{ "south": "-X", "east": "-Z" },
+				{ "south": "Y", "east": "X" },
+				{ "south": "Y", "east": "Y" },
+				{ "south": "Y", "east": "Z" },
+				{ "south": "Y", "east": "-X" },
+				{ "south": "Y", "east": "-Y" },
+				{ "south": "Y", "east": "-Z" },
+				{ "south": "-Y", "east": "X" },
+				{ "south": "-Y", "east": "Y" },
+				{ "south": "-Y", "east": "Z" },
+				{ "south": "-Y", "east": "-X" },
+				{ "south": "-Y", "east": "-Y" },
+				{ "south": "-Y", "east": "-Z" },
+				{ "south": "Z", "east": "X" },
+				{ "south": "Z", "east": "Y" },
+				{ "south": "Z", "east": "Z" },
+				{ "south": "Z", "east": "-X" },
+				{ "south": "Z", "east": "-Y" },
+				{ "south": "Z", "east": "-Z" },
+				{ "south": "-Z", "east": "X" },
+				{ "south": "-Z", "east": "Y" },
+				{ "south": "-Z", "east": "Z" },
+				{ "south": "-Z", "east": "-X" },
+				{ "south": "-Z", "east": "-Y" },
+				{ "south": "-Z", "east": "-Z" }
 			]
 		}
 	]
