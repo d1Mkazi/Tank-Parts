@@ -1,4 +1,5 @@
-local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce722")
+--local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce722")
+local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce111")
 
 -- Use to spawn shrapnel
 ---@param position Vec3
@@ -42,11 +43,13 @@ function copyTable(original)
     return new
 end
 
----@param has table
----@param index any
-function hasIndex(has, index)
-    for k, v in pairs(has) do
-        if k == index then return true end
+---@param table table
+---@param index string|number
+function hasIndex(table, index)
+    for k, v in pairs(table) do
+        if k == index then
+            return true
+        end
     end
     return false
 end

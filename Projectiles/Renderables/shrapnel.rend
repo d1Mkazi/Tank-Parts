@@ -1,0 +1,16 @@
+{
+	"lodList": [
+		{
+			"mesh": "$CONTENT_DATA/Projectiles/Mesh/shrapnel.fbx",
+			"subMeshList": [
+				{
+					"material": "DifAsg",
+					"textureList": [
+						"$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+						"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+					]
+				}
+			]
+		}
+	]
+}
