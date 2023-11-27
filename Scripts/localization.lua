@@ -47,7 +47,7 @@ local languages = {
 
     -- Alerts
     steer_MsgExit = {
-        English = "You are no longer aiming now",
+        English = "You are no longer aiming",
         Russian = "Вы вышли из режима наведения"
     },
     steer_MsgEnter = {
@@ -57,6 +57,11 @@ local languages = {
     steer_MsgRotSpeed = {
         English = "Rotation speed is",
         Russian = "Скорость вращения:"
+    },
+
+    mghandle_AimSpeed = {
+        English = "Aiming speed is",
+        Russian = "Скорость наведения:"
     }
 }
 
