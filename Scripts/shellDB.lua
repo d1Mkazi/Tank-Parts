@@ -1,5 +1,6 @@
 dofile("utils.lua")
 
+
 ---@param result RaycastResult
 ---@return number
 local function getAngle(result)
@@ -51,7 +52,6 @@ function __hit_ap(data)
 
         elseif result.type == "body" then
             local shape = result:getShape()
-            print("hit shape exists:", sm.exists(shape))
             local durability = sm.item.getQualityLevel(shape.uuid)
             if angle <= data.maxAngle then
                 data.vel = doRicochet(vel, result.normalWorld)
@@ -60,7 +60,10 @@ function __hit_ap(data)
             end
             durability = getDurability(durability, angle)
 
-            if durability > data.maxDurability or durability > data.penetrationCapacity then return false end
+            if durability > data.maxDurability or durability > data.penetrationCapacity then
+                shrapnelExplosion(point, vel, 3, 10, 35)
+                return false
+            end
 
             if shape.isBlock then
                 local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
@@ -86,13 +89,13 @@ function __hit_ap(data)
             toughness = toughness + 3
         end
 
-        hit, result = raycast(point, point + dir * 1.2)
+        hit, result = raycast(point, point + dir)
     end
 
-    pos = point + dir / 4
-    shrapnelExplosion(pos, vel, 3, 120, 35)
+    --pos = point + dir / 4
+    shrapnelExplosion(point, vel, 3, 120, 35)
     if data.fuseSensitivity > toughness then return true end
-    shrapnelExplosion(pos, vel, 15, 120, 85)
+    shrapnelExplosion(point, vel, 15, 120, 85)
 
     return false
 end
@@ -121,6 +124,69 @@ function __hit_he_howitzer(data)
     return false
 end
 
+function __hit_heat(data)
+    local vel = data.vel
+    local dir = vel:normalize() / 4
+
+    local capacity = data.penetrationCapacity
+    local random = capacity * 0.15
+    data.penetrationCapacity = capacity - math.random(random, -random)
+
+    local raycast = sm.physics.raycast
+    local explode = sm.physics.explode
+    local hit, result = true, data.hit
+
+    local angle = getAngle(result)
+
+    local point = nil
+    while capacity do
+        point = result.pointWorld
+
+        if result.type == "character" then
+            sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_receiveDamage", { damage = 100 }) -- why don't you work?
+
+        elseif result.type == "body" then
+            local shape = result:getShape()
+            local durability = sm.item.getQualityLevel(shape.uuid)
+            durability = getDurability(durability, angle)
+
+            if durability > data.maxDurability or durability > data.penetrationCapacity then
+                shrapnelExplosion(point, vel, 3, 10, 35)
+                return false
+            end
+
+            if shape.isBlock then
+                local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
+                shape:destroyBlock(targetLocalPosition, sm.vec3.one())
+            else
+                shape:destroyPart(0)
+            end
+            point = shape.worldPosition
+            data.penetrationCapacity = data.penetrationCapacity - durability
+
+        elseif result.type == "joint" then
+            local joint = result:getJoint()
+            point = joint.worldPosition
+            data.penetrationCapacity = data.penetrationCapacity - 1
+
+        elseif result.type == "harvestable" then
+            local harvestable = result:getHarvestable()
+            point = harvestable.worldPosition
+            return false
+
+        else
+            capacity = capacity - 8
+        end
+
+        hit, result = raycast(point, point + dir)
+    end
+
+    --pos = point + dir / 4
+    shrapnelExplosion(point, vel, 5, 25, 100)
+
+    return false
+end
+
 ShellDB = {
     --[[ 85mm ]]--
     AP_85 = {
@@ -141,14 +207,7 @@ ShellDB = {
             impulse = 100,
             shrapnel = 40
         },
-        onHit = __hit_he --[[function(data)
-            local pos = data.hit.pointWorld
-
-            sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
-            shrapnelExplosion(pos, sm.vec3.new(0, 28, 0), 20, 360, 70)
-
-            return false
-        end]]
+        onHit = __hit_he
     },
 
     --[[ 122mm ]]--
@@ -172,32 +231,19 @@ ShellDB = {
             impulse = 200,
             shrapnel = 55
         },
-        onHit = __hit_he --[[function(data)
-        local pos = data.hit.pointWorld
-
-            sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
-            sm.physics.explode(pos, 5, 0.5, 6, 140)
-            shrapnelExplosion(pos, sm.vec3.new(0, 35, 0), 20, 360, 70)
-
-            return false
-        end]]
-    },
-
-    --[[ 152mm ]]--
-    HE_152 = {
-        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
-        initialSpeed = 250,
-        mass = 35,
-        onHit = __hit_he_howitzer
+        onHit = __hit_he
     }
 }
 
 
 --[[ CALIBERS ]]--
 
--- null - regular
--- 0 - howitzer
--- 1-9 - variants
+-- 2 - british
+-- 4 - american
+-- 5 - soviet
+-- 6 - howitzer -- CLASS
+-- 7 - german
+-- 9 - modern -- CLASS
 
 ------------------
 

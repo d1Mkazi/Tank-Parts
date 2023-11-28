@@ -3,7 +3,7 @@ dofile("localization.lua")
 
 ---@class Handle : ShapeClass
 Handle = class()
-Handle.maxChildCount = 3
+Handle.maxChildCount = -1
 Handle.connectionOutput = sm.interactable.connectionType.logic + sm.interactable.connectionType.bearing
 Handle.colorNormal = sm.color.new("fecc39ff")
 Handle.colorHighlight = sm.color.new("ffd760ff")
@@ -21,37 +21,27 @@ end
 
 function Handle:init()
     self.sv = {
-        bearings = {}
+        bearings = {
+            ws = {},
+            ad = {}
+        }
     }
 end
 
 
 function Handle:server_onFixedUpdate(dt)
     local bearings = self.interactable:getBearings()
-    local sv_bearings = self.sv.bearings
-    for k, bearing in pairs(sv_bearings) do
-        if not isAnyOf(bearing, bearings) then
-            sv_bearings[k] = nil
-        end
-    end
-
-    if #bearings > 0 and (not sv_bearings.ws or not sv_bearings.ad) then
+    if bearings then
         for k, bearing in ipairs(bearings) do
-            if bearing.zAxis == sm.vec3.new(0, 0, 1) and not sv_bearings.ad then
-                sv_bearings.ad = bearing
-                print("CONNECTED AD BEARING")
-            elseif bearing.zAxis ~= sm.vec3.new(0, 0, 1) and not sv_bearings.ws then
-                sv_bearings.ws = bearing
-                print("CONNECTED WS BEARING")
+            if bearing.zAxis == self.shape.zAxis then
+                table.insert(self.sv.bearings.ad, bearing)
             else
-                --self.interactable:disconnect(bearing)
+                table.insert(self.sv.bearings.ws, bearing)
             end
         end
-    elseif #bearings == 0 then
-        sv_bearings = {}
+    else
+        self.sv.bearings = { ws = {}, ad = {} }
     end
-
-    self.sv.bearings = sv_bearings
 end
 
 function Handle:sv_setOccupied(occupied)
@@ -60,21 +50,23 @@ end
 
 ---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
 function Handle:sv_applyImpulseWS(args)
-    local bearing = self.sv.bearings.ws
-    if not bearing then return end
+    local bearings = self.sv.bearings.ws
 
     local to, speed = args.to or self.sv.wsto, args.speed ~= nil and args.speed or 0
-    bearing:setMotorVelocity(speed * to, 25)
+    for _, bearing in ipairs(bearings) do
+        bearing:setMotorVelocity(speed * to, 2)
+    end
     self.sv.wsto = to
 end
 
 ---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
 function Handle:sv_applyImpulseAD(args)
-    local bearing = self.sv.bearings.ad
-    if not bearing then return end
+    local bearings = self.sv.bearings.ad
 
     local to, speed = args.to or self.sv.adto, args.speed ~= nil and args.speed or 0
-    bearing:setMotorVelocity(speed * to, 25)
+    for _, bearing in ipairs(bearings) do
+        bearing:setMotorVelocity(speed * to, 2)
+    end
     self.sv.adto = to
 end
 
@@ -166,7 +158,7 @@ function Handle:client_onAction(action, state)
         elseif action == 18 then
             self.cl.updateAim = not self.cl.updateAim
             if self.cl.updateAim then
-                sm.camera.setCameraState(2)
+                sm.camera.setCameraState(3)
                 sm.camera.setFov(80)
             else
                 sm.camera.setCameraState(1)

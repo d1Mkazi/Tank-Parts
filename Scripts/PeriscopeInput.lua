@@ -58,7 +58,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
             end
         end
     else
-        self.sv.bearings = {}
+        self.sv.bearings = { ws = {}, ad = {} }
     end
 end
 
