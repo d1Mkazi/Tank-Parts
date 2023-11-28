@@ -103,7 +103,7 @@ function TurretSteer2:client_onAction(action, state)
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text, 2)
 
-        elseif action >= 1 and action <= 4 then
+        elseif action >= 1 and action <= 2 then
             local args = {
                 [1] = -1, -- left
                 [2] = 1, -- right
@@ -134,7 +134,7 @@ function TurretSteer2:client_onAction(action, state)
             self.network:sendToServer("sv_applyImpulse", { speed = speed })
         end
     else
-        if action ~= 5 and action ~= 6 then
+        if action >= 1 and action <= 2 then
             self.network:sendToServer("sv_applyImpulse", { to = 0 })
         end
     end
