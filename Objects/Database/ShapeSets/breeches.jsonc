@@ -28,7 +28,7 @@
 					"areaOffsetY": -0.25,
 					"areaOffsetZ": 0.125,
 					"loading": "unitary",
-					"caliber": 85
+					"caliber": 76
 				}
 			},
 			"ratings": {
@@ -81,7 +81,7 @@
 					"areaOffsetY": -0.25,
 					"areaOffsetZ": 0.125,
 					"loading": "unitary",
-					"caliber": 85
+					"caliber": 75
 				}
 			},
 			"ratings": {
@@ -187,7 +187,7 @@
 					"areaOffsetY": -0.25,
 					"areaOffsetZ": 0.125,
 					"loading": "unitary",
-					"caliber": 85
+					"caliber": 76
 				}
 			},
 			"ratings": {
@@ -238,10 +238,10 @@
 					"areaSizeY": 0.25,
 					"areaSizeZ": 0.25,
 					"areaOffsetX": 0,
-					"areaOffsetY": -0.25,
+					"areaOffsetY": -0.125,
 					"areaOffsetZ": 0.125,
 					"loading": "unitary",
-					"caliber": 122
+					"caliber": 88
 				}
 			},
 			"ratings": {

@@ -26,22 +26,102 @@ local function doRicochet(vel, normal)
     return -vel:rotate(math.rad(180), normal) --[[@as Vec3]]
 end
 
-ShellDB = {
-    --[[
-        template:
-        Shell = {
-            bulletUUID (string) -- uuid of the bullet
-            initialSpeed = (number)
-            penetrationCapacity (number) -- the maximum sum of block durabilities shell can break
-            penetrationLoss (number)
-            maxDurability (number) -- the maximum durability of a block shell can break
-            fuseSensitivity (number) -- the minimum sum of block durabilities shell must break to explode
-            maxAngle (number) -- the angle the projectile ricochets at
-            onHit (function(shelldata))
+-- Hit functions
 
-            -- you may not set "penetrationCapacity", "penetrationLoss", "maxDurability", "fuseSensitivity" if they are not used
-        }
-    ]]
+function __hit_ap(data)
+    local vel = data.vel
+    local dir = vel:normalize() / 4
+
+    local capacity = data.penetrationCapacity
+    local random = capacity * 0.15
+    data.penetrationCapacity = capacity - math.random(random, -random)
+
+    local toughness = 0
+    local raycast = sm.physics.raycast
+    local hit, result = true, data.hit
+
+    local angle = getAngle(result)
+
+    local point = nil
+    while hit do
+        point = result.pointWorld
+
+        if result.type == "character" then
+            sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_receiveDamage", { damage = 100 }) -- why don't you work?
+
+        elseif result.type == "body" then
+            local shape = result:getShape()
+            print("hit shape exists:", sm.exists(shape))
+            local durability = sm.item.getQualityLevel(shape.uuid)
+            if angle <= data.maxAngle then
+                data.vel = doRicochet(vel, result.normalWorld)
+                data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
+                return true
+            end
+            durability = getDurability(durability, angle)
+
+            if durability > data.maxDurability or durability > data.penetrationCapacity then return false end
+
+            if shape.isBlock then
+                local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
+                shape:destroyBlock(targetLocalPosition, sm.vec3.one())
+            else
+                shape:destroyPart(0)
+            end
+            point = shape.worldPosition
+            data.penetrationCapacity = data.penetrationCapacity - durability
+            toughness = toughness + durability
+
+        elseif result.type == "joint" then
+            local joint = result:getJoint()
+            point = joint.worldPosition
+            data.penetrationCapacity = data.penetrationCapacity - 1
+            toughness = toughness + 1
+
+        elseif result.type == "harvestable" then
+            local harvestable = result:getHarvestable()
+            point = harvestable.worldPosition
+            harvestable:destroy()
+            data.penetrationCapacity = data.penetrationCapacity - 3
+            toughness = toughness + 3
+        end
+
+        hit, result = raycast(point, point + dir * 1.2)
+    end
+
+    pos = point + dir / 4
+    shrapnelExplosion(pos, vel, 3, 120, 35)
+    if data.fuseSensitivity > toughness then return true end
+    shrapnelExplosion(pos, vel, 15, 120, 85)
+
+    return false
+end
+
+function __hit_he(data)
+    local pos = data.hit.pointWorld
+
+    sm.physics.explode(pos, data.explosion.strength, 1, 5, data.explosion.impulse, "PropaneTank - ExplosionBig")
+    shrapnelExplosion(pos, data.vel:normalize() * 30, data.explosion.shrapnel, 360, 80)
+
+    return false
+end
+
+function __hit_he_howitzer(data)
+    local pos = data.hit.pointWorld
+
+    --if sm.cae_injected then
+    --    sm.physics.explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit", nil, { CAE_Volume = 30, CAE_Pitch = 0.9 })
+    --else
+    --    sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
+    --end
+
+    sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
+    shrapnelExplosion(pos, sm.vec3.new(0, 70, 0), 80, 360, 100)
+
+    return false
+end
+
+ShellDB = {
     --[[ 85mm ]]--
     AP_85 = {
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
@@ -51,199 +131,78 @@ ShellDB = {
         maxDurability = 7.6,
         fuseSensitivity = 5,
         maxAngle = 18,
-        onHit = function(data)
-            local vel = data.vel
-            local dir = vel:normalize() / 4
-
-            local capacity = data.penetrationCapacity
-            local random = capacity * 0.15
-            data.penetrationCapacity = capacity - math.random(random, -random)
-
-            local toughness = 0
-            local raycast = sm.physics.raycast
-            local hit, result = true, data.hit
-
-            local angle = getAngle(result)
-
-            local point = nil
-            while hit do
-                point = result.pointWorld
-
-                if result.type == "character" then
-                    sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_receiveDamage", { damage = 100 }) -- why don't you work?
-
-                elseif result.type == "body" then
-                    local shape = result:getShape()
-                    local durability = sm.item.getQualityLevel(shape.uuid)
-                    if angle <= data.maxAngle then
-                        data.vel = doRicochet(vel, result.normalWorld)
-                        data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
-                        return true
-                    end
-                    durability = getDurability(durability, angle)
-
-                    if durability > data.maxDurability or durability > data.penetrationCapacity then return false end
-
-                    if shape.isBlock then
-                        local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
-                        shape:destroyBlock(targetLocalPosition)
-                    else
-                        shape:destroyPart(0)
-                    end
-                    point = shape.worldPosition
-                    data.penetrationCapacity = data.penetrationCapacity - durability
-                    toughness = toughness + durability
-
-                elseif result.type == "joint" then
-                    local joint = result:getJoint()
-                    point = joint.worldPosition
-                    data.penetrationCapacity = data.penetrationCapacity - 1
-                    toughness = toughness + 1
-
-                elseif result.type == "harvestable" then
-                    local harvestable = result:getHarvestable()
-                    point = harvestable.worldPosition
-                    harvestable:destroy()
-                    data.penetrationCapacity = data.penetrationCapacity - 3
-                    toughness = toughness + 3
-                end
-
-                hit, result = raycast(point, point + dir)
-            end
-
-            local pos = point + dir
-            shrapnelExplosion(pos, vel, 3, 120, 35)
-            if data.fuseSensitivity > toughness then return true end
-            shrapnelExplosion(pos, vel, 10, 120, 85)
-
-            return false
-        end
+        onHit = __hit_ap
     },
     HE_85 = {
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
         initialSpeed = 460,
-        onHit = function(data)
+        explosion = {
+            strength = 3,
+            impulse = 100,
+            shrapnel = 40
+        },
+        onHit = __hit_he --[[function(data)
             local pos = data.hit.pointWorld
 
             sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
             shrapnelExplosion(pos, sm.vec3.new(0, 28, 0), 20, 360, 70)
 
             return false
-        end
+        end]]
     },
 
     --[[ 122mm ]]--
     AP_122 = {
         bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
         initialSpeed = 620,
+        mass = 20,
         penetrationCapacity = 35,
         penetrationLoss = 2.8,
         maxDurability = 8.5,
         fuseSensitivity = 5,
         maxAngle = 22,
-        onHit = function(data)
-            local vel = data.vel
-            local dir = vel:normalize() / 4
-
-            local capacity = data.penetrationCapacity
-            local random = capacity * 0.15
-            data.penetrationCapacity = capacity - math.random(random, -random)
-
-            local toughness = 0
-            local raycast = sm.physics.raycast
-            local hit, result = true, data.hit
-
-            local angle = getAngle(result)
-
-            local point = nil
-            while hit do
-                point = result.pointWorld
-
-                if result.type == "character" then
-                    sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_takeDamage", { damage = 100, source = "shock" }) -- why don't you work?
-
-                elseif result.type == "body" then
-                    local shape = result:getShape()
-                    local durability = sm.item.getQualityLevel(shape.uuid)
-                    if angle <= data.maxAngle then
-                        data.vel = doRicochet(vel, result.normalWorld)
-                        data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
-                        return true
-                    end
-                    durability = getDurability(durability, angle)
-
-                    if durability > data.maxDurability or durability > data.penetrationCapacity then return false end
-
-                    if shape.isBlock then
-                        local targetLocalPosition = shape:getClosestBlockLocalPosition(point)
-                        shape:destroyBlock(targetLocalPosition)
-                    else
-                        shape:destroyPart(0)
-                    end
-                    point = shape.worldPosition
-                    data.penetrationCapacity = data.penetrationCapacity - durability
-                    toughness = toughness + durability
-
-                elseif result.type == "joint" then
-                    local joint = result:getJoint()
-                    point = joint.worldPosition
-                    data.penetrationCapacity = data.penetrationCapacity - 1
-                    toughness = toughness + 1
-
-                elseif result.type == "harvestable" then
-                    local harvestable = result:getHarvestable()
-                    point = harvestable.worldPosition
-                    harvestable:destroy()
-                    data.penetrationCapacity = data.penetrationCapacity - 3
-                    toughness = toughness + 3
-                end
-
-                hit, result = raycast(point, point + dir)
-            end
-
-            local pos = point + dir
-            shrapnelExplosion(pos, vel, 3, 120, 35)
-            if data.fuseSensitivity > toughness then return true end
-            shrapnelExplosion(pos, vel, 10, 120, 85)
-
-            return false
-        end
+        onHit = __hit_ap
     },
     HE_122 = {
         bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
         initialSpeed = 500,
-        onHit = function(data)
-            local pos = data.hit.pointWorld
+        mass = 25,
+        explosion = {
+            strength = 4,
+            impulse = 200,
+            shrapnel = 55
+        },
+        onHit = __hit_he --[[function(data)
+        local pos = data.hit.pointWorld
 
             sm.physics.explode(pos, 4, 2.5, 6, 140, "PropaneTank - ExplosionBig")
             sm.physics.explode(pos, 5, 0.5, 6, 140)
             shrapnelExplosion(pos, sm.vec3.new(0, 35, 0), 20, 360, 70)
 
             return false
-        end
+        end]]
     },
 
     --[[ 152mm ]]--
     HE_152 = {
         bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
         initialSpeed = 250,
-        onHit = function(data)
-            local pos = data.hit.pointWorld
-
-            if sm.cae_injected then
-                sm.physics.explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit", nil, { CAE_Volume = 30, CAE_Pitch = 0.9 })
-            else
-                sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
-            end
-            shrapnelExplosion(pos, sm.vec3.new(0, 65, 0), 50, 360, 100)
-
-            return false
-        end
+        mass = 35,
+        onHit = __hit_he_howitzer
     }
 }
 
+
+--[[ CALIBERS ]]--
+
+-- null - regular
+-- 0 - howitzer
+-- 1-9 - variants
+
+------------------
+
 ShellList = {
-    [85] = {
+    [75] = {
         unitary = {
             {
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
@@ -261,7 +220,25 @@ ShellList = {
         separated = {
         }
     },
-    [122] = {
+    [76] = {
+        unitary = {
+            {
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
+                caseUuid = nil,
+                shellData = ShellDB.AP_85,
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            },
+            {
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841", -- HE Shell
+                caseUuid = nil,
+                shellData = ShellDB.HE_85,
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            }
+        },
+        separated = {
+        }
+    },
+    [88] = {
         unitary = {
             { -- AP Shell
                 shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
@@ -286,7 +263,12 @@ ShellList = {
             {
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25802", -- HE Bullet
                 caseUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25801",
-                shellData = ShellDB.HE_152,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25802",
+                    initialSpeed = 250,
+                    mass = 35,
+                    onHit = __hit_he_howitzer
+                },
                 usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
             }
         }
