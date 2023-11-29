@@ -2,12 +2,12 @@
 	"rotationSet": [
 		{
 			"name": "TP_BreechRotation",
-			"prop": false,
+			"prop": true,
 			"rotation": [
-				{ "south": "Z", "east": "X" },
-				{ "south": "Z", "east": "-Y" },
-				{ "south": "Z", "east": "-X" },
-				{ "south": "Z", "east": "Y" }
+				{ "south": "-X", "east": "Y" },
+				{ "south": "Y", "east": "X" },
+				{ "south": "X", "east": "-Y" },
+				{ "south": "-Y", "east": "-X" }
 			]
 		},
 		{
@@ -49,42 +49,42 @@
 			"name": "TP_propALL",
 			"prop": true,
 			"rotation": [
-				{ "south": "X", "east": "X" },
-				{ "south": "X", "east": "Y" },
-				{ "south": "X", "east": "Z" },
-				{ "south": "X", "east": "-X" },
-				{ "south": "X", "east": "-Y" },
-				{ "south": "X", "east": "-Z" },
-				{ "south": "-X", "east": "X" },
-				{ "south": "-X", "east": "Y" }, // 8
-				{ "south": "-X", "east": "Z" },
-				{ "south": "-X", "east": "-X" },
-				{ "south": "-X", "east": "-Y" },
-				{ "south": "-X", "east": "-Z" },
-				{ "south": "Y", "east": "X" },
-				{ "south": "Y", "east": "Y" },
-				{ "south": "Y", "east": "Z" },
-				{ "south": "Y", "east": "-X" },
-				{ "south": "Y", "east": "-Y" },
-				{ "south": "Y", "east": "-Z" },
-				{ "south": "-Y", "east": "X" },
-				{ "south": "-Y", "east": "Y" },
-				{ "south": "-Y", "east": "Z" },
-				{ "south": "-Y", "east": "-X" },
-				{ "south": "-Y", "east": "-Y" },
+				//{ "south": "X", "east": "X" },
+				{ "south": "X", "east": "Y" }, // 1
+				{ "south": "X", "east": "Z" }, // 2
+				//{ "south": "X", "east": "-X" },
+				{ "south": "X", "east": "-Y" }, // 3 V
+				{ "south": "X", "east": "-Z" }, // 4
+				//{ "south": "-X", "east": "X" },
+				{ "south": "-X", "east": "Y" }, // 5 V
+				{ "south": "-X", "east": "Z" }, // 6
+				//{ "south": "-X", "east": "-X" },
+				{ "south": "-X", "east": "-Y" }, // 7
+				{ "south": "-X", "east": "-Z" }, // 8
+				{ "south": "Y", "east": "X" }, // 9 V
+				//{ "south": "Y", "east": "Y" },
+				{ "south": "Y", "east": "Z" }, // 10
+				{ "south": "Y", "east": "-X" }, // 11
+				//{ "south": "Y", "east": "-Y" },
+				{ "south": "Y", "east": "-Z" }, // 12
+				{ "south": "-Y", "east": "X" }, // 13
+				//{ "south": "-Y", "east": "Y" },
+				{ "south": "-Y", "east": "Z" }, // 14
+				{ "south": "-Y", "east": "-X" }, // 15 V
+				//{ "south": "-Y", "east": "-Y" },
 				{ "south": "-Y", "east": "-Z" },
 				{ "south": "Z", "east": "X" },
 				{ "south": "Z", "east": "Y" },
-				{ "south": "Z", "east": "Z" },
+				//{ "south": "Z", "east": "Z" },
 				{ "south": "Z", "east": "-X" },
 				{ "south": "Z", "east": "-Y" },
-				{ "south": "Z", "east": "-Z" },
+				//{ "south": "Z", "east": "-Z" },
 				{ "south": "-Z", "east": "X" },
 				{ "south": "-Z", "east": "Y" },
-				{ "south": "-Z", "east": "Z" },
+				//{ "south": "-Z", "east": "Z" },
 				{ "south": "-Z", "east": "-X" },
-				{ "south": "-Z", "east": "-Y" },
-				{ "south": "-Z", "east": "-Z" }
+				{ "south": "-Z", "east": "-Y" }//,
+				//{ "south": "-Z", "east": "-Z" }
 			]
 		}
 	]
