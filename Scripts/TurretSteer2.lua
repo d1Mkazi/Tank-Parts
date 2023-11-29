@@ -70,13 +70,15 @@ function TurretSteer2:sv_applyImpulse(args)
 
     self.sv.to = to
     self.network:sendToClients("cl_setAnimation", { to = to, speed = speed })
+    self.network:sendToClients("cl_playSound", { play = to ~= 0 and true or false, speed = speed })
 end
 
 function TurretSteer2:client_onCreate()
     self.cl = {
         animUpdate = 0,
         animProgress = 0,
-        gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TurretSteer.layout")
+        gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TurretSteer.layout"),
+        effect = sm.effect.createEffect("Steer - Rotation", self.interactable)
     }
 
     self.cl.gui:createHorizontalSlider("steerSlider", 10, 1, "cl_changeSlider", true)
@@ -91,6 +93,7 @@ end
 
 function TurretSteer2:client_onUpdate(dt)
     self:cl_updateAnimation(dt)
+    self:cl_updateSound()
 end
 
 function TurretSteer2:client_onAction(action, state)
@@ -174,6 +177,10 @@ function TurretSteer2:client_onTinker(character, state)
 
     local title = GetLocalization("steer_GuiTitle", sm.gui.getCurrentLanguage())
     self.cl.gui:setText("steerTitle", title)
+    local max = GetLocalization("steer_GuiMaxSpeed", sm.gui.getCurrentLanguage())
+    self.cl.gui:setText("steerPower", max)
+    local min = GetLocalization("steer_GuiMinSpeed", sm.gui.getCurrentLanguage())
+    self.cl.gui:setText("steerSpeed", min)
     self.cl.gui:open()
     self.cl.gui:setSliderPosition("steerSlider", self.cl.slider)
 end
@@ -201,3 +208,23 @@ function TurretSteer2:cl_changeSlider(value) self.network:sendToServer("sv_setSt
 
 ---@param character? Character
 function TurretSteer2:cl_setCharacter(character) self.cl.character = character end
+
+function TurretSteer2:cl_playSound(args)
+    local play, speed = args.play, args.speed or 0
+    if play then
+        local effect = self.cl.effect
+        effect:setParameter("CAE_Pitch", speed * 4)
+        effect:start()
+
+        self.cl.effectPlay = true
+    else
+        self.cl.effect:stop()
+        self.cl.effectPlay = false
+    end
+end
+
+function TurretSteer2:cl_updateSound()
+    if self.cl.effectPlay and self.cl.effect:isDone() then
+        self.cl.effect:start()
+    end
+end
