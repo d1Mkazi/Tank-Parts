@@ -316,18 +316,7 @@ function Breech:cl_shoot()
     local pos = self.shape.worldPosition + self.shape.at * self.cl.shootDistance / 2 + sm.vec3.new(0, 0, 0.25)
 
     if sm.cae_injected then
-        local effects = {
-            [85] = "TankCannon - Shoot",
-            [122] = "TankCannon - Shoot",
-            [152] = "TankCannon - Howitzer Fire"
-        }
-        local parameters = {
-            [85] = { CAE_Volume = 3, CAE_Pitch = 0.95 },
-            [122] = { CAE_Volume = 5, CAE_Pitch = 0.95 },
-            [152] = { CAE_Volume = 90, CAE_Pitch = 0.95 }
-        }
-        local caliber = self.data.caliber
-        sm.effect.playEffect(effects[caliber], pos, nil, nil, nil, parameters[caliber])
+        sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, nil, nil)
     else
         sm.effect.playEffect("PropaneTank - ExplosionSmall", pos)
     end
@@ -368,4 +357,17 @@ function Breech:cl_close() self.cl.animUpdate = -2 end
 ---@param case Uuid|string the original case
 function getUsedCase(case)
     return getTableByValue(type(case) == "Uuid" and tostring(case) or case, CartridgeList, "original").used
+end
+
+---@param caliber number
+---@return string
+function getFireSound(caliber)
+    local special = {
+        [152] = "TankCannon - Howitzer Fire"
+    }
+    if isAnyOf(caliber, special) then
+        return special[caliber]
+    end
+
+    return "TankCannon - Shoot"
 end

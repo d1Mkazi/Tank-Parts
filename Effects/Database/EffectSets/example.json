@@ -1,8 +1,8 @@
 {
 	"TankCannon - Shoot": {
 		"parameterList": {
-            "CAE_Volume": 1.0,
-            "CAE_Pitch": 1,
+            "CAE_Volume": 3,
+            "CAE_Pitch": 0.95,
             "CAE_Reverb": 1.0,
             "CAE_ReverbIdx": -1.0,
             "size": 0.0,
@@ -54,8 +54,8 @@
 	},
 	"TankCannon - Howitzer Fire": {
         "parameterList": {
-            "CAE_Volume": 1.0,
-            "CAE_Pitch": 1,
+            "CAE_Volume": 90,
+            "CAE_Pitch": 0.95,
             "CAE_Reverb": 1.0,
             "CAE_ReverbIdx": -1.0,
             "size": 0.0,
@@ -122,7 +122,6 @@
     },
 	"Shell - Howitzer Hit":
 	{
-		"maxInstances": 64,
 		"parameterList":
 		{
 			"CAE_Volume": 1.0,
@@ -186,6 +185,24 @@
 				],
 				"duration": 0.4,
 				"delay": 0.0
+			}
+		]
+	},
+	"Steer - Rotation":
+	{
+		"parameterList":
+		{
+			"CAE_Volume": 1.0,
+            "CAE_Pitch": 1,
+            "CAE_Reverb": 1.0,
+            "CAE_ReverbIdx": -1.0
+		},
+		"effectList":
+		[
+			{
+				"type": "audio",
+				"name": "steer_rolling",
+				"parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
 			}
 		]
 	}
