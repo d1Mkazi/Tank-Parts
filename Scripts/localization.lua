@@ -44,6 +44,14 @@ local languages = {
         Russian = "Максимальная скорость",
         Czech = "Rychlost"
     },
+    steer_GuiMaxSpeed = {
+        English = "Max",
+        Russian = "Макс.",
+    },
+    steer_GuiMinSpeed = {
+        English = "Min",
+        Russian = "Мин.",
+    },
 
     -- Alerts
     steer_MsgExit = {
