@@ -8,7 +8,7 @@
 */
 {
     "partList": [
-        { // 85mm AP Shell
+        { // Soviet AP Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -19,7 +19,7 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 6,
+					"explosionLevel" : 4,
 					"explosionRadius" : 3,
 					"impulseLevel" : 80,
 					"impulseRadius": 2
@@ -54,7 +54,7 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25840"
 		},
-		{ // 85mm HE Shell
+		{ // Soviet HE Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -65,8 +65,8 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 6,
-					"explosionRadius" : 5,
+					"explosionLevel" : 4,
+					"explosionRadius" : 4,
 					"impulseLevel" : 130,
 					"impulseRadius": 4
 				}
@@ -100,7 +100,7 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25841"
 		},
-		{ // 122mm AP Shell
+		{ // German AP Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -111,7 +111,7 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 6,
+					"explosionLevel" : 4,
 					"explosionRadius" : 3,
 					"impulseLevel" : 80,
 					"impulseRadius": 2
@@ -146,7 +146,7 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25840"
 		},
-		{ // 122mm HE Shell
+		{ // German HE Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -157,8 +157,8 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 6,
-					"explosionRadius" : 5,
+					"explosionLevel" : 4,
+					"explosionRadius" : 4,
 					"impulseLevel" : 130,
 					"impulseRadius": 4
 				}
