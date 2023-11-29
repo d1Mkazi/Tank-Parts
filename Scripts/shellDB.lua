@@ -43,11 +43,14 @@ function __hit_ap(data)
 
     local angle = getAngle(result)
 
-    local point = nil
+    local point = result.pointWorld
     while hit do
         point = result.pointWorld
 
-        if result.type == "character" then
+        if result.type == "terrainSurface" or result.type == "terrainAsset" then
+            return false
+
+        elseif result.type == "character" then
             sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_receiveDamage", { damage = 100 }) -- why don't you work?
 
         elseif result.type == "body" then
