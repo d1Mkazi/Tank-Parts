@@ -86,6 +86,10 @@ function PeriscopeInput:sv_resetAnimation(animation)
     self.network:sendToClients("cl_resetAnimation", animation)
 end
 
+function PeriscopeInput:sv_updateSightForPlayer(_, player)
+    self.network:sendToClient(player, "cl_setSight", self.sv.sight)
+end
+
 
 --[[ CLIENT ]]--
 
@@ -108,7 +112,8 @@ function PeriscopeInput:cl_init()
         verticalReset = false,
         horizontalReset = false,
 
-        occupied = false
+        occupied = false,
+        character = nil
     }
 
     self.interactable:setAnimEnabled("RotVertical", true) -- 15
@@ -134,6 +139,7 @@ function PeriscopeInput:client_onAction(action, state)
     if state then
         if action == 15 then
             self.cl.character:setLockingInteractable(nil)
+            self.cl.character = nil
             self.network:sendToServer("sv_setOccupied", false)
 
             self.network:sendToServer("sv_turnWS", 0)
@@ -191,9 +197,10 @@ function PeriscopeInput:client_onInteract(character, state)
 
     character:setLockingInteractable(self.interactable)
     self.network:sendToServer("sv_setOccupied", true)
+    self.network:sendToServer("sv_updateSightForPlayer")
 
     self.cl.character = character
-    sm.camera.setCameraState(2)
+    sm.camera.setCameraState(3)
     self:cl_updateCamera()
 end
 
@@ -211,8 +218,15 @@ end
 
 function PeriscopeInput:cl_updateCamera()
     local sight = self.cl.sight
-    sm.camera.setDirection(sight.at)
-    sm.camera.setPosition(sight.worldPosition + sight.at * 0.0025)
+    if not sight then
+        sm.camera.setCameraState(1)
+        return
+    end
+    local vel = sight.velocity
+    local at = sight.at
+    local velocityOffset = math.abs(vel.x * at.x + vel.y * at.y + vel.z * at.z)
+    sm.camera.setDirection(at)
+    sm.camera.setPosition(sight.worldPosition + at * 0.1 * velocityOffset)
 end
 
 function PeriscopeInput:cl_setVerticalAnimation(turn) self.cl.verticalAnim = -3 * turn end
