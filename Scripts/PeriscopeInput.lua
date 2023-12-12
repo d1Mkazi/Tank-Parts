@@ -26,6 +26,9 @@ function PeriscopeInput:sv_init()
             ad = {}
         }
     }
+
+    self:sv_turnWS(0)
+    self:sv_turnAD(0)
 end
 
 function PeriscopeInput:server_onFixedUpdate(dt)
@@ -38,8 +41,6 @@ function PeriscopeInput:server_onFixedUpdate(dt)
                 self.interactable:disconnect(child)
             end
         end
-    else
-        self.sv.sight = nil
     end
 
     if self.sv.sight ~= self.sv.sightOld then

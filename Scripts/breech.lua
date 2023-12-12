@@ -183,10 +183,10 @@ function Breech:sv_shoot()
 
     local pos = self.shape.worldPosition
     local at = self.shape.at
-    local offset = self.saved.shootDistance / 2
+    local breechSize = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid)).y
+    local offset = (breechSize + self.saved.shootDistance) * 0.25
 
     local shell = self.saved.loaded.data.shellData
-    --sm.event.sendToTool(ProjectileTool, "sv_createShell", { data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
     ShellProjectile:sv_createShell({ data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
 
     sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * (shell.mass or 0), true)
@@ -200,8 +200,7 @@ end
 function Breech:sv_dropCase()
     local pos = self.shape.worldPosition + self.shape.right * -0.125
     local at = self.shape.at
-    local caseSizeVec3 = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid))
-    local caseSize = math.max(caseSizeVec3.x, caseSizeVec3.y, caseSizeVec3.z)
+    local caseSize = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid)).y
     local offset = self.data.areaOffsetY - caseSize / 4 - 0.25
 
     sm.shape.createPart(sm.uuid.new(self.saved.loaded.data.usedUuid), pos + at * offset, self.shape.worldRotation)

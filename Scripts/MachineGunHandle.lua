@@ -26,6 +26,9 @@ function Handle:init()
             ad = {}
         }
     }
+
+    self:sv_applyImpulseWS({ to = 0 })
+    self:sv_applyImpulseAD({ to = 0 })
 end
 
 
@@ -39,8 +42,6 @@ function Handle:server_onFixedUpdate(dt)
                 table.insert(self.sv.bearings.ws, bearing)
             end
         end
-    else
-        self.sv.bearings = { ws = {}, ad = {} }
     end
 end
 
