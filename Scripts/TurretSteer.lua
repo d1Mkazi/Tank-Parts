@@ -130,6 +130,8 @@ function TurretSteer:client_onInteract(character, state)
     if not state then return end
 
     self:cl_lockCharacter(character)
+    local outdated = GetLocalization("base_Outdated", sm.gui.getCurrentLanguage())
+    sm.gui.displayAlertText(outdated)
 end
 
 function TurretSteer:client_canTinker(character)

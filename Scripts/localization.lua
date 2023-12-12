@@ -14,6 +14,10 @@ local languages = {
         Russian = "Настройки",
         Czech = "Nastavení"
     },
+    base_Outdated = {
+        English = "This part is outdated. DO NOT USE",
+        Russian = "Этот элемент устарел. НЕ ИСПОЛЬЗУЙТЕ ЕГО"
+    },
 
     breech_TakeCase = {
         English = "Take case",
