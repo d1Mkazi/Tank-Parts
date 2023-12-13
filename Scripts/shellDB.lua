@@ -191,57 +191,8 @@ function __hit_heat(data)
     return false
 end
 
-ShellDB = {
-    --[[ 85mm ]]--
-    AP_85 = {
-        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
-        initialSpeed = 550,
-        penetrationCapacity = 20,
-        penetrationLoss = 2.5,
-        maxDurability = 7.6,
-        fuseSensitivity = 5,
-        maxAngle = 18,
-        onHit = __hit_ap
-    },
-    HE_85 = {
-        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
-        initialSpeed = 460,
-        explosion = {
-            strength = 3,
-            impulse = 100,
-            shrapnel = 40
-        },
-        onHit = __hit_he
-    },
-
-    --[[ 122mm ]]--
-    AP_122 = {
-        bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
-        initialSpeed = 620,
-        mass = 20,
-        penetrationCapacity = 35,
-        penetrationLoss = 2.8,
-        maxDurability = 8.5,
-        fuseSensitivity = 5,
-        maxAngle = 22,
-        onHit = __hit_ap
-    },
-    HE_122 = {
-        bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
-        initialSpeed = 500,
-        mass = 25,
-        explosion = {
-            strength = 4,
-            impulse = 200,
-            shrapnel = 55
-        },
-        onHit = __hit_he
-    }
-}
-
 ShellList = {
-    --[[
-        template:
+    --[[ template:
         breech = {
             unitary = {
                 {

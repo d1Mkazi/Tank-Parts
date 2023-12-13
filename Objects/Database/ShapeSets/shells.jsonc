@@ -1,6 +1,4 @@
 /*
-* projectile data is stored in ShellDB.lua (Scripts/shellDB.lua)
-
 * "explosionLevel" : n,
 * "explosionRadius" : n,
 * "impulseLevel" : n,
