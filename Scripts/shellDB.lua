@@ -64,7 +64,7 @@ function __hit_ap(data)
             durability = getDurability(durability, angle)
 
             if durability > data.maxDurability or durability > data.penetrationCapacity then
-                shrapnelExplosion(point, vel, 3, 10, 35)
+                shrapnelExplosion(point, vel, 3, 10, 35, true)
                 return false
             end
 

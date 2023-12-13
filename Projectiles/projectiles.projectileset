@@ -23,6 +23,28 @@
 				]
 			},
 			"enableImpactEffect": true
+		},
+		{
+			"uuid": "5e8eeaae-b5c1-4992-bb21-dec5254ce222",
+			"name": "tp_shrapnelWeak",
+			"mass": 1.0,
+			"radius": 0.25,
+			"friction": 0.2,
+			"spin": 7.0,
+			"mesh": "$CONTENT_DATA/Projectiles/Renderables/shrapnel.rend",
+			"effect": "PotatoProjectile - Hit",
+			"audiomass": 20.0,
+			"effectmaterial": "Potato",
+			"attachedEffect": "",
+			"enableGravity": true,
+			"destruction": {
+				"destructionLevels": [
+					{ "qualityLevel": 1, "chance": 1.0 },
+					{ "qualityLevel": 2, "chance": 0.6 },
+					{ "qualityLevel": 3, "chance": 0.2 }
+				]
+			},
+			"enableImpactEffect": true
 		}
 	]
 }

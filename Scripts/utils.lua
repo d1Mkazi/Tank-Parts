@@ -1,5 +1,5 @@
---local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce722")
 local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce111")
+local shrapnelWeak = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce222")
 
 -- Use to spawn shrapnel
 ---@param position Vec3
@@ -7,11 +7,17 @@ local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce111")
 ---@param count number number of projectiles
 ---@param spread number spread angle
 ---@param damage number
-function shrapnelExplosion(position, velocity, count, spread, damage)
+---@param weak? boolean
+function shrapnelExplosion(position, velocity, count, spread, damage, weak)
+    local _shrapnel = shrapnel
+    if weak then
+        _shrapnel = shrapnelWeak
+    end
+
     local host = sm.player.getAllPlayers()[1]
     for i = 1, count do
         local dir = sm.noise.gunSpread(velocity, spread)
-        sm.projectile.projectileAttack(shrapnel, damage, position, dir, host, nil, nil, 0)
+        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, host, nil, nil, 0)
     end
 end
 
