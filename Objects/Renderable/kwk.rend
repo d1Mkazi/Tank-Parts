@@ -1,0 +1,20 @@
+{
+    "lodList": [
+        {
+            "mesh": "$CONTENT_DATA/Objects/Mesh/breeches/88_kwk36_breech.fbx",
+            "subMeshList": [
+                {
+                    "material": "SkelAnimDifAsgNor",
+                    "textureList": [
+                        "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_dif.tga",
+                        "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga",
+                        "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_nor.tga"
+                    ]
+                }
+            ],
+            "animationList": [
+                {"name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/88_kwk36_breech.fbx"}
+            ]
+        }
+    ]
+}

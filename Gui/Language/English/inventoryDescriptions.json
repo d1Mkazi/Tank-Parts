@@ -1,28 +1,33 @@
 {
     "bb19cdbf-865e-401c-9c5e-f111bad25839": {
         "title": "ZiS-5 Breech",
-        "description": "The breech of a Soviet cannon from World War II\n\nUses regular shells\nUnitary loading",
+        "description": "The breech of the Soviet KV-1 cannon from World War II\n\nUses regular shells\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun" ]
+    },
+    "bb19cdbf-865e-401c-9c5e-f111bad25842": {
+        "title": "F-34 Breech",
+        "description": "The breech of the Soviet T-34 cannon from World War II\n\nUses regular shells\nUnitary loading",
         "keywords": [ "breech", "cannon", "gun" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25840": {
         "title": "KwK 37 Breech",
-        "description": "The breech of a German cannon from World War II\n\nUses regular shells\nUnitary loading",
+        "description": "The breech of the German cannon from World War II\n\nUses regular shells\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun" ]
+    },
+    "bb19cdbf-865e-401c-9c5e-f111bad25843": {
+        "title": "8,8cm KwK 36 Breech",
+        "description": "The breech of the German Tiger I cannon from World War II\n\nUses big shells\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun" ]
+    },
+    "bb19cdbf-865e-401c-9c5e-f111bad25844": {
+        "title": "KwK 42 Breech",
+        "description": "The breech of the German Panther cannon from World War II\n\nUses big shells\nUnitary loading",
         "keywords": [ "breech", "cannon", "gun" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "M-10T Breech",
         "description": "The breech of a Soviet howitzer from World War II\n\nUses howitzer shells\nSeparated loading",
         "keywords": [ "breech", "howitzer", "gun" ]
-    },
-    "bb19cdbf-865e-401c-9c5e-f111bad25842": {
-        "title": "F-34 Breech",
-        "description": "The breech of a Soviet cannon from World War II\n\nUses regular shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
-    },
-    "bb19cdbf-865e-401c-9c5e-f111bad25843": {
-        "title": "8,8cm KwK 36 Breech",
-        "description": "The breech of a German cannon from World War II\n\nUses big shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
     },
 
     "ec19cdbf-865e-401c-9c5e-f111bad25840": {
@@ -35,12 +40,12 @@
         "description": "Regular High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit.\n\nInitial speed: 460 m/s",
         "keywords": [ "bullet" ]
     },
-    "ec19cdbf-865e-122c-9c5e-f111bad25840": {
+    "ec18cdbf-865e-122c-9c5e-f111bad25840": {
         "title": "AP Shell",
         "description": "Big Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor.\n\nInitial speed: 620 m/s\nPenetration capacity: 35\nMax durability: 8.5\nFuse sensitivity: 5",
         "keywords": [ "bullet" ]
     },
-    "ec19cdbf-865e-122c-9c5e-f111bad25841": {
+    "ec18cdbf-865e-122c-9c5e-f111bad25841": {
         "title": "HE Shell",
         "description": "Big High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit.\n\nInitial speed: 500 m/s",
         "keywords": [ "bullet" ]

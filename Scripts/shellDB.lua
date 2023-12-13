@@ -51,7 +51,7 @@ function __hit_ap(data)
             return false
 
         elseif result.type == "character" then
-            sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_receiveDamage", { damage = 100 }) -- why don't you work?
+            sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_takeDamage", { damage = 100 }) -- why don't you work?
 
         elseif result.type == "body" then
             local shape = result:getShape()
@@ -122,12 +122,6 @@ end
 function __hit_he_howitzer(data)
     local pos = data.hit.pointWorld
 
-    --if sm.cae_injected then
-    --    sm.physics.explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit", nil, { CAE_Volume = 30, CAE_Pitch = 0.9 })
-    --else
-    --    sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
-    --end
-
     sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
     shrapnelExplosion(pos, sm.vec3.new(0, 70, 0), 80, 360, 100)
 
@@ -148,7 +142,7 @@ function __hit_heat(data)
 
     local angle = getAngle(result)
 
-    local point = nil
+    local point = result.pointWorld
     while capacity do
         point = result.pointWorld
 
@@ -245,73 +239,100 @@ ShellDB = {
     }
 }
 
-
---[[ CALIBERS ]]--
-
--- 2 - british
--- 4 - american
--- 5 - soviet
--- 6 - howitzer -- CLASS
--- 7 - german
--- 9 - modern -- CLASS
-
-------------------
-
 ShellList = {
-    [75] = {
-        unitary = {
-            {
-                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
-                caseUuid = nil,
-                shellData = ShellDB.AP_85,
-                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+    --[[
+        template:
+        breech = {
+            unitary = {
+                {
+                }
             },
-            {
-                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841", -- HE Shell
-                caseUuid = nil,
-                shellData = ShellDB.HE_85,
-                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            separated = {
+                {
+                }
             }
-        },
-        separated = {
         }
-    },
-    [76] = {
-        unitary = {
-            {
-                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840", -- AP shell
-                caseUuid = nil,
-                shellData = ShellDB.AP_85,
-                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
-            },
-            {
-                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841", -- HE Shell
-                caseUuid = nil,
-                shellData = ShellDB.HE_85,
-                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
-            }
-        },
-        separated = {
-        }
-    },
-    [88] = {
+    ]]--
+
+    --[[ SOVIET ]]--
+
+    -- soviet 76mm
+    zis5 = {
         unitary = {
             { -- AP Shell
-                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
                 caseUuid = nil,
-                shellData = ShellDB.AP_122,
-                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
+                    initialSpeed = 655,
+                    mass = 6.5,
+                    penetrationCapacity = 24,
+                    penetrationLoss = 2.5,
+                    maxDurability = 7.6,
+                    fuseSensitivity = 5,
+                    maxAngle = 20,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
             },
             { -- HE Shell
-                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25841",
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841",
                 caseUuid = nil,
-                shellData = ShellDB.HE_122,
-                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
-            },
-        },
-        separated = {
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
+                    initialSpeed = 680,
+                    mass = 6.2,
+                    explosion = {
+                        strength = 3,
+                        impulse = 100,
+                        shrapnel = 40
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            }
         }
     },
+
+    -- soviet 76mm
+    f34 = {
+        unitary = {
+            { -- AP Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
+                    initialSpeed = 655,
+                    mass = 6.5,
+                    penetrationCapacity = 24,
+                    penetrationLoss = 2.5,
+                    maxDurability = 7.6,
+                    fuseSensitivity = 5,
+                    maxAngle = 20,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            },
+            { -- HE Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
+                    initialSpeed = 680,
+                    mass = 6.2,
+                    explosion = {
+                        strength = 3,
+                        impulse = 100,
+                        shrapnel = 40
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            }
+        }
+    },
+
+    -- soviet 152mm howitzer
     [152] = {
         unitary = {
         },
@@ -328,5 +349,121 @@ ShellList = {
                 usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
             }
         }
-    }
+    },
+
+    --[[ GERMAN ]]--
+
+    -- german 75mm
+    kwk37 = {
+        unitary = {
+            { -- AP Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
+                    initialSpeed = 385,
+                    mass = 6.78,
+                    penetrationCapacity = 15,
+                    penetrationLoss = 2.5,
+                    maxDurability = 7.2,
+                    fuseSensitivity = 5,
+                    maxAngle = 20,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            },
+            { -- HE Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
+                    initialSpeed = 420,
+                    mass = 5.74,
+                    explosion = {
+                        strength = 3,
+                        impulse = 100,
+                        shrapnel = 40
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            }
+        }
+    },
+
+    -- german 88mm
+    kwk36_88 = {
+        unitary = {
+            { -- AP Shell
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
+                    initialSpeed = 773,
+                    mass = 10.2,
+                    penetrationCapacity = 32,
+                    penetrationLoss = 2.5,
+                    maxDurability = 8.5,
+                    fuseSensitivity = 5,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- HE Shell
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25841",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
+                    initialSpeed = 820,
+                    mass = 9,
+                    explosion = {
+                        strength = 4,
+                        impulse = 200,
+                        shrapnel = 55
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+        }
+    },
+
+    -- german 75mm
+    kwk42 = {
+        unitary = {
+            { -- AP Shell
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
+                    initialSpeed = 935,
+                    mass = 6.8,
+                    penetrationCapacity = 38,
+                    penetrationLoss = 2.5,
+                    maxDurability = 8.8,
+                    fuseSensitivity = 5,
+                    maxAngle = 20,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- HE Shell
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25841",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
+                    initialSpeed = 700,
+                    mass = 5.74,
+                    explosion = {
+                        strength = 4,
+                        impulse = 200,
+                        shrapnel = 55
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+        }
+    },
 }
