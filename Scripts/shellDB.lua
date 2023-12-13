@@ -105,9 +105,16 @@ end
 
 function __hit_he(data)
     local pos = data.hit.pointWorld
+    local shrapnelVelocity = data.vel:normalize() * 30
 
-    sm.physics.explode(pos, data.explosion.strength, 1, 5, data.explosion.impulse, "PropaneTank - ExplosionBig")
-    shrapnelExplosion(pos, data.vel:normalize() * 30, data.explosion.shrapnel, 360, 80)
+    if data.hit.type == "body" and sm.item.getQualityLevel(data.hit:getShape().uuid) > data.explosion.strength then
+        sm.physics.explode(pos, data.explosion.strength, 1, 5, data.explosion.impulse, "PropaneTank - ExplosionBig")
+        shrapnelVelocity = -shrapnelVelocity --[[@as Vec3]]
+    else
+        sm.physics.explode(pos, 1, 0.1, 5, data.explosion.impulse, "PropaneTank - ExplosionBig")
+    end
+
+    shrapnelExplosion(pos, shrapnelVelocity, data.explosion.shrapnel, 360, 80)
 
     return false
 end
