@@ -162,6 +162,16 @@
 				"parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
 			},
 			{
+				"type": "audio",
+				"name": "Gas Explosion",
+				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
+				"parameters":
+				[
+					"size"
+				],
+				"delay": 0.0
+			},
+			{
 				"type": "pointLight",
 				"name": "",
 				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },

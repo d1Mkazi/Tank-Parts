@@ -122,7 +122,7 @@ end
 function __hit_he_howitzer(data)
     local pos = data.hit.pointWorld
 
-    sm.physics.explode(pos, 7, 3, 6, 250, "PropaneTank - ExplosionBig")
+    sm.physics.explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit")
     shrapnelExplosion(pos, sm.vec3.new(0, 70, 0), 80, 360, 100)
 
     return false
