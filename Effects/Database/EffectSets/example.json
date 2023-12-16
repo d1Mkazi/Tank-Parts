@@ -124,8 +124,8 @@
 	{
 		"parameterList":
 		{
-			"CAE_Volume": 1.0,
-            "CAE_Pitch": 1,
+			"CAE_Volume": 10,
+            "CAE_Pitch": 0.9,
             "CAE_Reverb": 1.0,
             "CAE_ReverbIdx": -1.0,
 			"size": 0.5,
