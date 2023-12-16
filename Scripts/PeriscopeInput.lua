@@ -41,6 +41,8 @@ function PeriscopeInput:server_onFixedUpdate(dt)
                 self.interactable:disconnect(child)
             end
         end
+    else
+        self.sv.sight = nil
     end
 
     if self.sv.sight ~= self.sv.sightOld then
@@ -114,13 +116,16 @@ function PeriscopeInput:cl_init()
         horizontalReset = false,
 
         occupied = false,
-        character = nil
+        character = nil,
+        sight = nil
     }
 
     self.interactable:setAnimEnabled("RotVertical", true) -- 15
     self.interactable:setAnimProgress("RotVertical", 0.5)
     self.interactable:setAnimEnabled("RotHorizontal", true) -- 20
     self.interactable:setAnimProgress("RotHorizontal", 0.5)
+
+    self.network:sendToServer("sv_updateSightForPlayer")
 end
 
 function PeriscopeInput:client_onUpdate(dt)
@@ -139,16 +144,7 @@ end
 function PeriscopeInput:client_onAction(action, state)
     if state then
         if action == 15 then
-            self.cl.character:setLockingInteractable(nil)
-            self.cl.character = nil
-            self.network:sendToServer("sv_setOccupied", false)
-
-            self.network:sendToServer("sv_turnWS", 0)
-            self.network:sendToServer("sv_turnAD", 0)
-            self.network:sendToServer("sv_resetAnimation", "vertical")
-            self.network:sendToServer("sv_resetAnimation", "horizontal")
-
-            sm.camera.setCameraState(1)
+            self:cl_unlockCharacter()
 
         elseif action >= 1 and action <= 4 then
             local actions = {
@@ -220,7 +216,7 @@ end
 function PeriscopeInput:cl_updateCamera()
     local sight = self.cl.sight
     if not sight then
-        sm.camera.setCameraState(1)
+        self:cl_unlockCharacter()
         return
     end
     local vel = sight.velocity
@@ -304,4 +300,17 @@ end
 
 function PeriscopeInput:cl_setSight(sight)
     self.cl.sight = sight
+end
+
+function PeriscopeInput:cl_unlockCharacter()
+    self.cl.character:setLockingInteractable(nil)
+    self.cl.character = nil
+    self.network:sendToServer("sv_setOccupied", false)
+
+    self.network:sendToServer("sv_turnWS", 0)
+    self.network:sendToServer("sv_turnAD", 0)
+    self.network:sendToServer("sv_resetAnimation", "vertical")
+    self.network:sendToServer("sv_resetAnimation", "horizontal")
+
+    sm.camera.setCameraState(1)
 end
