@@ -39,10 +39,54 @@ end
 function ShellProjectile:server_onFixedUpdate(dt)
     for k, proj in pairs(ShellProjectile.projectiles) do
         if proj.hit then
-            if not proj:onHit() then
-                self:destroyShell(proj, k)
+            local lastHit = proj.hit
+            if not proj.lastAngle then -- first hit
+                proj:onHit()
+                if not proj.alive then
+                    print("[TANK PARTS] SHELL DIED")
+                    if proj.noPenSound then
+                        sm.physics.explode(lastHit.pointWorld, 1, 0.1, 0, 0, nil--[["Shell - No Penetration"]])
+                    end
+
+                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
+                end
+            else -- not first hit
+                local alive = proj.alive
+                if alive then -- alive 1
+                    local hit, result = raycast(lastHit.pointWorld - proj.dir, lastHit.pointWorld + proj.dir * 2)
+                    proj.hit = result
+                    if not hit and not proj.isHEAT then -- raycast 0 & HEAT 0
+                        print("[TANK PARTS] NO HIT AFTER PENETRATION")
+                        if proj.fuse >= proj.fuseSensitivity then
+                            print("[TANK PARTS] SHELL FUSED")
+                            proj:explode()
+
+                            proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
+                        else
+                            print("[TANK PARTS] SHELL NOT FUSED")
+                            proj.hit = nil
+                            proj.lastAngle = nil
+                            proj.fuse = 0
+                            proj.pos = lastHit.pointWorld
+
+                            shrapnelExplosion(lastHit.pointWorld, proj.vel, 3, 20, 85, true)
+                        end
+                    elseif lastHit:getShape().worldPosition ~= result:getShape().worldPosition then -- raycast 1 || HEAT 1
+                        print("[TANK PARTS] CALLING onHit()")
+                        proj:onHit()
+                    end
+                else -- alive 0
+                    print("[TANK PARTS] SHELL DIED")
+                    if proj.noPenSound then
+                        sm.physics.explode(lastHit.pointWorld, 1, 0.1, 0, 0, nil--[["Shell - No Penetration"]])
+                    end
+
+                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
+                    proj.hit = nil
+                    proj.lastAngle = nil
+                    proj.fuse = 0
+                end
             end
-            proj.hit = nil
         end
     end
 end
@@ -77,33 +121,29 @@ function ShellProjectile:client_onUpdate(dt)
             proj.effect:start()
         end
 
-        local pos = proj.pos
-        local vel = proj.vel
-
-        if pos.z < MINIMAL_HEIGHT then
+        if proj.pos.z < MINIMAL_HEIGHT then
             self:destroyShell(proj, k)
-            return
-        end
+        elseif not proj.hit then
+            local pos = proj.pos
 
-        --vel = vel * (1 - 1 * (vel.z > 0 and 1 or 0)) - sm.vec3.new(0, 0, g * dt)
-        --vel = vel * 0.95 - sm.vec3.new(0, 0, g * dt)
-        vel = vel - sm.vec3.new(0, 0, g^2 * dt)
-        local newPos = pos + vel * dt
-        local hit, result = raycast(pos, newPos)
-        if hit then
-            proj.hit = result
-        else
-            proj.effect:setPosition(newPos)
-            proj.effect:setRotation(sm.vec3.getRotation(yAxis, vel))
-        end
+            local vel = proj.vel
+            vel = vel - sm.vec3.new(0, 0, g^2 * dt)
+            local newPos = pos + vel * dt
+            local hit, result = raycast(pos, newPos)
+            if hit then
+                proj.hit = result
+                newPos = result.pointWorld
+            else
+                proj.effect:setPosition(newPos)
+                proj.effect:setRotation(sm.vec3.getRotation(yAxis, vel))
+            end
 
-        --vel = vel * (1 - proj.friction) - sm.vec3.new(0, 0, g * dt) -- OLD WAY OF FLYING
-        --pos = pos + vel * dt
-        proj.pos = newPos
-        proj.vel = vel
+            proj.pos = newPos
+            proj.vel = vel
 
-        if proj.penetrationLoss then
-            proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
+            if proj.penetrationLoss then
+                proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
+            end
         end
     end
 end

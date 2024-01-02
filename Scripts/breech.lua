@@ -184,7 +184,7 @@ function Breech:sv_shoot()
     local pos = self.shape.worldPosition
     local at = self.shape.at
     local breechSize = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid)).y
-    local offset = (breechSize + self.saved.shootDistance) * 0.25
+    local offset = (breechSize + self.saved.shootDistance - 0.5) * 0.25
 
     local shell = self.saved.loaded.data.shellData
     ShellProjectile:sv_createShell({ data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
