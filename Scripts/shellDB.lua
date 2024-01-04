@@ -130,12 +130,6 @@ function __hit_ap(data)
     data.alive = true
 end
 
--- Explosion functions
-
-function __exp_ap(data)
-    shrapnelExplosion(data.pos, data.vel, 15, 80, 85)
-end
-
 function __hit_he(data)
     local pos = data.hit.pointWorld
     local shrapnelVelocity = data.vel:normalize() * 30
@@ -161,6 +155,13 @@ function __hit_he_howitzer(data)
 
     data.alive = false
 end
+
+-- Explosion functions
+
+function __exp_ap(data)
+    shrapnelExplosion(data.pos, data.vel, 15, 80, 85)
+end
+
 
 
 ShellList = {
@@ -272,6 +273,45 @@ ShellList = {
                     onHit = __hit_he_howitzer
                 },
                 usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25801"
+            }
+        }
+    },
+
+    -- soviet 122mm
+    d25t = {
+        separated = {
+            { -- AP Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25803",
+                caseUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25802",
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25803",
+                    initialSpeed = 795,
+                    mass = 25,
+                    penetrationCapacity = 44,
+                    penetrationLoss = 2.5,
+                    maxDurability = 8.8,
+                    fuseSensitivity = 5,
+                    maxAngle = 20,
+                    onHit = __hit_ap,
+                    explode = __exp_ap
+                },
+                usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25803"
+            },
+            { -- HE Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25804",
+                caseUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25802",
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25804",
+                    initialSpeed = 795,
+                    mass = 25,
+                    explosion = {
+                        strength = 4,
+                        impulse = 120,
+                        shrapnel = 55
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25803"
             }
         }
     },

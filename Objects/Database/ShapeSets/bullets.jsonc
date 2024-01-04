@@ -64,7 +64,7 @@
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801",
             "showInInventory": false
         },
-        { // 122mm AP Bullet
+        { // german (88mm) AP Bullet
             "cylinder" : {
                 "axis" : "Y",
                 "depth" : 3,
@@ -180,6 +180,96 @@
 			"sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25802"
+        },
+        { // Armor-Piercing 122mm D-25T
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 4.5,
+					"impulseLevel" : 70,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "122mm AP Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_122s.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25803"
+        },
+        { // High-Explosive 122mm D-25T
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 5.5,
+					"impulseLevel" : 80,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "122mm HE Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_122s.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25804"
         }
     ]
 }

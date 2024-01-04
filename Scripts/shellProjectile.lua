@@ -71,7 +71,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
 
                             shrapnelExplosion(lastHit.pointWorld, proj.vel, 3, 20, 85, true)
                         end
-                    elseif lastHit:getShape().worldPosition ~= result:getShape().worldPosition then -- raycast 1 || HEAT 1
+                    elseif (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition) then -- raycast 1 || HEAT 1
                         print("[TANK PARTS] CALLING onHit()")
                         proj:onHit()
                     end
