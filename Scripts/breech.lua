@@ -187,7 +187,7 @@ function Breech:sv_shoot()
     local offset = (breechSize + self.saved.shootDistance - 0.5) * 0.25
 
     local shell = self.saved.loaded.data.shellData
-    ShellProjectile:sv_createShell({ data = shell, pos = pos + at * offset + self.shape.up * -0.125, vel = at * shell.initialSpeed })
+    ShellProjectile:sv_createShell({ data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
 
     sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * (shell.mass or 0), true)
 
