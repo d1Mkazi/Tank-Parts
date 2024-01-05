@@ -46,7 +46,6 @@ function __hit_ap(data)
     end
     local dir = data.dir
 
-    local fuse = data.fuse
     local durability = 0
 
     local raycastTarget = result.type
@@ -119,13 +118,17 @@ function __hit_ap(data)
         durability = 0.5
 
     elseif raycastTarget == "character" then
+        sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_takeDamage", { damage = 100 }) -- why don't you work?
 
     elseif raycastTarget == "harvestable" then
-
+        local harvestable = result:getHarvestable()
+        point = harvestable.worldPosition
+        harvestable:destroy()
+        durability = 3
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
-    data.fuse = (fuse or 0) + durability
+    data.fuse = (data.fuse or 0) + durability
 
     data.pos = pos
 

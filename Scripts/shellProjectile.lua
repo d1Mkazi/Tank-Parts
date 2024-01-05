@@ -41,7 +41,11 @@ function ShellProjectile:server_onFixedUpdate(dt)
         if proj.hit then
             local lastHit = proj.hit
             if not proj.lastAngle then -- first hit
-                proj:onHit()
+                local success, res = pcall(proj["onHit"], proj)
+                if not success then
+                    errorMsg(("onHit function: %s"):format(tostring(res)))
+                    return
+                end
                 if not proj.alive then
                     print("[TANK PARTS] SHELL DIED")
 
@@ -75,7 +79,11 @@ function ShellProjectile:server_onFixedUpdate(dt)
                         end
                     elseif (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition) then -- raycast 1 || HEAT 1
                         print("[TANK PARTS] CALLING onHit()")
-                        proj:onHit()
+                        local success, res = pcall(proj["onHit"], proj)
+                        if not success then
+                            errorMsg(("onHit function: %s"):format(tostring(res)))
+                            return
+                        end
                     end
                 else -- alive 0
                     print("[TANK PARTS] SHELL DIED")

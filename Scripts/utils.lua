@@ -59,3 +59,11 @@ function hasIndex(table, index)
     end
     return false
 end
+
+---@param message string message to be shown
+function errorMsg(message)
+    local separator = '-' * message:len()
+    print("[Tank Parts]", separator)
+    print("[Tank Parts] ERROR:", message)
+    print("[Tank Parts]", separator)
+end
