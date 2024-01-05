@@ -1,68 +1,98 @@
 {
     "bb19cdbf-865e-401c-9c5e-f111bad25839": {
         "title": "ZiS-5 Breech",
-        "description": "The breech of the Soviet KV-1 cannon from World War II\n\nUses regular shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
+        "description": "Soviet WW2 76mm breech\n\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25842": {
         "title": "F-34 Breech",
-        "description": "The breech of the Soviet T-34 cannon from World War II\n\nUses regular shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
+        "description": "Soviet WW2 76mm breech\n\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun", "soviet" ]
+    },
+    "bb19cccc-865e-401c-9c5e-f111bad25843": {
+        "title": "D-25T Breech",
+        "description": "Soviet WW2 122mm breech\n\nSeparated loading",
+        "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25840": {
         "title": "KwK 37 Breech",
-        "description": "The breech of the German cannon from World War II\n\nUses regular shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
+        "description": "German WW2 75mm breech\n\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25843": {
         "title": "8,8cm KwK 36 Breech",
-        "description": "The breech of the German Tiger I cannon from World War II\n\nUses big shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
+        "description": "German WW2 88mm breech\n\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25844": {
         "title": "KwK 42 Breech",
-        "description": "The breech of the German Panther cannon from World War II\n\nUses big shells\nUnitary loading",
-        "keywords": [ "breech", "cannon", "gun" ]
+        "description": "German WW2 75mm breech\n\nUnitary loading",
+        "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "M-10T Breech",
-        "description": "The breech of a Soviet howitzer from World War II\n\nUses howitzer shells\nSeparated loading",
-        "keywords": [ "breech", "howitzer", "gun" ]
+        "description": "Soviet 152mm howitzer breech\n\nSeparated loading",
+        "keywords": [ "breech", "howitzer", "gun", "soviet" ]
     },
 
+    // shells.json
+
+    // soviet
     "ec19cdbf-865e-401c-9c5e-f111bad25840": {
-        "title": "AP Shell",
-        "description": "Regular Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor.\n\nInitial speed: 550 m/s\nPenetration capacity: 20\nMax durability: 7.6\nFuse sensitivity: 5",
-        "keywords": [ "bullet" ]
+        "title": "Soviet AP Shell",
+        "description": "Regular Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
+        "keywords": [ "bullet", "soviet" ]
     },
     "ec19cdbf-865e-401c-9c5e-f111bad25841": {
-        "title": "HE Shell",
-        "description": "Regular High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit.\n\nInitial speed: 460 m/s",
-        "keywords": [ "bullet" ]
+        "title": "Soviet HE Shell",
+        "description": "Regular High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "bullet", "soviet" ]
     },
+
+    // german
     "ec18cdbf-865e-122c-9c5e-f111bad25840": {
-        "title": "AP Shell",
-        "description": "Big Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor.\n\nInitial speed: 620 m/s\nPenetration capacity: 35\nMax durability: 8.5\nFuse sensitivity: 5",
-        "keywords": [ "bullet" ]
+        "title": "German AP Shell",
+        "description": "Big Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
+        "keywords": [ "bullet", "german" ]
     },
     "ec18cdbf-865e-122c-9c5e-f111bad25841": {
-        "title": "HE Shell",
-        "description": "Big High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit.\n\nInitial speed: 500 m/s",
-        "keywords": [ "bullet" ]
+        "title": "German HE Shell",
+        "description": "Big High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "bullet", "german" ]
     },
 
-    "ec19cdbf-865e-401c-9c5e-f122bed25802": {
-        "title": "Howitzer HE Bullet",
-        "description": "High-Explosive bullet\nEffective.\n\nExplodes with a lot of shrapnel at any hit.",
-        "keywords": [ "shell", "bullet", "howitzer", "152mm" ]
+    // bullets.json
+
+    // soviet
+    "ec19cdbf-865e-401c-9c5e-f122bed25803": {
+        "title": "Soviet 122mm AP Bullet",
+        "description": "Regular Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
+        "keywords": [ "bullet", "soviet" ]
     },
-    
+    "ec19cdbf-865e-401c-9c5e-f122bed25804": {
+        "title": "Soviet 122mm HE Bullet",
+        "description": "Regular High-Explosive shell\nEffective against manpower and lightly armored targets",
+        "keywords": [ "bullet", "soviet" ]
+    },
+    "ec19cdbf-865e-401c-9c5e-f122bed25802": { // nation not specified though
+        "title": "152mm HE Bullet",
+        "description": "High-Explosive bullet\nEffective.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "shell", "bullet", "howitzer" ]
+    },
+
+    // cartridges.json
     "cc19cdbf-865e-401c-9c5e-f111ccc25801": {
         "title": "152mm Sleeve",
-        "description": "Case for howitzer 152mm bullets. Gives the projectile an initial speed of 250 m/s",
-        "keywords": [ "case", "cartridge", "howitzer", "152mm", "250 m/s" ]
+        "description": "Case for howitzer 152mm bullets",
+        "keywords": [ "case", "cartridge", "howitzer", "152mm" ]
+    },
+    "ec19cdbf-865e-401c-9c5e-f111ccc25802": {
+        "title": "122mm Sleeve",
+        "description": "Case for 122mm bullets",
+        "keywords": [ "case", "cartridge", "122mm" ]
     },
 
+    // other.json
     "55a069ad-4512-421d-b46b-7d14fb7f3b53": {
         "title": "Player Fixer",
         "description": "Use it to mount your character",

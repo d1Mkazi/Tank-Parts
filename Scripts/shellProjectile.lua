@@ -44,9 +44,10 @@ function ShellProjectile:server_onFixedUpdate(dt)
                 proj:onHit()
                 if not proj.alive then
                     print("[TANK PARTS] SHELL DIED")
-                    if proj.noPenSound then
-                        sm.physics.explode(lastHit.pointWorld, 1, 0.1, 0, 0, nil--[["Shell - No Penetration"]])
-                    end
+
+                    proj.hit = nil
+                    proj.lastAngle = nil
+                    proj.fuse = 0
 
                     proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
                 end
@@ -64,6 +65,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                             proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
                         else
                             print("[TANK PARTS] SHELL NOT FUSED")
+
                             proj.hit = nil
                             proj.lastAngle = nil
                             proj.fuse = 0
@@ -77,14 +79,12 @@ function ShellProjectile:server_onFixedUpdate(dt)
                     end
                 else -- alive 0
                     print("[TANK PARTS] SHELL DIED")
-                    if proj.noPenSound then
-                        sm.physics.explode(lastHit.pointWorld, 1, 0.1, 0, 0, nil--[["Shell - No Penetration"]])
-                    end
 
-                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
                     proj.hit = nil
                     proj.lastAngle = nil
                     proj.fuse = 0
+
+                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
                 end
             end
         end

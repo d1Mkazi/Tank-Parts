@@ -52,7 +52,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     end
 
     local bearings = self.interactable:getBearings()
-    if bearings then
+    if #bearings > 0 then
         for k, bearing in ipairs(bearings) do
             if bearing.zAxis == self.shape.zAxis then
                 table.insert(self.sv.bearings.ad, bearing)

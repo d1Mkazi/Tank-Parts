@@ -19,6 +19,10 @@
         "steer_rolling": {
             "path": "$CONTENT_DATA/Effects/Audio/steer_rolling.mp3",
             "is3D": true
+        },
+        "no_penetration": {
+            "path": "$CONTENT_DATA/Effects/Audio/no_penetration.mp3",
+            "is3D": true
         }
     }
 }
