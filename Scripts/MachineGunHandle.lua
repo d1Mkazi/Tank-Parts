@@ -55,7 +55,7 @@ function Handle:sv_applyImpulseWS(args)
 
     local to, speed = args.to or self.sv.wsto, args.speed ~= nil and args.speed or 0
     for _, bearing in ipairs(bearings) do
-        bearing:setMotorVelocity(speed * to, 2)
+        bearing:setMotorVelocity(speed * to, 20)
     end
     self.sv.wsto = to
 end
@@ -66,7 +66,7 @@ function Handle:sv_applyImpulseAD(args)
 
     local to, speed = args.to or self.sv.adto, args.speed ~= nil and args.speed or 0
     for _, bearing in ipairs(bearings) do
-        bearing:setMotorVelocity(speed * to, 2)
+        bearing:setMotorVelocity(speed * to, 20)
     end
     self.sv.adto = to
 end
