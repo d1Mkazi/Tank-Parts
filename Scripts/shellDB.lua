@@ -58,40 +58,33 @@ function __hit_ap(data)
     elseif raycastTarget == "body" then
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
-        print("[TANK PARTS] getShape() ->", shape, "NAME:", sm.shape.getShapeTitle(shape.uuid))
-        if not sm.exists(shape) then
-            print("[TANK PARTS] SHAPE DOESN'T EXIST")
+        durability = sm.item.getQualityLevel(shape.uuid) or 1
+        if angle <= data.maxAngle then
+            data.vel = doRicochet(vel, result.normalWorld)
+            data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
             data.alive = true
+            explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
+            return
+        end
+        durability = getDurability(durability, angle)
+        print("[TANK PARTS] DURALITY:", durability, "/", data.maxDurability, "| Capacity:", data.penetrationCapacity)
+
+        if durability > data.maxDurability or durability > data.penetrationCapacity or durability == 0 then
+            print("[TANK PARTS] TOO DURAB BLOCK HIT")
+            shrapnelExplosion(pos, vel, 3, 0, 35, true)
+            explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+            data.alive = false
             return
         else
-            durability = sm.item.getQualityLevel(shape.uuid) or 1
-            if angle <= data.maxAngle then
-                data.vel = doRicochet(vel, result.normalWorld)
-                data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
-                data.alive = true
-                explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
-                return
-            end
-            durability = getDurability(durability, angle)
-            print("[TANK PARTS] DURALITY:", durability, "/", data.maxDurability, "| Capacity:", data.penetrationCapacity)
-
-            if durability > data.maxDurability or durability > data.penetrationCapacity or durability == 0 then
-                print("[TANK PARTS] TOO DURAB BLOCK HIT")
-                shrapnelExplosion(pos, vel, 3, 0, 35, true)
-                explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
-                data.alive = false
-                return
+            if shape.isBlock then
+                local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
+                shape:destroyBlock(targetLocalPosition, sm.vec3.one())
             else
-                if shape.isBlock then
-                    local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
-                    shape:destroyBlock(targetLocalPosition, sm.vec3.one())
-                else
-                    shape:destroyPart(0)
-                end
+                shape:destroyPart(0)
             end
-
-            pos = shape.worldPosition
         end
+
+        pos = shape.worldPosition
 
     elseif raycastTarget == "joint" then
         local joint = result:getJoint()
