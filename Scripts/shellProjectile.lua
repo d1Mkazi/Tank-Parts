@@ -44,6 +44,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                 local success, res = pcall(proj["onHit"], proj)
                 if not success then
                     errorMsg(("onHit function: %s"):format(tostring(res)))
+                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                     return
                 end
                 if not proj.alive then
@@ -53,7 +54,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                     proj.lastAngle = nil
                     proj.fuse = 0
 
-                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
+                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                 end
             else -- not first hit
                 local alive = proj.alive
@@ -66,7 +67,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                             print("[TANK PARTS] SHELL FUSED")
                             proj:explode()
 
-                            proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
+                            proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                         else
                             print("[TANK PARTS] SHELL NOT FUSED")
 
@@ -82,6 +83,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                         local success, res = pcall(proj["onHit"], proj)
                         if not success then
                             errorMsg(("onHit function: %s"):format(tostring(res)))
+                            proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                             return
                         end
                     end
@@ -92,7 +94,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                     proj.lastAngle = nil
                     proj.fuse = 0
 
-                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete effect
+                    proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                 end
             end
         end
