@@ -62,7 +62,12 @@ end
 
 ---@param message string message to be shown
 function errorMsg(message)
-    local separator = '-' * message:len()
+    local separator = "-"
+    local length = message:len()
+    for _ in length do
+        separator = separator.."-"
+    end
+
     print("[Tank Parts]", separator)
     print("[Tank Parts] ERROR:", message)
     print("[Tank Parts]", separator)
