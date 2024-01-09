@@ -60,7 +60,9 @@ function __hit_ap(data)
         local shape = result:getShape()
         durability = sm.item.getQualityLevel(shape.uuid) or 1
         if angle <= data.maxAngle then
+            print("[TANK PARTS] RICOCHET")
             data.vel = doRicochet(vel, result.normalWorld)
+            data.dir = data.vel:normalize() / 4
             data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
             data.alive = true
             explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
@@ -84,8 +86,6 @@ function __hit_ap(data)
             end
         end
 
-        pos = shape.worldPosition
-
     elseif raycastTarget == "joint" then
         local joint = result:getJoint()
 
@@ -93,7 +93,6 @@ function __hit_ap(data)
         local body = shapeA.body
         local uuid = shapeA.uuid
         local _pos = shapeA:getClosestBlockLocalPosition(pos)
-        pos = shapeA.worldPosition
 
         if shapeA.isBlock then
             shapeA:destroyBlock(_pos, sm.vec3.one())

@@ -41,7 +41,8 @@ function ShellProjectile:server_onFixedUpdate(dt)
         if proj.hit then
             local lastHit = proj.hit
             if not proj.lastAngle then -- first hit
-                local success, res = pcall(proj["onHit"], proj)
+                print("[TANK PARTS] CALCULATING FIRST HIT")
+                local success, res = pcall(proj.onHit, proj)
                 if not success then
                     errorMsg(("onHit function: %s"):format(tostring(res)))
                     proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
@@ -52,18 +53,20 @@ function ShellProjectile:server_onFixedUpdate(dt)
 
                     proj.hit = nil
                     proj.lastAngle = nil
-                    proj.fuse = 0
+                    proj.fuse = nil
 
                     proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                 end
             else -- not first hit
+                print("[TANK PARTS] CALCULATING SECOND HIT")
                 local alive = proj.alive
                 if alive then -- alive 1
                     local hit, result = raycast(lastHit.pointWorld - proj.dir, lastHit.pointWorld + proj.dir * 2)
                     proj.hit = result
+                    print("[TANK PARTS] IF HIT?")
                     if not hit and not proj.isHEAT then -- raycast 0 & HEAT 0
-                        print("[TANK PARTS] NO HIT AFTER PENETRATION")
-                        if proj.fuse >= proj.fuseSensitivity then
+                        print("[TANK PARTS] NO HIT AFTER HIT")
+                        if proj.fuse and proj.fuse >= proj.fuseSensitivity then
                             print("[TANK PARTS] SHELL FUSED")
                             proj:explode()
 
@@ -73,26 +76,35 @@ function ShellProjectile:server_onFixedUpdate(dt)
 
                             proj.hit = nil
                             proj.lastAngle = nil
-                            proj.fuse = 0
-                            proj.pos = lastHit.pointWorld
+                            proj.fuse = nil
+                            proj.pos = result.pointWorld
 
-                            shrapnelExplosion(lastHit.pointWorld, proj.vel, 3, 20, 85, true)
+                            shrapnelExplosion(proj.pos, proj.vel, 3, 20, 85, true)
                         end
-                    elseif (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition) then -- raycast 1 || HEAT 1
-                        print("[TANK PARTS] CALLING onHit()")
-                        local success, res = pcall(proj["onHit"], proj)
+                    elseif ((result.type == "body" and lastHit.type == "body")
+                           and (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition))
+                           or result.type ~= "body" then -- raycast 1 || HEAT 1
+                        print("[TANK PARTS] HIT AFTER HIT")
+                        local success, res = pcall(proj.onHit, proj)
                         if not success then
                             errorMsg(("onHit function: %s"):format(tostring(res)))
                             proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                             return
                         end
+                    else
+                        print("[TANK PARTS] HIT SAME SHAPE")
+
+                        proj.hit = nil
+                        proj.lastAngle = nil
+                        proj.fuse = nil
+                        proj.pos = result.pointWorld
                     end
                 else -- alive 0
                     print("[TANK PARTS] SHELL DIED")
 
                     proj.hit = nil
                     proj.lastAngle = nil
-                    proj.fuse = 0
+                    proj.fuse = nil
 
                     proj.pos.z = MINIMAL_HEIGHT - 1 -- to delete shell
                 end
