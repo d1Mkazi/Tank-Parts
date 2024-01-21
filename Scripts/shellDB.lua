@@ -73,7 +73,7 @@ function __hit_ap(data)
 
         if durability > data.maxDurability or durability > data.penetrationCapacity or durability == 0 then
             print("[TANK PARTS] TOO DURAB BLOCK HIT")
-            shrapnelExplosion(pos, vel, 3, 0, 35, true)
+            shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
             explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
             data.alive = false
             return

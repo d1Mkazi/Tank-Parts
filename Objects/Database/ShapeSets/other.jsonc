@@ -192,6 +192,39 @@
             "filename": "$CONTENT_DATA/Scripts/MachinegunHandle.lua"
          },
          "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d07"
+      },
+      {
+         "color": "3b3b3b",
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 1,
+            "diameter" : 1
+        },
+         "name": "Scope",
+         "physicsMaterial": "Mechanical",
+         "renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/scope.fbx",
+						"subMeshList": [
+							{
+								"material": "DifAsg",
+								"textureList": [
+									"$CONTENT_DATA/Objects/Textures/scope_dif.png",
+									"$CONTENT_DATA/Objects/Textures/scope_asg.tga"
+								]
+							}
+						]
+					}
+				]
+			},
+         "sticky": "-Z",
+         "rotationSet": "PropZ",
+         "scripted": {
+            "classname": "Scope",
+            "filename": "$CONTENT_DATA/Scripts/Scope.lua"
+         },
+         "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d08"
       }
    ]
 }
