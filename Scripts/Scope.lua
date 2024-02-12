@@ -87,7 +87,7 @@ function Scope:cl_updateCamera()
     local at = scope.at
     local velocityOffset = math.abs(vel.x * at.x + vel.y * at.y + vel.z * at.z)
     sm.camera.setDirection(at)
-    sm.camera.setPosition(scope.worldPosition + at * velocityOffset)
+    sm.camera.setPosition(scope.worldPosition + at * 0.1 * velocityOffset)
 end
 
 function Scope:cl_unlockCharacter()
