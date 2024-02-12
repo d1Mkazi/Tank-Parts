@@ -73,6 +73,10 @@ function TurretSteer2:sv_applyImpulse(args)
     self.network:sendToClients("cl_playSound", { play = to ~= 0 and true or false, speed = speed })
 end
 
+function TurretSteer2:sv_stopSound()
+    self.network:sendToClients("cl_playSound", { play = false })
+end
+
 function TurretSteer2:client_onCreate()
     self.cl = {
         animUpdate = 0,
@@ -134,6 +138,7 @@ function TurretSteer2:client_onAction(action, state)
             self.cl.speed = speed
             local text = GetLocalization("steer_MsgRotSpeed", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text.." "..tostring(speed * 10), 2)
+            self.network:sendToServer("sv_stopSound")
             self.network:sendToServer("sv_applyImpulse", { speed = speed })
         end
     else
