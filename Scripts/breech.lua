@@ -181,17 +181,16 @@ function Breech:sv_updateState(value) self.sv.animProgress = value end
 function Breech:sv_shoot()
 	self.interactable.active = false
 
-    local pos = self.shape.worldPosition
     local at = self.shape.at
-    local breechSize = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid)).y
-    local offset = (breechSize + self.saved.shootDistance - 0.5) * 0.25
+    local offset = (sm.item.getShapeSize(self.shape.uuid).y + self.saved.shootDistance) * 0.25
 
+    local pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125
     local shell = self.saved.loaded.data.shellData
-    ShellProjectile:sv_createShell({ data = shell, pos = pos + at * offset + self.shape.up * 0.125, vel = at * shell.initialSpeed })
+    ShellProjectile:sv_createShell({ data = shell, pos = pos, vel = at * shell.initialSpeed })
 
     sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * (shell.mass or 0), true)
 
-    self.network:sendToClients("cl_shoot")
+    self.network:sendToClients("cl_shoot", pos)
     self.saved.status = FIRED
     self:sv_updateClientData()
     self.storage:save(self.saved)
@@ -283,7 +282,7 @@ function Breech:client_onTinker(character, state)
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
     local title = GetLocalization("breech_GuiTitle", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("steerTitle", title)
+    self.cl.gui:setText("breechTitle", title)
     self.cl.gui:open()
     self.cl.gui:setSliderPosition("breechSlider", self.cl.shootDistance)
 end
@@ -311,9 +310,7 @@ function Breech:cl_loadSeparated(final)
     sm.effect.playEffect("Breech - Load", self.shape.worldPosition)
 end
 
-function Breech:cl_shoot()
-    local pos = self.shape.worldPosition + self.shape.at * self.cl.shootDistance / 2 + sm.vec3.new(0, 0, 0.25)
-
+function Breech:cl_shoot(pos)
     if sm.cae_injected then
         sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, nil, nil)
     else
@@ -351,12 +348,6 @@ end
 
 function Breech:cl_open() self.cl.animUpdate = 4 end
 function Breech:cl_close() self.cl.animUpdate = -2 end
-
-
----@param case Uuid|string the original case
-function getUsedCase(case)
-    return getTableByValue(type(case) == "Uuid" and tostring(case) or case, CartridgeList, "original").used
-end
 
 ---@param caliber number
 ---@return string
