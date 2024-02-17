@@ -1,21 +1,31 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.296875 0.18518518518518517" name="BackPanel">
-        <Widget type="TextBox" skin="TextBox" position_real="0 0.074999999999999997 1 0.25" name="steerTitle">
-            <Property key="FontName" value="SM_HeaderLarge_Narrow"/>
-            <Property key="TextAlign" value="HCenter Top"/>
+    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.21875 0.20833333333333334" name="BackPanel">
+        <Widget type="TextBox" skin="TextBox" position_real="0 0.066666666666666666 1 0.22222222222222221" name="steerTitle">
+            <Property key="FontName" value="SM_HeaderLarge_Medium"/>
+            <Property key="TextAlign" value="Center"/>
             <Property key="Caption" value="steerTitle"/>
         </Widget>
-        <Widget type="Widget" skin="PanelEmpty" position_real="0.008771929824561403 0.59999999999999998 0.98245614035087714 0.29999999999999999" name="steerSlider"/>
-        <Widget type="TextBox" skin="TextBox" position_real="0.008771929824561403 0.375 0.5 0.22500000000000001" name="steerSpeed">
+        <Widget type="Widget" skin="PanelEmpty" position_real="0.035714285714285712 0.53333333333333333 0.9285714285714286 0.20000000000000001" name="steerSlider"/>
+        <Widget type="TextBox" skin="TextBox" position_real="0.059523809523809521 0.35555555555555557 0.41666666666666669 0.13333333333333333" name="steerSpeed">
             <Property key="Caption" value="steerSpeed"/>
-            <Property key="FontName" value="SM_HeaderLarge_Narrow"/>
-            <Property key="TextAlign" value="Left Top"/>
+            <Property key="FontName" value="SM_SubHeader"/>
+            <Property key="TextAlign" value="Left VCenter"/>
         </Widget>
-        <Widget type="TextBox" skin="TextBox" position_real="0.51754385964912286 0.375 0.47368421052631576 0.22500000000000001" name="steerPower">
+        <Widget type="TextBox" skin="TextBox" position_real="0.52380952380952384 0.35555555555555557 0.41666666666666669 0.13333333333333333" name="steerPower">
             <Property key="Caption" value="steerPower"/>
-            <Property key="TextAlign" value="Right Top"/>
-            <Property key="FontName" value="SM_HeaderLarge_Narrow"/>
+            <Property key="TextAlign" value="Right VCenter"/>
+            <Property key="FontName" value="SM_SubHeader"/>
+        </Widget>
+        <Widget type="Button" skin="PrimaryButton" position_real="0.33333333333333331 0.75555555555555554 0.17857142857142858 0.20000000000000001" name="steerMode">
+            <Property key="Caption" value="WS"/>
+            <Property key="TextAlign" value="Center"/>
+            <Property key="FontName" value="SM_Button"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.035714285714285712 0.77777777777777779 0.27380952380952384 0.15555555555555556" name="steerMode_text">
+            <Property key="FontName" value="SM_SubHeader"/>
+            <Property key="TextAlign" value="Right VCenter"/>
+            <Property key="Caption" value="Mode:"/>
         </Widget>
     </Widget>
     <CodeGeneratorSettings/>

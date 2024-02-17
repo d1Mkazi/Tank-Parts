@@ -25,11 +25,12 @@ function TurretSteer2:init()
 
     self.saved = self.storage:load() or {
         slider = 0,
-        maxSpeed = 0.1
+        maxSpeed = 0.1,
+        WSmode = false
     }
 
     self:sv_applyImpulse({ to = 0 })
-    self.network:setClientData({ slider = self.saved.slider, speed = self.saved.maxSpeed})
+    self.network:setClientData({ slider = self.saved.slider, speed = self.saved.maxSpeed, WSmode = self.saved.WSmode })
 end
 
 function TurretSteer2:server_onFixedUpdate(dt)
@@ -77,6 +78,12 @@ function TurretSteer2:sv_stopSound()
     self.network:sendToClients("cl_playSound", { play = false })
 end
 
+function TurretSteer2:sv_setMode(mode)
+    self.saved.WSmode = mode
+    self.network:setClientData({ WSmode = mode })
+    self.storage:save(self.saved)
+end
+
 function TurretSteer2:client_onCreate()
     self.cl = {
         animUpdate = 0,
@@ -86,6 +93,7 @@ function TurretSteer2:client_onCreate()
     }
 
     self.cl.gui:createHorizontalSlider("steerSlider", 10, 1, "cl_changeSlider", true)
+    self.cl.gui:setButtonCallback("steerMode", "cl_changeMode")
     self.interactable:setAnimEnabled("Rotation", true)
 end
 
@@ -110,10 +118,18 @@ function TurretSteer2:client_onAction(action, state)
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text, 2)
 
-        elseif action >= 1 and action <= 2 then
+        elseif (action == 1 or action == 2) and not self.cl.WSmode then
             local args = {
                 [1] = -1, -- left
                 [2] = 1, -- right
+            }
+
+            self.network:sendToServer("sv_applyImpulse", { to = args[action], speed = self.cl.speed })
+
+        elseif (action == 3 or action == 4) and self.cl.WSmode then
+            local args = {
+                [3] = -1, -- left
+                [4] = 1, -- right
             }
 
             self.network:sendToServer("sv_applyImpulse", { to = args[action], speed = self.cl.speed })
@@ -142,7 +158,7 @@ function TurretSteer2:client_onAction(action, state)
             self.network:sendToServer("sv_applyImpulse", { speed = speed })
         end
     else
-        if action >= 1 and action <= 2 then
+        if action >= 1 and action <= 4 then
             self.network:sendToServer("sv_applyImpulse", { to = 0 })
         end
     end
@@ -186,6 +202,9 @@ function TurretSteer2:client_onTinker(character, state)
     self.cl.gui:setText("steerPower", max)
     local min = GetLocalization("steer_GuiMinSpeed", sm.gui.getCurrentLanguage())
     self.cl.gui:setText("steerSpeed", min)
+    local min = GetLocalization("steer_GuiMode", sm.gui.getCurrentLanguage())
+    self.cl.gui:setText("steerMode_text", min)
+    self.cl.gui:setText("steerMode", self.cl.WSmode == true and "WS" or "AD")
     self.cl.gui:open()
     self.cl.gui:setSliderPosition("steerSlider", self.cl.slider)
 end
@@ -232,4 +251,9 @@ function TurretSteer2:cl_updateSound()
     if self.cl.effectPlay and self.cl.effect:isDone() then
         self.cl.effect:start()
     end
+end
+
+function TurretSteer2:cl_changeMode()
+    self.network:sendToServer("sv_setMode", not self.cl.WSmode)
+    self.cl.gui:setText("steerMode", self.cl.WSmode ~= true and "WS" or "AD")
 end
