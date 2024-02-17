@@ -36,7 +36,7 @@ end
 function TurretSteer2:server_onFixedUpdate(dt)
     local bearings = self.interactable:getBearings()
     if #bearings > 0 then
-        self.interactable.power = -math.floor((math.deg(bearings[1].angle) + 0.5) * 10) / 10
+        self.interactable.power = -math.floor((math.deg(bearings[1].angle) + 0.5) * 100) * 0.01
     else
         self.interactable.power = 0
     end
@@ -187,23 +187,18 @@ function TurretSteer2:client_onInteract(character, state)
 end
 
 function TurretSteer2:client_canTinker(character)
-    local settings = GetLocalization("base_Settings", sm.gui.getCurrentLanguage())
-    sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), settings)
-    return true
+    sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), GetLocalization("base_Settings", sm.gui.getCurrentLanguage()))
+    return not self.cl.character
 end
 
 function TurretSteer2:client_onTinker(character, state)
     if not state then return end
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
-    local title = GetLocalization("steer_GuiTitle", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("steerTitle", title)
-    local max = GetLocalization("steer_GuiMaxSpeed", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("steerPower", max)
-    local min = GetLocalization("steer_GuiMinSpeed", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("steerSpeed", min)
-    local min = GetLocalization("steer_GuiMode", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("steerMode_text", min)
+    self.cl.gui:setText("steerTitle", GetLocalization("steer_GuiTitle", sm.gui.getCurrentLanguage()))
+    self.cl.gui:setText("steerPower", GetLocalization("steer_GuiMaxSpeed", sm.gui.getCurrentLanguage()))
+    self.cl.gui:setText("steerSpeed", GetLocalization("steer_GuiMinSpeed", sm.gui.getCurrentLanguage()))
+    self.cl.gui:setText("steerMode_text", GetLocalization("steer_GuiMode", sm.gui.getCurrentLanguage()))
     self.cl.gui:setText("steerMode", self.cl.WSmode == true and "WS" or "AD")
     self.cl.gui:open()
     self.cl.gui:setSliderPosition("steerSlider", self.cl.slider)
