@@ -1,8 +1,0 @@
-Credits were in different .lua files and I decided to keep them all right here
-so anyone who opens this mod (why?) can see this
-
-SPECIAL THANKS to The Red Builder
-for helping with SM Modding!
-
-Thanks to Driver
-for helping with the models and animations
