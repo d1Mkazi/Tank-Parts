@@ -63,8 +63,8 @@ end
 ---@param message string message to be shown
 function errorMsg(message)
     local separator = "-"
-    local length = message:len()
-    for _ in length do
+    local length = message:len() + 6
+    for _=1, length do
         separator = separator.."-"
     end
 

@@ -255,7 +255,7 @@ function Breech:client_onClientDataUpdate(data)
     end
 end
 
-function Breech:client_canInteract(character)
+function Breech:client_canInteract()
     if self.cl.status ~= FIRED then return false end
 
     local takeCase = GetLocalization("breech_TakeCase", sm.gui.getCurrentLanguage())
