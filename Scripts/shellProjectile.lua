@@ -139,7 +139,6 @@ function ShellProjectile:client_onUpdate(dt)
 
     for k, proj in pairs(ShellProjectile.projectiles) do
         if not proj.effect:isPlaying() then
-            proj.effect:setParameter("uuid", proj.bulletUUID)
             proj.effect:start()
         end
 
