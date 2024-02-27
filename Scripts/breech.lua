@@ -119,13 +119,19 @@ function Breech:trigger_onEnter(trigger, results)
                     else
                         if status == EMPTY then
                             if table then
-                                self:sv_loadSeparated(shape, table)
+                                self:sv_loadSeparated(shape.uuid, table)
                                 shape:destroyPart(0)
                             end
                         else
                             if uuid == self.saved.loaded.data.caseUuid then
-                                self:sv_loadSeparated(shape)
+                                self:sv_loadSeparated(shape.uuid)
                                 shape:destroyPart(0)
+                            elseif uuid == "66a069ab-4512-421d-b46b-7d14fb7f3d09" then
+                                local case = shape.interactable.publicData.case
+                                if case == self.saved.loaded.data.caseUuid then
+                                    self:sv_loadSeparated(case)
+                                    sm.event.sendToInteractable(shape.interactable, "sv_removeCase")
+                                end
                             end
                         end
                     end
@@ -151,20 +157,20 @@ function Breech:sv_loadShell(shape, dataTable)
     self.storage:save(self.saved)
 end
 
----@param shape Shape The shell
+---@param uuid Uuid The shell
 ---@param dataTable? table
-function Breech:sv_loadSeparated(shape, dataTable)
+function Breech:sv_loadSeparated(uuid, dataTable)
     local status = self.saved.status
     local loaded = {}
     if status == EMPTY then
         loaded.data = dataTable
-        loaded.shell = shape.uuid
+        loaded.shell = uuid
         self.saved.loaded = loaded
 
         self.interactable.active = true
         status = SHELLED
     else
-        self.saved.loaded.case = shape.uuid
+        self.saved.loaded.case = uuid
 
         self.interactable.active = true
         status = LOADED

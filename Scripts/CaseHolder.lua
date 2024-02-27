@@ -30,6 +30,7 @@ function Holder:init()
     self.sv.areaTrigger:setShapeDetection(true)
 
     self.network:setClientData({ hasCase = self.sv.hasCase, case = self.saved.case })
+    self.interactable.publicData = { case = self.saved.case }
 end
 
 function Holder:server_onFixedUpdate(dt)
@@ -50,6 +51,7 @@ function Holder:trigger_onEnter(trigger, results)
                     self.saved.case = uuid
                     self.sv.hasCase = true
                     self.network:setClientData({ hasCase = true, case = uuid })
+                    self.interactable.publicData = { case = uuid }
                     shape:destroyPart(0)
                 end
             end
@@ -67,6 +69,15 @@ function Holder:sv_takeCase(container)
     self.sv.hasCase = false
     self.storage:save(self.saved)
     self.network:setClientData({ hasCase = false })
+    self.interactable.publicData = {}
+end
+
+function Holder:sv_removeCase()
+    self.saved.case = nil
+    self.sv.hasCase = false
+    self.storage:save(self.saved)
+    self.network:setClientData({ hasCase = false })
+    self.interactable.publicData = {}
 end
 
 
@@ -90,16 +101,7 @@ function Holder:client_onClientDataUpdate(data)
     end
 
     if self.cl.hasCase then
-        local effect = sm.effect.createEffect("ShapeRenderable", self.interactable)
-        local uuid = sm.uuid.new(self.cl.case)
-        effect:setParameter("uuid", uuid)
-        local offset = sm.item.getShapeSize(uuid).z * 0.25 * 0.5
-        effect:setOffsetPosition(sm.vec3.new(0, 0, -offset))
-        effect:setOffsetRotation(sm.quat.fromEuler(sm.vec3.new(90, 0, 0)))
-        effect:setScale(sm.vec3.new(0.25, 0.25, 0.25))
-        effect:start()
-
-        self.cl.effect = effect
+        self:cl_createCase()
     else
         if self.cl.effect and self.cl.effect:isPlaying() then
             self.cl.effect:destroy()
@@ -123,4 +125,19 @@ function Holder:client_onInteract(character, state)
     if not state then return end
 
     self.network:sendToServer("sv_takeCase", sm.localPlayer.getPlayer():getCarry())
+end
+
+function Holder:cl_createCase()
+    local effect = sm.effect.createEffect("ShapeRenderable", self.interactable)
+    local uuid = sm.uuid.new(self.cl.case)
+    effect:setParameter("uuid", uuid)
+    local height = sm.item.getShapeSize(uuid).y
+    print("height:", height)
+    local offset = (0.5 - (0.5 * ((height * 0.5) % 2 == 0 and height * 0.5 or height * 0.5 - 1)) - 0.05) * 0.25
+    effect:setOffsetPosition(sm.vec3.new(0, 0, -offset))
+    effect:setOffsetRotation(sm.quat.fromEuler(sm.vec3.new(90, 0, 0)))
+    effect:setScale(sm.vec3.new(0.25, 0.25, 0.25))
+    effect:start()
+
+    self.cl.effect = effect
 end
