@@ -33,10 +33,6 @@ function Holder:init()
     self.interactable.publicData = { case = self.saved.case }
 end
 
-function Holder:server_onFixedUpdate(dt)
-    self.interactable.active = self.sv.hasCase
-end
-
 function Holder:trigger_onEnter(trigger, results)
     if self.sv.hasCase then return end
 
@@ -50,6 +46,7 @@ function Holder:trigger_onEnter(trigger, results)
                 if shape.body ~= self.shape.body and isAnyOf(uuid, CASE_LIST) then
                     self.saved.case = uuid
                     self.sv.hasCase = true
+                    self.interactable.active = true
                     self.network:setClientData({ hasCase = true, case = uuid })
                     self.interactable.publicData = { case = uuid }
                     shape:destroyPart(0)
@@ -67,6 +64,7 @@ function Holder:sv_takeCase(container)
 
     self.saved.case = nil
     self.sv.hasCase = false
+    self.interactable.active = false
     self.storage:save(self.saved)
     self.network:setClientData({ hasCase = false })
     self.interactable.publicData = {}
@@ -75,6 +73,7 @@ end
 function Holder:sv_removeCase()
     self.saved.case = nil
     self.sv.hasCase = false
+    self.interactable.active = false
     self.storage:save(self.saved)
     self.network:setClientData({ hasCase = false })
     self.interactable.publicData = {}
