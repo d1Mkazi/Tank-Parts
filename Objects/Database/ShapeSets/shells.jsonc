@@ -194,7 +194,7 @@
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 2,
+				"depth" : 3,
 				"diameter" : 1
 			},
 			"scripted": {
