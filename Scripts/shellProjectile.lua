@@ -66,7 +66,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                     print("[TANK PARTS] IF HIT?")
                     if not hit and not proj.isHEAT then -- raycast 0 & HEAT 0
                         print("[TANK PARTS] NO HIT AFTER HIT")
-                        if proj.fuse and proj.fuse >= proj.fuseSensitivity then
+                        if proj.fuse and proj.explode and proj.fuse >= proj.fuseSensitivity then
                             print("[TANK PARTS] SHELL FUSED")
                             proj:explode()
 
