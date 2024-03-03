@@ -42,8 +42,10 @@ function TurretSteer2:server_onFixedUpdate(dt)
     end
 end
 
----@param character? Character
-function TurretSteer2:sv_setCharacter(character) self.network:sendToClients("cl_setCharacter", character) end
+---@param occupied boolean
+function TurretSteer2:sv_setOccupied(occupied)
+    self.network:setClientData({ occupied = occupied })
+end
 
 function TurretSteer2:sv_setSteer(slider)
     self.saved.slider = slider
@@ -89,7 +91,8 @@ function TurretSteer2:client_onCreate()
         animUpdate = 0,
         animProgress = 0,
         gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TurretSteer.layout"),
-        effect = sm.effect.createEffect("Steer - Rotation", self.interactable)
+        effect = sm.effect.createEffect("Steer - Rotation", self.interactable),
+        occupied = false
     }
 
     self.cl.gui:createHorizontalSlider("steerSlider", 10, 1, "cl_changeSlider", true)
@@ -112,7 +115,7 @@ function TurretSteer2:client_onAction(action, state)
     if state then
         if action == 15 then -- Use (E)
             self.cl.character:setLockingInteractable(nil)
-            self.network:sendToServer("sv_setCharacter", nil)
+            self.network:sendToServer("sv_setOccupied", nil)
             self.network:sendToServer("sv_applyImpulse", { to = 0 })
 
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
@@ -173,14 +176,15 @@ function TurretSteer2:client_onClientDataUpdate(data)
 end
 
 function TurretSteer2:client_canInteract(character)
-    return not self.cl.character
+    return not self.cl.occupied
 end
 
 function TurretSteer2:client_onInteract(character, state)
     if not state then return end
 
     character:setLockingInteractable(self.interactable)
-    self.network:sendToServer("sv_setCharacter", character)
+    self.cl.character = character
+    self.network:sendToServer("sv_setOccupied", true)
 
     local text = GetLocalization("steer_MsgEnter", sm.gui.getCurrentLanguage())
     sm.gui.displayAlertText(text, 2)
@@ -188,7 +192,7 @@ end
 
 function TurretSteer2:client_canTinker(character)
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), GetLocalization("base_Settings", sm.gui.getCurrentLanguage()))
-    return not self.cl.character
+    return not self.cl.occupied
 end
 
 function TurretSteer2:client_onTinker(character, state)
@@ -223,10 +227,9 @@ function TurretSteer2:cl_setAnimation(args)
     self.cl.animUpdate = args.speed * args.to
 end
 
-function TurretSteer2:cl_changeSlider(value) self.network:sendToServer("sv_setSteer", value) end
-
----@param character? Character
-function TurretSteer2:cl_setCharacter(character) self.cl.character = character end
+function TurretSteer2:cl_changeSlider(value)
+    self.network:sendToServer("sv_setSteer", value)
+end
 
 function TurretSteer2:cl_playSound(args)
     local play, speed = args.play, args.speed or 0

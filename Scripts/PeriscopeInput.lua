@@ -46,8 +46,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     end
 
     if self.sv.sight ~= self.sv.sightOld then
-        print("SIGHT UPDATE")
-        self.network:sendToClients("cl_setSight", self.sv.sight)
+        self.network:setClientData({ sight = self.sv.sight })
         self.sv.sightOld = self.sv.sight
     end
 
@@ -66,7 +65,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
 end
 
 function PeriscopeInput:sv_setOccupied(occupied)
-    self.network:sendToClients("cl_setOccupied", occupied)
+    self.network:setClientData({ occupied = occupied })
 end
 
 ---@param turn number
@@ -97,14 +96,6 @@ end
 --[[ CLIENT ]]--
 
 function PeriscopeInput:client_onCreate()
-    self:cl_init()
-end
-
-function PeriscopeInput:client_onRefresh()
-    self:cl_init()
-end
-
-function PeriscopeInput:cl_init()
     self.cl = {
         verticalAnim = 0,
         horizontalAnim = 0,
@@ -116,21 +107,26 @@ function PeriscopeInput:cl_init()
         horizontalReset = false,
 
         occupied = false,
-        character = nil,
-        sight = nil
     }
 
     self.interactable:setAnimEnabled("RotVertical", true) -- 15
     self.interactable:setAnimProgress("RotVertical", 0.5)
     self.interactable:setAnimEnabled("RotHorizontal", true) -- 20
     self.interactable:setAnimProgress("RotHorizontal", 0.5)
+end
 
-    self.network:sendToServer("sv_updateSightForPlayer")
+function PeriscopeInput:client_onDestroy()
+    if not self.cl.character then return end
+
+    self.cl.character:setLockingInteractable(nil)
 end
 
 function PeriscopeInput:client_onUpdate(dt)
     if self.cl.character then
-        self:cl_updateCamera()
+        local sight = self.cl.sight
+        local pos = (sight:getInterpolatedWorldPosition() + sight.velocity * dt) + (sight.at * 0.1 + sight.up * -0.0625)
+        sm.camera.setPosition(pos)
+        sm.camera.setDirection(sight.at)
     end
 
     if self.cl.verticalAnim then
@@ -185,6 +181,12 @@ function PeriscopeInput:client_onAction(action, state)
     return true
 end
 
+function PeriscopeInput:client_onClientDataUpdate(data, channel)
+    for k, v in pairs(data) do
+        self.cl[k] = v
+    end
+end
+
 function PeriscopeInput:client_canInteract(character)
     return not self.cl.occupied and self.cl.sight ~= nil
 end
@@ -198,7 +200,7 @@ function PeriscopeInput:client_onInteract(character, state)
 
     self.cl.character = character
     sm.camera.setCameraState(3)
-    self:cl_updateCamera()
+    sm.camera.setFov(60)
 end
 
 function PeriscopeInput:cl_setOccupied(state)
@@ -211,19 +213,6 @@ function PeriscopeInput:cl_resetAnimation(animation)
     if self.cl[animation.."Progress"] ~= 0.5 then
         self.cl[animation.."Anim"] = self.cl[animation.."Progress"] > 0.5 and -3 or 3
     end
-end
-
-function PeriscopeInput:cl_updateCamera()
-    local sight = self.cl.sight
-    if not sight then
-        self:cl_unlockCharacter()
-        return
-    end
-    local vel = sight.velocity
-    local at = sight.at
-    local velocityOffset = math.abs(vel.x * at.x + vel.y * at.y + vel.z * at.z)
-    sm.camera.setDirection(at)
-    sm.camera.setPosition(sight.worldPosition + at * 0.1 * velocityOffset)
 end
 
 function PeriscopeInput:cl_setVerticalAnimation(turn) self.cl.verticalAnim = -3 * turn end
@@ -298,10 +287,6 @@ function PeriscopeInput:cl_updateHorizontalAnimation(dt)
     end
 end
 
-function PeriscopeInput:cl_setSight(sight)
-    self.cl.sight = sight
-end
-
 function PeriscopeInput:cl_unlockCharacter()
     self.cl.character:setLockingInteractable(nil)
     self.cl.character = nil
@@ -312,5 +297,6 @@ function PeriscopeInput:cl_unlockCharacter()
     self.network:sendToServer("sv_resetAnimation", "vertical")
     self.network:sendToServer("sv_resetAnimation", "horizontal")
 
+    sm.camera.setFov(sm.camera.getDefaultFov())
     sm.camera.setCameraState(1)
 end

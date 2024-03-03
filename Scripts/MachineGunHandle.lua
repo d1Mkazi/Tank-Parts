@@ -46,7 +46,7 @@ function Handle:server_onFixedUpdate(dt)
 end
 
 function Handle:sv_setOccupied(occupied)
-    self.network:sendToClients("cl_setOccupied", occupied)
+    self.network:setClientData({ occupied = occupied })
 end
 
 ---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
@@ -80,40 +80,31 @@ end
 --[[ CLIENT ]]--
 
 function Handle:client_onCreate()
-    self:cl_init()
-end
-
-function Handle:client_onRefresh()
-    self:cl_init()
-    print("CLIENT RELOADED")
-end
-
-function Handle:cl_init()
     self.cl = {
         occupied = false,
         speed = 0.5
     }
 end
 
+function Handle:client_onDestroy()
+    if not self.cl.character then return end
+
+    self.cl.character:setLockingInteractable(nil)
+end
 
 function Handle:client_onUpdate(dt)
     if self.cl.updateAim then
-        local offset = -self.shape.at * 0.2 + self.shape.up * 0.25
-        sm.camera.setPosition(self.shape.worldPosition + offset)
-        sm.camera.setDirection(self.shape.at)
+        local shape = self.shape
+        local pos = (shape:getInterpolatedWorldPosition() + shape.velocity * dt) + (-shape.at * 0.2 + shape.up * 0.25)
+        sm.camera.setPosition(pos)
+        sm.camera.setDirection(shape.at)
     end
 end
 
 function Handle:client_onAction(action, state)
     if state then
         if action == 15 then -- Use (E)
-            self.cl.character:setLockingInteractable(nil)
-            self.network:sendToServer("sv_setOccupied", false)
-            self.network:sendToServer("sv_applyImpulseWS", { to = 0 })
-            self.network:sendToServer("sv_applyImpulseAD", { to = 0 })
-
-            self.cl.updateAim = false
-            sm.camera.setCameraState(1)
+            self:cl_unlockCharacter()
 
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text, 2)
@@ -204,10 +195,17 @@ function Handle:client_onInteract(character, state)
     sm.gui.displayAlertText(text, 2)
 end
 
-function Handle:cl_setOccupied(occupied)
-    self.cl.occupied = occupied
-end
-
 function Handle:cl_setPose(weight)
     self.interactable:setPoseWeight(0, weight)
+end
+
+function Handle:cl_unlockCharacter()
+    self.cl.character:setLockingInteractable(nil)
+    self.network:sendToServer("sv_setOccupied", false)
+    self.network:sendToServer("sv_applyImpulseWS", { to = 0 })
+    self.network:sendToServer("sv_applyImpulseAD", { to = 0 })
+
+    self.cl.updateAim = false
+    sm.camera.setFov(sm.camera.getDefaultFov())
+    sm.camera.setCameraState(1)
 end
