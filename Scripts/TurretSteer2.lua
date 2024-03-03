@@ -115,7 +115,7 @@ function TurretSteer2:client_onAction(action, state)
     if state then
         if action == 15 then -- Use (E)
             self.cl.character:setLockingInteractable(nil)
-            self.network:sendToServer("sv_setOccupied", nil)
+            self.network:sendToServer("sv_setOccupied", false)
             self.network:sendToServer("sv_applyImpulse", { to = 0 })
 
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
