@@ -431,4 +431,27 @@ ShellList = {
             },
         }
     },
+
+    --[[ AMERICAN ]]--
+
+    -- american 37mm
+    m5 = {
+        unitary = {
+            { -- AP Shell
+                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
+                    initialSpeed = 884,
+                    mass = 0.87,
+                    penetrationCapacity = 21,
+                    penetrationLoss = 2.5,
+                    maxDurability = 7.2,
+                    maxAngle = 20,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            }
+        }
+    },
 }
