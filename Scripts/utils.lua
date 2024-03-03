@@ -74,14 +74,14 @@ function errorMsg(message)
 end
 
 
-local function getCases()
-    local res = {}
+function getCases()
+    if LOADED_CASES then return end
+    LOADED_CASES = true
+
+    CASE_LIST = {}
 
     local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.jsonc").partList
     for k, cartridge in ipairs(cartridges) do
-        res[#res+1] = cartridge.uuid
+        CASE_LIST[#CASE_LIST+1] = cartridge.uuid
     end
-
-    return res
 end
-CASE_LIST = getCases()

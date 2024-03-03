@@ -16,6 +16,8 @@ local MINIMAL_HEIGHT = -50
 
 function ShellProjectile:server_onCreate()
     self:init()
+
+    getCases() -- load case list
 end
 
 function ShellProjectile:server_onRefresh()

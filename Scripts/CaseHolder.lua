@@ -131,7 +131,6 @@ function Holder:cl_createCase()
     local uuid = sm.uuid.new(self.cl.case)
     effect:setParameter("uuid", uuid)
     local height = sm.item.getShapeSize(uuid).y
-    print("height:", height)
     local offset = (0.5 - (0.5 * ((height * 0.5) % 2 == 0 and height * 0.5 or height * 0.5 - 1)) - 0.05) * 0.25
     effect:setOffsetPosition(sm.vec3.new(0, 0, -offset))
     effect:setOffsetRotation(sm.quat.fromEuler(sm.vec3.new(90, 0, 0)))
