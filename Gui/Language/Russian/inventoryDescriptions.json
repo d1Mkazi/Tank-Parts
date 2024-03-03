@@ -66,6 +66,12 @@
         "keywords": [ "bullet", "german" ]
     },
 
+    // american
+    "ec18cdbf-865e-122c-9c5e-f111bad25842": {
+        "title": "37мм БС",
+        "description": " Бронебойный снаряд\nЭффективен против бронированных целей"
+    },
+
     // bullets.json
 
     // soviet

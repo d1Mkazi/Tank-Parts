@@ -438,10 +438,10 @@ ShellList = {
     m5 = {
         unitary = {
             { -- AP Shell
-                shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
+                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25842",
                 caseUuid = nil,
                 shellData = {
-                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
+                    bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25805",
                     initialSpeed = 884,
                     mass = 0.87,
                     penetrationCapacity = 21,
@@ -450,7 +450,7 @@ ShellList = {
                     maxAngle = 20,
                     onHit = __hit_ap
                 },
-                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+                usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25804"
             }
         }
     },

@@ -189,6 +189,52 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25841"
+		},
+		{ // 37mm AP
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 2,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 2,
+					"explosionRadius" : 1,
+					"impulseLevel" : 40,
+					"impulseRadius": 2
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "37mm AP Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_37.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25842"
 		}
     ]
 }

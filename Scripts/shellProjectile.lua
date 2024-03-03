@@ -61,7 +61,8 @@ function ShellProjectile:server_onFixedUpdate(dt)
                 print("[TANK PARTS] CALCULATING SECOND HIT")
                 local alive = proj.alive
                 if alive then -- alive 1
-                    local hit, result = raycast(lastHit.pointWorld - proj.dir, lastHit.pointWorld + proj.dir * 2)
+                    local raycastDestination = lastHit.pointWorld + proj.dir * 2
+                    local hit, result = raycast(lastHit.pointWorld - proj.dir, raycastDestination)
                     proj.hit = result
                     print("[TANK PARTS] IF HIT?")
                     if not hit and not proj.isHEAT then -- raycast 0 & HEAT 0
@@ -77,7 +78,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                             proj.hit = nil
                             proj.lastAngle = nil
                             proj.fuse = nil
-                            proj.pos = result.pointWorld
+                            --proj.pos = raycastDestination
 
                             shrapnelExplosion(proj.pos, proj.vel, 3, 20, 85, true)
                         end

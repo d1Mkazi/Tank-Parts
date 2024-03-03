@@ -239,6 +239,43 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25803",
 			"showInInventory": false
+		},
+		{ // 37mm used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 1,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "37mm Case",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/37_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25804",
+			"showInInventory": false
 		}
     ]
 }
