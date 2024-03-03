@@ -46,7 +46,6 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     end
 
     if self.sv.sight ~= self.sv.sightOld then
-        self.network:setClientData({ sight = self.sv.sight })
         self.sv.sightOld = self.sv.sight
     end
 
@@ -205,6 +204,10 @@ end
 
 function PeriscopeInput:cl_setOccupied(state)
     self.cl.occupied = state
+end
+
+function PeriscopeInput:cl_setSight(sight)
+    self.cl.sight = sight
 end
 
 function PeriscopeInput:cl_resetAnimation(animation)
