@@ -46,6 +46,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     end
 
     if self.sv.sight ~= self.sv.sightOld then
+        self.network:setClientData({ sight = self.sv.sight, hasSight = self.sv.sight ~= nil })
         self.sv.sightOld = self.sv.sight
     end
 
@@ -87,10 +88,6 @@ function PeriscopeInput:sv_resetAnimation(animation)
     self.network:sendToClients("cl_resetAnimation", animation)
 end
 
-function PeriscopeInput:sv_updateSightForPlayer(_, player)
-    self.network:sendToClient(player, "cl_setSight", self.sv.sight)
-end
-
 
 --[[ CLIENT ]]--
 
@@ -106,6 +103,7 @@ function PeriscopeInput:client_onCreate()
         horizontalReset = false,
 
         occupied = false,
+        hasSight = false,
     }
 
     self.interactable:setAnimEnabled("RotVertical", true) -- 15
@@ -115,15 +113,18 @@ function PeriscopeInput:client_onCreate()
 end
 
 function PeriscopeInput:client_onDestroy()
-    if not self.cl.character then return end
+    if self.cl.character == nil then return end
 
-    self.cl.character:setLockingInteractable(nil)
+    self:cl_unlockCharacter()
 end
 
 function PeriscopeInput:client_onUpdate(dt)
-    if self.cl.character then
-        local sight = self.cl.sight
-        local pos = (sight:getInterpolatedWorldPosition() + sight.velocity * dt) + (sight.at * 0.1 + sight.up * -0.0625)
+    if self.cl.character ~= nil then
+        local sight = self.cl.sight --[[@as Shape]]
+        if sight == nil or not sm.exists(sight) then
+            self:cl_unlockCharacter()
+        end
+        local pos = (sight:getInterpolatedWorldPosition() + sight.velocity * dt) + (sight.up * -0.0625)
         sm.camera.setPosition(pos)
         sm.camera.setDirection(sight.at)
     end
@@ -186,8 +187,8 @@ function PeriscopeInput:client_onClientDataUpdate(data, channel)
     end
 end
 
-function PeriscopeInput:client_canInteract(character)
-    return not self.cl.occupied and self.cl.sight ~= nil
+function PeriscopeInput:client_canInteract()
+    return not self.cl.occupied and self.cl.hasSight
 end
 
 function PeriscopeInput:client_onInteract(character, state)
@@ -195,19 +196,10 @@ function PeriscopeInput:client_onInteract(character, state)
 
     character:setLockingInteractable(self.interactable)
     self.network:sendToServer("sv_setOccupied", true)
-    self.network:sendToServer("sv_updateSightForPlayer")
 
     self.cl.character = character
     sm.camera.setCameraState(3)
     sm.camera.setFov(60)
-end
-
-function PeriscopeInput:cl_setOccupied(state)
-    self.cl.occupied = state
-end
-
-function PeriscopeInput:cl_setSight(sight)
-    self.cl.sight = sight
 end
 
 function PeriscopeInput:cl_resetAnimation(animation)
