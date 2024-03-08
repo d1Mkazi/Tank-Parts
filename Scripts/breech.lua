@@ -355,15 +355,12 @@ end
 function Breech:cl_open() self.cl.animUpdate = 4 end
 function Breech:cl_close() self.cl.animUpdate = -2 end
 
----@param caliber number
----@return string
+---@param caliber number the caliber
+---@return string -- effect name
 function getFireSound(caliber)
     local special = {
         [152] = "TankCannon - Howitzer Fire"
     }
-    if isAnyOf(caliber, special) then
-        return special[caliber]
-    end
 
-    return "TankCannon - Shoot"
+    return special[caliber] or "TankCannon - Shoot"
 end

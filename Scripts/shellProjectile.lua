@@ -16,8 +16,6 @@ local MINIMAL_HEIGHT = -50
 
 function ShellProjectile:server_onCreate()
     self:init()
-
-    getCases() -- load case list
 end
 
 function ShellProjectile:server_onRefresh()
@@ -26,6 +24,17 @@ end
 
 function ShellProjectile:init()
     g = sm.physics.getGravity()
+
+    if not _LOADED_FEATURES then
+        getCases()
+        createSource()
+
+        _LOADED_FEATURES = true
+    end
+end
+
+function ShellProjectile:server_onDestroy()
+    GLOBAL_SOURCE:destroy()
 end
 
 --[[  SERVER  ]]--
@@ -61,8 +70,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                 end
             else -- not first hit
                 print("[TANK PARTS] CALCULATING SECOND HIT")
-                local alive = proj.alive
-                if alive then -- alive 1
+                if proj.alive then -- alive 1
                     local raycastDestination = lastHit.pointWorld + proj.dir * 2
                     local hit, result = raycast(lastHit.pointWorld - proj.dir, raycastDestination)
                     proj.hit = result

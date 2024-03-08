@@ -14,10 +14,9 @@ function shrapnelExplosion(position, velocity, count, spread, damage, weak)
         _shrapnel = shrapnelWeak
     end
 
-    local host = sm.player.getAllPlayers()[1]
     for i = 1, count do
         local dir = sm.noise.gunSpread(velocity, spread)
-        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, host, nil, nil, 0)
+        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, GLOBAL_SOURCE, nil, nil, 0)
     end
 end
 
@@ -62,15 +61,9 @@ end
 
 ---@param message string message to be shown
 function errorMsg(message)
-    local separator = "-"
-    local length = message:len() + 6
-    for _=1, length do
-        separator = separator.."-"
-    end
-
-    print("[Tank Parts]", separator)
-    print("[Tank Parts] ERROR:", message)
-    print("[Tank Parts]", separator)
+    print("[Tank Parts]", "-------------------[ ERROR CATCHED ]-------------------")
+    print("[Tank Parts]", message)
+    print("[Tank Parts]", "-------------------------------------------------------")
 end
 
 
@@ -84,4 +77,8 @@ function getCases()
     for k, cartridge in ipairs(cartridges) do
         CASE_LIST[#CASE_LIST+1] = cartridge.uuid
     end
+end
+
+function createSource()
+    GLOBAL_SOURCE = sm.unit.createUnit(sm.uuid.getNil(), sm.vec3.new(1000, 1000, 0))
 end

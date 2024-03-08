@@ -29,6 +29,12 @@ local function doRicochet(vel, normal)
     return -vel:rotate(math.rad(180), normal) --[[@as Vec3]]
 end
 
+---@param character Character the player character
+---@param vel Vec3 velocity (direction)
+local function killPlayer(character, vel)
+    shrapnelExplosion(character.worldPosition - ((vel:normalize() + sm.vec3.new(0.5, 0, 0)) * 0.25), vel, 2, 0, 1000, true)
+end
+
 -- Hit functions
 
 function __hit_ap(data)
@@ -110,7 +116,10 @@ function __hit_ap(data)
         durability = 0.5
 
     elseif raycastTarget == "character" then
-        sm.event.sendToPlayer(result:getCharacter():getPlayer(), "sv_e_takeDamage", { damage = 100 }) -- why don't you work?
+        print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
+        killPlayer(result:getCharacter(), vel)
+        data.alive = false
+        return
 
     elseif raycastTarget == "harvestable" then
         local harvestable = result:getHarvestable()
@@ -133,10 +142,10 @@ function __hit_he(data)
     local explosionData = data.explosion
 
     if data.hit.type == "body" and sm.item.getQualityLevel(data.hit:getShape().uuid) > explosionData.strength then
-        sm.physics.explode(pos, explosionData.strength, 1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
+        explode(pos, explosionData.strength, 1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
         shrapnelVelocity = -shrapnelVelocity --[[@as Vec3]]
     else
-        sm.physics.explode(pos, 1, 0.1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
+        explode(pos, 1, 0.1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
     end
 
     shrapnelExplosion(pos, shrapnelVelocity, explosionData.shrapnel, 360, 80)
@@ -147,7 +156,7 @@ end
 function __hit_he_howitzer(data)
     local pos = data.hit.pointWorld
 
-    sm.physics.explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit")
+    explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit")
     shrapnelExplosion(pos, sm.vec3.new(0, 70, 0), 80, 360, 100)
 
     data.alive = false
