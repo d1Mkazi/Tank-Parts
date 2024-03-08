@@ -26,15 +26,22 @@ function ShellProjectile:init()
     g = sm.physics.getGravity()
 
     if not _LOADED_FEATURES then
+        HOST_PLAYER = sm.player.getAllPlayers()[1]
+
         getCases()
-        createSource()
+
+        if not GLOBAL_SOURCE then
+            createSource()
+        end
 
         _LOADED_FEATURES = true
     end
 end
 
 function ShellProjectile:server_onDestroy()
-    GLOBAL_SOURCE:destroy()
+    if GLOBAL_SOURCE then
+        GLOBAL_SOURCE:destroy()
+    end
 end
 
 --[[  SERVER  ]]--
@@ -48,6 +55,11 @@ function ShellProjectile:sv_createShell(data)
 end
 
 function ShellProjectile:server_onFixedUpdate(dt)
+    if GLOBAL_SOURCE and HOST_PLAYER then
+        local pos = HOST_PLAYER.character.worldPosition
+        GLOBAL_SOURCE.character:setWorldPosition(sm.vec3.new(pos.x, pos.y, -100))
+    end
+
     for k, proj in pairs(ShellProjectile.projectiles) do
         if proj.hit then
             local lastHit = proj.hit

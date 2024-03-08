@@ -9,10 +9,7 @@ local shrapnelWeak = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce222")
 ---@param damage number
 ---@param weak? boolean
 function shrapnelExplosion(position, velocity, count, spread, damage, weak)
-    local _shrapnel = shrapnel
-    if weak then
-        _shrapnel = shrapnelWeak
-    end
+    local _shrapnel = weak == true and shrapnelWeak or shrapnel
 
     for i = 1, count do
         local dir = sm.noise.gunSpread(velocity, spread)
@@ -80,5 +77,5 @@ function getCases()
 end
 
 function createSource()
-    GLOBAL_SOURCE = sm.unit.createUnit(sm.uuid.getNil(), sm.vec3.new(1000, 1000, 0))
+    GLOBAL_SOURCE = sm.unit.createUnit(sm.uuid.getNil(), HOST_PLAYER.character.worldPosition)
 end
