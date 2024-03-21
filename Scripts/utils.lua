@@ -13,7 +13,7 @@ function shrapnelExplosion(position, velocity, count, spread, damage, weak)
 
     for i = 1, count do
         local dir = sm.noise.gunSpread(velocity, spread)
-        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, GLOBAL_SOURCE, nil, nil, 0)
+        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, HOST_PLAYER, nil, nil, 0)
     end
 end
 
@@ -73,8 +73,4 @@ function getCases()
     for k, cartridge in ipairs(cartridges) do
         CASE_LIST[#CASE_LIST+1] = cartridge.uuid
     end
-end
-
-function createSource()
-    GLOBAL_SOURCE = sm.unit.createUnit(sm.uuid.getNil(), HOST_PLAYER.character.worldPosition)
 end

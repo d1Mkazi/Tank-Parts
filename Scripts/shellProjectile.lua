@@ -43,13 +43,6 @@ function ShellProjectile:sv_createShell(data)
 end
 
 function ShellProjectile:server_onFixedUpdate(dt)
-    --if (GLOBAL_SOURCE and HOST_PLAYER) and (GLOBAL_SOURCE.character and HOST_PLAYER.character) and (sm.exists(GLOBAL_SOURCE) and sm.exists(HOST_PLAYER)) then
-    --    local host = HOST_PLAYER.character.worldPosition
-    --    GLOBAL_SOURCE.character:setWorldPosition(sm.vec3.new(host.x, host.y, -100))
-    --elseif (not GLOBAL_SOURCE or not sm.exists(GLOBAL_SOURCE)) and (HOST_PLAYER and HOST_PLAYER.character) then
-    --    createSource(HOST_PLAYER.character.worldPosition)
-    --end
-
     local _g = getGravity()
     if g ~= _g then
         self.network:sendToClients("cl_setGravity", _g)
@@ -60,11 +53,9 @@ function ShellProjectile:server_onFixedUpdate(dt)
     if projectiles ~= nil then
         for k, proj in pairs(projectiles) do
             if proj.hit ~= nil then
-                print("INDEX OF", proj, "IS", k)
                 local lastHit = proj.hit
                 if not proj.lastAngle then -- first hit
                     print("[TANK PARTS] CALCULATING FIRST HIT")
-                    print("onHit =", proj.onHit)
                     local success, res = pcall(proj.onHit, proj)
                     if not success then
                         errorMsg(("onHit function: %s"):format(tostring(res)))
@@ -107,7 +98,6 @@ function ShellProjectile:server_onFixedUpdate(dt)
                                 and (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition))
                                 or result.type ~= "body" then -- raycast 1 || HEAT 1
                             print("[TANK PARTS] HIT AFTER HIT")
-                            print("onHit =", proj.onHit)
                             local success, res = pcall(proj.onHit, proj)
                             if not success then
                                 errorMsg(("onHit function: %s"):format(tostring(res)))
