@@ -124,7 +124,7 @@ function __hit_ap(data)
     elseif raycastTarget == "harvestable" then
         local harvestable = result:getHarvestable()
         point = harvestable.worldPosition
-        harvestable:destroy()
+        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
         durability = 3
     end
 
@@ -134,6 +134,96 @@ function __hit_ap(data)
     data.pos = pos
 
     data.alive = true
+end
+
+function __hit_heat(data)
+    local result = data.hit
+    local pos = result.pointWorld
+
+    if not data.lastAngle then
+        data.lastAngle = getAngle(result)
+    end
+    local angle = data.lastAngle
+
+    local vel = data.vel
+    if not data.dir then
+        data.dir = vel:normalize() / 4
+    end
+    local dir = data.dir
+
+    local durability = 0
+
+    local raycastTarget = result.type
+    if raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
+        print("[TANK PARTS] HIT TERRAIN")
+        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+        data.alive = false
+        return
+
+    elseif raycastTarget == "body" then
+        print("[TANK PARTS] HIT BODY")
+        local shape = result:getShape()
+        durability = sm.item.getQualityLevel(shape.uuid) or 1
+        durability = getDurability(durability, angle)
+        print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+
+        if durability > data.penetrationCapacity then
+            print("[TANK PARTS] TOO DURAB BLOCK HIT")
+            shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
+            explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+            data.alive = false
+            return
+        else
+            if shape.isBlock then
+                local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
+                shape:destroyBlock(targetLocalPosition, sm.vec3.one())
+            else
+                shape:destroyPart(0)
+            end
+        end
+
+    elseif raycastTarget == "joint" then
+        local joint = result:getJoint()
+
+        local shapeA = joint.shapeA
+        local body = shapeA.body
+        local uuid = shapeA.uuid
+        local _pos = shapeA:getClosestBlockLocalPosition(pos)
+
+        if shapeA.isBlock then
+            shapeA:destroyBlock(_pos, sm.vec3.one())
+
+            body:createBlock(uuid, sm.vec3.one(), _pos)
+        else
+            local xAxis = shapeA.xAxis
+            local zAxis = shapeA.zAxis
+
+            shapeA:destroyPart(0)
+
+            body:createPart(uuid, _pos, zAxis, xAxis)
+        end
+
+        durability = 0.5
+
+    elseif raycastTarget == "character" then
+        print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
+        killPlayer(result:getCharacter(), vel)
+
+    elseif raycastTarget == "harvestable" then
+        local harvestable = result:getHarvestable()
+        point = harvestable.worldPosition
+        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+        durability = 3
+        data.alive = false
+        return
+    end
+
+    data.penetrationCapacity = data.penetrationCapacity - durability
+    data.fuse = (data.fuse or 0) + durability
+
+    data.pos = pos
+
+    data.alive = data.penetrationCapacity > 0
 end
 
 function __hit_he(data)
@@ -396,6 +486,19 @@ ShellList = {
                         shrapnel = 55
                     },
                     onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- HEAT Shell
+                shellUuid = "ec18cdbf-865e-122c-5c2e-f111bad25842",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "ec19cdbf-865e-401c-5c2e-f122bed25805",
+                    initialSpeed = 600,
+                    mass = 7.64,
+                    penetrationCapacity = 28,
+                    maxAngle = 25,
+                    onHit = __hit_heat
                 },
                 usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
             },
