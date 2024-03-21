@@ -3,6 +3,10 @@ dofile("utils.lua")
 ---@class Shell : ShapeClass
 Shell = class()
 
+function Shell:server_onCreate()
+    self.interactable.publicData = { isShell = true }
+end
+
 function Shell:server_onProjectile()
     self:sv_explode()
 end

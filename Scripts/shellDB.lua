@@ -64,6 +64,11 @@ function __hit_ap(data)
     elseif raycastTarget == "body" then
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
+        if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
+            sm.event.sendToInteractable(shape.interactable, "sv_explode")
+            data.alive = false
+            return
+        end
         durability = sm.item.getQualityLevel(shape.uuid) or 1
         if angle <= data.maxAngle then
             print("[TANK PARTS] RICOCHET")
@@ -77,7 +82,7 @@ function __hit_ap(data)
         durability = getDurability(durability, angle)
         print("[TANK PARTS] DURALITY:", durability, "/", data.maxDurability, "| Capacity:", data.penetrationCapacity)
 
-        if durability > data.maxDurability or durability > data.penetrationCapacity or durability == 0 then
+        if durability > data.maxDurability or durability > data.penetrationCapacity then
             print("[TANK PARTS] TOO DURAB BLOCK HIT")
             shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
             explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
@@ -163,6 +168,11 @@ function __hit_heat(data)
     elseif raycastTarget == "body" then
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
+        if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
+            sm.event.sendToInteractable(shape.interactable, "sv_explode")
+            data.alive = false
+            return
+        end
         durability = sm.item.getQualityLevel(shape.uuid) or 1
         durability = getDurability(durability, angle)
         print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
@@ -216,6 +226,8 @@ function __hit_heat(data)
         durability = 3
         data.alive = false
         return
+    else
+        durability = 10
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
@@ -498,7 +510,8 @@ ShellList = {
                     mass = 7.64,
                     penetrationCapacity = 28,
                     maxAngle = 25,
-                    onHit = __hit_heat
+                    onHit = __hit_heat,
+                    isHEAT = true
                 },
                 usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
             },

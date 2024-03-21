@@ -96,7 +96,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                             end
                         elseif ((result.type == "body" and lastHit.type == "body")
                                 and (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition))
-                                or result.type ~= "body" then -- raycast 1 || HEAT 1
+                                or result.type ~= "body" or proj.isHEAT then -- raycast 1 || HEAT 1
                             print("[TANK PARTS] HIT AFTER HIT")
                             local success, res = pcall(proj.onHit, proj)
                             if not success then
@@ -105,7 +105,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                                 self.network:sendToClients("cl_updateShell", { key = k })
                                 return
                             end
-                        elseif not result:getShape():isBlock() then
+                        elseif not result:getShape().isBlock then
                             print("[TANK PARTS] HIT SAME SHAPE")
                             proj.hit = nil
                             proj.lastAngle = nil

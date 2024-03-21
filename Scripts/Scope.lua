@@ -28,25 +28,27 @@ function Scope:cl_init()
 end
 
 function Scope:client_onAction(action, state)
-    if not state then return end
+    if not state then return true end
 
     if action == 15 then -- press E
         self:cl_unlockCharacter()
 
     elseif action == 20 then -- zoom in
         local fov = sm.camera.getFov() - 5
-        if fov <= 0 then return end
+        if fov <= 0 then return true end
 
         self.cl.fov = fov
         sm.camera.setFov(fov)
 
     elseif action == 21 then -- zoom out
         local fov = sm.camera.getFov() + 5
-        if fov > 70 then return end
+        if fov > 70 then return true end
 
         self.cl.fov = fov
         sm.camera.setFov(fov)
     end
+
+    return true
 end
 
 function Scope:client_onDestroy()
