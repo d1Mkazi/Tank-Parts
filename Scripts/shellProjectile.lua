@@ -105,7 +105,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                                 self.network:sendToClients("cl_updateShell", { key = k })
                                 return
                             end
-                        else
+                        elseif not result:getShape():isBlock() then
                             print("[TANK PARTS] HIT SAME SHAPE")
                             proj.hit = nil
                             proj.lastAngle = nil
