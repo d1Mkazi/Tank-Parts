@@ -21,7 +21,7 @@ end
 ---@param search any the search value
 ---@param where table the first table
 ---@param special string the value id
----@return table|nil
+---@return table
 function getTableByValue(search, where, special)
     for k, t in pairs(where) do
         if t[special] then
@@ -32,7 +32,6 @@ function getTableByValue(search, where, special)
             end
         end
     end
-    return nil
 end
 
 ---@param original table
