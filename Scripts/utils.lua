@@ -74,3 +74,16 @@ function getCases()
         CASE_LIST[#CASE_LIST+1] = cartridge.uuid
     end
 end
+
+
+function getBreech()
+    if LOADED_BREECH then return end
+    LOADED_BREECH = true
+
+    BREECH_LIST = {}
+
+    local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/breeches.jsonc").partList
+    for k, cartridge in ipairs(cartridges) do
+        BREECH_LIST[#BREECH_LIST+1] = cartridge.uuid
+    end
+end

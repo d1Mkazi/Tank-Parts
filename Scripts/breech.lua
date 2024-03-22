@@ -6,9 +6,9 @@ dofile("localization.lua")
 ---@class Breech : ShapeClass
 Breech = class()
 Breech.maxParentCount = 1
-Breech.maxChildCount = 1
+Breech.maxChildCount = 2
 Breech.connectionInput = sm.interactable.connectionType.logic
-Breech.connectionOutput = sm.interactable.connectionType.logic
+Breech.connectionOutput = sm.interactable.connectionType.logic + sm.interactable.connectionType.power
 Breech.colorNormal = sm.color.new("6a306bff")
 Breech.colorHighlight = sm.color.new("a349a4ff")
 
@@ -36,7 +36,8 @@ function Breech:init()
     self.sv = {
         animProgress = 0,
         dropping = false,
-        lastActive = false
+        lastActive = false,
+        hasMuzzle = false,
     }
 
     self.saved = self.storage:load() or {
@@ -68,6 +69,7 @@ end
 
 function Breech:server_onFixedUpdate(timeStep)
     local parent = self.interactable:getSingleParent()
+    local children = self.interactable:getChildren(sm.interactable.connectionType.power)
     local status = self.saved.status
     local sv = self.sv
 
@@ -89,6 +91,18 @@ function Breech:server_onFixedUpdate(timeStep)
         self.sv.lastActive = parent.active
     else
         self.sv.lastActive = nil
+    end
+
+    if #children > 0 then
+        local child = children[1]
+        if self.sv.hasMuzzle and tostring(child.shape.uuid) ~= "244358e7-f529-42ab-96c8-fd27e8480a9a" then
+            print("BREECH DISCONNETED CHILD")
+            self.interactable:disconnect(child)
+        else
+            self.sv.hasMuzzle = true
+        end
+    else
+        self.sv.hasMuzzle = false
     end
 end
 
@@ -194,7 +208,8 @@ function Breech:sv_shoot()
     local shell = self.saved.loaded.data.shellData
     sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.saved.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 
-    sm.physics.applyImpulse(self.shape.body, -at * shell.initialSpeed * (shell.mass or 0), true)
+    local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.5 or 1)
+    sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
 
     self.network:sendToClients("cl_shoot", pos)
     self.saved.status = FIRED

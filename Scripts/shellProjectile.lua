@@ -27,6 +27,7 @@ function ShellProjectile:init()
 
     HOST_PLAYER = sm.player.getAllPlayers()[1]
     getCases()
+    getBreech()
 
     _LOADED_FEATURES = true
 end
