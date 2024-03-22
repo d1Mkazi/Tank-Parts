@@ -278,7 +278,7 @@
 							{
 								"material": "DifAsg",
 								"textureList": [
-									"$CONTENT_DATA/Objects/Textures/periscope_dif.tga",
+									"$CONTENT_DATA/Objects/Textures/periscope_dif.png",
 									"$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
 								]
 							}
@@ -292,6 +292,12 @@
             "classname": "Muzzle",
             "filename": "$CONTENT_DATA/Scripts/Muzzle.lua"
          },
+			"ratings": {
+				"density": 3,
+				"durability": 5,
+				"friction": 3,
+				"buoyancy": 4
+			},
          "uuid": "244358e7-f529-42ab-96c8-fd27e8480a9a"
       }
    ]
