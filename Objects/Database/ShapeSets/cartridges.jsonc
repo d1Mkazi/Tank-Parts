@@ -1,10 +1,10 @@
 {
     "partList": [
-        { // Unitary 85mm used
+        { // 76mm used
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
-				"depth": 3,
+				"depth": 2,
 				"diameter": 1
 			},
 			"ratings": {
@@ -19,7 +19,7 @@
 			"renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_case.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/76_empty.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",

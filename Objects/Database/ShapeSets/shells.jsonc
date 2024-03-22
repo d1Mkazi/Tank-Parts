@@ -281,6 +281,52 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-5c2e-f111bad25842"
+		},
+		{ // 76mm HEAT
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 4,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 3,
+					"impulseLevel" : 80,
+					"impulseRadius": 2
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "76mm HEAT Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/heat_shell_76.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "c6c071b9-eb8b-4fea-af79-27781272aebb"
 		}
     ]
 }

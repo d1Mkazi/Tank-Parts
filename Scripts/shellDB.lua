@@ -366,6 +366,19 @@ ShellList = {
                     onHit = __hit_he
                 },
                 usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
+            },
+            { -- HEAT Shell
+                shellUuid = "c6c071b9-eb8b-4fea-af79-27781272aebb",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "c6c071b9-eb8b-4fea-af79-27781272aabb",
+                    initialSpeed = 335,
+                    mass = 3.94,
+                    penetrationCapacity = 22,
+                    onHit = __hit_heat,
+                    isHEAT = true
+                },
+                usedUuid = "cc19cdbf-865e-401c-9c5e-f111ccc25800"
             }
         }
     },
@@ -513,7 +526,6 @@ ShellList = {
                     initialSpeed = 600,
                     mass = 7.64,
                     penetrationCapacity = 28,
-                    maxAngle = 25,
                     onHit = __hit_heat,
                     isHEAT = true
                 },
