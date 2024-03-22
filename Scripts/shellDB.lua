@@ -65,6 +65,7 @@ function __hit_ap(data)
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
         if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
+            print("[TANK PARTS] HIT SHELL")
             sm.event.sendToInteractable(shape.interactable, "sv_explode")
             data.alive = false
             return
@@ -169,6 +170,7 @@ function __hit_heat(data)
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
         if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
+            print("[TANK PARTS] HIT SHELL")
             sm.event.sendToInteractable(shape.interactable, "sv_explode")
             data.alive = false
             return
@@ -227,7 +229,9 @@ function __hit_heat(data)
         data.alive = false
         return
     else
+        print("[TANK PARTS] HEAT HIT AIR")
         durability = 10
+        print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
