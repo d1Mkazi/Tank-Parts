@@ -1,11 +1,6 @@
-/*
-* "explosionLevel" : n,
-* "explosionRadius" : n,
-* "impulseLevel" : n,
-* "impulseRadius": n
-*/
 {
     "partList": [
+		/************************************  ZiS-5 :: KV-1 & F-34 :: T-34  *****************************************/
         { // Soviet AP Shell
 			"color" : "555555",
 			"cylinder" : {
@@ -98,11 +93,59 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25841"
 		},
-		{ // German AP Shell
+		{ // 76mm HEAT
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 6,
+				"depth" : 4,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 3,
+					"impulseLevel" : 80,
+					"impulseRadius": 2
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "76mm HEAT Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/heat_shell_76.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "c6c071b9-eb8b-4fea-af79-27781272aebb"
+		},
+		/*************************************************************************************************************/
+		/*****************************************  8,8cm KwK 36 :: TIGER I  *****************************************/
+		{ // PzGr 39 (88mm | KwK 36)
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 4,
 				"diameter" : 1
 			},
 			"scripted": {
@@ -127,12 +170,12 @@
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_122.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_88.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -144,11 +187,11 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25840"
 		},
-		{ // German HE Shell
+		{ // Sprgr (88mm | KwK 36)
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 6,
+				"depth" : 4,
 				"diameter" : 1
 			},
 			"scripted": {
@@ -173,12 +216,12 @@
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell_122.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell_88.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell3_dif.tga",
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -189,52 +232,6 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25841"
-		},
-		{ // 37mm AP
-			"color" : "555555",
-			"cylinder" : {
-				"axis" : "Y",
-				"depth" : 3,
-				"diameter" : 1
-			},
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 2,
-					"explosionRadius" : 1,
-					"impulseLevel" : 40,
-					"impulseRadius": 2
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 4,
-				"buoyancy": 5
-			},
-			"carryItem" : true,
-			"name" : "37mm AP Shell",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_37.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
-                        ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-			"rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25842"
 		},
 		{ // 88mm HEAT
 			"color" : "555555",
@@ -282,20 +279,22 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-5c2e-f111bad25842"
 		},
-		{ // 76mm HEAT
+		/*************************************************************************************************************/
+		/*******************************************  37mm M5 :: Stuart M3  ******************************************/
+		{ // 37mm AP
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 4,
+				"depth" : 3,
 				"diameter" : 1
 			},
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 3,
-					"impulseLevel" : 80,
+					"explosionLevel" : 2,
+					"explosionRadius" : 1,
+					"impulseLevel" : 40,
 					"impulseRadius": 2
 				}
 			},
@@ -306,17 +305,17 @@
 				"buoyancy": 5
 			},
 			"carryItem" : true,
-			"name" : "76mm HEAT Shell",
+			"name" : "37mm AP Shell",
 			"physicsMaterial" : "Metal",
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/heat_shell_76.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_37.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -326,7 +325,8 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
-			"uuid" : "c6c071b9-eb8b-4fea-af79-27781272aebb"
+			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25842"
 		}
+		/*************************************************************************************************************/
     ]
 }
