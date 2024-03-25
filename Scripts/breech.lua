@@ -208,7 +208,7 @@ function Breech:sv_shoot()
     local shell = self.saved.loaded.data.shellData
     sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.saved.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 
-    local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.5 or 1)
+    local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)
     sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
 
     self.network:sendToClients("cl_shoot", pos)
