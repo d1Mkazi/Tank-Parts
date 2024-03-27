@@ -1,11 +1,11 @@
 {
     "partList": [
-		/************************************  ZiS-5 :: KV-1 & F-34 :: T-34  *****************************************/
+		/************************************  ZiS-5 :: KV-1 | F-34 :: T-34  *****************************************/
         { // Soviet AP Shell
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 5,
+				"depth" : 4,
 				"diameter" : 1
 			},
 			"scripted": {
@@ -30,12 +30,12 @@
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_76.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -51,7 +51,7 @@
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
-				"depth" : 5,
+				"depth" : 4,
 				"diameter" : 1
 			},
 			"scripted": {
@@ -76,12 +76,12 @@
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell_76.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$CONTENT_DATA/Objects/Textures/of350m_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -141,7 +141,7 @@
 		},
 		/*************************************************************************************************************/
 		/*****************************************  8,8cm KwK 36 :: TIGER I  *****************************************/
-		{ // PzGr 39 (88mm | KwK 36)
+		{ // APHE -> PzGr 39
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -187,7 +187,7 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25840"
 		},
-		{ // Sprgr (88mm | KwK 36)
+		{ // HE -> Sprgr
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -233,7 +233,7 @@
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25841"
 		},
-		{ // 88mm HEAT
+		{ // HEAT -> HlGr 39
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -326,6 +326,54 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec18cdbf-865e-122c-9c5e-f111bad25842"
+		},
+		/*************************************************************************************************************/
+		/******************************************  KwK 42 :: Panther  **********************************************/
+		{ // 
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 5,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 3,
+					"explosionRadius" : 1.25,
+					"impulseLevel" : 150,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "AP Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_75panther.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "58f3b1cd-187d-4d61-bcaf-a69a53d1e57b"
 		}
 		/*************************************************************************************************************/
     ]

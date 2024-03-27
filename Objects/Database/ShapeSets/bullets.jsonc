@@ -11,12 +11,12 @@
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_76.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+                                    "$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -46,12 +46,12 @@
 			"renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_76.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                                    "$CONTENT_DATA/Objects/Textures/of350m_texture.tga",
                                     "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                                 ]
                             }
@@ -146,10 +146,10 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 7,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 70,
-					"impulseRadius": 3
+					"explosionLevel" : 5,
+					"explosionRadius" : 5,
+					"impulseLevel" : 150,
+					"impulseRadius": 3.5
 				}
 			},
 			"ratings": {
