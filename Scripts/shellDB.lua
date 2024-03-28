@@ -432,7 +432,7 @@ ShellList = {
                     explosion = {
                         strength = 4,
                         impulse = 120,
-                        shrapnel = 55
+                        shrapnel = 60
                     },
                     onHit = __hit_he
                 },
