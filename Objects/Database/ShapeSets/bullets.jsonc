@@ -293,6 +293,36 @@
 			"uuid" : "40e59811-ff73-4902-a30e-7bf5b0f2dc0e",
             "showInInventory": false
         },
+        { // APCR -> PzGr 40/42
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"carryItem" : true,
+			"name" : "APCR Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apcr_bullet_75panther.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "aabd945c-f1b2-4603-82ef-889c59a407d9",
+            "showInInventory": false
+        },
 		/*************************************************************************************************************/
 		/***********************************************  D-10T :: KV-2  *********************************************/
         { // HE -> OF-
