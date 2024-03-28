@@ -177,5 +177,9 @@
     "66a069ab-4512-421d-b46b-7d14fb7f3d09": {
         "title": "Case Holder",
         "description": "Holds a dropped case. Gives a signal when it has a case"
+    },
+    "244358e7-f529-42ab-96c8-fd27e8480a9a": {
+        "title": "Muzzle brake",
+        "description": "Reduces recoil. Connect to the breech"
     }
 }
