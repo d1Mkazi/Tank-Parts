@@ -329,7 +329,7 @@
 		},
 		/*************************************************************************************************************/
 		/******************************************  KwK 42 :: Panther  **********************************************/
-		{ // 
+		{ // APHE -> PzGr 39/42
 			"color" : "555555",
 			"cylinder" : {
 				"axis" : "Y",
@@ -374,6 +374,98 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "58f3b1cd-187d-4d61-bcaf-a69a53d1e57b"
+		},
+		{ // HE -> Sprgr 42
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 5,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 3,
+					"explosionRadius" : 1.25,
+					"impulseLevel" : 150,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "HE Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell_75panther.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "58f3b1cd-187d-4d61-bcaf-a69a53d1e57c"
+		},
+		{ // APCR -> PzGr 40/42
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 5,
+				"diameter" : 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 3,
+					"explosionRadius" : 1.25,
+					"impulseLevel" : 150,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+			"name" : "APCR Shell",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/apcr_shell_75panther.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "87d27add-3284-4005-8648-f84f404350ca"
 		}
 		/*************************************************************************************************************/
     ]

@@ -538,10 +538,10 @@ ShellList = {
     kwk42 = {
         unitary = {
             { -- AP Shell
-                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
+                shellUuid = "58f3b1cd-187d-4d61-bcaf-a69a53d1e57b",
                 caseUuid = nil,
                 shellData = {
-                    bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
+                    bulletUUID = "0f198808-999d-41fa-80e4-ee91dcdfd9e6",
                     initialSpeed = 935,
                     mass = 6.8,
                     penetrationCapacity = 38,
@@ -552,13 +552,13 @@ ShellList = {
                     onHit = __hit_ap,
                     explode = __exp_ap
                 },
-                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+                usedUuid = "922a09d0-0c62-45c6-8152-10e3418fd17d"
             },
             { -- HE Shell
-                shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25841",
+                shellUuid = "58f3b1cd-187d-4d61-bcaf-a69a53d1e57c",
                 caseUuid = nil,
                 shellData = {
-                    bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
+                    bulletUUID = "40e59811-ff73-4902-a30e-7bf5b0f2dc0e",
                     initialSpeed = 700,
                     mass = 5.74,
                     explosion = {
@@ -568,7 +568,22 @@ ShellList = {
                     },
                     onHit = __hit_he
                 },
-                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+                usedUuid = "922a09d0-0c62-45c6-8152-10e3418fd17d"
+            },
+            { -- APCR Shell
+                shellUuid = "87d27add-3284-4005-8648-f84f404350ca",
+                caseUuid = nil,
+                shellData = {
+                    bulletUUID = "aabd945c-f1b2-4603-82ef-889c59a407d9",
+                    initialSpeed = 1120,
+                    mass = 4.75,
+                    penetrationCapacity = 45,
+                    penetrationLoss = 3,
+                    maxDurability = 9,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "922a09d0-0c62-45c6-8152-10e3418fd17d"
             },
         }
     },

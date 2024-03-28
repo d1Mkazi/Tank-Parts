@@ -161,7 +161,7 @@
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
-				"depth": 4,
+				"depth": 3,
 				"diameter": 1
 			},
 			"scripted": {
@@ -186,7 +186,7 @@
 			"renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/soviet_122.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/122_filled.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
@@ -203,11 +203,11 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25802"
 		},
-		{ // Soviet 122mm used
+		{ // 122mm used
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
-				"depth": 4,
+				"depth": 3,
 				"diameter": 1
 			},
 			"ratings": {
@@ -222,7 +222,7 @@
 			"renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/soviet_122_empty.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/122_empty.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
@@ -275,6 +275,43 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25804",
+			"showInInventory": false
+		},
+		{ // panther used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 3,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "75mm case",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/75panther_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "922a09d0-0c62-45c6-8152-10e3418fd17d",
 			"showInInventory": false
 		}
     ]

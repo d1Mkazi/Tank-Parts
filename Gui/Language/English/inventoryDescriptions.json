@@ -1,4 +1,14 @@
 {
+    // breech.json
+
+    /***************************************************************
+    "uuid": {
+        "title": "N Breech",
+        "description": "Breech of "NATION" "TYPE" "TANK"\n\nUses shells:\n"SHELL_TYPE": "SHELL_NAME"",
+        "keywords": [ "breech", "cannon", "gun", NATION ]
+    },
+    ***************************************************************/
+
     "bb19cdbf-865e-401c-9c5e-f111bad25839": { // KV-1
         "title": "ZiS-5 Breech",
         "description": "Breech of Soviet heavy tank KV-1\n\nUses shells:\nAPHE: BR-350B\nHE: OF-350M",
@@ -6,17 +16,17 @@
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25842": { // T-34
         "title": "F-34 Breech",
-        "description": "Breech of Soviet medium tank T-34\n\nUses shells:\nAPHE: BR-350B\nHE: OF-350M",
+        "description": "Breech of Soviet medium tank T-34\n\nUses shells:\nAPHE: BR-350B\nHE: OF-350M\nHEAT: ",
         "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cccc-865e-401c-9c5e-f111bad25843": { // IS-2
         "title": "D-25T Breech",
-        "description": "Soviet WW2 122mm breech\n\nSeparated loading",
+        "description": "Breech of Soviet heavy tank IS-2\n\nUses shells:\nAPHE: BR-471\nHE: OF-471",
         "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25840": { // Pz. IV
         "title": "KwK 37 Breech",
-        "description": "German WW2 75mm breech\n\nUnitary loading",
+        "description": "Breech of German light tank Pzkpfw. III\n\nUses shells:", // temporary hidden. I don't wanna make models for this now.
         "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25843": { // Tiger I
@@ -26,36 +36,43 @@
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25844": { // Panther
         "title": "KwK 42 Breech",
-        "description": "Breech of German medium tank Panther\n\nUses shells:\nAPHE: PzGr 39/42\nHE: Sprgr 42",// "\nAPCR: 40/42",
+        "description": "Breech of German medium tank Panther\n\nUses shells:\nAPHE: PzGr 39/42\nHE: Sprgr 42\nAPCR: PzGr 40/42",
         "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25841": { // KV-2
         "title": "M-10T Breech",
-        "description": "Soviet 152mm howitzer breech\n\nSeparated loading",
+        "description": "Breech of German heavy tank Tiger I\n\nUses shells:\nAPHE: PzGr 39\nHE: Sprgr\nHEAT: Hl.Gr 39",
         "keywords": [ "breech", "howitzer", "gun", "soviet" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111baa25841": { // M3 Stuart
         "title": "M5 Breech",
-        "description": "American 37mm breech\n\nUnitary loading",
+        "description": "Breech of American light tank M3 Stuart\n\nUses shells:\nAP: M51B1",
         "keywords": [ "breech", "cannon", "gun", "american" ]
     },
 
     // shells.json
 
-    // soviet
+    /***************************************************************
+    DESCRIPTIONS:
+    * AP: Armor-Piercing shell\nEffective against armored targets.
+    * APCR: Armor-Piercing Composite Rigid\nEffective against heavily armored targets.
+    * APHE: Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor
+    * HE: High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit
+    * HEAT: High-Explosive Anti-Tank shell\nEffective against armored targets on long distance.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target
+    ***************************************************************/
+
     // KV-1 & T-34
     "ec19cdbf-865e-401c-9c5e-f111bad25840": {
         "title": "BR-350B",
         "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "bullet", "soviet" ]
+        "keywords": [ "ap", "bullet", "soviet" ]
     },
     "ec19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "OF-350M",
         "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
-        "keywords": [ "bullet", "soviet" ]
+        "keywords": [ "he", "bullet", "soviet" ]
     },
 
-    // german
     // Tiger I
     "ec18cdbf-865e-122c-9c5e-f111bad25840": {
         "title": "PzGr 39",
@@ -72,48 +89,60 @@
         "description": "High-Explosive Anti-Tank shell\nEffective against armored targets.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
         "keywords": [ "heat", "german", "tiger" ]
     },
+
     // Panther
     "58f3b1cd-187d-4d61-bcaf-a69a53d1e57b": {
         "title": "PzGr 39/42",
         "description": "Armor-Piercing High-Explosive shell\nEffective against armored targets.\n\nExplodes behind the armor",
         "keywords": [ "ap", "german", "panther" ]
     },
+    "58f3b1cd-187d-4d61-bcaf-a69a53d1e57c": {
+        "title": "Sprgr 42",
+        "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "he", "german", "panther" ]
+    },
+    "87d27add-3284-4005-8648-f84f404350ca": {
+        "title": "PzGr 40/42",
+        "description": "Armor-Piercing Composite Rigid\nEffective against heavily armored targets.",
+        "keywords": [ "apcr", "german", "panther" ]
+    },
 
-    // american
+    // M3 Stuart
     "ec18cdbf-865e-122c-9c5e-f111bad25842": {
-        "title": "37mm AP Shell",
+        "title": "M51B1",
         "description": " Armor-Piercing shell\nEffective against armored targets"
     },
 
-    // bullets.json
-
-    // soviet
+    // IS-2
     "ec19cdbf-865e-401c-9c5e-f122bed25803": {
-        "title": "Soviet 122mm AP Bullet",
-        "description": "Regular Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "bullet", "soviet" ]
+        "title": "BR-471",
+        "description": "Armor-Piercing High-Explosive shell\nEffective against armored targets.\n\nExplodes behind the armor",
+        "keywords": [ "bullet", "soviet", "is-2" ]
     },
     "ec19cdbf-865e-401c-9c5e-f122bed25804": {
-        "title": "Soviet 122mm HE Bullet",
-        "description": "Regular High-Explosive shell\nEffective against manpower and lightly armored targets",
-        "keywords": [ "bullet", "soviet" ]
+        "title": "OF-471",
+        "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "bullet", "soviet", "is-2" ]
     },
-    "ec19cdbf-865e-401c-9c5e-f122bed25802": { // nation not specified though
+
+    // legacy (maybe?)
+    "ec19cdbf-865e-401c-9c5e-f122bed25802": {
         "title": "152mm HE Bullet",
         "description": "High-Explosive bullet\nEffective.\n\nExplodes with a lot of shrapnel at any hit",
         "keywords": [ "shell", "bullet", "howitzer" ]
     },
 
     // cartridges.json
+
     "cc19cdbf-865e-401c-9c5e-f111ccc25801": {
         "title": "152mm Sleeve",
         "description": "Case for howitzer 152mm bullets",
-        "keywords": [ "case", "cartridge", "howitzer", "152mm" ]
+        "keywords": [ "cartridge", "howitzer", "152mm" ]
     },
     "ec19cdbf-865e-401c-9c5e-f111ccc25802": {
         "title": "122mm Sleeve",
-        "description": "Case for 122mm bullets",
-        "keywords": [ "case", "cartridge", "122mm" ]
+        "description": "Case for 122mm D-25T",
+        "keywords": [ "cartridge", "122mm", "D-25T", "BR-471", "OF-471" ]
     },
 
     // other.json
