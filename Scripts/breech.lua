@@ -332,10 +332,13 @@ function Breech:cl_loadSeparated(final)
 end
 
 function Breech:cl_shoot(pos)
+    local rot = nil--sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
+
     if sm.cae_injected then
-        sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, nil, nil)
+        sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, rot)
     else
         sm.effect.playEffect("PropaneTank - ExplosionSmall", pos)
+      --sm.effect.playEffect("TankCannon - Smoke", pos, nil, rot)
     end
 end
 

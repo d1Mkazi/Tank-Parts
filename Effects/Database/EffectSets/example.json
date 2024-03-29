@@ -1,237 +1,226 @@
 {
-	"TankCannon - Shoot": {
-		"parameterList": {
-            "CAE_Volume": 3,
-            "CAE_Pitch": 0.95,
-            "CAE_Reverb": 1.0,
-            "CAE_ReverbIdx": -1.0,
-            "size": 0.0,
-			"color": "ffcc34",
-			"radius": 25.0,
-			"intensity": 6.0,
-			"shakeStrength": 0.4,
-			"shakeRadius": 60.0
-        },
-        "effectList": [
-            {
-                "type": "audio",
-                "name": "breech_shoot_howitzer",
-                "parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
-            },
-            {
-				"type": "particle",
-				"name": "Explosion_small_01",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"attached": true,
-				"delay": 0.0
-			},
-			{
-				"type": "pointLight",
-				"name": "",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"color",
-					"radius",
-					"intensity"
-				],
-				"duration": 0.1,
-				"delay": 0.0
-			},
-			{
-				"type": "cameraShake",
-				"name": "",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"shakeStrength",
-					"shakeRadius"
-				],
-				"duration": 0.4,
-				"delay": 0.0
-			}
-		]
-	},
-	"TankCannon - Howitzer Fire": {
-        "parameterList": {
-            "CAE_Volume": 90,
-            "CAE_Pitch": 0.95,
-            "CAE_Reverb": 1.0,
-            "CAE_ReverbIdx": -1.0,
-            "size": 0.0,
-			"color": "ffcc34",
-			"radius": 16.0,
-			"intensity": 4.0,
-			"shakeStrength": 0.05,
-			"shakeRadius": 40.0
-        },
-        "effectList": [
-            {
-                "type": "audio",
-                "name": "breech_shoot",
-                "parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
-            },
-            {
-				"type": "particle",
-				"name": "Explosion_small_01",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"attached": true,
-				"delay": 0.0
-			},
-			{
-				"type": "pointLight",
-				"name": "",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"color",
-					"radius",
-					"intensity"
-				],
-				"duration": 0.1,
-				"delay": 0.0
-			},
-			{
-				"type": "cameraShake",
-				"name": "",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"shakeStrength",
-					"shakeRadius"
-				],
-				"duration": 0.4,
-				"delay": 0.0
-			}
-        ]
-    },
-    "Breech - Load": {
-        "parameterList": {
-            "CAE_Volume": 1.0,
-            "CAE_Pitch": 1.0,
-            "CAE_Reverb": 1.0,
-            "CAE_ReverbIdx": -1.0
-        },
-        "effectList": [
-            {
-                "type": "audio",
-                "name": "breech_load",
-                "parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
-            }
-        ]
-    },
-	"Shell - Howitzer Hit":
-	{
-		"parameterList":
-		{
-			"CAE_Volume": 8,
-            "CAE_Pitch": 0.9,
-            "CAE_Reverb": 1.0,
-            "CAE_ReverbIdx": -1.0,
-			"size": 0.5,
-			"color": "ffcc34",
-			"radius": 20.0,
-			"intensity": 8.0,
-			"shakeStrength": 1,
-			"shakeRadius": 50.0
-		},
-		"parameterCurves":
-		{
-			"radius":
-			{
-				"timeline":
-				[
-					{ "time":0.0, "value":0.0 },
-					{ "time":0.1, "value":20.0 },
-					{ "time":0.6, "value":0.0 }
-				]
-			}
-		},
-		"effectList":
-		[
-			{
-				"type": "particle",
-				"name": "Explosion_01",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"attached": true,
-				"delay": 0.0
-			},
-			{
-				"type": "audio",
-				"name": "shell_hit_howitzer",
-				"parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
-			},
-			{
-				"type": "audio",
-				"name": "Gas Explosion",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"size"
-				],
-				"delay": 0.0
-			},
-			{
-				"type": "pointLight",
-				"name": "",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"color",
-					"radius",
-					"intensity"
-				],
-				"duration": 1.0,
-				"delay": 0.0
-			},
-			{
-				"type": "cameraShake",
-				"name": "",
-				"offset": { "x": 0.0, "y": 0.0, "z": 0.0 },
-				"parameters":
-				[
-					"shakeStrength",
-					"shakeRadius"
-				],
-				"duration": 0.4,
-				"delay": 0.0
-			}
-		]
-	},
-	"Steer - Rotation":
-	{
-		"parameterList":
-		{
-			"CAE_Volume": 1.0,
-            "CAE_Pitch": 1,
-            "CAE_Reverb": 1.0,
-            "CAE_ReverbIdx": -1.0
-		},
-		"effectList":
-		[
-			{
-				"type": "audio",
-				"name": "steer_rolling",
-				"parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
-			}
-		]
-	},
-	"Shell - No Penetration":
-	{
-		"parameterList":
-		{
-			"CAE_Volume": 1.0,
-            "CAE_Pitch": 1,
-            "CAE_Reverb": 1.0,
-            "CAE_ReverbIdx": -1.0
-		},
-		"effectList":
-		[
-			{
-				"type": "audio",
-				"name": "no_penetration",
-				"parameters": [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ]
-			}
-		]
-	}
+   "Breech - Load" : {
+      "effectList" : [
+         {
+            "name" : "breech_load",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 1.0,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 1.0
+      }
+   },
+   "Shell - Howitzer Hit" : {
+      "effectList" : [
+         {
+            "attached" : true,
+            "delay" : 0.0,
+            "name" : "Explosion_01",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "type" : "particle"
+         },
+         {
+            "name" : "shell_hit_howitzer",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         },
+         {
+            "delay" : 0.0,
+            "name" : "Gas Explosion",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "size" ],
+            "type" : "audio"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 1.0,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "color", "radius", "intensity" ],
+            "type" : "pointLight"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 0.40,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "shakeStrength", "shakeRadius" ],
+            "type" : "cameraShake"
+         }
+      ],
+      "parameterCurves" : {
+         "radius" : {
+            "timeline" : [
+               {
+                  "time" : 0.0,
+                  "value" : 0.0
+               },
+               {
+                  "time" : 0.10,
+                  "value" : 20.0
+               },
+               {
+                  "time" : 0.60,
+                  "value" : 0.0
+               }
+            ]
+         }
+      },
+      "parameterList" : {
+         "CAE_Pitch" : 0.90,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 8,
+         "color" : "ffcc34",
+         "intensity" : 8.0,
+         "radius" : 20.0,
+         "shakeRadius" : 50.0,
+         "shakeStrength" : 1,
+         "size" : 0.50
+      }
+   },
+   "Shell - No Penetration" : {
+      "effectList" : [
+         {
+            "name" : "no_penetration",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 1,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 1.0
+      }
+   },
+   "Steer - Rotation" : {
+      "effectList" : [
+         {
+            "name" : "steer_rolling",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 1,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 1.0
+      }
+   },
+   "TankCannon - Howitzer Fire" : {
+      "effectList" : [
+         {
+            "name" : "breech_shoot",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         },
+         {
+            "attached" : true,
+            "delay" : 0.0,
+            "name" : "Explosion_small_01",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "type" : "particle"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 0.10,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "color", "radius", "intensity" ],
+            "type" : "pointLight"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 0.40,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "shakeStrength", "shakeRadius" ],
+            "type" : "cameraShake"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 0.950,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 90,
+         "color" : "ffcc34",
+         "intensity" : 4.0,
+         "radius" : 16.0,
+         "shakeRadius" : 40.0,
+         "shakeStrength" : 0.050,
+         "size" : 0.0
+      }
+   },
+   "TankCannon - Shoot" : {
+      "effectList" : [
+         {
+            "name" : "breech_shoot_howitzer",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         },
+         {
+            "attached" : true,
+            "delay" : 0.0,
+            "name" : "Explosion_small_01",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "type" : "particle"
+         },
+         //{
+         //   "offset" : [ 0.0, 0.0, 0.0 ],
+         //   "particles" : [ "p_firesmoke" ],
+         //   "type" : "particle"
+         //},
+         {
+            "delay" : 0.0,
+            "duration" : 0.10,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "color", "radius", "intensity" ],
+            "type" : "pointLight"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 0.40,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "shakeStrength", "shakeRadius" ],
+            "type" : "cameraShake"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 0.950,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 3,
+         "color" : "ffcc34",
+         "intensity" : 6.0,
+         "radius" : 25.0,
+         "shakeRadius" : 60.0,
+         "shakeStrength" : 0.40,
+         "size" : 0.0
+      }
+   },
+   "TankCannon - Smoke" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_firesmoke" ],
+            "type" : "particle"
+         },
+         {
+            "audio" : [ "event:/weapons/explosion_gas" ],
+            "type" : "audio",
+            "parameters": [ "size" ]
+         }
+      ],
+      "parameterList": {
+         "size": 1
+      }
+   }
 }

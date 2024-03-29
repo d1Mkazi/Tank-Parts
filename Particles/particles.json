@@ -1,3 +1,5 @@
 {
-   "particleSystemList" : []
+   "particleSystemList" : [
+      "particles/p_firesmoke.json"
+   ]
 }
