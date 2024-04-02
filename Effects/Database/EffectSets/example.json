@@ -173,7 +173,7 @@
          },
          //{
          //   "offset" : [ 0.0, 0.0, 0.0 ],
-         //   "particles" : [ "p_firesmoke" ],
+         //   "particles" : [ "p_cannon_shoot" ],
          //   "type" : "particle"
          //},
          {
