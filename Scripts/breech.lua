@@ -99,10 +99,10 @@ function Breech:server_onFixedUpdate(timeStep)
             print("BREECH DISCONNETED CHILD")
             self.interactable:disconnect(child)
         else
-            self.sv.hasMuzzle = true
+            self:sv_setMuzzle(true)
         end
     else
-        self.sv.hasMuzzle = false
+        self:sv_setMuzzle(false)
     end
 end
 
@@ -254,7 +254,17 @@ function Breech:sv_updateClientData()
     self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status })
 end
 
-function Breech:sv_open() self.network:sendToClients("cl_open") end
+function Breech:sv_open()
+    self.network:sendToClients("cl_open")
+end
+
+function Breech:sv_setMuzzle(state)
+    if self.sv__hasMuzzle == state then return end
+
+    self.sv.hasMuzzle = state
+    self.sv__hasMuzzle = state
+    self.network:sendToClients("cl_setMuzzle", state)
+end
 
 
 --[[ CLIENT ]]--
@@ -263,6 +273,7 @@ function Breech:client_onCreate()
     self.cl = {
         animUpdate = 0,
         animProgress = 0,
+        hasMuzzle = false,
         gui  = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
     }
     self.cl.gui:createHorizontalSlider("breechSlider", 30, 1, "cl_changeSlider", true)
@@ -332,13 +343,20 @@ function Breech:cl_loadSeparated(final)
 end
 
 function Breech:cl_shoot(pos)
-    local rot = nil--sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
+    local rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
 
     if sm.cae_injected then
-        sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, rot)
+        if self.cl.hasMuzzle then
+            sm.effect.playEffect("TankCannon - MuzzleBrake Shoot", pos, nil, rot)
+        else
+            sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, rot)
+        end
     else
-        sm.effect.playEffect("PropaneTank - ExplosionSmall", pos)
-      --sm.effect.playEffect("TankCannon - Smoke", pos, nil, rot)
+        if self.cl.hasMuzzle then
+            sm.effect.playEffect("TankCannon - MuzzleBrake Smoke", pos, nil, rot)
+        else
+            sm.effect.playEffect("TankCannon - Smoke", pos, nil, rot)
+        end
     end
 end
 
@@ -370,8 +388,18 @@ function Breech:cl_updateAnimation(dt)
     self.cl.animProgress = progress
 end
 
-function Breech:cl_open() self.cl.animUpdate = 4 end
-function Breech:cl_close() self.cl.animUpdate = -2 end
+function Breech:cl_open()
+    self.cl.animUpdate = 4
+end
+
+function Breech:cl_close()
+    self.cl.animUpdate = -2
+end
+
+function Breech:cl_setMuzzle(state)
+    print("set muzzle", state)
+    self.cl.hasMuzzle = state
+end
 
 ---@param caliber number the caliber
 ---@return string -- effect name
