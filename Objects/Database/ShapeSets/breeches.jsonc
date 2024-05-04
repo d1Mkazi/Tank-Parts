@@ -59,6 +59,7 @@
 					}
 				]
 			},
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25839"
@@ -112,6 +113,7 @@
 					}
 				]
 			},
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25842"
@@ -147,6 +149,7 @@
 			"name": "KwK36 Breech",
 			"physicsMaterial": "Metal",
 			"renderable": "$CONTENT_DATA/Objects/Renderable/kwk.rend",
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25843"
@@ -200,6 +203,7 @@
 					}
 				]
 			},
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111baa25841"
@@ -235,6 +239,7 @@
 			"name": "KwK36 Breech",
 			"physicsMaterial": "Metal",
 			"renderable": "$CONTENT_DATA/Objects/Renderable/kwk.rend",
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25844"
@@ -289,6 +294,7 @@
 					}
 				]
 			},
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cccc-865e-401c-9c5e-f111bad25843"
@@ -342,6 +348,7 @@
 					}
 				]
 			},
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25841"
@@ -349,9 +356,9 @@
 		{ // KwK37 :: Pzkpfw. III
 			"color": "555555",
 			"hull": {
-				"x": 1,
+				"x": 3,
 				"y": 3,
-				"z": 2,
+				"z": 3,
 				"col": "$CONTENT_DATA/Objects/Collision/88_kwk36_breech.obj"
 			},
 			"scripted": {
@@ -377,6 +384,7 @@
 			"name": "KwK37 Breech",
 			"physicsMaterial": "Metal",
 			"renderable": "$CONTENT_DATA/Objects/Renderable/kwk.rend",
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "bb19cdbf-865e-401c-9c5e-f111bad25840",
