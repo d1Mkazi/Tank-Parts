@@ -466,7 +466,55 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "87d27add-3284-4005-8648-f84f404350ca"
-		}
+		},
+		/*************************************************************************************************************/
+		/********************************************  2A46M :: T-72  ************************************************/
+        { // APCR -> PzGr 40/42
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 1.25,
+                    "impulseLevel" : 150,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "APFSDS Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/3bm46_125.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/3bm46.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "9a261482-b89a-490d-9ac9-fb827b54d47a"
+        }
 		/*************************************************************************************************************/
     ]
 }

@@ -6,9 +6,7 @@ local explode = sm.physics.explode
 ---@param result RaycastResult
 ---@return number
 local function getAngle(result)
-    local angle = math.deg(math.acos(result.directionWorld:dot(result.normalWorld) / result.directionWorld:length() * result.normalLocal:length()))
-    while angle > 90 do angle = angle - 90 end
-    return math.floor(angle + 0.5)
+    return math.floor((math.deg(math.acos(result.directionWorld:dot(result.normalWorld) / result.directionWorld:length() * result.normalLocal:length())) % 90) + 0.5)
 end
 
 ---@param base number base durability of the block/shape
@@ -438,6 +436,43 @@ ShellList = {
                 },
                 usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25803"
             }
+        }
+    },
+
+    -- russian 125mm
+    ["2a46m"] = {
+        separated = {
+            { -- AP Shell
+                shellUuid = "9a261482-b89a-490d-9ac9-fb827b54d47a",
+                caseUuid = "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee",
+                shellData = {
+                    bulletUUID = "eefe50e3-db7f-4a0e-bfa0-6afd29805d35",
+                    initialSpeed = 1660,
+                    mass = 5.12,
+                    penetrationCapacity = 115,
+                    penetrationLoss = 1.5,
+                    maxDurability = 9.6,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee"
+            },
+            --{ -- HE Shell
+            --    shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25804",
+            --    caseUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25802",
+            --    shellData = {
+            --        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25804",
+            --        initialSpeed = 795,
+            --        mass = 25,
+            --        explosion = {
+            --            strength = 4,
+            --            impulse = 120,
+            --            shrapnel = 60
+            --        },
+            --        onHit = __hit_he
+            --    },
+            --    usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25803"
+            --}
         }
     },
 

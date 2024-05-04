@@ -313,6 +313,52 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "922a09d0-0c62-45c6-8152-10e3418fd17d",
 			"showInInventory": false
+		},
+		{ // Soviet 122mm filled
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 2,
+				"diameter": 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel": 4,
+					"explosionRadius": 4,
+					"impulseLevel": 150,
+					"impulseRadius": 4
+				}
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Powder Charge",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/125_filled.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/3bm46.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee"
 		}
     ]
 }

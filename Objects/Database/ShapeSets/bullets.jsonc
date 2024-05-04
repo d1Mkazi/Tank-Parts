@@ -461,6 +461,54 @@
 			"sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25804"
+        },
+		/*************************************************************************************************************/
+		/***********************************************  D-25T :: IS-2  *********************************************/
+        { // HE -> OF-471
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 5.5,
+					"impulseLevel" : 80,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "125mm APFSDS Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apfsds_bullet_3bm46.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/3bm46.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "eefe50e3-db7f-4a0e-bfa0-6afd29805d35",
+            "showInInventory": false
         }
     ]
 }
