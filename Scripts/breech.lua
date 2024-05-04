@@ -202,9 +202,10 @@ function Breech:sv_shoot()
 	self.interactable.active = false
 
     local at = self.shape.at
-    local offset = (sm.item.getShapeSize(self.shape.uuid).y + self.saved.shootDistance) * 0.25
+    local size = sm.item.getShapeSize(self.shape.uuid)
+    local offset = (size.y + self.saved.shootDistance) * 0.25
 
-    local pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125
+    local pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and 1 or 0))
     local shell = self.saved.loaded.data.shellData
     sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.saved.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 

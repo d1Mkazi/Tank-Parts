@@ -407,7 +407,7 @@
 					"areaSizeZ": 0.25,
 					"areaOffsetX": 0,
 					"areaOffsetY": -0.125,
-					"areaOffsetZ": 0.125,
+					"areaOffsetZ": 0,
 					"loading": "separated",
 					"caliber": "2a46m"
 				}
