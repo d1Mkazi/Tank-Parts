@@ -4,39 +4,39 @@
     /***************************************************************
     "uuid": {
         "title": "N Breech",
-        "description": "Breech of "NATION" "TYPE" "TANK"\n\nUses shells:\n"SHELL_TYPE": "SHELL_NAME"",
+        "description": "Breech of "NATION" "TYPE" "TANK"\n\nUsed shells:\n"SHELL_TYPE": "SHELL_NAME"",
         "keywords": [ "breech", "cannon", "gun", NATION ]
     },
     ***************************************************************/
 
     "bb19cdbf-865e-401c-9c5e-f111bad25839": { // KV-1
         "title": "ZiS-5 Breech",
-        "description": "Breech of Soviet heavy tank KV-1\n\nUses shells:\nAPHE: BR-350B\nHE: OF-350M",
+        "description": "Breech of Soviet heavy tank KV-1\n\nUsed shells:\nAPHE: BR-350B\nHE: OF-350M",
         "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25842": { // T-34
         "title": "F-34 Breech",
-        "description": "Breech of Soviet medium tank T-34\n\nUses shells:\nAPHE: BR-350B\nHE: OF-350M\nHEAT: BP-350A",
+        "description": "Breech of Soviet medium tank T-34\n\nUsed shells:\nAPHE: BR-350B\nHE: OF-350M\nHEAT: BP-350A",
         "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cccc-865e-401c-9c5e-f111bad25843": { // IS-2
         "title": "D-25T Breech",
-        "description": "Breech of Soviet heavy tank IS-2\n\nUses shells:\nAPHE: BR-471\nHE: OF-471",
+        "description": "Breech of Soviet heavy tank IS-2\n\nUsed shells:\nAPHE: BR-471\nHE: OF-471",
         "keywords": [ "breech", "cannon", "gun", "soviet" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25840": { // Pz. IV
         "title": "KwK 37 Breech",
-        "description": "Breech of German light tank Pzkpfw. III\n\nUses shells:", // temporary hidden. I don't wanna make models for this now.
+        "description": "Breech of German light tank Pzkpfw. III\n\nUsed shells:", // temporary hidden. I don't wanna make models for this now.
         "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25843": { // Tiger I
         "title": "8,8cm KwK 36 Breech",
-        "description": "Breech of German heavy tank Tiger I\n\nUses shells:\nAPHE: PzGr 39\nHE: Sprgr\nHEAT: Hl.Gr 39",
+        "description": "Breech of German heavy tank Tiger I\n\nUsed shells:\nAPHE: PzGr 39\nHE: Sprgr\nHEAT: Hl.Gr 39",
         "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25844": { // Panther
         "title": "KwK 42 Breech",
-        "description": "Breech of German medium tank Panther\n\nUses shells:\nAPHE: PzGr 39/42\nHE: Sprgr 42\nAPCR: PzGr 40/42",
+        "description": "Breech of German medium tank Panther\n\nUsed shells:\nAPHE: PzGr 39/42\nHE: Sprgr 42\nAPCR: PzGr 40/42",
         "keywords": [ "breech", "cannon", "gun", "german" ]
     },
     "bb19cdbf-865e-401c-9c5e-f111bad25841": { // KV-2
@@ -46,7 +46,7 @@
     },
     "bb19cdbf-865e-401c-9c5e-f111baa25841": { // M3 Stuart
         "title": "M5 Breech",
-        "description": "Breech of American light tank M3 Stuart\n\nUses shells:\nAP: M51B1",
+        "description": "Breech of American light tank M3 Stuart\n\nUsed shells:\nAP: M51B1",
         "keywords": [ "breech", "cannon", "gun", "american" ]
     },
 
