@@ -442,7 +442,7 @@ ShellList = {
     -- russian 125mm
     ["2a46m"] = {
         separated = {
-            { -- AP Shell
+            { -- APFSDS Shell
                 shellUuid = "9a261482-b89a-490d-9ac9-fb827b54d47a",
                 caseUuid = "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee",
                 shellData = {
@@ -455,7 +455,20 @@ ShellList = {
                     maxAngle = 25,
                     onHit = __hit_ap
                 },
-                usedUuid = "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee"
+                usedUuid = "25eb1652-5709-4072-b585-8af149e58565"
+            },
+            { -- HEATFS Shell
+                shellUuid = "a01b60fd-7d77-4c20-a1d3-d19cce0a5216",
+                caseUuid = "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee",
+                shellData = {
+                    bulletUUID = "db68b0e4-4091-4cf9-a39a-2516118d0005",
+                    initialSpeed = 905,
+                    mass = 19,
+                    penetrationCapacity = 100,
+                    onHit = __hit_heat,
+                    isHEAT = true
+                },
+                usedUuid = "25eb1652-5709-4072-b585-8af149e58565"
             },
             --{ -- HE Shell
             --    shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25804",

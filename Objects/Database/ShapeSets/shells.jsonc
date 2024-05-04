@@ -469,7 +469,7 @@
 		},
 		/*************************************************************************************************************/
 		/********************************************  2A46M :: T-72  ************************************************/
-        { // APCR -> PzGr 40/42
+        { // APFSDS -> 3BM60
             "color" : "555555",
             "cylinder" : {
                 "axis" : "Y",
@@ -514,6 +514,52 @@
             "sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
             "uuid" : "9a261482-b89a-490d-9ac9-fb827b54d47a"
+        },
+        { // HEATFS -> 3BK18M
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 1.25,
+                    "impulseLevel" : 150,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "HEATFS Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/3bk18m_125.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/3bk18m.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "a01b60fd-7d77-4c20-a1d3-d19cce0a5216"
         }
 		/*************************************************************************************************************/
     ]

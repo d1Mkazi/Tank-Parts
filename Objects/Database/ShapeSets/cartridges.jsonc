@@ -314,7 +314,7 @@
 			"uuid": "922a09d0-0c62-45c6-8152-10e3418fd17d",
 			"showInInventory": false
 		},
-		{ // Soviet 122mm filled
+		{ // Soviet 125mm filled
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
@@ -359,6 +359,53 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee"
+		},
+        { // Soviet 125mm filled
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 1,
+				"diameter": 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel": 4,
+					"explosionRadius": 4,
+					"impulseLevel": 150,
+					"impulseRadius": 4
+				}
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Empty Charge",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/125_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/3bm46.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "25eb1652-5709-4072-b585-8af149e58565",
+            "showInInventory": false
 		}
     ]
 }

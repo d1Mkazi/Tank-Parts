@@ -463,8 +463,8 @@
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25804"
         },
 		/*************************************************************************************************************/
-		/***********************************************  D-25T :: IS-2  *********************************************/
-        { // HE -> OF-471
+		/***********************************************  2A46M :: T-72  *********************************************/
+        { // APFSDS -> 3BM60 (despite the file name)
             "cylinder" : {
                 "axis" : "Y",
                 "depth" : 3,
@@ -508,6 +508,52 @@
 			"sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
 			"uuid" : "eefe50e3-db7f-4a0e-bfa0-6afd29805d35",
+            "showInInventory": false
+        },
+        { // HEATFS -> 3BK18M
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 5.5,
+					"impulseLevel" : 80,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "125mm HEAT Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_3bk18m.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/3bk18m.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "db68b0e4-4091-4cf9-a39a-2516118d0005",
             "showInInventory": false
         }
     ]
