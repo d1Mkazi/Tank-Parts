@@ -486,23 +486,7 @@ ShellList = {
                     onHit = __hit_he
                 },
                 usedUuid = "25eb1652-5709-4072-b585-8af149e58565"
-            },
-            --{ -- HE Shell
-            --    shellUuid = "ec19cdbf-865e-401c-9c5e-f122bed25804",
-            --    caseUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25802",
-            --    shellData = {
-            --        bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25804",
-            --        initialSpeed = 795,
-            --        mass = 25,
-            --        explosion = {
-            --            strength = 4,
-            --            impulse = 120,
-            --            shrapnel = 60
-            --        },
-            --        onHit = __hit_he
-            --    },
-            --    usedUuid = "ec19cdbf-865e-401c-9c5e-f111ccc25803"
-            --}
+            }
         }
     },
 

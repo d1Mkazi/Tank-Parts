@@ -360,22 +360,12 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee"
 		},
-        { // Soviet 125mm filled
+        { // Soviet 125mm used
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
 				"depth": 1,
 				"diameter": 1
-			},
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel": 4,
-					"explosionRadius": 4,
-					"impulseLevel": 150,
-					"impulseRadius": 4
-				}
 			},
 			"ratings": {
 				"density": 2,
