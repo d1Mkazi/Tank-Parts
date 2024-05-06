@@ -11,9 +11,10 @@ local shrapnelWeak = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce222")
 function shrapnelExplosion(position, velocity, count, spread, damage, weak)
     local _shrapnel = weak == true and shrapnelWeak or shrapnel
 
+    host = sm.player.getAllPlayers()[1]
     for i = 1, count do
         local dir = sm.noise.gunSpread(velocity, spread)
-        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, HOST_PLAYER, nil, nil, 0)
+        sm.projectile.projectileAttack(_shrapnel, damage, position, dir, host, nil, nil, 0)
     end
 end
 

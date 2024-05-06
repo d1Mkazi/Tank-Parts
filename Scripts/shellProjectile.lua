@@ -24,8 +24,6 @@ function ShellProjectile:init()
     ShellProjectile.tool = self.tool
 
     self.projectiles = {}
-
-    HOST_PLAYER = sm.player.getAllPlayers()[1]
     getCases()
     getBreech()
 
