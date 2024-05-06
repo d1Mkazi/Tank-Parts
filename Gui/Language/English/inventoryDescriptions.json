@@ -49,6 +49,11 @@
         "description": "Breech of American light tank M3 Stuart\n\nUsed shells:\nAP: M51B1",
         "keywords": [ "breech", "cannon", "gun", "american" ]
     },
+    "7e5ced0f-d3d9-49f8-8db6-6d08dae2e5f1": { // T-72
+        "title": "2A46M Breech",
+        "description": "Breech of Soviet modern tank T-72\n\nUsed shells:\nAPFSDS: 3BM60\nHEATFS: 3BK18M\nHE: 3OF26",
+        "keywords": [ "breech", "cannon", "gun", "soviet" ]
+    },
 
     // shells.json
 
@@ -108,7 +113,7 @@
     },
     "87d27add-3284-4005-8648-f84f404350ca": {
         "title": "PzGr 40/42",
-        "description": "Armor-Piercing Composite Rigid\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode",
+        "description": "Armor-Piercing Composite Rigid shell\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode",
         "keywords": [ "apcr", "german", "panther" ]
     },
 
@@ -122,12 +127,29 @@
     "ec19cdbf-865e-401c-9c5e-f122bed25803": {
         "title": "BR-471",
         "description": "Armor-Piercing High-Explosive shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "bullet", "soviet", "is-2" ]
+        "keywords": [ "ap", "soviet", "is-2" ]
     },
     "ec19cdbf-865e-401c-9c5e-f122bed25804": {
         "title": "OF-471",
         "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
-        "keywords": [ "bullet", "soviet", "is-2" ]
+        "keywords": [ "he", "soviet", "is-2" ]
+    },
+
+    // T-72
+    "9a261482-b89a-490d-9ac9-fb827b54d47a": {
+        "title": "3BM60",
+        "description": "Armor-Piercing Fin-Stabilized Discarding Sabot shell\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode",
+        "keywords": [ "apfsds", "apfs", "apds", "soviet", "T-72" ]
+    },
+    "a01b60fd-7d77-4c20-a1d3-d19cce0a5216": {
+        "title": "3BK18M",
+        "description": "High-Explosive Anti-Tank Fin-Stabilized shell\nEffective against armored targets.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
+        "keywords": [ "heatfs", "soviet", "T-72" ]
+    },
+    "804c66ee-ca5f-49c0-a09e-c2c43f142787": {
+        "title": "3OF26",
+        "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "he", "soviet", "T-72" ]
     },
 
     // legacy (maybe?)
