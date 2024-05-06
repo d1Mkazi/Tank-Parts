@@ -290,6 +290,7 @@ ShellList = {
 
     --[[ SOVIET ]]--
 
+
     -- soviet 76mm
     zis5 = {
         unitary = {
@@ -467,6 +468,22 @@ ShellList = {
                     penetrationCapacity = 100,
                     onHit = __hit_heat,
                     isHEAT = true
+                },
+                usedUuid = "25eb1652-5709-4072-b585-8af149e58565"
+            },
+            { -- HEFS Shell
+                shellUuid = "804c66ee-ca5f-49c0-a09e-c2c43f142787",
+                caseUuid = "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee",
+                shellData = {
+                    bulletUUID = "804c66ee-ca5f-49c0-a09e-c2c43f142787",
+                    initialSpeed = 850,
+                    mass = 23,
+                    explosion = {
+                        strength = 4,
+                        impulse = 200,
+                        shrapnel = 65
+                    },
+                    onHit = __hit_he
                 },
                 usedUuid = "25eb1652-5709-4072-b585-8af149e58565"
             },
