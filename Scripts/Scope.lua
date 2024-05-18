@@ -2,12 +2,26 @@ dofile("$SURVIVAL_DATA/Scripts/util.lua")
 
 ---@class Scope : ShapeClass
 Scope = class()
+Scope.maxChildCount = -1
+Scope.connectionOutput = sm.interactable.connectionType.logic
+Scope.colorNormal = sm.color.new("d8c836ff")
+Scope.colorHighlight = sm.color.new("f0e26bff")
 
 
 --[[ SERVER ]]--
 
+function Scope:server_onFixedUpdate(dt)
+    if self.interactable.active then
+        self.interactable.active = false
+    end
+end
+
 function Scope:sv_setOccupied(occupied)
     self.network:setClientData({ occupied = occupied })
+end
+
+function Scope:sv_setActive(state)
+    self.interactable.active = state
 end
 
 
@@ -46,6 +60,9 @@ function Scope:client_onAction(action, state)
 
         self.cl.fov = fov
         sm.camera.setFov(fov)
+
+    elseif action == 19 then -- LMB
+        self.network:sendToServer("sv_setActive", true)
     end
 
     return true
