@@ -2,6 +2,10 @@ dofile("utils.lua")
 
 local explode = sm.physics.explode
 
+local _killPlayerVec3 = sm.vec3.new(0.5, 0, 0)
+local _shrapnelVec3 = sm.vec3.new(0, 70, 0)
+local _dynarmorUuid = sm.uuid.new("20c1cd64-f44b-4022-9f67-502254caec69")
+
 
 ---@param result RaycastResult
 ---@return number
@@ -30,7 +34,7 @@ end
 ---@param character Character the player character
 ---@param vel Vec3 velocity (direction)
 local function killPlayer(character, vel)
-    shrapnelExplosion(character.worldPosition - ((vel:normalize() + sm.vec3.new(0.5, 0, 0)) * 0.25), vel, 2, 0, 1000, true)
+    shrapnelExplosion(character.worldPosition - ((vel:normalize() + _killPlayerVec3) * 0.25), vel, 2, 0, 1000, true)
 end
 
 -- Hit functions
@@ -167,13 +171,19 @@ function __hit_heat(data)
     elseif raycastTarget == "body" then
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
+        local uuid = shape.uuid
         if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
             print("[TANK PARTS] HIT SHELL")
             sm.event.sendToInteractable(shape.interactable, "sv_explode")
             data.alive = false
             return
+        elseif uuid == _dynarmorUuid then
+            print("[TANK PARTS] HIT DYNARM")
+            data.alive = false
+            return
         end
-        durability = sm.item.getQualityLevel(shape.uuid) or 1
+
+        durability = sm.item.getQualityLevel(uuid) or 1
         durability = getDurability(durability, angle)
         print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
 
@@ -220,8 +230,6 @@ function __hit_heat(data)
         killPlayer(result:getCharacter(), vel)
 
     elseif raycastTarget == "harvestable" then
-        local harvestable = result:getHarvestable()
-        point = harvestable.worldPosition
         explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
         durability = 3
         data.alive = false
@@ -261,7 +269,7 @@ function __hit_he_howitzer(data)
     local pos = data.hit.pointWorld
 
     explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit")
-    shrapnelExplosion(pos, sm.vec3.new(0, 70, 0), 80, 360, 100)
+    shrapnelExplosion(pos, _shrapnelVec3, 80, 360, 100)
 
     data.alive = false
 end
