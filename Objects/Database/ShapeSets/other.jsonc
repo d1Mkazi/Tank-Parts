@@ -126,41 +126,6 @@
         },
         "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b23"
       },
-      {
-        "color": "3b3b3b",
-        "hull": {
-            "x": 1,
-            "y": 1,
-            "z": 1,
-            "col": "$CONTENT_DATA/Objects/Collision/turret_wheel_collision.obj"
-        },
-        "name": "Turret Steer",
-        "physicsMaterial": "Mechanical",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/turret_wheel2.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "SkelAnimDifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
-                            ]
-                        }
-                    ],
-                    "animationList": [
-                        {"name": "Rotation", "file": "$CONTENT_DATA/Objects/Mesh/turret_wheel2.fbx"}
-                    ]
-                }
-            ]
-        },
-        "rotationSet": "TP_FaceOnly",
-        "scripted": {
-        "classname": "TurretSteer2",
-        "filename": "$CONTENT_DATA/Scripts/TurretSteer2.lua"
-        },
-        "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b55"
       },
       {
         "color": "3b3b3b",
@@ -261,6 +226,41 @@
         "scripted": {
         "classname": "Holder",
         "filename": "$CONTENT_DATA/Scripts/CaseHolder.lua"
+        {
+            "color": "3b3b3b",
+            "hull": {
+                "x": 1,
+                "y": 1,
+                "z": 1,
+                "col": "$CONTENT_DATA/Objects/Collision/turret_wheel_collision.obj"
+            },
+            "name": "Turret Steer",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/turret_wheel2.dae",
+                        "subMeshList": [
+                            {
+                                "material": "SkelAnimDifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ],
+                        "animationList": [
+                            { "name": "Rotation", "file": "$CONTENT_DATA/Objects/Mesh/turret_wheel2.dae", "looping": true }
+                        ]
+                    }
+                ]
+            },
+            "rotationSet": "TP_FaceOnly",
+            "scripted": {
+            "classname": "TurretSteer2",
+            "filename": "$CONTENT_DATA/Scripts/TurretSteer2.lua"
+            },
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b55"
         },
         "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d09"
       },

@@ -213,12 +213,6 @@ function TurretSteer2:cl_updateAnimation(dt)
 
     local progress = self.cl.animProgress + self.cl.animUpdate * dt
 
-    if progress >= 1 then
-        progress = progress - 1
-    elseif progress <= 0 then
-        progress = progress + 1
-    end
-
     self.interactable:setAnimProgress("Rotation", progress)
     self.cl.animProgress = progress
 end
