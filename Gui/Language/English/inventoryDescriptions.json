@@ -203,5 +203,9 @@
     "244358e7-f529-42ab-96c8-fd27e8480a9a": {
         "title": "Muzzle brake",
         "description": "Reduces recoil. Connect to the breech"
+    },
+    "20c1cd64-f44b-4022-9f67-502254caec69": {
+        "title": "Dynamic Armor",
+        "description": "Most effective protection against HEAT bullets"
     }
 }

@@ -1,231 +1,131 @@
 {
    "partList": [
-      { // DOESN'T WORK //
-         "color": "222222",
-         "box": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-         },
-         "name": "Player Fixer",
-         "physicsMaterial": "Mechanical",
-         "renderable": "$GAME_DATA/Objects/Renderable/Interactive/obj_interactive_logicgate.rend",
-         "rotationSet": "PropYZ",
-         "scripted": {
-            "classname": "Fixer",
-            "filename": "$CONTENT_DATA/Scripts/Fixer.lua"
-         },
-         "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b00",
-         "showInInventory": false
-      },
-      { // DEPRECATED //
-         "color": "222222",
-         "box": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-         },
-         "name": "Turret Steer DEPRECATED",
-         "physicsMaterial": "Mechanical",
-         "renderable": {
-				"lodList": [
-					{
-						"mesh": "$CONTENT_DATA/Objects/Mesh/fcs_ww2.fbx",
-						"subMeshList": [
-							{
-								"material": "SkelAnimDif",
-								"textureList": [
-									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_dif.tga"
-								]
-							}
-						],
-						"animationList": [
-							{"name": "Rotation", "file": "$CONTENT_DATA/Objects/Mesh/fcs_ww2.fbx"}
-						]
-					}
-				]
-			},
-         "rotationSet": "TP_FaceOnly",
-         "scripted": {
-            "classname": "TurretSteer",
-            "filename": "$CONTENT_DATA/Scripts/TurretSteer.lua"
-         },
-         "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b01",
-         "showInInventory": false
-      },
-      {
-        "color": "3b3b3b",
+        { // DOESN'T WORK //
+            "color": "222222",
+            "box": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "name": "Player Fixer",
+            "physicsMaterial": "Mechanical",
+            "renderable": "$GAME_DATA/Objects/Renderable/Interactive/obj_interactive_logicgate.rend",
+            "rotationSet": "PropYZ",
+            "scripted": {
+                "classname": "Fixer",
+                "filename": "$CONTENT_DATA/Scripts/Fixer.lua"
+            },
+            "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b00",
+            "showInInventory": false
+        },
+        { // DEPRECATED //
+            "color": "222222",
+            "box": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "name": "Turret Steer DEPRECATED",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                    "lodList": [
+                        {
+                            "mesh": "$CONTENT_DATA/Objects/Mesh/fcs_ww2.fbx",
+                            "subMeshList": [
+                                {
+                                    "material": "SkelAnimDif",
+                                    "textureList": [
+                                        "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_dif.tga"
+                                    ]
+                                }
+                            ],
+                            "animationList": [
+                                {"name": "Rotation", "file": "$CONTENT_DATA/Objects/Mesh/fcs_ww2.fbx"}
+                            ]
+                        }
+                    ]
+                },
+            "rotationSet": "TP_FaceOnly",
+            "scripted": {
+                "classname": "TurretSteer",
+                "filename": "$CONTENT_DATA/Scripts/TurretSteer.lua"
+            },
+            "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b01",
+            "showInInventory": false
+        },
+        {
+            "color": "3b3b3b",
             "hull": {
-            "x": 1,
-            "y": 1,
-            "z": 1,
-            "col": "$CONTENT_DATA/Objects/Collision/periscope.obj"
+                "x": 1,
+                "y": 1,
+                "z": 1,
+                "col": "$CONTENT_DATA/Objects/Collision/periscope.obj"
+            },
+            "name": "Periscope",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "SkelAnimDifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ],
+                        "animationList": [
+                            { "name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx" },
+                            { "name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx" }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "+Z",
+            "rotationSet": "PropNegZ",
+            "scripted": {
+            "classname": "PeriscopeInput",
+            "filename": "$CONTENT_DATA/Scripts/PeriscopeInput.lua"
+            },
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b22"
         },
-        "name": "Periscope",
-        "physicsMaterial": "Mechanical",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "SkelAnimDifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
-                            ]
-                        }
-                    ],
-                    "animationList": [
-                        {"name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx"},
-                        {"name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/periscope_inner.fbx"}
-                    ]
-                }
-            ]
+        {
+            "color": "3b3b3b",
+            "hull": {
+                "x": 1,
+                "y": 1,
+                "z": 1,
+                "col": "$CONTENT_DATA/Objects/Collision/viewport.obj"
+            },
+            "name": "Viewport",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/periscope_outer.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "-Z",
+            "rotationSet": "PropZ",
+            "scripted": {
+            "classname": "PeriscopeOutput",
+            "filename": "$CONTENT_DATA/Scripts/PeriscopeOutput.lua"
+            },
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b23"
         },
-        "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
-        "sticky": "+Z",
-        "rotationSet": "PropNegZ",
-        "scripted": {
-        "classname": "PeriscopeInput",
-        "filename": "$CONTENT_DATA/Scripts/PeriscopeInput.lua"
-        },
-        "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b22"
-      },
-      {
-        "color": "3b3b3b",
-        "hull": {
-            "x": 1,
-            "y": 1,
-            "z": 1,
-            "col": "$CONTENT_DATA/Objects/Collision/viewport.obj"
-        },
-        "name": "Viewport",
-        "physicsMaterial": "Mechanical",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/periscope_outer.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "DifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "sticky": "-Z",
-        "rotationSet": "PropZ",
-        "scripted": {
-        "classname": "PeriscopeOutput",
-        "filename": "$CONTENT_DATA/Scripts/PeriscopeOutput.lua"
-        },
-        "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b23"
-      },
-      },
-      {
-        "color": "3b3b3b",
-        "hull": {
-            "x": 1,
-            "y": 1,
-            "z": 1,
-            "col": "$CONTENT_DATA/Objects/Collision/machinegunHandle_collision.obj"
-        },
-        "name": "Machine gun Handle",
-        "physicsMaterial": "Mechanical",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/machinegunHandle.fbx",
-                "pose0": "$CONTENT_DATA/Objects/Mesh/machinegunHandle_active.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "PoseAnimDifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
-        "rotationSet": "TP_BackOnly",
-        "scripted": {
-        "classname": "Handle",
-        "filename": "$CONTENT_DATA/Scripts/MachinegunHandle.lua"
-        },
-        "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d07"
-      },
-      {
-        "color": "df7f00",
-        "cylinder" : {
-            "axis" : "Y",
-            "depth" : 1,
-            "diameter" : 1
-        },
-        "name": "Scope",
-        "physicsMaterial": "Mechanical",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/scope.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "DifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/scope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/scope_asg.tga"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
-        "sticky": "-Z",
-        "rotationSet": "PropZ",
-        "scripted": {
-        "classname": "Scope",
-        "filename": "$CONTENT_DATA/Scripts/Scope.lua"
-        },
-        "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d08"
-      },
-      {
-        "color": "df7f00",
-        "cylinder" : {
-            "axis" : "Z",
-            "depth" : 3,
-            "diameter" : 1
-        },
-        "name": "Case Holder",
-        "physicsMaterial": "Mechanical",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/caseHolder.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "DifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/scope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/scope_asg.tga"
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
-        "sticky": "-Z",
-        "rotationSet": "PropZ",
-        "scripted": {
-        "classname": "Holder",
-        "filename": "$CONTENT_DATA/Scripts/CaseHolder.lua"
         {
             "color": "3b3b3b",
             "hull": {
@@ -255,6 +155,7 @@
                     }
                 ]
             },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
             "rotationSet": "TP_FaceOnly",
             "scripted": {
             "classname": "TurretSteer2",
@@ -262,46 +163,230 @@
             },
             "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b55"
         },
-        "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d09"
-      },
-      {
-        "color": "df7f00",
-        "cylinder" : {
-            "axis" : "Y",
-            "depth" : 2,
-            "diameter" : 1
+        {
+            "color": "3b3b3b",
+            "hull": {
+                "x": 1,
+                "y": 1,
+                "z": 1,
+                "col": "$CONTENT_DATA/Objects/Collision/machinegunHandle_collision.obj"
+            },
+            "name": "Machine gun Handle",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/machinegunHandle.fbx",
+                    "pose0": "$CONTENT_DATA/Objects/Mesh/machinegunHandle_active.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "PoseAnimDifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "rotationSet": "TP_BackOnly",
+            "scripted": {
+            "classname": "Handle",
+            "filename": "$CONTENT_DATA/Scripts/MachinegunHandle.lua"
+            },
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d07"
         },
-        "name": "Muzzle",
-        "physicsMaterial": "Metal",
-        "renderable": {
-            "lodList": [
-                {
-                    "mesh": "$CONTENT_DATA/Objects/Mesh/muzzle1.fbx",
-                    "subMeshList": [
-                        {
-                            "material": "DifAsg",
-                            "textureList": [
-                                "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
-                                "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
-                            ]
-                        }
-                    ]
-                }
-            ]
+        {
+            "color": "df7f00",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 1,
+                "diameter" : 1
+            },
+            "name": "Scope",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/scope.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/scope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/scope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "-Z",
+            "rotationSet": "PropZ",
+            "scripted": {
+            "classname": "Scope",
+            "filename": "$CONTENT_DATA/Scripts/Scope.lua"
+            },
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d08"
         },
-        "sticky": "-Y",
-        "rotationSet": "PropY",
-        "scripted": {
-        "classname": "Muzzle",
-        "filename": "$CONTENT_DATA/Scripts/Muzzle.lua"
+        {
+            "color": "df7f00",
+            "cylinder" : {
+                "axis" : "Z",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "name": "Case Holder",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/caseHolder.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/scope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/scope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "-Z",
+            "rotationSet": "PropZ",
+            "scripted": {
+            "classname": "Holder",
+            "filename": "$CONTENT_DATA/Scripts/CaseHolder.lua"
+            },
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d09"
         },
-        "ratings": {
-            "density": 3,
-            "durability": 5,
-            "friction": 3,
-            "buoyancy": 4
+        {
+            "color": "df7f00",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 2,
+                "diameter" : 1
+            },
+            "name": "Muzzle",
+            "physicsMaterial": "Metal",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/muzzle1.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "-Y",
+            "rotationSet": "PropY",
+            "scripted": {
+            "classname": "Muzzle",
+            "filename": "$CONTENT_DATA/Scripts/Muzzle.lua"
+            },
+            "ratings": {
+                "density": 3,
+                "durability": 5,
+                "friction": 3,
+                "buoyancy": 4
+            },
+            "uuid": "244358e7-f529-42ab-96c8-fd27e8480a9a"
         },
-        "uuid": "244358e7-f529-42ab-96c8-fd27e8480a9a"
-      }
-   ]
+        {
+            "color": "355535",
+            "hull": {
+                "x": 1,
+                "y": 2,
+                "z": 1,
+                "col": "$CONTENT_DATA/Objects/Collision/dynarmor.obj"
+            },
+            "name": "Dynamic Armor",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/dynarmor.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "-Z",
+            "rotationSet": "PropZ",
+            //"scripted": {
+            //    "classname": "DynamicArmor",
+            //    "filename": "$CONTENT_DATA/Scripts/Dynarmor.lua"
+            //},
+            "ratings": {
+                "density": 2,
+                "durability": 3,
+                "friction": 1,
+                "buoyancy": 5
+            },
+            "uuid": "20c1cd64-f44b-4022-9f67-502254caec69"
+        },
+        {
+            "color": "355535",
+            "hull": {
+                "x": 3,
+                "y": 1,
+                "z": 1,
+                "col": "$CONTENT_DATA/Objects/Collision/goggles.obj"
+            },
+            "name": "Goggles",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/goggles.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "+Y",
+            "rotationSet": "PropNegY",
+            //"scripted": {
+            //    "classname": "Goggles",
+            //    "filename": "$CONTENT_DATA/Scripts/Goggles.lua"
+            //},
+            "ratings": {
+                "density": 1,
+                "durability": 2,
+                "friction": 1,
+                "buoyancy": 5
+            },
+            "uuid": "e98eecc3-2665-49a6-9a15-86e591ab4e5a"
+        }
+    ]
 }
