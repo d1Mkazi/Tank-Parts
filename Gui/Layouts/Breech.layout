@@ -1,12 +1,40 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <MyGUI type="Layout" version="3.2.0">
-    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.28385416666666669 0.16666666666666666" name="BackPanel">
-        <Widget type="TextBox" skin="TextBox" position_real="0.027522935779816515 0.1388888888888889 0.94495412844036697 0.30555555555555558" name="breechTitle">
+    <Widget type="Widget" skin="BackgroundLiftImport" position_real="0 0 0.34635416666666669 0.30092592592592593" name="BackPanel">
+        <Widget type="TextBox" skin="TextBox" position_real="0.022556390977443608 0.076923076923076927 0.95488721804511278 0.16923076923076924" name="breech_title">
             <Property key="FontName" value="SM_HeaderLarge_Medium"/>
             <Property key="TextAlign" value="Center"/>
-            <Property key="Caption" value="Barrel length"/>
+            <Property key="Caption" value="Breech Settings"/>
         </Widget>
-        <Widget type="Widget" skin="PanelEmpty" position_real="0.027522935779816515 0.52777777777777779 0.94495412844036697 0.33333333333333331" name="breechSlider"/>
+        <Widget type="Widget" skin="PanelEmpty" position_real="0.41353383458646614 0.29230769230769232 0.37593984962406013 0.15384615384615385" name="breech_barrelLength_slider"/>
+        <Widget type="ImageBox" skin="ImageBox" position_real="0.052631578947368418 0.32307692307692309 0.22556390977443608 0.46153846153846156" name="breech_icon"/>
+        <Widget type="Widget" skin="DropDownBackground" position_real="0.2932330827067669 0.47692307692307695 0.24812030075187969 0.46153846153846156" name="breech_offset_panel">
+            <Widget type="Button" skin="SettingsButton" position_real="0.090909090909090912 0.33333333333333331 0.81818181818181823 0.29999999999999999" name="breech_offset_upper">
+                <Property key="Caption" value="UPPER"/>
+                <Property key="FontName" value="SM_Button"/>
+                <Property key="TextAlign" value="Center"/>
+            </Widget>
+            <Widget type="Button" skin="SettingsButton" position_real="0.090909090909090912 0.6333333333333333 0.81818181818181823 0.29999999999999999" name="breech_offset_lower">
+                <Property key="Caption" value="LOWER"/>
+                <Property key="TextAlign" value="Center"/>
+                <Property key="FontName" value="SM_Button"/>
+            </Widget>
+            <Widget type="TextBox" skin="TextBox" position_real="0.090909090909090912 0.066666666666666666 0.81818181818181823 0.23333333333333334" name="breech_offset_text">
+                <Property key="Caption" value="Offset"/>
+                <Property key="TextAlign" value="Center"/>
+                <Property key="FontName" value="SM_SubHeader"/>
+            </Widget>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.052631578947368418 0.81538461538461537 0.22556390977443608 0.1076923076923077" name="breech_name">
+            <Property key="TextAlign" value="Center"/>
+            <Property key="Caption" value="2A46M"/>
+            <Property key="FontName" value="SM_HeaderLarge_Medium"/>
+        </Widget>
+        <Widget type="TextBox" skin="TextBox" position_real="0.2932330827067669 0.32307692307692309 0.11278195488721804 0.12307692307692308" name="breech_barrelLength_display">
+            <Property key="TextAlign" value="Right VCenter"/>
+            <Property key="Caption" value="23 blocks"/>
+            <Property key="FontName" value="SM_ButtonSmall"/>
+        </Widget>
     </Widget>
     <CodeGeneratorSettings/>
 </MyGUI>

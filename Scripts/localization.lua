@@ -37,6 +37,10 @@ local languages = {
         English = "Barrel Length",
         Russian = "Длина ствола"
     },
+    breech_GuiDisplay = {
+        English = "%s blocks",
+        Russian = "%s блоков"
+    },
 
     steer_GuiTitle = {
         English = "Max Speed",

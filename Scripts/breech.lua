@@ -277,7 +277,8 @@ function Breech:client_onCreate()
         hasMuzzle = false,
         gui  = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
     }
-    self.cl.gui:createHorizontalSlider("breechSlider", 30, 1, "cl_changeSlider", true)
+    self.cl.gui:createHorizontalSlider("breech_barrelLength_slider", 30, 1, "cl_changeSlider")
+    self.cl.gui:setIconImage("breech_icon", self.shape.uuid)
 
     self.interactable:setAnimEnabled("Opening", true)
 end
@@ -314,10 +315,13 @@ function Breech:client_onTinker(character, state)
     if not state then return end
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
-    local title = GetLocalization("breech_GuiTitle", sm.gui.getCurrentLanguage())
-    self.cl.gui:setText("breechTitle", title)
-    self.cl.gui:open()
-    self.cl.gui:setSliderPosition("breechSlider", self.cl.shootDistance)
+    local gui = self.cl.gui
+    gui:setText("breech_title", GetLocalization("breech_GuiTitle", sm.gui.getCurrentLanguage()))
+    gui:setSliderPosition("breech_barrelLength_slider", self.cl.shootDistance)
+    gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", sm.gui.getCurrentLanguage()):format(self.cl.shootDistance + 1))
+    gui:setButtonState("breech_offset_upper", false)
+    gui:setButtonState("breech_offset_lower", false)
+    gui:open()
 end
 
 function Breech:client_onUpdate(dt)
@@ -361,7 +365,11 @@ function Breech:cl_shoot(pos)
     end
 end
 
-function Breech:cl_changeSlider(value) self.network:sendToServer("sv_setBreech", value) end
+function Breech:cl_changeSlider(value)
+    self.cl.gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", sm.gui.getCurrentLanguage()):format(value + 1))
+
+    self.network:sendToServer("sv_setBreech", value)
+end
 
 function Breech:cl_carryCase()
     if self.cl.carry ~= nil and self.cl.animProgress == 1 then
