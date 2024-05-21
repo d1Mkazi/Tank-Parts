@@ -38,8 +38,20 @@ local languages = {
         Russian = "Длина ствола"
     },
     breech_GuiDisplay = {
-        English = "%s blocks",
-        Russian = "%s блоков"
+        English = "%s blk",
+        Russian = "%s блк."
+    },
+    breech_GuiOffset = {
+        English = "Offset",
+        Russian = "Выстрел"
+    },
+    breech_GuiUpper = {
+        English = "UPPER",
+        Russian = "ВЫШЕ"
+    },
+    breech_GuiLower = {
+        English = "LOWER",
+        Russian = "НИЖЕ"
     },
 
     steer_GuiTitle = {
@@ -86,3 +98,5 @@ function GetLocalization(key, language)
 
     return languages[key][language] or languages[key].English
 end
+
+getLang = sm.gui.getCurrentLanguage

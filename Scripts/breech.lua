@@ -43,7 +43,8 @@ function Breech:init()
     self.saved = self.storage:load() or {
         loaded = nil,
         shootDistance = 0,
-        status = EMPTY
+        status = EMPTY,
+        offset = 1
     }
     local status
     if isAnyOf(status, GateClosed) then
@@ -205,7 +206,7 @@ function Breech:sv_shoot()
     local size = sm.item.getShapeSize(self.shape.uuid)
     local offset = (size.y + self.saved.shootDistance) * 0.25
 
-    local pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and 1 or 0))
+    local pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and self.saved.offset or 0))
     local shell = self.saved.loaded.data.shellData
     sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.saved.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 
@@ -232,9 +233,14 @@ function Breech:sv_dropCase()
     self.storage:save(self.saved)
 end
 
----@param distance number shoot distance offset (barrel length)
-function Breech:sv_setBreech(distance)
-    self.saved.shootDistance = distance
+---@param args table Possible keys are `distance`, `offset`
+function Breech:sv_setBreech(args)
+    if args.distance then
+        self.saved.shootDistance = args.distance
+    end
+    if args.offset then
+        self.saved.offset = args.offset
+    end
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -252,7 +258,7 @@ function Breech:sv_unload(container)
 end
 
 function Breech:sv_updateClientData()
-    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status })
+    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status, offset = self.saved.offset })
 end
 
 function Breech:sv_open()
@@ -275,10 +281,17 @@ function Breech:client_onCreate()
         animUpdate = 0,
         animProgress = 0,
         hasMuzzle = false,
-        gui  = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
+        offset = 1
     }
-    self.cl.gui:createHorizontalSlider("breech_barrelLength_slider", 30, 1, "cl_changeSlider")
-    self.cl.gui:setIconImage("breech_icon", self.shape.uuid)
+    local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
+    gui:createHorizontalSlider("breech_barrelLength_slider", 30, 1, "cl_changeSlider")
+    gui:setIconImage("breech_icon", self.shape.uuid)
+    gui:setButtonCallback("breech_offset_upper", "cl_onOffsetChange")
+    gui:setButtonCallback("breech_offset_lower", "cl_onOffsetChange")
+
+    gui:setVisible("breech_offset_panel", sm.item.getShapeSize(self.shape.uuid).z % 2 == 0 and true or false)
+
+    self.cl.gui = gui
 
     self.interactable:setAnimEnabled("Opening", true)
 end
@@ -292,7 +305,7 @@ end
 function Breech:client_canInteract()
     if self.cl.status ~= FIRED then return false end
 
-    local takeCase = GetLocalization("breech_TakeCase", sm.gui.getCurrentLanguage())
+    local takeCase = GetLocalization("breech_TakeCase", getLang())
     sm.gui.setCenterIcon("Use")
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), takeCase)
     return true
@@ -306,7 +319,7 @@ function Breech:client_onInteract(character, state)
 end
 
 function Breech:client_canTinker(character)
-    local settings = GetLocalization("base_Settings", sm.gui.getCurrentLanguage())
+    local settings = GetLocalization("base_Settings", getLang())
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), settings)
     return true
 end
@@ -316,11 +329,15 @@ function Breech:client_onTinker(character, state)
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
     local gui = self.cl.gui
-    gui:setText("breech_title", GetLocalization("breech_GuiTitle", sm.gui.getCurrentLanguage()))
+    gui:setText("breech_title", GetLocalization("base_Settings", getLang()))
     gui:setSliderPosition("breech_barrelLength_slider", self.cl.shootDistance)
-    gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", sm.gui.getCurrentLanguage()):format(self.cl.shootDistance + 1))
-    gui:setButtonState("breech_offset_upper", false)
-    gui:setButtonState("breech_offset_lower", false)
+    gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", getLang()):format(self.cl.shootDistance + 1))
+    gui:setButtonState("breech_offset_upper", self.cl.offset == 1)
+    gui:setText("breech_offset_upper", GetLocalization("breech_GuiUpper", getLang()))
+    gui:setButtonState("breech_offset_lower", self.cl.offset == -1)
+    gui:setText("breech_offset_lower", GetLocalization("breech_GuiLower", getLang()))
+    gui:setText("breech_name", sm.shape.getShapeTitle(self.shape.uuid))
+    gui:setText("breech_offset_text", GetLocalization("breech_GuiOffset", getLang()))
     gui:open()
 end
 
@@ -366,9 +383,24 @@ function Breech:cl_shoot(pos)
 end
 
 function Breech:cl_changeSlider(value)
-    self.cl.gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", sm.gui.getCurrentLanguage()):format(value + 1))
+    self.cl.gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", getLang()):format(value + 1))
 
-    self.network:sendToServer("sv_setBreech", value)
+    self.network:sendToServer("sv_setBreech", { distance = value })
+end
+
+---@param button string
+---@param state boolean
+function Breech:cl_onOffsetChange(button, state)
+    print("HEY")
+    if button:sub(15) == "upper" then
+        self.cl.gui:setButtonState("breech_offset_upper", true)
+        self.cl.gui:setButtonState("breech_offset_lower", false)
+        self.network:sendToServer("sv_setBreech", { offset = 1 })
+    else
+        self.cl.gui:setButtonState("breech_offset_upper", false)
+        self.cl.gui:setButtonState("breech_offset_lower", true)
+        self.network:sendToServer("sv_setBreech", { offset = -1 })
+    end
 end
 
 function Breech:cl_carryCase()
