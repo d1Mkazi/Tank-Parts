@@ -179,6 +179,7 @@ function __hit_heat(data)
             return
         elseif uuid == _dynarmorUuid then
             print("[TANK PARTS] HIT DYNARM")
+            shape:destroyPart(0)
             data.alive = false
             return
         end
