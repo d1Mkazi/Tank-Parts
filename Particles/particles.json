@@ -1,6 +1,8 @@
 {
    "particleSystemList" : [
       "particles/p_cannon_shoot.json",
-      "particles/p_cannon_shoot_muzzle_brake.json"
+      "particles/p_cannon_shoot_muzzle_brake.json",
+      "particles/p_howitzer_shoot.json",
+      "particles/p_active_defense_pop.json"
    ]
 }
