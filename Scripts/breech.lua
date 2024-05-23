@@ -68,19 +68,18 @@ function Breech:init()
     self.sv.areaTrigger:setShapeDetection(true)
 end
 
-function Breech:server_onFixedUpdate(timeStep)
+function Breech:server_onFixedUpdate(dt)
     local parent = self.interactable:getSingleParent()
-    local children = self.interactable:getChildren(sm.interactable.connectionType.power)
+    local children = self.interactable:getChildren(2) -- power
     local status = self.saved.status
-    local sv = self.sv
 
-    if status == FIRED and sv.animProgress == 1 and sv.dropping then
+    if status == FIRED and self.sv.animProgress == 1 and self.sv.dropping then
         self:sv_dropCase()
         self.sv.dropping = false
     end
 
-    if parent and parent.active and not sv.lastActive then
-        if status == LOADED and sv.animProgress == 0 then
+    if parent and parent.active and not self.sv.lastActive then
+        if status == LOADED and self.sv.animProgress == 0 then
             self:sv_shoot()
         elseif status == FIRED then
             self.network:sendToClients("cl_open")
@@ -95,12 +94,14 @@ function Breech:server_onFixedUpdate(timeStep)
     end
 
     if #children > 0 then
-        local child = children[1]
-        if self.sv.hasMuzzle and tostring(child.shape.uuid) ~= "244358e7-f529-42ab-96c8-fd27e8480a9a" then
-            print("BREECH DISCONNETED CHILD")
-            self.interactable:disconnect(child)
-        else
+        local child = children[1] --[[@as Interactable]]
+        if (not self.sv.hasMuzzle and tostring(child.shape.uuid) == "244358e7-f529-42ab-96c8-fd27e8480a9a")
+        and (self.shape.worldPosition:dot(child.shape.worldPosition) == 0)
+        and ((self.shape.worldPosition - child.shape.worldPosition):length() <= 30) then
             self:sv_setMuzzle(true)
+        else
+            print("BREECH DISCONNETED POWER CHILD")
+            self.interactable:disconnect(child)
         end
     else
         self:sv_setMuzzle(false)
@@ -206,8 +207,15 @@ function Breech:sv_shoot()
     local size = sm.item.getShapeSize(self.shape.uuid)
     local offset = (size.y + self.saved.shootDistance) * 0.25
 
-    local pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and self.saved.offset or 0))
+    local pos
+    if self.sv.hasMuzzle then
+        pos = self.interactable:getChildren(2)[1].shape.worldPosition + at * 0.25 -- power
+    else
+        pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and self.saved.offset or 0))
+    end
+
     local shell = self.saved.loaded.data.shellData
+
     sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.saved.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 
     local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)

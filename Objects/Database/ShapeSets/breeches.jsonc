@@ -444,6 +444,61 @@
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "7e5ced0f-d3d9-49f8-8db6-6d08dae2e5f1"
+		},
+		{ // M68A1 :: M1 Abrams
+			"color": "222222",
+			"hull": {
+				"x": 3,
+				"y": 3,
+				"z": 3,
+				"col": "$CONTENT_DATA/Objects/Collision/2a46m_breech.obj"
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Breech.lua",
+				"classname": "Breech",
+				"data": {
+					"areaSizeX": 0.125,
+					"areaSizeY": 0.25,
+					"areaSizeZ": 0.25,
+					"areaOffsetX": 0,
+					"areaOffsetY": -0.125,
+					"areaOffsetZ": 0,
+					"loading": "separated",
+					"caliber": "2a46m"
+				}
+			},
+			"ratings": {
+				"density": 7,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"name": "M68A1 Breech",
+			"physicsMaterial": "Metal",
+			"renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/breeches/m68a1_breech.dae",
+						"subMeshList": [
+							{
+								"material": "SkelAnimDifAsgNor",
+								"textureList": [
+									"$CONTENT_DATA/Objects/Textures/2a46m_dif.png",
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga",
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_nor.tga"
+								]
+							}
+						],
+						"animationList": [
+							{"name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/m68a1_breech.dae"}
+						]
+					}
+				]
+			},
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+			"sticky": "+X-X+Y+Z-Z",
+			"rotationSet": "TP_BreechRotation",
+			"uuid": "1fec172b-0a3a-4ca9-8433-a75b9301f483"
 		}
     ]
 }

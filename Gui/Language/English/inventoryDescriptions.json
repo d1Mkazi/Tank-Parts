@@ -51,8 +51,13 @@
     },
     "7e5ced0f-d3d9-49f8-8db6-6d08dae2e5f1": { // T-72
         "title": "2A46M Breech",
-        "description": "Breech of Soviet modern tank T-72\n\nUsed shells:\nAPFSDS: 3BM60\nHEATFS: 3BK18M\nHE: 3OF26",
+        "description": "Breech of Soviet MBT T-72\n\nUsed shells:\nAPFSDS: 3BM60\nHEATFS: 3BK18M\nHE: 3OF26",
         "keywords": [ "breech", "cannon", "gun", "soviet" ]
+    },
+    "1fec172b-0a3a-4ca9-8433-a75b9301f483": { // M1 Abrams
+        "title": "M68A1 Breech",
+        "description": "Breech of American MBT M1 Abrams\n\nUsed shells:\nAPFSDS: -\nHEATFS: -\nHE: -",
+        "keywords": [ "breech", "cannon", "gun", "american" ]
     },
 
     // shells.json
@@ -207,5 +212,10 @@
     "20c1cd64-f44b-4022-9f67-502254caec69": {
         "title": "Dynamic Armor",
         "description": "Most effective protection against HEAT bullets"
+    },
+    "b0fb8b9e-ac99-4033-abd2-4beb598431a2": {
+        "title": "Targeting Device",
+        "description": "No MBT can exist without this thing!\n\nConnect Goggles to use them as a scope\nConnect red logic for left and blue logic for right mouse buttons.\nConnect bearings to control them with WASD",
+        "keywords": [ "Cheburashka", "T-72", "T-80", "T-90" ]
     }
 }
