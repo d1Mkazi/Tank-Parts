@@ -95,13 +95,11 @@ function Breech:server_onFixedUpdate(dt)
 
     if #children > 0 then
         local child = children[1] --[[@as Interactable]]
-        if (not self.sv.hasMuzzle and tostring(child.shape.uuid) == "244358e7-f529-42ab-96c8-fd27e8480a9a")
-        and (self.shape.worldPosition:dot(child.shape.worldPosition) == 0)
-        and ((self.shape.worldPosition - child.shape.worldPosition):length() <= 30) then
-            self:sv_setMuzzle(true)
-        else
-            print("BREECH DISCONNETED POWER CHILD")
+        if self.sv.hasMuzzle and tostring(child.shape.uuid) ~= "244358e7-f529-42ab-96c8-fd27e8480a9a" then
+            print("BREECH DISCONNETED CHILD")
             self.interactable:disconnect(child)
+        else
+            self:sv_setMuzzle(true)
         end
     else
         self:sv_setMuzzle(false)
