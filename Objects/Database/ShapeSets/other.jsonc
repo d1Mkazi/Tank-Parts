@@ -335,10 +335,10 @@
             "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
             "sticky": "-Z",
             "rotationSet": "PropZ",
-            //"scripted": {
-            //    "classname": "DynamicArmor",
-            //    "filename": "$CONTENT_DATA/Scripts/Dynarmor.lua"
-            //},
+            "scripted": {
+                "classname": "DynamicArmor",
+                "filename": "$CONTENT_DATA/Scripts/Dynarmor.lua"
+            },
             "ratings": {
                 "density": 2,
                 "durability": 3,
@@ -387,6 +387,52 @@
                 "buoyancy": 5
             },
             "uuid": "e98eecc3-2665-49a6-9a15-86e591ab4e5a"
+        },
+        {
+            "color": "355535",
+            "box": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "name": "Targeting Device",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae",
+                        "subMeshList": [
+                            {
+                                "material": "SkelAnimDifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/cheburashka_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ],
+                        "animationList": [
+                            { "name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" },
+                            { "name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" },
+                            { "name": "PressLeft", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" },
+                            { "name": "PressRight", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "+Z",
+            "rotationSet": "PropNegZ",
+            "scripted": {
+                "classname": "TargetDevice",
+                "filename": "$CONTENT_DATA/Scripts/TargetDevice.lua"
+            },
+            "ratings": {
+                "density": 1,
+                "durability": 3,
+                "friction": 3,
+                "buoyancy": 3
+            },
+            "uuid": "b0fb8b9e-ac99-4033-abd2-4beb598431a2"
         }
     ]
 }

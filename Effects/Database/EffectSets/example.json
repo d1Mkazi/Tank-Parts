@@ -123,7 +123,7 @@
          {
             "attached" : true,
             "delay" : 0.0,
-            "name" : "Explosion_small_01",
+            "name" : "p_howitzer_shoot",
             "offset" : [ 0.0, 0.0, 0.0 ],
             "type" : "particle"
          },
@@ -153,8 +153,7 @@
          "intensity" : 4.0,
          "radius" : 16.0,
          "shakeRadius" : 40.0,
-         "shakeStrength" : 0.050,
-         "size" : 0.0
+         "shakeStrength" : 0.050
       }
    },
    "TankCannon - Shoot" : {
@@ -165,15 +164,14 @@
             "type" : "audio"
          },
          {
-            "attached" : true,
             "delay" : 0.0,
             "name" : "Explosion_small_01",
             "offset" : [ 0.0, 0.0, 0.0 ],
             "type" : "particle"
          },
          {
-            "offset" : [ 0.0, 0.0, 0.0 ],
             "particles" : [ "p_cannon_shoot" ],
+            "offset" : [ 0.0, 0.0, 0.0 ],
             "type" : "particle"
          },
          {
@@ -202,8 +200,7 @@
          "intensity" : 6.0,
          "radius" : 25.0,
          "shakeRadius" : 60.0,
-         "shakeStrength" : 0.40,
-         "size" : 0.0
+         "shakeStrength" : 0.40
       }
    },
    "TankCannon - MuzzleBrake Shoot" : {
@@ -288,5 +285,14 @@
       "parameterList": {
          "size": 1
       }
+   },
+   "Dynamic Armor - Explosion" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_dynamic_armor_pop" ],
+            "type" : "particle"
+         }
+      ]
    }
 }

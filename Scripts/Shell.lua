@@ -3,6 +3,9 @@ dofile("utils.lua")
 ---@class Shell : ShapeClass
 Shell = class()
 
+
+--[[ SERVER ]]--
+
 function Shell:server_onCreate()
     self.interactable.publicData = { isShell = true }
 end
