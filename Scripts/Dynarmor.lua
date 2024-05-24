@@ -5,7 +5,7 @@ DynamicArmor = class()
 --[[ SERVER ]]--
 
 function DynamicArmor:server_onCreate()
-    self.interactable.publicData = { isShell = true } -- it works
+    self.interactable.publicData = { isDA = true }
 end
 
 function DynamicArmor:server_onProjectile(position, airTime, velocity, projectileName, shooter, damage, customData, normal, uuid)

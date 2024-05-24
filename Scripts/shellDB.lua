@@ -172,16 +172,18 @@ function __hit_heat(data)
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
         local uuid = shape.uuid
-        if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
-            print("[TANK PARTS] HIT SHELL")
-            sm.event.sendToInteractable(shape.interactable, "sv_explode")
-            data.alive = false
-            return
-        elseif uuid == _dynarmorUuid then
-            print("[TANK PARTS] HIT DYNARM")
-            shape:destroyPart(0)
-            data.alive = false
-            return
+        if shape.interactable and shape.interactable.publicData then
+            if shape.interactable.publicData.isShell then
+                print("[TANK PARTS] HIT SHELL")
+                sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                data.alive = false
+                return
+            elseif shape.interactable.publicData.isDA then
+                print("[TANK PARTS] HIT DYNAMIC ARMOR")
+                sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                data.alive = false
+                return
+            end
         end
 
         durability = sm.item.getQualityLevel(uuid) or 1
