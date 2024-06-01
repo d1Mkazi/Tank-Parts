@@ -156,7 +156,8 @@
                 ]
             },
             "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
-            "rotationSet": "TP_FaceOnly",
+            "rotationSet": "PropY",
+            "sticky": "-Y",
             "scripted": {
             "classname": "TurretSteer2",
             "filename": "$CONTENT_DATA/Scripts/TurretSteer2.lua"
