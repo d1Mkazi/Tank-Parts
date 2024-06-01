@@ -16,6 +16,7 @@ end
 
 function DynamicArmor:sv_explode()
     self.network:sendToClients("cl_explode")
+    sm.physics.explode(self.shape.worldPosition + self.shape.up * -0.25, 2, 0.5, 0.5, 10, nil, self.shape)
     self.shape:destroyPart(0)
 end
 
