@@ -377,10 +377,10 @@
             "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
             "sticky": "+Y",
             "rotationSet": "PropNegY",
-            //"scripted": {
-            //    "classname": "Goggles",
-            //    "filename": "$CONTENT_DATA/Scripts/Goggles.lua"
-            //},
+            "scripted": {
+                "classname": "Goggles",
+                "filename": "$CONTENT_DATA/Scripts/Goggles.lua"
+            },
             "ratings": {
                 "density": 1,
                 "durability": 2,
@@ -412,10 +412,10 @@
                             }
                         ],
                         "animationList": [
-                            { "name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" },
-                            { "name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" },
-                            { "name": "PressLeft", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" },
-                            { "name": "PressRight", "file": "$CONTENT_DATA/Objects/Mesh/cheburashka.dae" }
+                            { "name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/animations/cheburashka/RotHorizontal.dae" },
+                            { "name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/animations/cheburashka/RotVertical.dae" },
+                            { "name": "PressRight", "file": "$CONTENT_DATA/Objects/Mesh/animations/cheburashka/PressRight.dae" },
+                            { "name": "PressLeft", "file": "$CONTENT_DATA/Objects/Mesh/animations/cheburashka/PressLeft.dae" }
                         ]
                     }
                 ]

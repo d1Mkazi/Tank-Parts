@@ -22,7 +22,7 @@ end
 ---@param search any the search value
 ---@param where table the first table
 ---@param special string the value id
----@return table
+---@return table table can be nil if not found
 function getTableByValue(search, where, special)
     for k, t in pairs(where) do
         if t[special] then
@@ -40,6 +40,19 @@ function copyTable(original)
     local new = {}
     for k, v in pairs(original) do
         new[k] = type(v) == "table" and copyTable(v) or v
+    end
+
+    return new
+end
+
+---@param ... table
+---@return table
+function uniteTables(...)
+    local new = {}
+    for _, t in pairs{...} do
+        for k, v in pairs(t) do
+            new[k] = type(v) == "table" and copyTable(v) or v
+        end
     end
 
     return new
