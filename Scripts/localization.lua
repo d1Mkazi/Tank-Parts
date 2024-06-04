@@ -104,8 +104,8 @@ local languages = {
         Russian = "Вы вошли в режим наведения"
     },
     steer_MsgRotSpeed = {
-        English = "Rotation speed is",
-        Russian = "Скорость вращения:"
+        English = "Rotation speed is %s",
+        Russian = "Скорость вращения: %s"
     },
 
     mghandle_AimSpeed = {

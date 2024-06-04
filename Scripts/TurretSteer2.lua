@@ -155,8 +155,7 @@ function TurretSteer2:client_onAction(action, state)
             speed = math.floor(speed * 10 + 0.4) / 10
 
             self.cl.speed = speed
-            local text = GetLocalization("steer_MsgRotSpeed", sm.gui.getCurrentLanguage())
-            sm.gui.displayAlertText(text.." "..tostring(speed * 10), 2)
+            sm.gui.displayAlertText(GetLocalization("steer_MsgRotSpeed", getLang()):format(speed * 10), 2)
             self.network:sendToServer("sv_stopSound")
             self.network:sendToServer("sv_applyImpulse", { speed = speed })
         end

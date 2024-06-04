@@ -270,21 +270,19 @@ function TargetDevice:client_onAction(action, state)
             }
             local multiplier = speedUpdate[action]
 
-            local speed = self.cl.speed + 0.1 * multiplier
+            local speed = self.cl.speed + 1 * multiplier
 
-            local maxSpeed = (self.cl.slider + 1) / 10
-            if speed < 0.1 then
-                speed = 0.1
+            local maxSpeed = self.cl.maxSpeed
+            if speed < 1 then
+                speed = 1
             elseif speed > maxSpeed then
                 speed = maxSpeed
             end
-            speed = math.floor(speed * 10 + 0.4) / 10
 
             self.cl.speed = speed
-            local text = GetLocalization("steer_MsgRotSpeed", sm.gui.getCurrentLanguage())
-            sm.gui.displayAlertText(text.." "..tostring(speed * 10), 2)
             --self.network:sendToServer("sv_stopSound")
             --self.network:sendToServer("sv_applyImpulse", { speed = speed })
+            sm.gui.displayAlertText(GetLocalization("steer_MsgRotSpeed", getLang()):format(speed), 2)
 
         elseif action == 18 then -- RMB
             self.network:sendToServer("sv_pressButton", { button = "Right", state = true })
