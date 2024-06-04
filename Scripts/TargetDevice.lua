@@ -115,7 +115,9 @@ function TargetDevice:sv_applyImpulseWS(args)
         end
         print("RotVertical")
         self.network:sendToClients("cl_setAnimation", { anim = "RotVertical", target = to == -1 and 0 or 1})
-        self.network:sendToClients("cl_playSound", true)
+        if not self.sv.sound.ad then
+            self.network:sendToClients("cl_playSound", { play = true, speed = speed })
+        end
     else
         self.sv.sound.ws = false
         for k, bearing in ipairs(bearings) do
@@ -124,14 +126,14 @@ function TargetDevice:sv_applyImpulseWS(args)
         print("RotVertical")
         self.network:sendToClients("cl_setAnimation", { anim = "RotVertical", target = 0.5})
         if not self.sv.sound.ad then
-            self.network:sendToClients("cl_playSound", false)
+            self.network:sendToClients("cl_playSound", { play = false })
         end
     end
 
     self.sv.turnDirection.ws = to
 end
 
----@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
+---@param args table `to`: set 1 to turn right, set -1 to turn left and 0 to stop `speed`: rotation speed
 function TargetDevice:sv_applyImpulseAD(args)
     local to, speed = args.to or self.sv.turnDirection.ad, args.speed ~= nil and args.speed or 0
     local bearings = self.sv.bearings.ad
@@ -142,7 +144,9 @@ function TargetDevice:sv_applyImpulseAD(args)
         end
         print("RotHorizontal")
         self.network:sendToClients("cl_setAnimation", { anim = "RotHorizontal", target = to == -1 and 0 or 1})
-        self.network:sendToClients("cl_playSound", true)
+        if not self.sv.sound.ws then
+            self.network:sendToClients("cl_playSound", { play = true, speed = speed })
+        end
     else
         self.sv.sound.ad = false
         for k, bearing in ipairs(bearings) do
@@ -151,7 +155,7 @@ function TargetDevice:sv_applyImpulseAD(args)
         print("RotHorizontal")
         self.network:sendToClients("cl_setAnimation", { anim = "RotHorizontal", target = 0.5})
         if not self.sv.sound.ws then
-            self.network:sendToClients("cl_playSound", false)
+            self.network:sendToClients("cl_playSound", { play = false })
         end
     end
 
@@ -169,7 +173,36 @@ end
 
 function TargetDevice:sv_setMaxSpeed(value)
     self.saved.maxSpeed = value
-    self.network:setClientData({ maxSpeed = value })
+    self.network:setClientData({ maxSpeed = value, speed = value * 0.5 })
+    self.storage:save(self.saved)
+end
+
+function TargetDevice:sv_setSpeed(value)
+    self:sv_stopSound()
+
+    if self.sv.turnDirection.ws ~= 0 then
+        self:sv_applyImpulseWS({ to = self.sv.turnDirection.ws, speed = value })
+    end
+
+    if self.sv.turnDirection.ad ~= 0 then
+        self:sv_applyImpulseAD({ to = self.sv.turnDirection.ad, speed = value })
+    end
+end
+
+function TargetDevice:sv_stopSound()
+    self.sv.sound = { ws = false, ad = false }
+    self.network:sendToClients("cl_playSound", { play = false })
+end
+
+function TargetDevice:sv_swapControls(state)
+    self.saved.swapControls = state
+    self.network:setClientData({ swapControls = state })
+    self.storage:save(self.saved)
+end
+
+function TargetDevice:sv_swapVertical(state)
+    self.saved.swapVertical = state
+    self.network:setClientData({ swapVertical = state })
     self.storage:save(self.saved)
 end
 
@@ -181,6 +214,7 @@ function TargetDevice:client_onCreate()
         effect = sm.effect.createEffect("Steer - Rotation", self.interactable),
         occupied = false,
         speed = 1,
+        maxSpeed = 10,
         anims = {
             RotHorizontal = {
                 progress = 0,
@@ -208,6 +242,9 @@ function TargetDevice:client_onCreate()
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TargetDevice.layout")
     gui:createHorizontalSlider("td_speed_slider", 20, 0, "cl_onSpeedChange")
     gui:setIconImage("td_icon", self.shape.uuid)
+
+    gui:setButtonCallback("td_controls_swap", "cl_swapControls")
+    gui:setButtonCallback("td_controls_swapvertical", "cl_swapVertical")
 
     self.cl.gui = gui
 
@@ -280,9 +317,8 @@ function TargetDevice:client_onAction(action, state)
             end
 
             self.cl.speed = speed
-            --self.network:sendToServer("sv_stopSound")
-            --self.network:sendToServer("sv_applyImpulse", { speed = speed })
             sm.gui.displayAlertText(GetLocalization("steer_MsgRotSpeed", getLang()):format(speed), 2)
+            self.network:sendToServer("sv_setSpeed", speed)
 
         elseif action == 18 then -- RMB
             self.network:sendToServer("sv_pressButton", { button = "Right", state = true })
@@ -341,9 +377,12 @@ function TargetDevice:client_onTinker(character, state)
     local gui = self.cl.gui
     gui:setText("td_title", GetLocalization("base_Settings", getLang()))
     gui:setText("td_name", sm.shape.getShapeTitle(self.shape.uuid))
-    gui:setSliderPosition("td_speed_slider", self.cl.maxSpeed)
+    gui:setSliderPosition("td_speed_slider", self.cl.maxSpeed - 1)
     gui:setText("td_controls_header", GetLocalization("td_GuiControls", getLang()))
-    gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format("WS", "AD"))
+    local ws, ad = self.cl.swapVertical == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
+    local vert = self.cl.swapControls == false and ws or ad
+    local horiz = self.cl.swapControls == false and ad or ws
+    gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format(vert, horiz))
     gui:setText("td_controls_swap", GetLocalization("td_GuiSwapControls", getLang()))
     gui:setText("td_controls_swapvertical", GetLocalization("td_GuiSwapVertical", getLang()))
     gui:setText("td_speed_header", GetLocalization("td_GuiSpeed", getLang()))
@@ -375,8 +414,8 @@ function TargetDevice:cl_setAnimation(args)
     self.cl.anims[args.anim].update = true
 end
 
-function TargetDevice:cl_playSound(play)
-    if play then
+function TargetDevice:cl_playSound(args)
+    if args.play then
         local effect = self.cl.effect
         effect:start()
 
@@ -394,8 +433,30 @@ function TargetDevice:cl_updateSound()
 end
 
 function TargetDevice:cl_onSpeedChange(value)
-    self.network:sendToServer("sv_setMaxSpeed", value + 1)
     self.cl.gui:setText("td_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(value + 1))
+    self.network:sendToServer("sv_setMaxSpeed", value + 1)
+end
+
+function TargetDevice:cl_swapControls()
+    local swap = not self.cl.swapControls
+    self.cl.swapControls = swap
+    local ws, ad = self.cl.swapVertical == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
+    local vert = swap == false and ws or ad
+    local horiz = swap == false and ad or ws
+    self.cl.gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format(vert, horiz))
+
+    self.network:sendToServer("sv_swapControls", swap)
+end
+
+function TargetDevice:cl_swapVertical()
+    local swap = not self.cl.swapVertical
+    self.cl.swapVertical = swap
+    local ws, ad = swap == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
+    local vert = self.cl.swapControls == false and ws or ad
+    local horiz = self.cl.swapControls == false and ad or ws
+    self.cl.gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format(vert, horiz))
+
+    self.network:sendToServer("sv_swapVertical", swap)
 end
 
 ---@param speed number the rotation speed
