@@ -101,3 +101,10 @@ function getBreech()
         BREECH_LIST[#BREECH_LIST+1] = cartridge.uuid
     end
 end
+
+---@param a Joint|Shape
+---@param b Joint|Shape
+---@return boolean
+function sameAxis(a, b)
+    return math.abs(a.zAxis:dot(b.zAxis)) == 1
+end

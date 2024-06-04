@@ -76,7 +76,7 @@ function TargetDevice:server_onFixedUpdate(dt)
         for k, bearing in ipairs(bearings) do
             if not (isAnyOf(bearing, ws) or isAnyOf(bearing, ad)) then
                 bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
-                if bearing.zAxis == self.shape.zAxis then
+                if sameAxis(bearing, self.shape) then
                     ad[#ad+1] = bearing
                 else
                     ws[#ws+1] = bearing
