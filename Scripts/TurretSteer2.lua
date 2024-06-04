@@ -108,7 +108,6 @@ end
 
 function TurretSteer2:client_onUpdate(dt)
     self:cl_updateAnimation(dt)
-    self:cl_updateSound()
 end
 
 function TurretSteer2:client_onAction(action, state)
@@ -229,18 +228,13 @@ function TurretSteer2:cl_playSound(args)
     if play then
         local effect = self.cl.effect
         effect:setParameter("CAE_Pitch", speed * 4)
-        effect:start()
+        effect:setAutoPlay(true)
 
         self.cl.effectPlay = true
     else
+        self.cl.effect:setAutoPlay(false)
         self.cl.effect:stop()
         self.cl.effectPlay = false
-    end
-end
-
-function TurretSteer2:cl_updateSound()
-    if self.cl.effectPlay and self.cl.effect:isDone() then
-        self.cl.effect:start()
     end
 end
 

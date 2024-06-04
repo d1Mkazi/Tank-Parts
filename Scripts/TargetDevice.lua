@@ -267,10 +267,6 @@ function TargetDevice:client_onUpdate(dt)
             self:cl_updateAnimation(anim, dt)
         end
     end
-
-    if self.cl.sounds then
-        self:cl_updateSound()
-    end
 end
 
 function TargetDevice:client_onAction(action, state)
@@ -417,18 +413,14 @@ end
 function TargetDevice:cl_playSound(args)
     if args.play then
         local effect = self.cl.effect
-        effect:start()
+        effect:setParameter("CAE_Pitch", args.speed * 4)
+        effect:setAutoPlay(true)
 
         self.cl.effectPlay = true
     else
+        self.cl.effect:setAutoPlay(false)
         self.cl.effect:stop()
         self.cl.effectPlay = false
-    end
-end
-
-function TargetDevice:cl_updateSound()
-    if self.cl.effectPlay and self.cl.effect:isDone() then
-        self.cl.effect:start()
     end
 end
 
