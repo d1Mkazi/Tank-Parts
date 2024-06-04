@@ -6,31 +6,33 @@
             <Property key="TextAlign" value="Center"/>
             <Property key="Caption" value="Breech Settings"/>
         </Widget>
-        <Widget type="Widget" skin="PanelEmpty" position_real="0.68918918918918914 0.31818181818181818 0.27027027027027029 0.15151515151515152" name="breech_barrelLength_slider"/>
+        <Widget type="Widget" skin="PanelEmpty" position_real="0.67567567567567566 0.31818181818181818 0.27027027027027029 0.15151515151515152" name="breech_barrelLength_slider"/>
         <Widget type="ImageBox" skin="ImageBox" position_real="0.040540540540540543 0.34848484848484851 0.40540540540540543 0.45454545454545453" name="breech_icon"/>
-        <Widget type="Widget" skin="DropDownBackground" position_real="0.5 0.5 0.47297297297297297 0.45454545454545453" name="breech_offset_panel">
-            <Widget type="Button" skin="SettingsButton" position_real="0.11428571428571428 0.33333333333333331 0.77142857142857146 0.29999999999999999" name="breech_offset_upper">
+        <Widget type="Widget" skin="DropDownBackground" position_real="0.5243243243243243 0.5 0.41891891891891891 0.46969696969696972" name="breech_offset_panel">
+            <Widget type="Button" skin="SettingsButton" position_real="0.096774193548387094 0.32258064516129031 0.80000000000000004 0.29032258064516131" name="breech_offset_upper">
                 <Property key="Caption" value="UPPER"/>
-                <Property key="FontName" value="SM_Button"/>
+                <Property key="FontName" value="SM_ButtonSmall"/>
                 <Property key="TextAlign" value="Center"/>
             </Widget>
-            <Widget type="Button" skin="SettingsButton" position_real="0.11428571428571428 0.6333333333333333 0.77142857142857146 0.29999999999999999" name="breech_offset_lower">
+            <Widget type="Button" skin="SettingsButton" position_real="0.096774193548387094 0.61290322580645162 0.80000000000000004 0.29032258064516131" name="breech_offset_lower">
                 <Property key="Caption" value="LOWER"/>
                 <Property key="TextAlign" value="Center"/>
-                <Property key="FontName" value="SM_Button"/>
+                <Property key="FontName" value="SM_ButtonSmall"/>
             </Widget>
-            <Widget type="TextBox" skin="TextBox" position_real="0.085714285714285715 0.066666666666666666 0.82857142857142863 0.23333333333333334" name="breech_offset_text">
+            <Widget type="TextBox" skin="TextBox" position_real="0.096774193548387094 0.064516129032258063 0.80000000000000004 0.22580645161290322" name="breech_offset_text">
                 <Property key="Caption" value="Offset"/>
                 <Property key="TextAlign" value="Center"/>
                 <Property key="FontName" value="SM_SubHeader"/>
             </Widget>
         </Widget>
-        <Widget type="TextBox" skin="TextBox" position_real="0.040540540540540543 0.22727272727272727 0.91891891891891897 0.10606060606060606" name="breech_name">
-            <Property key="TextAlign" value="Left VCenter"/>
-            <Property key="Caption" value="Breech Name"/>
-            <Property key="FontName" value="SM_ItemTitle"/>
+        <Widget type="Widget" skin="LargeHorizontalSliderBackground" position_real="0.027272727272727271 0.22727272727272727 0.94545454545454544 0.10606060606060606">
+            <Widget type="TextBox" skin="TextBox" position_real="0.019230769230769232 0 0.96153846153846156 1" name="breech_name">
+                <Property key="TextAlign" value="Left VCenter"/>
+                <Property key="FontName" value="SM_ItemTitle"/>
+                <Property key="Caption" value="Breech Name"/>
+            </Widget>
         </Widget>
-        <Widget type="TextBox" skin="TextBox" position_real="0.51351351351351349 0.34848484848484851 0.16216216216216217 0.12121212121212122" name="breech_barrelLength_display">
+        <Widget type="TextBox" skin="TextBox" position_real="0.5 0.34848484848484851 0.16216216216216217 0.12121212121212122" name="breech_barrelLength_display">
             <Property key="TextAlign" value="Right VCenter"/>
             <Property key="Caption" value="23 blocks"/>
             <Property key="FontName" value="SM_ButtonSmall"/>

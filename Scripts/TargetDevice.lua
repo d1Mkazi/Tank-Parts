@@ -34,12 +34,24 @@ function TargetDevice:init()
             ws = false,
             ad = false
         },
+        active = {
+            left = false,
+            right= false
+        },
 
         goggles = nil
     }
 
+    self.saved = self.storage:load() or {
+        maxSpeed = 10,
+        swapControls = false,
+        swapVertical = false,
+    }
+
     self:sv_applyImpulseWS({ to = 0 })
     self:sv_applyImpulseAD({ to = 0 })
+
+    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swapControls = self.saved.swapControls, swapVertical = self.saved.swapVertical })
 end
 
 function TargetDevice:server_onFixedUpdate(dt)
@@ -59,8 +71,8 @@ function TargetDevice:server_onFixedUpdate(dt)
     end
 
     local bearings = self.interactable:getBearings()
+    local ws, ad = self.sv.bearings.ws, self.sv.bearings.ad
     if #bearings ~= (#self.sv.bearings.ad + #self.sv.bearings.ws) then
-        local ws, ad = self.sv.bearings.ws, self.sv.bearings.ad
         for k, bearing in ipairs(bearings) do
             if not (isAnyOf(bearing, ws) or isAnyOf(bearing, ad)) then
                 bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
@@ -121,7 +133,6 @@ end
 
 ---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
 function TargetDevice:sv_applyImpulseAD(args)
-    print("ad")
     local to, speed = args.to or self.sv.turnDirection.ad, args.speed ~= nil and args.speed or 0
     local bearings = self.sv.bearings.ad
     if to ~= 0 then
@@ -156,6 +167,12 @@ function TargetDevice:sv_pressButton(args)
     self.network:sendToClients("cl_setAnimation", { anim = "Press"..args.button, target = args.state == true and 1 or 0 })
 end
 
+function TargetDevice:sv_setMaxSpeed(value)
+    self.saved.maxSpeed = value
+    self.network:setClientData({ maxSpeed = value })
+    self.storage:save(self.saved)
+end
+
 
 --[[ CLIENT ]]--
 
@@ -187,6 +204,12 @@ function TargetDevice:client_onCreate()
             }
         }
     }
+
+    local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TargetDevice.layout")
+    gui:createHorizontalSlider("td_speed_slider", 20, 0, "cl_onSpeedChange")
+    gui:setIconImage("td_icon", self.shape.uuid)
+
+    self.cl.gui = gui
 
     self.interactable:setAnimEnabled("RotHorizontal", true)
     self.interactable:setAnimEnabled("RotVertical", true)
@@ -308,6 +331,28 @@ function TargetDevice:client_onInteract(character, state)
     sm.gui.displayAlertText(text, 2)
 end
 
+function TargetDevice:client_canTinker()
+    sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), GetLocalization("base_Settings", sm.gui.getCurrentLanguage()))
+    return not self.cl.occupied
+end
+
+function TargetDevice:client_onTinker(character, state)
+    if not state then return end
+    if not self.cl.gui:isActive() then self.cl.gui:close() end
+
+    local gui = self.cl.gui
+    gui:setText("td_title", GetLocalization("base_Settings", getLang()))
+    gui:setText("td_name", sm.shape.getShapeTitle(self.shape.uuid))
+    gui:setSliderPosition("td_speed_slider", self.cl.maxSpeed)
+    gui:setText("td_controls_header", GetLocalization("td_GuiControls", getLang()))
+    gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format("WS", "AD"))
+    gui:setText("td_controls_swap", GetLocalization("td_GuiSwapControls", getLang()))
+    gui:setText("td_controls_swapvertical", GetLocalization("td_GuiSwapVertical", getLang()))
+    gui:setText("td_speed_header", GetLocalization("td_GuiSpeed", getLang()))
+    gui:setText("td_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(self.cl.maxSpeed))
+    gui:open()
+end
+
 function TargetDevice:cl_updateAnimation(anim, dt)
     local animation = self.cl.anims[anim]
     local progress = animation.progress
@@ -348,6 +393,11 @@ function TargetDevice:cl_updateSound()
     if self.cl.effectPlay and self.cl.effect:isDone() then
         self.cl.effect:start()
     end
+end
+
+function TargetDevice:cl_onSpeedChange(value)
+    self.network:sendToServer("sv_setMaxSpeed", value + 1)
+    self.cl.gui:setText("td_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(value + 1))
 end
 
 ---@param speed number the rotation speed

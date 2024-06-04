@@ -71,6 +71,29 @@ local languages = {
         Russian = "Режим:"
     },
 
+    td_GuiControls = {
+        English = "Controls",
+        Russian = "Наведение"
+    },
+    td_GuiBinds = {
+        English = "Vertical: %s\nHorizontal: %s",
+        Russian = "Верт.: %s\nГориз.: %s"
+    },
+    td_GuiSwapControls = {
+        English = "SWAP",
+    },
+    td_GuiSwapVertical = {
+        English = "SWAP VERT",
+    },
+    td_GuiSpeed = {
+        English = "Speed",
+        Russian = "Скорость"
+    },
+    td_GuiDisplay = {
+        English = "Max Speed: %s",
+        Russian = "Макс.\nскорость: %s"
+    },
+
     -- Alerts
     steer_MsgExit = {
         English = "You are no longer aiming",

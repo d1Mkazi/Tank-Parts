@@ -290,7 +290,7 @@ function Breech:client_onCreate()
         offset = 1
     }
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
-    gui:createHorizontalSlider("breech_barrelLength_slider", 30, 1, "cl_changeSlider")
+    gui:createHorizontalSlider("breech_barrelLength_slider", 30, 0, "cl_changeSlider")
     gui:setIconImage("breech_icon", self.shape.uuid)
     gui:setButtonCallback("breech_offset_upper", "cl_onOffsetChange")
     gui:setButtonCallback("breech_offset_lower", "cl_onOffsetChange")
