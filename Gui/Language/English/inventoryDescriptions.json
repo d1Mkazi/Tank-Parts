@@ -185,7 +185,7 @@
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3b55": {
 		"title": "Turret Steer",
-        "description": "Press A or D to rotate your turret instead of using buttons or controllers\n\nPress 1 to slow down and 2 to speed up the rotation speed",
+        "description": "Press AD or WS to rotate your turret instead of using buttons or controllers\n\nPress 1 to slow down and 2 to speed up the rotation speed",
         "keywords": [ "wheel", "roller", "rotation", "turn" ]
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3b22": {
