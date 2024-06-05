@@ -205,11 +205,14 @@ function Breech:sv_shoot()
     local size = sm.item.getShapeSize(self.shape.uuid)
     local offset = (size.y + self.saved.shootDistance) * 0.25
 
-    local pos
+    local pos, rot
     if self.sv.hasMuzzle then
-        pos = self.interactable:getChildren(2)[1].shape.worldPosition + at * 0.25 -- power
+        local muzzle = self.interactable:getChildren(2--[[power]])[1].shape
+        pos = muzzle.worldPosition + at * 0.25
+        rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), muzzle.at)
     else
         pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and self.saved.offset or 0))
+        rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
     end
 
     local shell = self.saved.loaded.data.shellData
@@ -219,7 +222,7 @@ function Breech:sv_shoot()
     local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)
     sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
 
-    self.network:sendToClients("cl_shoot", pos)
+    self.network:sendToClients("cl_shoot", { pos = pos, rot = rot })
     self.saved.status = FIRED
     self:sv_updateClientData()
     self.storage:save(self.saved)
@@ -229,9 +232,9 @@ function Breech:sv_dropCase()
     local pos = self.shape.worldPosition + self.shape.right * -0.125
     local at = self.shape.at
     local caseSize = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid)).y
-    local offset = self.data.areaOffsetY - caseSize / 4 - 0.25
+    local offset = ((sm.item.getShapeSize(self.shape.uuid).y * 0.5) + (caseSize)) * 0.25
 
-    sm.shape.createPart(sm.uuid.new(self.saved.loaded.data.usedUuid), pos + at * offset, self.shape.worldRotation)
+    sm.shape.createPart(sm.uuid.new(self.saved.loaded.data.usedUuid), pos - at * offset, self.shape.worldRotation)
 
     self.saved.status = EMPTY
     self.saved.loaded = nil
@@ -370,20 +373,18 @@ function Breech:cl_loadSeparated(final)
     sm.effect.playEffect("Breech - Load", self.shape.worldPosition)
 end
 
-function Breech:cl_shoot(pos)
-    local rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
-
+function Breech:cl_shoot(args)
     if sm.cae_injected then
         if self.cl.hasMuzzle then
-            sm.effect.playEffect("TankCannon - MuzzleBrake Shoot", pos, nil, rot)
+            sm.effect.playEffect("TankCannon - MuzzleBrake Shoot", args.pos, nil, args.rot)
         else
-            sm.effect.playEffect(getFireSound(self.data.caliber), pos, nil, rot)
+            sm.effect.playEffect(getFireSound(self.data.caliber), args.pos, nil, args.rot)
         end
     else
         if self.cl.hasMuzzle then
-            sm.effect.playEffect("TankCannon - MuzzleBrake Smoke", pos, nil, rot)
+            sm.effect.playEffect("TankCannon - MuzzleBrake Smoke", args.pos, nil, args.rot)
         else
-            sm.effect.playEffect("TankCannon - Smoke", pos, nil, rot)
+            sm.effect.playEffect("TankCannon - Smoke", args.pos, nil, args.rot)
         end
     end
 end

@@ -402,11 +402,11 @@
 				"filename": "$CONTENT_DATA/Scripts/Breech.lua",
 				"classname": "Breech",
 				"data": {
-					"areaSizeX": 0.125,
-					"areaSizeY": 0.25,
-					"areaSizeZ": 0.25,
+					"areaSizeX": 0.0625,
+					"areaSizeY": 0.0625,
+					"areaSizeZ": 0.0625,
 					"areaOffsetX": 0,
-					"areaOffsetY": -0.125,
+					"areaOffsetY": -0.5,
 					"areaOffsetZ": 0,
 					"loading": "separated",
 					"caliber": "2a46m"
@@ -457,14 +457,14 @@
 				"filename": "$CONTENT_DATA/Scripts/Breech.lua",
 				"classname": "Breech",
 				"data": {
-					"areaSizeX": 0.125,
-					"areaSizeY": 0.25,
-					"areaSizeZ": 0.25,
+					"areaSizeX": 0.0625,
+					"areaSizeY": 0.125,
+					"areaSizeZ": 0.125,
 					"areaOffsetX": 0,
-					"areaOffsetY": -0.125,
-					"areaOffsetZ": 0,
-					"loading": "separated",
-					"caliber": "2a46m"
+					"areaOffsetY": -0.5,
+					"areaOffsetZ": 0.25,
+					"loading": "unitary",
+					"caliber": "m68a1"
 				}
 			},
 			"ratings": {
