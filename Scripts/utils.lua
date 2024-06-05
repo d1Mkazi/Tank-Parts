@@ -108,3 +108,12 @@ end
 function sameAxis(a, b)
     return math.abs(a.zAxis:dot(b.zAxis)) == 1
 end
+
+---@param ... boolean
+function xor(...)
+    local res = false
+    for k, stm in pairs{...} do
+        res = res ~= stm
+    end
+    return res
+end

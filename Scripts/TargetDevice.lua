@@ -106,14 +106,14 @@ end
 
 ---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
 function TargetDevice:sv_applyImpulseWS(args)
-    local to, speed = args.to or self.sv.turnDirection.ws, args.speed ~= nil and args.speed or 0
+    local to, speed = args.to or self.sv.turnDirection.ws, (args.speed ~= nil and args.speed or 0) * 0.1
     local bearings = self.sv.bearings.ws
     if to ~= 0 then
         self.sv.sound.ws = true
         for k, bearing in ipairs(bearings) do
-            bearing:setMotorVelocity(speed * to, 1000)
+            local modifier = xor(bearing.reversed, self.saved.swapVertical) == true and 1 or -1
+            bearing:setMotorVelocity(speed * to * modifier, 1000)
         end
-        print("RotVertical")
         self.network:sendToClients("cl_setAnimation", { anim = "RotVertical", target = to == -1 and 0 or 1})
         if not self.sv.sound.ad then
             self.network:sendToClients("cl_playSound", { play = true, speed = speed })
@@ -123,7 +123,6 @@ function TargetDevice:sv_applyImpulseWS(args)
         for k, bearing in ipairs(bearings) do
             bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
         end
-        print("RotVertical")
         self.network:sendToClients("cl_setAnimation", { anim = "RotVertical", target = 0.5})
         if not self.sv.sound.ad then
             self.network:sendToClients("cl_playSound", { play = false })
@@ -135,14 +134,14 @@ end
 
 ---@param args table `to`: set 1 to turn right, set -1 to turn left and 0 to stop `speed`: rotation speed
 function TargetDevice:sv_applyImpulseAD(args)
-    local to, speed = args.to or self.sv.turnDirection.ad, args.speed ~= nil and args.speed or 0
+    local to, speed = args.to or self.sv.turnDirection.ad, (args.speed ~= nil and args.speed or 0) * 0.1
     local bearings = self.sv.bearings.ad
     if to ~= 0 then
         self.sv.sound.ad = true
         for k, bearing in ipairs(bearings) do
-            bearing:setMotorVelocity(speed * to, 1000)
+            local modifier = bearing.reversed == false and 1 or -1
+            bearing:setMotorVelocity(speed * to * modifier, 1000)
         end
-        print("RotHorizontal")
         self.network:sendToClients("cl_setAnimation", { anim = "RotHorizontal", target = to == -1 and 0 or 1})
         if not self.sv.sound.ws then
             self.network:sendToClients("cl_playSound", { play = true, speed = speed })
@@ -152,7 +151,6 @@ function TargetDevice:sv_applyImpulseAD(args)
         for k, bearing in ipairs(bearings) do
             bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
         end
-        print("RotHorizontal")
         self.network:sendToClients("cl_setAnimation", { anim = "RotHorizontal", target = 0.5})
         if not self.sv.sound.ws then
             self.network:sendToClients("cl_playSound", { play = false })
@@ -173,7 +171,7 @@ end
 
 function TargetDevice:sv_setMaxSpeed(value)
     self.saved.maxSpeed = value
-    self.network:setClientData({ maxSpeed = value, speed = value * 0.5 })
+    self.network:setClientData({ maxSpeed = value, speed = value })
     self.storage:save(self.saved)
 end
 
@@ -236,7 +234,9 @@ function TargetDevice:client_onCreate()
                 update = false,
                 target = 0
             }
-        }
+        },
+        swapControls = false,
+        swapVertical = false,
     }
 
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TargetDevice.layout")
@@ -395,7 +395,6 @@ function TargetDevice:cl_updateAnimation(anim, dt)
     progress = progress + dt * modifier
 
     if (animation.progress > target and progress <= target) or (animation.progress < target and progress >= target) then
-        print("Reached target", target, "with progress", progress, "|", anim)
         progress = target
         animation.update = false
     end
