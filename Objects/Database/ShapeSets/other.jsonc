@@ -155,7 +155,7 @@
                     }
                 ]
             },
-            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
             "rotationSet": "PropY",
             "sticky": "-Y",
             "scripted": {
