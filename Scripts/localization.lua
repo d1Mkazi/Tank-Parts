@@ -33,13 +33,13 @@ local languages = {
     },
 
     -- GUI
-    breech_GuiTitle = {
+    breech_GuiLength = {
         English = "Barrel Length",
         Russian = "Длина ствола"
     },
     breech_GuiDisplay = {
         English = "%s blk",
-        Russian = "%s блк."
+        Russian = "%s блк"
     },
     breech_GuiOffset = {
         English = "Offset",

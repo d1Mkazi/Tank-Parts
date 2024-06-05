@@ -298,7 +298,7 @@ function Breech:client_onCreate()
     gui:setButtonCallback("breech_offset_upper", "cl_onOffsetChange")
     gui:setButtonCallback("breech_offset_lower", "cl_onOffsetChange")
 
-    gui:setVisible("breech_offset_panel", sm.item.getShapeSize(self.shape.uuid).z % 2 == 0 and true or false)
+    gui:setVisible("breech_offset", sm.item.getShapeSize(self.shape.uuid).z % 2 == 0 and true or false)
 
     self.cl.gui = gui
 
@@ -339,6 +339,7 @@ function Breech:client_onTinker(character, state)
 
     local gui = self.cl.gui
     gui:setText("breech_title", GetLocalization("base_Settings", getLang()))
+    gui:setText("breech_barrelLength_header", GetLocalization("breech_GuiLength", getLang()))
     gui:setSliderPosition("breech_barrelLength_slider", self.cl.shootDistance)
     gui:setText("breech_barrelLength_display", GetLocalization("breech_GuiDisplay", getLang()):format(self.cl.shootDistance + 1))
     gui:setButtonState("breech_offset_upper", self.cl.offset == 1)
@@ -346,7 +347,7 @@ function Breech:client_onTinker(character, state)
     gui:setButtonState("breech_offset_lower", self.cl.offset == -1)
     gui:setText("breech_offset_lower", GetLocalization("breech_GuiLower", getLang()))
     gui:setText("breech_name", sm.shape.getShapeTitle(self.shape.uuid))
-    gui:setText("breech_offset_text", GetLocalization("breech_GuiOffset", getLang()))
+    gui:setText("breech_offset_header", GetLocalization("breech_GuiOffset", getLang()))
     gui:open()
 end
 
@@ -447,6 +448,8 @@ end
 function Breech:cl_setMuzzle(state)
     print("set muzzle", state)
     self.cl.hasMuzzle = state
+
+    self.cl.gui:setVisible("breech_barrelLength", not state)
 end
 
 ---@param caliber number the caliber
