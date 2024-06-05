@@ -307,7 +307,6 @@ ShellList = {
         unitary = {
             { -- AP Shell
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
                     initialSpeed = 655,
@@ -324,7 +323,6 @@ ShellList = {
             },
             { -- HE Shell
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
                     initialSpeed = 680,
@@ -346,7 +344,6 @@ ShellList = {
         unitary = {
             { -- AP Shell
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
                     initialSpeed = 655,
@@ -363,7 +360,6 @@ ShellList = {
             },
             { -- HE Shell
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
                     initialSpeed = 680,
@@ -379,7 +375,6 @@ ShellList = {
             },
             { -- HEAT Shell
                 shellUuid = "c6c071b9-eb8b-4fea-af79-27781272aebb",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "c6c071b9-eb8b-4fea-af79-27781272aabb",
                     initialSpeed = 335,
@@ -508,7 +503,6 @@ ShellList = {
         unitary = {
             { -- AP Shell
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25840",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25800",
                     initialSpeed = 385,
@@ -525,7 +519,6 @@ ShellList = {
             },
             { -- HE Shell
                 shellUuid = "ec19cdbf-865e-401c-9c5e-f111bad25841",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25801",
                     initialSpeed = 420,
@@ -547,7 +540,6 @@ ShellList = {
         unitary = {
             { -- AP Shell
                 shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25840",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25800",
                     initialSpeed = 773,
@@ -564,7 +556,6 @@ ShellList = {
             },
             { -- HE Shell
                 shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25841",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-122c-9c5e-f122bed25801",
                     initialSpeed = 820,
@@ -580,7 +571,6 @@ ShellList = {
             },
             { -- HEAT Shell
                 shellUuid = "ec18cdbf-865e-122c-5c2e-f111bad25842",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-5c2e-f122bed25805",
                     initialSpeed = 600,
@@ -599,7 +589,6 @@ ShellList = {
         unitary = {
             { -- AP Shell
                 shellUuid = "58f3b1cd-187d-4d61-bcaf-a69a53d1e57b",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "0f198808-999d-41fa-80e4-ee91dcdfd9e6",
                     initialSpeed = 935,
@@ -616,7 +605,6 @@ ShellList = {
             },
             { -- HE Shell
                 shellUuid = "58f3b1cd-187d-4d61-bcaf-a69a53d1e57c",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "40e59811-ff73-4902-a30e-7bf5b0f2dc0e",
                     initialSpeed = 700,
@@ -632,7 +620,6 @@ ShellList = {
             },
             { -- APCR Shell
                 shellUuid = "87d27add-3284-4005-8648-f84f404350ca",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "aabd945c-f1b2-4603-82ef-889c59a407d9",
                     initialSpeed = 1120,
@@ -655,7 +642,6 @@ ShellList = {
         unitary = {
             { -- AP Shell
                 shellUuid = "ec18cdbf-865e-122c-9c5e-f111bad25842",
-                caseUuid = nil,
                 shellData = {
                     bulletUUID = "ec19cdbf-865e-401c-9c5e-f122bed25805",
                     initialSpeed = 884,
