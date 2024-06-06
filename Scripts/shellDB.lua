@@ -656,4 +656,24 @@ ShellList = {
             }
         }
     },
+
+    -- american 105mm
+    ["m68a1"] = {
+        unitary = {
+            { -- APFSDS Shell
+                shellUuid = "6ac63e27-89a2-4259-b102-3cf3324711da",
+                shellData = {
+                    bulletUUID = "97223124-8714-4901-9887-ea341a2018ae",
+                    initialSpeed = 1509,
+                    mass = 3.4,
+                    penetrationCapacity = 55,
+                    penetrationLoss = 1.5,
+                    maxDurability = 9.5,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "71e7eacc-7b16-4606-8660-e04d80eaab58"
+            }
+        },
+    }
 }

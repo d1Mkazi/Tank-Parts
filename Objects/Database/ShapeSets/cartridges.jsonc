@@ -396,6 +396,43 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "25eb1652-5709-4072-b585-8af149e58565",
             "showInInventory": false
+		},
+        { // American 105mm used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 4,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 2,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Empty Case",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/105_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m774.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "71e7eacc-7b16-4606-8660-e04d80eaab58",
+            "showInInventory": false
 		}
     ]
 }
