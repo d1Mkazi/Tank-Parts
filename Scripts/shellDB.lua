@@ -673,6 +673,18 @@ ShellList = {
                     onHit = __hit_ap
                 },
                 usedUuid = "71e7eacc-7b16-4606-8660-e04d80eaab58"
+            },
+            { -- APFSDS Shell
+                shellUuid = "31660af8-ec14-4c3b-8590-559315937018",
+                shellData = {
+                    bulletUUID = "e17ea55b-7506-4881-b4b9-93fe53b26615",
+                    initialSpeed = 1174,
+                    mass = 10.5,
+                    penetrationCapacity = 60,
+                    onHit = __hit_heat,
+                    isHEAT = true
+                },
+                usedUuid = "71e7eacc-7b16-4606-8660-e04d80eaab58"
             }
         },
     }

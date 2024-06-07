@@ -608,6 +608,52 @@
             "sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
             "uuid" : "6ac63e27-89a2-4259-b102-3cf3324711da"
+        },
+        { // HEATFS -> M456A2
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 5,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 1.25,
+                    "impulseLevel" : 150,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "HEATFS Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/m456a2_105.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m774.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "31660af8-ec14-4c3b-8590-559315937018"
         }
 		/*************************************************************************************************************/
     ]

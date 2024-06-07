@@ -149,12 +149,24 @@
     "a01b60fd-7d77-4c20-a1d3-d19cce0a5216": {
         "title": "3BK18M",
         "description": "High-Explosive Anti-Tank Fin-Stabilized shell\nEffective against armored targets.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
-        "keywords": [ "heatfs", "soviet", "T-72" ]
+        "keywords": [ "heat", "heatfs", "soviet", "T-72" ]
     },
     "804c66ee-ca5f-49c0-a09e-c2c43f142787": {
         "title": "3OF26",
         "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
         "keywords": [ "he", "soviet", "T-72" ]
+    },
+
+    // M1 Abrams
+    "6ac63e27-89a2-4259-b102-3cf3324711da": {
+        "title": "M774",
+        "description": "Armor-Piercing Fin-Stabilized Discarding Sabot shell\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode",
+        "keywords": [ "apfsds", "apfs", "apds", "american", "M1 Abrams", "Abrams" ]
+    },
+    "31660af8-ec14-4c3b-8590-559315937018": {
+        "title": "M456A2",
+        "description": "High-Explosive Anti-Tank Fin-Stabilized shell\nEffective against armored targets.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
+        "keywords": [ "heat", "heatfs", "american", "M1 Abrams", "Abrams" ]
     },
 
     // legacy (maybe?)
