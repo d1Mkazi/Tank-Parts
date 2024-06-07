@@ -211,7 +211,7 @@ function TargetDevice:client_onCreate()
     self.cl = {
         effect = sm.effect.createEffect("Steer - Rotation", self.interactable),
         occupied = false,
-        speed = 1,
+        speed = 10,
         maxSpeed = 10,
         anims = {
             RotHorizontal = {
