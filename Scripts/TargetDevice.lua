@@ -8,6 +8,8 @@ TargetDevice.connectionOutput = sm.interactable.connectionType.bearing + sm.inte
 TargetDevice.colorNormal = sm.color.new("af730dff")
 TargetDevice.colorHighlight = sm.color.new("afa63eff")
 
+local Z = sm.vec3.new(0, 0, 1)
+
 
 function TargetDevice:server_onCreate()
     self:init()
@@ -79,7 +81,7 @@ function TargetDevice:server_onFixedUpdate(dt)
         for k, bearing in ipairs(bearings) do
             if not (isAnyOf(bearing, ws) or isAnyOf(bearing, ad)) then
                 bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
-                if sameAxis(bearing, self.shape) then
+                if sameAxis(bearing.zAxis, Z) then
                     ad[#ad+1] = bearing
                 else
                     ws[#ws+1] = bearing

@@ -102,11 +102,11 @@ function getBreech()
     end
 end
 
----@param a Joint|Shape
----@param b Joint|Shape
+---@param a Vec3
+---@param b Vec3
 ---@return boolean
 function sameAxis(a, b)
-    return math.abs(a.zAxis:dot(b.zAxis)) == 1
+    return math.abs(a:dot(b)) == 1
 end
 
 ---@param ... boolean
