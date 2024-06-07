@@ -54,21 +54,21 @@ local languages = {
         Russian = "НИЖЕ"
     },
 
-    steer_GuiTitle = {
+    ts_GuiSpeed = {
         English = "Max Speed",
         Russian = "Скорость"
     },
-    steer_GuiMaxSpeed = {
+    ts_GuiMaxSpeed = {
         English = "Max",
         Russian = "Макс.",
     },
-    steer_GuiMinSpeed = {
+    ts_GuiMinSpeed = {
         English = "Min",
         Russian = "Мин.",
     },
-    steer_GuiMode = {
-        English = "Mode:",
-        Russian = "Режим:"
+    ts_GuiMode = {
+        English = "Mode",
+        Russian = "Режим"
     },
 
     td_GuiControls = {

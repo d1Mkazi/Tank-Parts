@@ -14,13 +14,13 @@
                 <Property key="Caption" value="Device Name"/>
             </Widget>
         </Widget>
-        <Widget type="Widget" skin="DropDownBackground" position_real="0.33636363636363636 0.34848484848484851 0.32727272727272727 0.62121212121212122" name="td_controls">
+        <Widget type="Widget" skin="DropDownBackground" position_real="0.65454545454545454 0.34848484848484851 0.32727272727272727 0.62121212121212122" name="td_controls">
             <Widget type="TextBox" skin="TextBox" position_real="0.083333333333333329 0.04878048780487805 0.83333333333333337 0.17073170731707318" name="td_controls_header">
                 <Property key="TextAlign" value="Center"/>
                 <Property key="Caption" value="Controls"/>
                 <Property key="FontName" value="SM_SubHeader"/>
             </Widget>
-            <Widget type="TextBox" skin="TextBox" position_real="0.083333333333333329 0.24390243902439024 0.83333333333333337 0.29268292682926828" name="td_controls_display">
+            <Widget type="TextBox" skin="TextBox" position_real="0.083333333333333329 0.24390243902439024 0.83333333333333337 0.28780487804878047" name="td_controls_display">
                 <Property key="Caption" value="Vertical: WS\nHorizontal: AD"/>
                 <Property key="TextAlign" value="Left Top"/>
                 <Property key="FontName" value="SM_Label"/>
@@ -36,7 +36,7 @@
                 <Property key="Caption" value="SWAP VERT"/>
             </Widget>
         </Widget>
-        <Widget type="Widget" skin="DropDownBackground" position_real="0.67272727272727273 0.34848484848484851 0.30909090909090908 0.62121212121212122" name="td_speed">
+        <Widget type="Widget" skin="DropDownBackground" position_real="0.33636363636363636 0.34848484848484851 0.30909090909090908 0.62121212121212122" name="td_speed">
             <Widget type="TextBox" skin="TextBox" position_real="0.088235294117647065 0.04878048780487805 0.82352941176470584 0.17073170731707318" name="td_speed_header">
                 <Property key="TextAlign" value="Center"/>
                 <Property key="FontName" value="SM_SubHeader"/>

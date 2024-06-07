@@ -24,13 +24,12 @@ function TurretSteer2:init()
     }
 
     self.saved = self.storage:load() or {
-        slider = 0,
-        maxSpeed = 0.1,
+        maxSpeed = 1,
         WSmode = false
     }
 
     self:sv_applyImpulse({ to = 0 })
-    self.network:setClientData({ slider = self.saved.slider, speed = self.saved.maxSpeed, WSmode = self.saved.WSmode })
+    self.network:setClientData({ speed = self.saved.maxSpeed, WSmode = self.saved.WSmode })
 end
 
 function TurretSteer2:server_onFixedUpdate(dt)
@@ -47,19 +46,19 @@ function TurretSteer2:sv_setOccupied(occupied)
     self.network:setClientData({ occupied = occupied })
 end
 
-function TurretSteer2:sv_setSteer(slider)
-    self.saved.slider = slider
-    self.saved.maxSpeed = (slider + 1) / 10
+function TurretSteer2:sv_setSteer(value)
+    value = value + 1
+    self.saved.maxSpeed = value
 
     self:sv_applyImpulse({ to = 0 })
 
-    self.network:setClientData({ slider = slider, speed = self.saved.maxSpeed })
+    self.network:setClientData({ speed = value, maxSpeed = value })
     self.storage:save(self.saved)
 end
 
 ---@param args table to: set 1 to turn right, set -1 to turn left and 0 to stop\nspeed: rotation speed
 function TurretSteer2:sv_applyImpulse(args)
-    local to, speed = args.to or self.sv.to, args.speed ~= nil and args.speed or 0
+    local to, speed = args.to or self.sv.to, (args.speed ~= nil and args.speed or 0) * 0.1
     local bearings = self.interactable:getBearings()
     if to ~= 0 then
         for k, bearing in ipairs(bearings) do
@@ -90,13 +89,22 @@ function TurretSteer2:client_onCreate()
     self.cl = {
         animUpdate = 0,
         animProgress = 0,
-        gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TurretSteer.layout"),
+        maxSpeed = 1,
+        speed = 1,
         effect = sm.effect.createEffect("Steer - Rotation", self.interactable),
-        occupied = false
+        occupied = false,
+        WSmode = false
     }
 
-    self.cl.gui:createHorizontalSlider("steerSlider", 10, 1, "cl_changeSlider", true)
-    self.cl.gui:setButtonCallback("steerMode", "cl_changeMode")
+    local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TurretSteer.layout")
+    gui:createHorizontalSlider("ts_speed_slider", 10, 1, "cl_changeSpeed")
+    gui:setIconImage("ts_icon", self.shape.uuid)
+
+    gui:setButtonCallback("ts_mode_ws", "cl_setMode")
+    gui:setButtonCallback("ts_mode_ad", "cl_setMode")
+
+    self.cl.gui = gui
+
     self.interactable:setAnimEnabled("Rotation", true)
 end
 
@@ -143,18 +151,17 @@ function TurretSteer2:client_onAction(action, state)
             }
             local multiplier = speedUpdate[action]
 
-            local speed = self.cl.speed + 0.1 * multiplier
+            local speed = self.cl.speed + 1 * multiplier
 
-            local maxSpeed = (self.cl.slider + 1) / 10
-            if speed < 0.1 then
-                speed = 0.1
+            local maxSpeed = self.cl.maxSpeed
+            if speed < 1 then
+                speed = 1
             elseif speed > maxSpeed then
                 speed = maxSpeed
             end
-            speed = math.floor(speed * 10 + 0.4) / 10
 
             self.cl.speed = speed
-            sm.gui.displayAlertText(GetLocalization("steer_MsgRotSpeed", getLang()):format(speed * 10), 2)
+            sm.gui.displayAlertText(GetLocalization("steer_MsgRotSpeed", getLang()):format(speed), 2)
             self.network:sendToServer("sv_stopSound")
             self.network:sendToServer("sv_applyImpulse", { speed = speed })
         end
@@ -197,13 +204,18 @@ function TurretSteer2:client_onTinker(character, state)
     if not state then return end
     if not self.cl.gui:isActive() then self.cl.gui:close() end
 
-    self.cl.gui:setText("steerTitle", GetLocalization("steer_GuiTitle", sm.gui.getCurrentLanguage()))
-    self.cl.gui:setText("steerPower", GetLocalization("steer_GuiMaxSpeed", sm.gui.getCurrentLanguage()))
-    self.cl.gui:setText("steerSpeed", GetLocalization("steer_GuiMinSpeed", sm.gui.getCurrentLanguage()))
-    self.cl.gui:setText("steerMode_text", GetLocalization("steer_GuiMode", sm.gui.getCurrentLanguage()))
-    self.cl.gui:setText("steerMode", self.cl.WSmode == true and "WS" or "AD")
-    self.cl.gui:open()
-    self.cl.gui:setSliderPosition("steerSlider", self.cl.slider)
+    local gui = self.cl.gui
+    gui:setText("ts_title", GetLocalization("base_Settings", getLang()))
+    gui:setText("ts_name", sm.shape.getShapeTitle(self.shape.uuid))
+    gui:setText("ts_speed_header", GetLocalization("ts_GuiSpeed", getLang()))
+    gui:setSliderPosition("ts_speed_slider", self.cl.maxSpeed - 1)
+    self.cl.gui:setText("ts_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(self.cl.maxSpeed))
+    gui:setText("ts_mode_header", GetLocalization("ts_GuiMode", getLang()))
+    gui:setButtonState("ts_mode_ws", self.cl.WSmode)
+    gui:setButtonState("ts_mode_ad", not self.cl.WSmode)
+    gui:setText("ts_mode_ws", sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward"))
+    gui:setText("ts_mode_ad", sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight"))
+    gui:open()
 end
 
 function TurretSteer2:cl_updateAnimation(dt)
@@ -219,7 +231,8 @@ function TurretSteer2:cl_setAnimation(args)
     self.cl.animUpdate = args.speed * args.to
 end
 
-function TurretSteer2:cl_changeSlider(value)
+function TurretSteer2:cl_changeSpeed(value)
+    self.cl.gui:setText("ts_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(value + 1))
     self.network:sendToServer("sv_setSteer", value)
 end
 
@@ -238,7 +251,12 @@ function TurretSteer2:cl_playSound(args)
     end
 end
 
-function TurretSteer2:cl_changeMode()
-    self.network:sendToServer("sv_setMode", not self.cl.WSmode)
-    self.cl.gui:setText("steerMode", self.cl.WSmode ~= true and "WS" or "AD")
+function TurretSteer2:cl_setMode(button, state)
+    local gui = self.cl.gui
+    local WSmode = button == "ts_mode_ws"
+
+    gui:setButtonState("ts_mode_ws", WSmode)
+    gui:setButtonState("ts_mode_ad", not WSmode)
+
+    self.network:sendToServer("sv_setMode", WSmode)
 end
