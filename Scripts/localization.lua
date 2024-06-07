@@ -73,17 +73,18 @@ local languages = {
 
     td_GuiControls = {
         English = "Controls",
-        Russian = "Наведение"
+        Russian = "Управление"
     },
-    td_GuiBinds = {
-        English = "Vertical: %s\nHorizontal: %s",
-        Russian = "Верт.: %s\nГориз.: %s"
+    td_GuiVertical = {
+        English = "Vertical: %s",
+        Russian = "Вертикаль: %s"
+    },
+    td_GuiHorizontal = {
+        English = "Horizontal: %s",
+        Russian = "Горизонт: %s"
     },
     td_GuiSwapControls = {
         English = "SWAP",
-    },
-    td_GuiSwapVertical = {
-        English = "SWAP VERT",
     },
     td_GuiSpeed = {
         English = "Speed",

@@ -44,14 +44,17 @@ function TargetDevice:init()
 
     self.saved = self.storage:load() or {
         maxSpeed = 10,
-        swapControls = false,
-        swapVertical = false,
+        swap = {
+            vertical = false,
+            horizontal = false,
+            global = false
+        }
     }
 
     self:sv_applyImpulseWS({ to = 0 })
     self:sv_applyImpulseAD({ to = 0 })
 
-    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swapControls = self.saved.swapControls, swapVertical = self.saved.swapVertical })
+    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = copyTable(self.saved.swap) })
 end
 
 function TargetDevice:server_onFixedUpdate(dt)
@@ -192,15 +195,10 @@ function TargetDevice:sv_stopSound()
     self.network:sendToClients("cl_playSound", { play = false })
 end
 
-function TargetDevice:sv_swapControls(state)
-    self.saved.swapControls = state
-    self.network:setClientData({ swapControls = state })
-    self.storage:save(self.saved)
-end
-
-function TargetDevice:sv_swapVertical(state)
-    self.saved.swapVertical = state
-    self.network:setClientData({ swapVertical = state })
+---@param args table possible keys: `controls: string`, `state: boolean`
+function TargetDevice:sv_swapControls(args)
+    self.saved.swap[args.controls] = args.state
+    self.network:setClientData({ swap = copyTable(self.saved.swap) })
     self.storage:save(self.saved)
 end
 
@@ -235,8 +233,11 @@ function TargetDevice:client_onCreate()
                 target = 0
             }
         },
-        swapControls = false,
-        swapVertical = false,
+        swap = {
+            vertical = false,
+            horizontal = false,
+            global = false
+        }
     }
 
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/TargetDevice.layout")
@@ -244,7 +245,8 @@ function TargetDevice:client_onCreate()
     gui:setIconImage("td_icon", self.shape.uuid)
 
     gui:setButtonCallback("td_controls_swap", "cl_swapControls")
-    gui:setButtonCallback("td_controls_swapvertical", "cl_swapVertical")
+    gui:setButtonCallback("td_controls_verticalSwap", "cl_invertControls")
+    gui:setButtonCallback("td_controls_horizontalSwap", "cl_invertControls")
 
     self.cl.gui = gui
 
@@ -270,6 +272,7 @@ function TargetDevice:client_onUpdate(dt)
 end
 
 function TargetDevice:client_onAction(action, state)
+    local swap = self.cl.swap
     if state then
         if action == 15 then -- Use (E)
             self.cl.character:setLockingInteractable(nil)
@@ -280,21 +283,25 @@ function TargetDevice:client_onAction(action, state)
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text, 2)
 
-        elseif action == 1 or action == 2 then -- A/D
+        elseif (swap.global and (action == 3 or action == 4)) or (not swap.global and (action == 1 or action == 2)) then -- A/D
             local args = {
-                [1] = -1, -- left
-                [2] = 1, -- right
+                [1] = -1, -- A
+                [2] = 1, -- D
+                [3] = 1, -- W
+                [4] = -1, -- S
             }
 
-            self.network:sendToServer("sv_applyImpulseAD", { to = args[action], speed = self.cl.speed })
+            self.network:sendToServer("sv_applyImpulseAD", { to = args[action] * (self.cl.swap.horizontal == true and -1 or 1), speed = self.cl.speed })
 
-        elseif action == 3 or action == 4 then -- W/S
+        elseif (swap.global and (action == 1 or action == 2)) or (not swap.global and (action == 3 or action == 4)) then -- W/S
             local args = {
-                [3] = 1, -- forward
-                [4] = -1, -- backward
+                [1] = -1, -- A
+                [2] = 1, -- D
+                [3] = 1, -- W
+                [4] = -1, -- S
             }
 
-            self.network:sendToServer("sv_applyImpulseWS", { to = args[action], speed = self.cl.speed })
+            self.network:sendToServer("sv_applyImpulseWS", { to = args[action]  * (self.cl.swap.vertical == true and -1 or 1), speed = self.cl.speed })
 
         elseif action == 5 or action == 6 then -- 1/2
             local speedUpdate = {
@@ -323,10 +330,10 @@ function TargetDevice:client_onAction(action, state)
             self.network:sendToServer("sv_pressButton", { button = "Left", state = true })
         end
     else
-        if action == 1 or action == 2 then -- A/D
+        if (swap.global and (action == 3 or action == 4)) or (not swap.global and (action == 1 or action == 2)) then -- A/D
             self.network:sendToServer("sv_applyImpulseAD", { to = 0 })
 
-        elseif action == 3 or action == 4 then -- W/S
+        elseif (swap.global and (action == 1 or action == 2)) or (not swap.global and (action == 3 or action == 4)) then -- W/S
             self.network:sendToServer("sv_applyImpulseWS", { to = 0 })
 
         elseif action == 18 then -- RMB
@@ -375,12 +382,12 @@ function TargetDevice:client_onTinker(character, state)
     gui:setText("td_name", sm.shape.getShapeTitle(self.shape.uuid))
     gui:setSliderPosition("td_speed_slider", self.cl.maxSpeed - 1)
     gui:setText("td_controls_header", GetLocalization("td_GuiControls", getLang()))
-    local ws, ad = self.cl.swapVertical == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
-    local vert = self.cl.swapControls == false and ws or ad
-    local horiz = self.cl.swapControls == false and ad or ws
-    gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format(vert, horiz))
+    local ws = self.cl.swap.global == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
+    local ad = self.cl.swap.global == false and sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight") or sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward")
+    --sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
+    gui:setText("td_controls_vertical", GetLocalization("td_GuiVertical", getLang()):format(ws))
+    gui:setText("td_controls_horizontal", GetLocalization("td_GuiHorizontal", getLang()):format(ad))
     gui:setText("td_controls_swap", GetLocalization("td_GuiSwapControls", getLang()))
-    gui:setText("td_controls_swapvertical", GetLocalization("td_GuiSwapVertical", getLang()))
     gui:setText("td_speed_header", GetLocalization("td_GuiSpeed", getLang()))
     gui:setText("td_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(self.cl.maxSpeed))
     gui:open()
@@ -428,26 +435,25 @@ function TargetDevice:cl_onSpeedChange(value)
     self.network:sendToServer("sv_setMaxSpeed", value + 1)
 end
 
-function TargetDevice:cl_swapControls()
-    local swap = not self.cl.swapControls
-    self.cl.swapControls = swap
-    local ws, ad = self.cl.swapVertical == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
-    local vert = swap == false and ws or ad
-    local horiz = swap == false and ad or ws
-    self.cl.gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format(vert, horiz))
+function TargetDevice:cl_invertControls(button)
+    local _tmp = { td_controls_verticalSwap = "vertical", td_controls_horizontalSwap = "horizontal" }
+    local swap = _tmp[button]
+    local state = not self.cl.swap[swap]
 
-    self.network:sendToServer("sv_swapControls", swap)
+    self.cl.swap[swap] = state
+    self.cl.gui:setButtonState(button, state)
+    self.network:sendToServer("sv_swapControls", { controls = swap, state = state })
 end
 
-function TargetDevice:cl_swapVertical()
-    local swap = not self.cl.swapVertical
-    self.cl.swapVertical = swap
-    local ws, ad = swap == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("Backward")..sm.gui.getKeyBinding("Forward"), sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
-    local vert = self.cl.swapControls == false and ws or ad
-    local horiz = self.cl.swapControls == false and ad or ws
-    self.cl.gui:setText("td_controls_display", GetLocalization("td_GuiBinds", getLang()):format(vert, horiz))
+function TargetDevice:cl_swapControls()
+    local state = not self.cl.swap.global
+    self.cl.swap.global = state
+    self.network:sendToServer("sv_swapControls", { controls = "global", state = state })
 
-    self.network:sendToServer("sv_swapVertical", swap)
+    local ws = state == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
+    local ad = state == false and sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight") or sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward")
+    self.cl.gui:setText("td_controls_vertical", GetLocalization("td_GuiVertical", getLang()):format(ws))
+    self.cl.gui:setText("td_controls_horizontal", GetLocalization("td_GuiHorizontal", getLang()):format(ad))
 end
 
 ---@param speed number the rotation speed
