@@ -50,13 +50,17 @@ function TargetDevice:init()
             vertical = false,
             horizontal = false,
             global = false
+        },
+        secondary = {
+            RMB = true,
+            button = true
         }
     }
 
     self:sv_applyImpulseWS({ to = 0 })
     self:sv_applyImpulseAD({ to = 0 })
 
-    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = copyTable(self.saved.swap) })
+    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = copyTable(self.saved.swap), secondary = copyTable(self.saved.secondary) })
 end
 
 function TargetDevice:server_onFixedUpdate(dt)
@@ -204,6 +208,18 @@ function TargetDevice:sv_swapControls(args)
     self.storage:save(self.saved)
 end
 
+function TargetDevice:sv_setSecondary(rmb)
+    self.saved.secondary.RMB = rmb
+    self.network:setClientData({ secondary = copyTable(self.saved.secondary) })
+    self.storage:save(self.saved)
+end
+
+function TargetDevice:sv_setButton(button)
+    self.saved.secondary.button = button
+    self.network:setClientData({ secondary = copyTable(self.saved.secondary) })
+    self.storage:save(self.saved)
+end
+
 
 --[[ CLIENT ]]--
 
@@ -211,6 +227,7 @@ function TargetDevice:client_onCreate()
     self.cl = {
         effect = sm.effect.createEffect("Steer - Rotation", self.interactable),
         occupied = false,
+        secondaryActive = false,
         speed = 10,
         maxSpeed = 10,
         anims = {
@@ -239,6 +256,10 @@ function TargetDevice:client_onCreate()
             vertical = false,
             horizontal = false,
             global = false
+        },
+        secondary = {
+            RMB = true,
+            button = true
         }
     }
 
@@ -249,6 +270,12 @@ function TargetDevice:client_onCreate()
     gui:setButtonCallback("td_controls_swap", "cl_swapControls")
     gui:setButtonCallback("td_controls_verticalSwap", "cl_invertControls")
     gui:setButtonCallback("td_controls_horizontalSwap", "cl_invertControls")
+
+    gui:setButtonCallback("td_secondary_button_rmb", "cl_setSecondary")
+    gui:setButtonCallback("td_secondary_button_space", "cl_setSecondary")
+
+    gui:setButtonCallback("td_secondary_mode_button", "cl_setButton")
+    gui:setButtonCallback("td_secondary_mode_toggle", "cl_setButton")
 
     self.cl.gui = gui
 
@@ -281,6 +308,9 @@ function TargetDevice:client_onAction(action, state)
             self.network:sendToServer("sv_setOccupied", false)
             self.network:sendToServer("sv_applyImpulseWS", { to = 0 })
             self.network:sendToServer("sv_applyImpulseAD", { to = 0 })
+            self.network:sendToServer("sv_pressButton", { button = "Right", state = false })
+            self.network:sendToServer("sv_pressButton", { button = "Left", state = false })
+            self.cl.secondaryActive = false
 
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text, 2)
@@ -325,8 +355,13 @@ function TargetDevice:client_onAction(action, state)
             sm.gui.displayAlertText(GetLocalization("steer_MsgRotSpeed", getLang()):format(speed), 2)
             self.network:sendToServer("sv_setSpeed", speed)
 
-        elseif action == 18 then -- RMB
-            self.network:sendToServer("sv_pressButton", { button = "Right", state = true })
+        elseif (action == 18 and self.cl.secondary.RMB) or (action == 16 and not self.cl.secondary.RMB) then -- RMB
+            if not self.cl.secondary.button then
+                self.cl.secondaryActive = not self.cl.secondaryActive
+                self.network:sendToServer("sv_pressButton", { button = "Right", state = self.cl.secondaryActive })
+            else
+                self.network:sendToServer("sv_pressButton", { button = "Right", state = true })
+            end
 
         elseif action == 19 then -- LMB
             self.network:sendToServer("sv_pressButton", { button = "Left", state = true })
@@ -338,7 +373,7 @@ function TargetDevice:client_onAction(action, state)
         elseif (swap.global and (action == 1 or action == 2)) or (not swap.global and (action == 3 or action == 4)) then -- W/S
             self.network:sendToServer("sv_applyImpulseWS", { to = 0 })
 
-        elseif action == 18 then -- RMB
+        elseif self.cl.secondary.button and ((action == 18 and self.cl.secondary.RMB) or (action == 16 and not self.cl.secondary.RMB)) then -- RMB
             self.network:sendToServer("sv_pressButton", { button = "Right", state = false })
 
         elseif action == 19 then -- LMB
@@ -382,7 +417,7 @@ function TargetDevice:client_onTinker(character, state)
     local gui = self.cl.gui
     gui:setText("td_title", GetLocalization("base_Settings", getLang()))
     gui:setText("td_name", sm.shape.getShapeTitle(self.shape.uuid))
-    gui:setSliderPosition("td_speed_slider", self.cl.maxSpeed - 1)
+
     gui:setText("td_controls_header", GetLocalization("td_GuiControls", getLang()))
     local ws = self.cl.swap.global == false and sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward") or sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight")
     local ad = self.cl.swap.global == false and sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight") or sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward")
@@ -390,8 +425,23 @@ function TargetDevice:client_onTinker(character, state)
     gui:setText("td_controls_vertical", GetLocalization("td_GuiVertical", getLang()):format(ws))
     gui:setText("td_controls_horizontal", GetLocalization("td_GuiHorizontal", getLang()):format(ad))
     gui:setText("td_controls_swap", GetLocalization("td_GuiSwapControls", getLang()))
+
     gui:setText("td_speed_header", GetLocalization("td_GuiSpeed", getLang()))
+    gui:setSliderPosition("td_speed_slider", self.cl.maxSpeed - 1)
     gui:setText("td_speed_display", GetLocalization("td_GuiDisplay", getLang()):format(self.cl.maxSpeed))
+
+    gui:setText("td_secondary_header", GetLocalization("td_GuiSecondary", getLang()))
+    gui:setText("td_secondary_button_text", GetLocalization("td_GuiButton", getLang()))
+    gui:setText("td_secondary_button_rmb", sm.gui.getKeyBinding("Attack"):upper())
+    gui:setButtonState("td_secondary_button_rmb", self.cl.secondary.RMB)
+    gui:setText("td_secondary_button_space", sm.gui.getKeyBinding("Jump"):upper())
+    gui:setButtonState("td_secondary_button_space", not self.cl.secondary.RMB)
+    gui:setText("td_secondary_mode_text", GetLocalization("ts_GuiMode", getLang()))
+    gui:setText("td_secondary_mode_button", GetLocalization("td_GuiButtonMode", getLang()))
+    gui:setButtonState("td_secondary_mode_button", self.cl.secondary.button)
+    gui:setText("td_secondary_mode_toggle", GetLocalization("td_GuiToggleMode", getLang()))
+    gui:setButtonState("td_secondary_mode_toggle", not self.cl.secondary.button)
+
     gui:open()
 end
 
@@ -456,6 +506,22 @@ function TargetDevice:cl_swapControls()
     local ad = state == false and sm.gui.getKeyBinding("StrafeLeft")..sm.gui.getKeyBinding("StrafeRight") or sm.gui.getKeyBinding("Forward")..sm.gui.getKeyBinding("Backward")
     self.cl.gui:setText("td_controls_vertical", GetLocalization("td_GuiVertical", getLang()):format(ws))
     self.cl.gui:setText("td_controls_horizontal", GetLocalization("td_GuiHorizontal", getLang()):format(ad))
+end
+
+function TargetDevice:cl_setSecondary(button)
+    local rmb = button:sub(21) == "rmb"
+    self.network:sendToServer("sv_setSecondary", rmb)
+
+    self.cl.gui:setButtonState("td_secondary_button_rmb", rmb)
+    self.cl.gui:setButtonState("td_secondary_button_space", not rmb)
+end
+
+function TargetDevice:cl_setButton(button)
+    local mode = button:sub(19) == "button"
+    self.network:sendToServer("sv_setButton", mode)
+
+    self.cl.gui:setButtonState("td_secondary_mode_button", mode)
+    self.cl.gui:setButtonState("td_secondary_mode_toggle", not mode)
 end
 
 ---@param speed number the rotation speed
