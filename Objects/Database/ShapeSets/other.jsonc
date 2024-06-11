@@ -350,11 +350,10 @@
         },
         {
             "color": "355535",
-            "hull": {
-                "x": 3,
+            "box": {
+                "x": 1,
                 "y": 1,
-                "z": 1,
-                "col": "$CONTENT_DATA/Objects/Collision/goggles.obj"
+                "z": 1
             },
             "name": "Goggles",
             "physicsMaterial": "Mechanical",
