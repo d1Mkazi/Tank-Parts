@@ -3,6 +3,7 @@
       "particles/p_cannon_shoot.json",
       "particles/p_cannon_shoot_muzzle_brake.json",
       "particles/p_howitzer_shoot.json",
-      "particles/p_dynamic_armor_pop.json"
+      "particles/p_dynamic_armor_pop.json",
+      "particles/p_cannon_smoke_aftermath.json"
    ]
 }
