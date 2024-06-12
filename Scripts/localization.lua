@@ -94,6 +94,22 @@ local languages = {
         English = "Max Speed: %s",
         Russian = "Макс.\nскорость: %s"
     },
+    td_GuiSecondary = {
+        English = "Secondary",
+        Russian = "Втор. действие"
+    },
+    td_GuiButton = {
+        English = "Button",
+        Russian = "Кнопка"
+    },
+    td_GuiButtonMode = {
+        English = "BUTTON",
+        Russian = "КНОПКА"
+    },
+    td_GuiToggleMode = {
+        English = "TOGGLE",
+        Russian = "ПЕРЕКЛ"
+    },
 
     -- Alerts
     steer_MsgExit = {
