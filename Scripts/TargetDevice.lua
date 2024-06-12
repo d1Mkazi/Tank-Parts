@@ -8,8 +8,6 @@ TargetDevice.connectionOutput = sm.interactable.connectionType.bearing + sm.inte
 TargetDevice.colorNormal = sm.color.new("af730dff")
 TargetDevice.colorHighlight = sm.color.new("afa63eff")
 
-local Z = sm.vec3.new(0, 0, 1)
-
 
 function TargetDevice:server_onCreate()
     self:init()
@@ -57,8 +55,7 @@ function TargetDevice:init()
         }
     }
 
-    self:sv_applyImpulseWS({ to = 0 })
-    self:sv_applyImpulseAD({ to = 0 })
+    self.interactable.publicData = { smart_values = { ["Vertical Angle"] = 0, ["Horizontal Angle"] = 0, ["Left Mouse"] = false, ["Right Mouse"] = false } }
 
     self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = copyTable(self.saved.swap), secondary = copyTable(self.saved.secondary) })
 end
@@ -85,7 +82,7 @@ function TargetDevice:server_onFixedUpdate(dt)
         for k, bearing in ipairs(bearings) do
             if not (isAnyOf(bearing, ws) or isAnyOf(bearing, ad)) then
                 bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
-                if sameAxis(bearing.zAxis, Z) then
+                if sameAxis(bearing.zAxis, self.shape.zAxis) then
                     ad[#ad+1] = bearing
                 else
                     ws[#ws+1] = bearing
@@ -105,6 +102,19 @@ function TargetDevice:server_onFixedUpdate(dt)
         end
     elseif #bearings == 0 then
         self.sv.bearings = { ws = {}, ad = {} }
+    end
+
+    if #ws > 0 then
+        local angle = math.floor(ws[#ws].angle * 100) * 0.01
+        if angle ~= self.interactable.publicData.smart_values["Vertical Angle"] then
+            self.interactable.publicData.smart_values["Vertical Angle"] = angle
+        end
+    end
+    if #ad > 0 then
+        local angle = math.floor(ad[#ad].angle * 100) * 0.01
+        if angle ~= self.interactable.publicData.smart_values["Horizontal Angle"] then
+            self.interactable.publicData.smart_values["Horizontal Angle"] = angle
+        end
     end
 end
 
@@ -174,6 +184,8 @@ function TargetDevice:sv_pressButton(args)
     if args.button == "Left" then
         self.interactable.active = args.state
     end
+
+    self.interactable.publicData.smart_values[args.button.." Mouse"] = args.state
 
     self.network:sendToClients("cl_setAnimation", { anim = "Press"..args.button, target = args.state == true and 1 or 0 })
 end

@@ -229,5 +229,10 @@
         "title": "Targeting Device",
         "description": "No MBT can exist without this thing!\n\nConnect Goggles to use them as a scope\nConnect red logic for left and blue logic for right mouse buttons.\nConnect bearings to control them with WASD",
         "keywords": [ "Cheburashka", "T-72", "T-80", "T-90" ]
+    },
+    "d0ac640d-f3f3-403a-8b45-8629bfcc7b2a": {
+        "title": "Extractor",
+        "description": "I don't know...",
+        "keywords": [ "Value", "Signal", "Logic", "Power" ]
     }
 }

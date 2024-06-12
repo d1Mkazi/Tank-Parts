@@ -111,6 +111,15 @@ local languages = {
         Russian = "ПЕРЕКЛ"
     },
 
+    ext_GuiValues = {
+        English = "Output",
+        Russian = "Вывод"
+    },
+    ext_GuiOutput = {
+        English = "Choose a value to out",
+        Russian = "Выберите значения для вывода"
+    },
+
     -- Alerts
     steer_MsgExit = {
         English = "You are no longer aiming",

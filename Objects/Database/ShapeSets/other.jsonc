@@ -433,6 +433,23 @@
                 "buoyancy": 3
             },
             "uuid": "b0fb8b9e-ac99-4033-abd2-4beb598431a2"
+        },
+        {
+            "color": "df7f00",
+            "box": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "name": "Extractor",
+            "physicsMaterial": "Mechanical",
+            "renderable": "$GAME_DATA/Objects/Renderable/Interactive/obj_interactive_logicgate.rend",
+            "rotationSet": "PropYZ",
+            "scripted": {
+                "classname": "Extractor",
+                "filename": "$CONTENT_DATA/Scripts/Extractor.lua"
+            },
+            "uuid": "d0ac640d-f3f3-403a-8b45-8629bfcc7b2a"
         }
     ]
 }

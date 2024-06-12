@@ -649,7 +649,7 @@
 			"uuid" : "97223124-8714-4901-9887-ea341a2018ae",
             "showInInventory": false
         },
-        { // APFSDS -> M774
+        { // HEATFS -> M456A2
             "cylinder" : {
                 "axis" : "Y",
                 "depth" : 5,
