@@ -117,3 +117,24 @@ function xor(...)
     end
     return res
 end
+
+---@param any table
+---@param of table
+---@param ex string subkey to compare
+---@return boolean
+function isAnyOfEx(any, of, ex)
+    for k, v in pairs(of) do
+        if v[ex] == any[ex] then
+            return true
+        end
+    end
+    return false
+end
+
+---@param t table
+---@return integer --(at least supposed to)
+function getFirstIndex(t)
+    for k, _ in pairs(t) do
+        return k
+    end
+end

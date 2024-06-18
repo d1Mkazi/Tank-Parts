@@ -55,7 +55,7 @@ function TargetDevice:init()
         }
     }
 
-    self.interactable.publicData = { smart_values = { ["Vertical Angle"] = 0, ["Horizontal Angle"] = 0, ["Left Mouse"] = false, ["Right Mouse"] = false } }
+    self.interactable.publicData = { smart_values = { ["Vertical Angle"] = 0, ["Horizontal Angle"] = 0, ["Left Mouse"] = false, ["Secondary Action"] = false } }
 
     self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = copyTable(self.saved.swap), secondary = copyTable(self.saved.secondary) })
 end
@@ -80,7 +80,8 @@ function TargetDevice:server_onFixedUpdate(dt)
     local ws, ad = self.sv.bearings.ws, self.sv.bearings.ad
     if #bearings ~= (#self.sv.bearings.ad + #self.sv.bearings.ws) then
         for k, bearing in ipairs(bearings) do
-            if not (isAnyOf(bearing, ws) or isAnyOf(bearing, ad)) then
+            if not (isAnyOfEx(bearing, ws, "id") or isAnyOfEx(bearing, ad, "id")) then
+                print("added BEARING")
                 bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
                 if sameAxis(bearing.zAxis, self.shape.zAxis) then
                     ad[#ad+1] = bearing
@@ -91,12 +92,12 @@ function TargetDevice:server_onFixedUpdate(dt)
         end
 
         for k, bearing in pairs(ws) do
-            if not isAnyOf(bearing, bearings) then
+            if not isAnyOfEx(bearing, bearings, "id") then
                 ws[k] = nil
             end
         end
         for k, bearing in pairs(ad) do
-            if not isAnyOf(bearing, bearings) then
+            if not isAnyOfEx(bearing, bearings, "id") then
                 ad[k] = nil
             end
         end
@@ -105,13 +106,13 @@ function TargetDevice:server_onFixedUpdate(dt)
     end
 
     if #ws > 0 then
-        local angle = math.floor(ws[#ws].angle * 100) * 0.01
+        local angle = math.floor(ws[getFirstIndex(ws)].angle * 100) * 0.01
         if angle ~= self.interactable.publicData.smart_values["Vertical Angle"] then
             self.interactable.publicData.smart_values["Vertical Angle"] = angle
         end
     end
     if #ad > 0 then
-        local angle = math.floor(ad[#ad].angle * 100) * 0.01
+        local angle = math.floor(ad[getFirstIndex(ad)].angle * 100) * 0.01
         if angle ~= self.interactable.publicData.smart_values["Horizontal Angle"] then
             self.interactable.publicData.smart_values["Horizontal Angle"] = angle
         end
@@ -129,8 +130,8 @@ function TargetDevice:sv_applyImpulseWS(args)
     local bearings = self.sv.bearings.ws
     if to ~= 0 then
         self.sv.sound.ws = true
-        for k, bearing in ipairs(bearings) do
-            local modifier = xor(bearing.reversed, self.saved.swapVertical) == true and 1 or -1
+        for k, bearing in pairs(bearings) do
+            local modifier = self.saved.swap.vertical == true and 1 or -1
             bearing:setMotorVelocity(speed * to * modifier, 1000)
         end
         self.network:sendToClients("cl_setAnimation", { anim = "RotVertical", target = to == -1 and 0 or 1})
@@ -139,7 +140,7 @@ function TargetDevice:sv_applyImpulseWS(args)
         end
     else
         self.sv.sound.ws = false
-        for k, bearing in ipairs(bearings) do
+        for k, bearing in pairs(bearings) do
             bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
         end
         self.network:sendToClients("cl_setAnimation", { anim = "RotVertical", target = 0.5})
@@ -157,8 +158,8 @@ function TargetDevice:sv_applyImpulseAD(args)
     local bearings = self.sv.bearings.ad
     if to ~= 0 then
         self.sv.sound.ad = true
-        for k, bearing in ipairs(bearings) do
-            local modifier = bearing.reversed == false and 1 or -1
+        for k, bearing in pairs(bearings) do
+            local modifier = self.saved.swap.vertical == false and 1 or -1
             bearing:setMotorVelocity(speed * to * modifier, 1000)
         end
         self.network:sendToClients("cl_setAnimation", { anim = "RotHorizontal", target = to == -1 and 0 or 1})
@@ -167,7 +168,7 @@ function TargetDevice:sv_applyImpulseAD(args)
         end
     else
         self.sv.sound.ad = false
-        for k, bearing in ipairs(bearings) do
+        for k, bearing in pairs(bearings) do
             bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
         end
         self.network:sendToClients("cl_setAnimation", { anim = "RotHorizontal", target = 0.5})
@@ -181,11 +182,15 @@ end
 
 ---@param args table possible keys: `button: string (Left|Right)`, `state: boolean`
 function TargetDevice:sv_pressButton(args)
+    local smart_value
     if args.button == "Left" then
         self.interactable.active = args.state
+        smart_value = "Left Mouse"
+    else
+        smart_value = "Secondary Action"
     end
+    self.interactable.publicData.smart_values[smart_value] = args.state
 
-    self.interactable.publicData.smart_values[args.button.." Mouse"] = args.state
 
     self.network:sendToClients("cl_setAnimation", { anim = "Press"..args.button, target = args.state == true and 1 or 0 })
 end
