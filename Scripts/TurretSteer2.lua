@@ -28,16 +28,15 @@ function TurretSteer2:init()
         WSmode = false
     }
 
-    self:sv_applyImpulse({ to = 0 })
+    self.interactable.publicData = { smart_values = { ["Angle"] = 0 } }
+
     self.network:setClientData({ speed = self.saved.maxSpeed, WSmode = self.saved.WSmode })
 end
 
 function TurretSteer2:server_onFixedUpdate(dt)
     local bearings = self.interactable:getBearings()
     if #bearings > 0 then
-        self.interactable.power = -math.floor((math.deg(bearings[1].angle) + 0.5) * 100) * 0.01
-    else
-        self.interactable.power = 0
+        self.interactable.publicData.smart_values["Angle"] = -math.floor((math.deg(bearings[getFirstIndex(bearings)].angle) + 0.5) * 100) * 0.01
     end
 end
 
