@@ -95,8 +95,12 @@ function Extractor:client_onClientDataUpdate(data)
     end
 end
 
+function Extractor:client_canInteract(character)
+    return self.interactable:getSingleParent() ~= nil
+end
+
 function Extractor:client_onInteract(character, state)
-    if not state or not self.interactable:getSingleParent() then return end
+    if not state then return end
 
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Extractor.layout", true)
     gui:setIconImage("ext_icon", self.shape.uuid)
