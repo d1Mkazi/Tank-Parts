@@ -450,6 +450,46 @@
                 "filename": "$CONTENT_DATA/Scripts/Extractor.lua"
             },
             "uuid": "d0ac640d-f3f3-403a-8b45-8629bfcc7b2a"
+        },
+        {
+            "color": "df7f00",
+            "box": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "name": "Modern Viewport",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/modern_viewport.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/periscope_dif.png",
+                                    "$CONTENT_DATA/Objects/Textures/periscope_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
+            "sticky": "-Z",
+            "rotationSet": "PropZ",
+            //"scripted": {
+            //    "classname": "Binoculars",
+            //    "filename": "$CONTENT_DATA/Scripts/Binoculars.lua"
+            //},
+            "ratings": {
+                "density": 2,
+                "durability": 5,
+                "friction": 2,
+                "buoyancy": 2
+            },
+            "uuid": "84145f0d-741c-4142-9aec-edd85ce026be"
         }
     ]
 }
