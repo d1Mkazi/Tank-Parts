@@ -232,7 +232,7 @@
     },
     "d0ac640d-f3f3-403a-8b45-8629bfcc7b2a": {
         "title": "Extractor",
-        "description": "I don't know...",
+        "description": "Outputs a value from the interactable",
         "keywords": [ "Value", "Signal", "Logic", "Power" ]
     }
 }
