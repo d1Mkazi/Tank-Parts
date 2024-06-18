@@ -116,7 +116,7 @@ local languages = {
         Russian = "Вывод"
     },
     ext_GuiOutput = {
-        English = "Choose a value to out",
+        English = "Select output value",
         Russian = "Выберите значения для вывода"
     },
 
