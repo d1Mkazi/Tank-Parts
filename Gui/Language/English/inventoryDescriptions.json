@@ -239,5 +239,9 @@
         "title": "Extractor",
         "description": "Outputs a value from the interactable",
         "keywords": [ "Value", "Signal", "Logic", "Power" ]
+    },
+    "84145f0d-741c-4142-9aec-edd85ce026be": {
+        "title": "Modern Viewport",
+        "keywords": [ "Periscope", "Binoculars", "Visor", "Vision", "MBT" ]
     }
 }

@@ -121,8 +121,11 @@
             "sticky": "-Z",
             "rotationSet": "PropZ",
             "scripted": {
-            "classname": "PeriscopeOutput",
-            "filename": "$CONTENT_DATA/Scripts/PeriscopeOutput.lua"
+                "classname": "Viewport",
+                "filename": "$CONTENT_DATA/Scripts/Viewport.lua",
+				"data": {
+                    "connectableUuid": "66a069ab-4512-421d-b46b-7d14fb7f3b22"
+				}
             },
             "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3b23"
         },
@@ -479,10 +482,13 @@
             "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
             "sticky": "-Z",
             "rotationSet": "PropZ",
-            //"scripted": {
-            //    "classname": "Binoculars",
-            //    "filename": "$CONTENT_DATA/Scripts/Binoculars.lua"
-            //},
+            "scripted": {
+                "classname": "Viewport",
+                "filename": "$CONTENT_DATA/Scripts/Viewport.lua",
+				"data": {
+                    "connectableUuid": "e98eecc3-2665-49a6-9a15-86e591ab4e5a"
+				}
+            },
             "ratings": {
                 "density": 2,
                 "durability": 5,
