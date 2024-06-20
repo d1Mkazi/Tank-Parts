@@ -34,6 +34,8 @@ end
 
 function Breech:init()
     self.sv = {
+        loaded = nil,
+        status = EMPTY,
         animProgress = 0,
         dropping = false,
         lastActive = false,
@@ -41,22 +43,13 @@ function Breech:init()
     }
 
     self.saved = self.storage:load() or {
-        loaded = nil,
         shootDistance = 0,
-        status = EMPTY,
         offset = 1
     }
-    local status
-    if isAnyOf(status, GateClosed) then
-        self.network:sendToClients("cl_close")
-        if status == LOADED then
-            self.interactable.active = true
-        end
-    else
-        self.network:sendToClients("cl_open")
-    end
 
-    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status })
+    self.network:sendToClients("cl_open")
+
+    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = EMPTY })
 
     local data = self.data
     local size = sm.vec3.new(data.areaSizeX, data.areaSizeY, data.areaSizeZ)
@@ -71,7 +64,7 @@ end
 function Breech:server_onFixedUpdate(dt)
     local parent = self.interactable:getSingleParent()
     local children = self.interactable:getChildren(2) -- power
-    local status = self.saved.status
+    local status = self.sv.status
 
     if status == FIRED and self.sv.animProgress == 1 and self.sv.dropping then
         self:sv_dropCase()
@@ -107,12 +100,12 @@ function Breech:server_onFixedUpdate(dt)
 end
 
 function Breech:server_onMelee()
-    if self.saved.status ~= LOADED or self.sv.animProgress ~= 0 then return end
+    if self.sv.status ~= LOADED or self.sv.animProgress ~= 0 then return end
     self:sv_shoot()
 end
 
 function Breech:trigger_onEnter(trigger, results)
-    if isAnyOf(self.saved.status, GateClosed) then return end
+    if isAnyOf(self.sv.status, GateClosed) then return end
 
     local shellTable = ShellList[self.data.caliber][self.data.loading]
     local shapes = trigger:getShapes()
@@ -120,7 +113,7 @@ function Breech:trigger_onEnter(trigger, results)
         for k, shape in pairs(shapeData) do
             if k == "shape" then
                 if shape.body ~= self.shape.body then
-                    local status = self.saved.status
+                    local status = self.sv.status
                     if isAnyOf(status, GateClosed) then return end
 
                     local uuid = tostring(shape.uuid)
@@ -137,12 +130,12 @@ function Breech:trigger_onEnter(trigger, results)
                                 shape:destroyPart(0)
                             end
                         else
-                            if uuid == self.saved.loaded.data.caseUuid then
+                            if uuid == self.sv.loaded.data.caseUuid then
                                 self:sv_loadSeparated(shape.uuid)
                                 shape:destroyPart(0)
                             elseif uuid == "66a069ab-4512-421d-b46b-7d14fb7f3d09" then
                                 local case = shape.interactable.publicData.case
-                                if case == self.saved.loaded.data.caseUuid then
+                                if case == self.sv.loaded.data.caseUuid then
                                     self:sv_loadSeparated(case)
                                     sm.event.sendToInteractable(shape.interactable, "sv_removeCase")
                                 end
@@ -164,9 +157,9 @@ function Breech:sv_loadShell(shape, dataTable)
 
     self.interactable.active = true
 
-    self.saved.loaded = loaded
+    self.sv.loaded = loaded
     self.network:sendToClients("cl_loadShell")
-    self.saved.status = LOADED
+    self.sv.status = LOADED
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -174,23 +167,23 @@ end
 ---@param uuid Uuid The shell
 ---@param dataTable? table
 function Breech:sv_loadSeparated(uuid, dataTable)
-    local status = self.saved.status
+    local status = self.sv.status
     local loaded = {}
     if status == EMPTY then
         loaded.data = dataTable
         loaded.shell = uuid
-        self.saved.loaded = loaded
+        self.sv.loaded = loaded
 
         self.interactable.active = true
         status = SHELLED
     else
-        self.saved.loaded.case = uuid
+        self.sv.loaded.case = uuid
 
         self.interactable.active = true
         status = LOADED
     end
 
-    self.saved.status = status
+    self.sv.status = status
     self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
     self:sv_updateClientData()
     self.storage:save(self.saved)
@@ -216,15 +209,15 @@ function Breech:sv_shoot()
         rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
     end
 
-    local shell = self.saved.loaded.data.shellData
+    local shell = self.sv.loaded.data.shellData
 
-    sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.saved.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
+    sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.sv.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 
     local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)
     sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
 
     self.network:sendToClients("cl_shoot", { pos = pos, rot = rot, offset = offset })
-    self.saved.status = FIRED
+    self.sv.status = FIRED
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -232,13 +225,13 @@ end
 function Breech:sv_dropCase()
     local pos = self.shape.worldPosition + self.shape.right * -0.125
     local at = self.shape.at
-    local caseSize = sm.item.getShapeSize(sm.uuid.new(self.saved.loaded.data.usedUuid)).y
+    local caseSize = sm.item.getShapeSize(sm.uuid.new(self.sv.loaded.data.usedUuid)).y
     local offset = ((sm.item.getShapeSize(self.shape.uuid).y * 0.5) + (caseSize)) * 0.25
 
-    sm.shape.createPart(sm.uuid.new(self.saved.loaded.data.usedUuid), pos - at * offset, self.shape.worldRotation)
+    sm.shape.createPart(sm.uuid.new(self.sv.loaded.data.usedUuid), pos - at * offset, self.shape.worldRotation)
 
-    self.saved.status = EMPTY
-    self.saved.loaded = nil
+    self.sv.status = EMPTY
+    self.sv.loaded = nil
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
@@ -258,17 +251,17 @@ end
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
     sm.container.beginTransaction()
-    sm.container.collect(container, sm.uuid.new(self.saved.loaded.data.usedUuid), 1)
+    sm.container.collect(container, sm.uuid.new(self.sv.loaded.data.usedUuid), 1)
     sm.container.endTransaction()
 
-    self.saved.status = EMPTY
-    self.saved.loaded = nil
+    self.sv.status = EMPTY
+    self.sv.loaded = nil
     self:sv_updateClientData()
     self.storage:save(self.saved)
 end
 
 function Breech:sv_updateClientData()
-    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.saved.status, offset = self.saved.offset })
+    self.network:setClientData({ shootDistance = self.saved.shootDistance, status = self.sv.status, offset = self.saved.offset })
 end
 
 function Breech:sv_open()
