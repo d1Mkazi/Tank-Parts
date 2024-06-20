@@ -202,15 +202,16 @@ function Breech:sv_shoot()
 	self.interactable.active = false
 
     local at = self.shape.at
-    local size = sm.item.getShapeSize(self.shape.uuid)
-    local offset = (size.y + self.saved.shootDistance) * 0.25
 
-    local pos, rot
+    local pos, rot, offset
     if self.sv.hasMuzzle then
         local muzzle = self.interactable:getChildren(2--[[power]])[1].shape
         pos = muzzle.worldPosition + at * 0.25
         rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), muzzle.at)
+        offset = (self.shape.worldPosition - pos):length()
     else
+        local size = sm.item.getShapeSize(self.shape.uuid)
+        offset = ((size.y + self.saved.shootDistance) * 0.25)
         pos = self.shape.worldPosition + at * offset + self.shape.up * 0.125 * ((size.z % 2 == 0 and self.saved.offset or 0))
         rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
     end
@@ -222,7 +223,7 @@ function Breech:sv_shoot()
     local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)
     sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
 
-    self.network:sendToClients("cl_shoot", { pos = pos, rot = rot })
+    self.network:sendToClients("cl_shoot", { pos = pos, rot = rot, offset = offset })
     self.saved.status = FIRED
     self:sv_updateClientData()
     self.storage:save(self.saved)
@@ -388,6 +389,10 @@ function Breech:cl_shoot(args)
             sm.effect.playEffect("TankCannon - Smoke", args.pos, nil, args.rot)
         end
     end
+
+    local smoke = sm.effect.createEffect("TankCannon - Smoke Aftermath", self.interactable)
+    smoke:setOffsetPosition(sm.vec3.new(0, args.offset, 0))
+    smoke:start()
 end
 
 function Breech:cl_changeSlider(value)
@@ -399,7 +404,6 @@ end
 ---@param button string
 ---@param state boolean
 function Breech:cl_onOffsetChange(button, state)
-    print("HEY")
     if button:sub(15) == "upper" then
         self.cl.gui:setButtonState("breech_offset_upper", true)
         self.cl.gui:setButtonState("breech_offset_lower", false)
