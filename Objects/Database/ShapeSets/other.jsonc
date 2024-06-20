@@ -355,12 +355,12 @@
                 "y": 1,
                 "z": 1
             },
-            "name": "Goggles",
+            "name": "Binoculars",
             "physicsMaterial": "Mechanical",
             "renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/goggles.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/binoculars.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
@@ -377,8 +377,8 @@
             "sticky": "+Y",
             "rotationSet": "PropNegY",
             "scripted": {
-                "classname": "Goggles",
-                "filename": "$CONTENT_DATA/Scripts/Goggles.lua"
+                "classname": "Binoculars",
+                "filename": "$CONTENT_DATA/Scripts/Binoculars.lua"
             },
             "ratings": {
                 "density": 1,

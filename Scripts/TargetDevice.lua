@@ -39,7 +39,7 @@ function TargetDevice:init()
             right= false
         },
 
-        goggles = nil
+        binoculars = nil
     }
 
     self.saved = self.storage:load() or {
@@ -69,8 +69,8 @@ function TargetDevice:server_onFixedUpdate(dt)
             if uuid == "e98eecc3-2665-49a6-9a15-86e591ab4e5a" then
                 if self.sv.goggles and child ~= self.sv.goggles then
                     self.interactable:disconnect(child)
-                elseif not self.sv.goggles then
-                    self.sv.goggles = child
+                elseif not self.sv.binoculars then
+                    self.sv.binoculars = child
                 end
             end
         end

@@ -225,6 +225,11 @@
         "title": "Dynamic Armor",
         "description": "Most effective protection against HEAT bullets"
     },
+    "e98eecc3-2665-49a6-9a15-86e591ab4e5a": {
+        "title": "Binoculars",
+        "description": "Connect it to a modern viewport to see behind walls\nYou can connect bearings to it and press WASD to rotate the viewport",
+        "keywords": [ "Viewport", "MBT" ]
+    },
     "b0fb8b9e-ac99-4033-abd2-4beb598431a2": {
         "title": "Targeting Device",
         "description": "No MBT can exist without this thing!\n\nConnect Binoculars to use them as a scope\nCan be used with Extractor",
