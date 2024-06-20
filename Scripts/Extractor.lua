@@ -32,6 +32,9 @@ function Extractor:init()
     self.saved = self.storage:load() or {
         extract = nil
     }
+
+    self.sv.connected = self.saved.extract ~= nil
+    self:sv_onValueSelect(self.saved.extract)
 end
 
 function Extractor:server_onFixedUpdate(dt)
@@ -68,6 +71,7 @@ function Extractor:server_onFixedUpdate(dt)
         end
         self.network:setClientData({ extractions = extractions })
         self.saved.extract = extractions[1]
+        self:sv_onValueSelect(extractions[1])
         self.sv.connected = true
         print("CONNECTED")
     end
