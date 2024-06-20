@@ -203,11 +203,11 @@
     "66a069ab-4512-421d-b46b-7d14fb7f3b22": {
         "title": "Periscope",
         "description": "Connect it to a viewport to see behind walls\nYou can connect bearings to it and press WASD to turn the viewport",
-        "keywords": [ "viewport" ]
+        "keywords": [ "Viewport" ]
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3b23": {
         "title": "Viewport",
-        "keywords": [ "periscope" ]
+        "keywords": [ "Periscope", "Visor", "Vision" ]
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3d07": {
         "title": "Machine Gun Handle",
@@ -233,7 +233,7 @@
     "b0fb8b9e-ac99-4033-abd2-4beb598431a2": {
         "title": "Targeting Device",
         "description": "No MBT can exist without this thing!\n\nConnect Binoculars to use them as a scope\nCan be used with Extractor",
-        "keywords": [ "Cheburashka", "T-72", "T-80", "T-90" ]
+        "keywords": [ "Cheburashka", "T-72", "T-80", "T-90", "MBT" ]
     },
     "d0ac640d-f3f3-403a-8b45-8629bfcc7b2a": {
         "title": "Extractor",
