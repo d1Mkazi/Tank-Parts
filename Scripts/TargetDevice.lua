@@ -9,6 +9,10 @@ TargetDevice.colorNormal = sm.color.new("af730dff")
 TargetDevice.colorHighlight = sm.color.new("afa63eff")
 
 
+local BINOCULARS = sm.uuid.new("e98eecc3-2665-49a6-9a15-86e591ab4e5a")
+
+--[[ SERVER ]]--
+
 function TargetDevice:server_onCreate()
     self:init()
 end
@@ -65,15 +69,18 @@ function TargetDevice:server_onFixedUpdate(dt)
     local children = self.interactable:getChildren(1) -- sm.interactable.connectionType.logic
     if #children > 0 then
         for k, child in ipairs(children) do
-            local uuid = tostring(child.shape.uuid)
-            if uuid == "e98eecc3-2665-49a6-9a15-86e591ab4e5a" then
-                if self.sv.goggles and child ~= self.sv.goggles then
+            if child.shape.uuid == BINOCULARS then
+                if self.sv.binoculars and child ~= self.sv.binoculars then
                     self.interactable:disconnect(child)
                 elseif not self.sv.binoculars then
                     self.sv.binoculars = child
                 end
             end
         end
+    end
+
+    if not isAnyOf(self.sv.binoculars, children) then
+        self.sv.binoculars = nil
     end
 
     local bearings = self.interactable:getBearings()
