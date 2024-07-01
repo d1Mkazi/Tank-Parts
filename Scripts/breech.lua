@@ -223,12 +223,13 @@ function Breech:sv_shoot()
 end
 
 function Breech:sv_dropCase()
-    local pos = self.shape.worldPosition + self.shape.right * -0.125
+    local size = sm.item.getShapeSize(self.shape.uuid)
+    local pos = self.shape.worldPosition + self.shape.right * ((size.x % 2 == 0 and -0.125 or 0))
     local at = self.shape.at
-    local caseSize = sm.item.getShapeSize(sm.uuid.new(self.sv.loaded.data.usedUuid)).y
-    local offset = ((sm.item.getShapeSize(self.shape.uuid).y * 0.5) + (caseSize)) * 0.25
+    local caseUuid = sm.uuid.new(self.sv.loaded.data.usedUuid)
+    local offset = ((size.y * 0.5) + (sm.item.getShapeSize(caseUuid).y)) * 0.25
 
-    sm.shape.createPart(sm.uuid.new(self.sv.loaded.data.usedUuid), pos - at * offset, self.shape.worldRotation)
+    sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
 
     self.sv.status = EMPTY
     self.sv.loaded = nil
