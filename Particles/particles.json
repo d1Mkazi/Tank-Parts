@@ -1,9 +1,16 @@
 {
    "particleSystemList" : [
-      "particles/p_cannon_shoot.json",
-      "particles/p_cannon_shoot_muzzle_brake.json",
-      "particles/p_howitzer_shoot.json",
-      "particles/p_dynamic_armor_pop.json",
-      "particles/p_cannon_smoke_aftermath.json"
+      //Interactive
+         "particles/interactive/p_dynamic_armor_pop.json",
+      //Cannons' particles
+         //Generic
+            "particles/cannons/generic/p_cannon_shoot_explosion.json",
+            "particles/cannons/generic/p_cannon_smoke_aftermath.json",
+         //Smoke effects per caliber
+            "particles/cannons/p_cannon_shoot_large.json",  //Howitzer
+            "particles/cannons/p_cannon_shoot_medium.json", //Normal cannons
+            "particles/cannons/p_cannon_shoot_small.json",  //37mm
+         //Smoke from modifications
+            "particles/cannons/p_cannon_shoot_muzzle_brake.json"
    ]
 }

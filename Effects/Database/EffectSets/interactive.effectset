@@ -1,0 +1,11 @@
+{
+   "DynamicArmor - Explosion" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_dynamic_armor_pop" ],
+            "type" : "particle"
+         }
+      ]
+   }
+}

@@ -1,0 +1,97 @@
+{
+   "TankCannon - BaseExplosion" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_shoot_explosion" ],
+            "type" : "particle"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 0.40,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "shakeStrength", "shakeRadius" ],
+            "type" : "cameraShake"
+         },
+         {
+            "delay" : 0.0,
+            "duration" : 0.10,
+            "name" : "",
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "parameters" : [ "color", "radius", "intensity" ],
+            "type" : "pointLight"
+         }
+      ],
+      "parameterCurves" : {
+         "radius" : {
+            "timeline" : [
+               {
+                  "time" : 0.0,
+                  "value" : 0.0
+               },
+               {
+                  "time" : 0.10,
+                  "value" : 20.0
+               },
+               {
+                  "time" : 0.60,
+                  "value" : 0.0
+               }
+            ]
+         }
+      },
+      "parameterList" : {
+         "color" : "ffcc34",
+         "intensity" : 6.0,
+         "radius" : 25.0,
+         "shakeRadius" : 60.0,
+         "shakeStrength" : 0.40
+      }
+   },
+   "TankCannon - ShootSmokeLarge" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_shoot_large" ],
+            "type" : "particle"
+         }
+      ]
+   },
+   "TankCannon - ShootSmokeMedium" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_shoot_medium" ],
+            "type" : "particle"
+         }
+      ]
+   },
+   "TankCannon - ShootSmokeMuzzleBrake" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_shoot_muzzle_brake" ],
+            "type" : "particle"
+         }
+      ]
+   },
+   "TankCannon - ShootSmokeSmall" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_shoot_small" ],
+            "type" : "particle"
+         }
+      ]
+   },
+   "TankCannon - SmokeAftermath" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_smoke_aftermath" ],
+            "type" : "particle"
+         }
+      ]
+   }
+}

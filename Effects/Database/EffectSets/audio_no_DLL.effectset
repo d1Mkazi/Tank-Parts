@@ -1,0 +1,14 @@
+{
+   "TankCannonSound - ShootExplosion" : {
+      "effectList" : [
+         {
+            "audio" : [ "event:/weapons/explosion_gas" ],
+            "parameters" : [ "size" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "size" : 1
+      }
+   }
+}
