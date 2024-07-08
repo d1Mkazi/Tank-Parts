@@ -79,7 +79,7 @@ function __hit_ap(data)
             data.dir = data.vel:normalize() / 4
             data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
             data.alive = true
-            explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
+            explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
             return
         end
         durability = getDurability(durability, angle)
@@ -88,7 +88,7 @@ function __hit_ap(data)
         if durability > data.maxDurability or durability > data.penetrationCapacity then
             print("[TANK PARTS] TOO DURAB BLOCK HIT")
             shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
-            explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+            explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
             data.alive = false
             return
         else
@@ -193,7 +193,7 @@ function __hit_heat(data)
         if durability > data.penetrationCapacity then
             print("[TANK PARTS] TOO DURAB BLOCK HIT")
             shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
-            explode(pos, 1, 0.1, 1, 1, "Shell - No Penetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+            explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
             data.alive = false
             return
         else
@@ -271,7 +271,15 @@ end
 function __hit_he_howitzer(data)
     local pos = data.hit.pointWorld
 
-    explode(pos, 7, 3, 6, 250, "Shell - Howitzer Hit")
+    -- play sound
+    if sm.cae_injected then
+        sm.effect.playEffect("Shell - HowitzerHit", pos)
+    else
+        sm.effect.playEffect("Shell - HowitzerHitVanilla", pos)
+    end
+
+    -- explode
+    explode(pos, 7, 3, 6, 250, "Shell - HowitzerExplosion")
     shrapnelExplosion(pos, _shrapnelVec3, 80, 360, 100)
 
     data.alive = false

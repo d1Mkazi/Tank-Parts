@@ -1,4 +1,13 @@
 {
+   "Shell - HowitzerHitVanilla" : {
+      "effectList" : [
+         {
+            "audio" : [ "event:/weapons/explosion_gas" ],
+            "parameters" : [ "size" ],
+            "type" : "audio"
+         }
+      ]
+   },
    "TankCannonSound - ShootExplosion" : {
       "effectList" : [
          {

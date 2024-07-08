@@ -24,5 +24,5 @@ end
 --[[ CLIENT ]]--
 
 function DynamicArmor:cl_explode()
-    sm.effect.playEffect("DynamicArmor - Explosion", self.shape.worldPosition, sm.vec3.zero(), sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.up))
+    sm.effect.playEffect("DynamicArmor - Explosion", self.shape.worldPosition, sm.vec3.zero(), sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.up), nil, {Color = self.shape.color})
 end

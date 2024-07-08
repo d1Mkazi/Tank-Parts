@@ -1,0 +1,20 @@
+{
+   "effectSetList" : [
+      {
+         "path" : "$CONTENT_DATA/Effects/Database/EffectSets/audio_DLL.effectset",
+         "showInEditor" : true
+      },
+      {
+         "path" : "$CONTENT_DATA/Effects/Database/EffectSets/audio_no_DLL.effectset",
+         "showInEditor" : true
+      },
+      {
+         "path" : "$CONTENT_DATA/Effects/Database/EffectSets/cannons.effectset",
+         "showInEditor" : true
+      },
+      {
+         "path" : "$CONTENT_DATA/Effects/Database/EffectSets/interactive.effectset",
+         "showInEditor" : true
+      }
+   ]
+}

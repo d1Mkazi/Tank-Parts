@@ -14,6 +14,21 @@
          "CAE_Volume" : 1.0
       }
    },
+   "Shell - HowitzerHit" : {
+      "effectList" : [
+         {
+            "name" : "shell_hit_howitzer",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 0.90,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 8
+      }
+   },
    "Shell - NoPenetration" : {
       "effectList" : [
          {

@@ -1,4 +1,13 @@
 {
+   "Shell - HowitzerExplosion" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "Explosion_01" ],
+            "type" : "particle"
+         }
+      ]
+   },
    "TankCannon - BaseExplosion" : {
       "effectList" : [
          {
