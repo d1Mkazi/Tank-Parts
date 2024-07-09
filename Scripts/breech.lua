@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-field, lowercase-global
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("shellDB.lua")
 dofile("utils.lua")
@@ -202,6 +203,9 @@ function Breech:sv_shoot()
         pos = muzzle.worldPosition + at * 0.25
         rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), muzzle.at)
         offset = (self.shape.worldPosition - pos):length()
+
+        -- Tell the muzzle to play an effect
+        sm.event.sendToInteractable(muzzle.interactable, "sv_playEffect")
     else
         local size = sm.item.getShapeSize(self.shape.uuid)
         offset = ((size.y + self.saved.shootDistance) * 0.25)
@@ -228,8 +232,10 @@ function Breech:sv_dropCase()
     local at = self.shape.at
     local caseUuid = sm.uuid.new(self.sv.loaded.data.usedUuid)
     local offset = ((size.y * 0.5) + (sm.item.getShapeSize(caseUuid).y)) * 0.25
+    local ejectEffectOffset = (size.y * 0.5) * 0.25
 
-    sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
+    self.shellCasingShape = sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
+    sm.effect.playEffect("Breech - EjectShell", pos - at * ejectEffectOffset, nil, sm.vec3.getRotation(sm.vec3.new(0, 0, 1), -self.shape.at))
 
     self.sv.status = EMPTY
     self.sv.loaded = nil
@@ -285,7 +291,10 @@ function Breech:client_onCreate()
         animUpdate = 0,
         animProgress = 0,
         hasMuzzle = false,
-        offset = 1
+        offset = 1,
+        shellCasingSmokeTrail = sm.effect.createEffect("Shell - CasingSmokeTrail"),
+        smokeTrailCountdown = 200,
+        endOfGunSmoke = sm.effect.createEffect("TankCannon - SmokeAftermath", self.interactable)
     }
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Breech.layout")
     gui:createHorizontalSlider("breech_barrelLength_slider", 30, 0, "cl_changeSlider")
@@ -298,6 +307,35 @@ function Breech:client_onCreate()
     self.cl.gui = gui
 
     self.interactable:setAnimEnabled("Opening", true)
+end
+
+function Breech:client_onFixedUpdate(dt)
+
+    local effect, part = self.cl.shellCasingSmokeTrail, self.shellCasingShape
+
+    if part and sm.exists(part) and self.cl.smokeTrailCountdown >= 0 then
+        -- set effect's position
+        effect:setPosition(part.worldPosition)
+
+        -- count the delay before we stop tracking
+        self.cl.smokeTrailCountdown = self.cl.smokeTrailCountdown - 1
+
+        -- start playing if isn't already
+        if not effect:isPlaying() then
+            effect:start()
+        end
+    else
+        -- stop tracking the part
+        self.shellCasingShape = nil
+
+        -- reset the countdown
+        self.cl.smokeTrailCountdown = 200
+
+        -- stop the effect
+        if effect:isPlaying() then
+            effect:stop()
+        end
+    end
 end
 
 function Breech:client_onClientDataUpdate(data)
@@ -351,6 +389,15 @@ function Breech:client_onUpdate(dt)
     self:cl_carryCase()
 end
 
+function Breech:client_onDestroy()
+    -- prevent the breech from turning into a lag machine
+    if self.cl.shellCasingSmokeTrail:isPlaying() then
+        self.cl.shellCasingSmokeTrail:stopImmediate()
+    end
+    self.cl.shellCasingSmokeTrail:destroy()
+    self.cl.shellCasingSmokeTrail = nil
+end
+
 function Breech:cl_loadShell()
     -- load animation
     self:cl_close()
@@ -387,9 +434,9 @@ function Breech:cl_shoot(args)
         sm.effect.playEffect(getFireSmoke(self.data.caliber), args.pos, nil, args.rot)
     end
 
-    local smoke = sm.effect.createEffect("TankCannon - SmokeAftermath", self.interactable)
-    smoke:setOffsetPosition(sm.vec3.new(0, args.offset, 0))
-    smoke:start()
+    self.cl.endOfGunSmoke:setOffsetPosition(sm.vec3.new(0, args.offset, 0))
+    self.cl.endOfGunSmoke:stop()
+    self.cl.endOfGunSmoke:start()
 end
 
 function Breech:cl_changeSlider(value)

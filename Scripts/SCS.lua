@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 --[[
     SCS - Self-Check System
     It checks is the mod infected.

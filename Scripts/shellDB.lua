@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 dofile("utils.lua")
 
 local explode = sm.physics.explode

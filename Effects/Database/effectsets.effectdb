@@ -15,6 +15,10 @@
       {
          "path" : "$CONTENT_DATA/Effects/Database/EffectSets/interactive.effectset",
          "showInEditor" : true
+      },
+      {
+         "path" : "$CONTENT_DATA/Effects/Database/EffectSets/shells.effectset",
+         "showInEditor" : true
       }
    ]
 }

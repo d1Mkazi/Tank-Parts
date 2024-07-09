@@ -6,7 +6,10 @@
             "parameters" : [ "size" ],
             "type" : "audio"
          }
-      ]
+      ],
+      "parameterList" : {
+         "size" : 1
+      }
    },
    "TankCannonSound - ShootExplosion" : {
       "effectList" : [

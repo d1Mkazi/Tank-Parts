@@ -6,11 +6,14 @@
          //Generic
             "particles/cannons/generic/p_cannon_shoot_explosion.json",
             "particles/cannons/generic/p_cannon_smoke_aftermath.json",
+            "particles/cannons/generic/p_cannon_smoke_aftermath_back.json",
+            "particles/cannons/generic/p_cannon_shell_smoke_trail.json",
          //Smoke effects per caliber
             "particles/cannons/p_cannon_shoot_large.json",  //Howitzer
             "particles/cannons/p_cannon_shoot_medium.json", //Normal cannons
             "particles/cannons/p_cannon_shoot_small.json",  //37mm
          //Smoke from modifications
-            "particles/cannons/p_cannon_shoot_muzzle_brake.json"
+            "particles/cannons/p_cannon_shoot_muzzle_brake.json",
+            "particles/cannons/p_cannon_shoot_muzzle_brake_side.json"
    ]
 }

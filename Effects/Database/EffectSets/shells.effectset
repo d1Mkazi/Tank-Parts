@@ -1,18 +1,18 @@
 {
-   "Breech - EjectShell" : {
+   "Shell - CasingSmokeTrail" : {
       "effectList" : [
          {
             "offset" : [ 0.0, 0.0, 0.0 ],
-            "particles" : [ "p_cannon_smoke_aftermath_back" ],
+            "particles" : [ "p_cannon_shell_smoke_trail" ],
             "type" : "particle"
          }
       ]
    },
-   "DynamicArmor - Explosion" : {
+   "Shell - HowitzerExplosion" : {
       "effectList" : [
          {
             "offset" : [ 0.0, 0.0, 0.0 ],
-            "particles" : [ "p_dynamic_armor_pop" ],
+            "particles" : [ "Explosion_01" ],
             "type" : "particle"
          }
       ]

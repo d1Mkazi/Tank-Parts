@@ -1,13 +1,4 @@
 {
-   "Shell - HowitzerExplosion" : {
-      "effectList" : [
-         {
-            "offset" : [ 0.0, 0.0, 0.0 ],
-            "particles" : [ "Explosion_01" ],
-            "type" : "particle"
-         }
-      ]
-   },
    "TankCannon - BaseExplosion" : {
       "effectList" : [
          {
@@ -57,6 +48,15 @@
          "shakeRadius" : 60.0,
          "shakeStrength" : 0.40
       }
+   },
+   "TankCannon - ShootMuzzleBrakeExhaust" : {
+      "effectList" : [
+         {
+            "offset" : [ 0.0, 0.0, 0.0 ],
+            "particles" : [ "p_cannon_shoot_muzzle_brake_side" ],
+            "type" : "particle"
+         }
+      ]
    },
    "TankCannon - ShootSmokeLarge" : {
       "effectList" : [

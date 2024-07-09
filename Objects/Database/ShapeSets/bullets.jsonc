@@ -1,699 +1,717 @@
 {
-    "partList": [
 		/************************************  ZiS-5 :: KV-1 | F-34 :: T-34  *****************************************/
         { // APHE -> BR-350B
-			"cylinder" : {
-				"axis" : "Y",
-				"depth" : 3,
-				"diameter" : 1
-			},
-			"name" : "",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_76.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+   "partList" : [
+      {
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "AP Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_76.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-            "rotationSet" : "default",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25800",
-            "showInInventory": false
-		},
         { // HE -> OF-350M
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "HE Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_76.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/of350m_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "Default",
+         "showInInventory" : false,
+         "uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25800"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "HE Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_76.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/of350m_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801",
-            "showInInventory": false
-        },
         { // HEAT ->
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 2,
-                "diameter" : 1
-            },
-			"carryItem" : true,
-			"name" : "76mm HEAT Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_76.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 2,
+            "diameter" : 1
+         },
+         "name" : "76mm HEAT Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_76.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "c6c071b9-eb8b-4fea-af79-27781272aabb",
-            "showInInventory": false
-        },
 		/*************************************************************************************************************/
 		/*****************************************  8,8cm KwK 36 :: TIGER I  *****************************************/
         { // APHE -> PzGr 39
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "AP Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_88.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "c6c071b9-eb8b-4fea-af79-27781272aabb"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "AP Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_88.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-122c-9c5e-f122bed25800",
-            "showInInventory": false
-        },
         { // HE -> Sprgr
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "HE Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_88.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-122c-9c5e-f122bed25800"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "HE Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_88.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-122c-9c5e-f122bed25801",
-            "showInInventory": false
-        },
         { // HEAT -> HlGr 39
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 2,
-                "diameter" : 1
-            },
-			"carryItem" : true,
-			"name" : "88mm HEAT Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_88.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-122c-9c5e-f122bed25801"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 2,
+            "diameter" : 1
+         },
+         "name" : "88mm HEAT Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_88.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-401c-5c2e-f122bed25805",
-            "showInInventory": false
-        },
 		/*************************************************************************************************************/
 		/*******************************************  37mm M5 :: Stuart M3  ******************************************/
         { // AP -> 
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 1,
-                "diameter" : 1
-            },
-			"carryItem" : true,
-			"name" : "37 AP Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_37.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-401c-5c2e-f122bed25805"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 1,
+            "diameter" : 1
+         },
+         "name" : "37 AP Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_37.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/bullet_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25805",
-            "showInInventory": false
-        },
 		/*************************************************************************************************************/
 		/*********************************************  KwK 42 :: Panther  *******************************************/
         { // AP -> PzGr 39/42
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"carryItem" : true,
-			"name" : "AP Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_75panther.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25805"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "AP Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_75panther.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "0f198808-999d-41fa-80e4-ee91dcdfd9e6",
-            "showInInventory": false
-        },
         { // HE -> Sprgr 42
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"carryItem" : true,
-			"name" : "HE Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_75panther.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "0f198808-999d-41fa-80e4-ee91dcdfd9e6"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "HE Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_75panther.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "40e59811-ff73-4902-a30e-7bf5b0f2dc0e",
-            "showInInventory": false
-        },
         { // APCR -> PzGr 40/42
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"carryItem" : true,
-			"name" : "APCR Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apcr_bullet_75panther.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "40e59811-ff73-4902-a30e-7bf5b0f2dc0e"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "APCR Bullet",
+         "physicsMaterial" : "Metal",
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/apcr_bullet_75panther.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/panther_shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "aabd945c-f1b2-4603-82ef-889c59a407d9",
-            "showInInventory": false
-        },
 		/*************************************************************************************************************/
 		/***********************************************  D-10T :: KV-2  *********************************************/
         { // HE -> OF-
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
-            },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 5,
-					"explosionRadius" : 5,
-					"impulseLevel" : 150,
-					"impulseRadius": 3.5
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "HE Howitzer Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_152.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell2_dif.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "aabd945c-f1b2-4603-82ef-889c59a407d9"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "HE Howitzer Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_152.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/shell2_dif.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25802"
-        },
 		/*************************************************************************************************************/
 		/***********************************************  D-25T :: IS-2  *********************************************/
         { // APHE -> BR-471
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 2,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 5,
+               "explosionRadius" : 5,
+               "impulseLevel" : 150,
+               "impulseRadius" : 3.50
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 4.5,
-					"impulseLevel" : 70,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "122mm AP Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_122.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/d25t_shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25802"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 2,
+            "diameter" : 1
+         },
+         "name" : "122mm AP Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_122.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/d25t_shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25803"
-        },
         { // HE -> OF-471
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 4.50,
+               "impulseLevel" : 70,
+               "impulseRadius" : 3
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "122mm HE Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_122.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/d25t_shell_texture.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25803"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "122mm HE Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_122.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/d25t_shell_texture.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25804"
-        },
 		/*************************************************************************************************************/
 		/***********************************************  2A46M :: T-72  *********************************************/
         { // APFSDS -> 3BM60 (despite the file name)
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 5.50,
+               "impulseLevel" : 80,
+               "impulseRadius" : 3
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "125mm APFSDS Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apfsds_bullet_3bm46.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/3bm46.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25804"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "125mm APFSDS Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/apfsds_bullet_3bm46.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/3bm46.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "eefe50e3-db7f-4a0e-bfa0-6afd29805d35",
-            "showInInventory": false
-        },
         { // HEATFS -> 3BK18M
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 5.50,
+               "impulseLevel" : 80,
+               "impulseRadius" : 3
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "125mm HEAT Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_3bk18m.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/3bk18m.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "eefe50e3-db7f-4a0e-bfa0-6afd29805d35"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "125mm HEAT Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_3bk18m.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/3bk18m.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "db68b0e4-4091-4cf9-a39a-2516118d0005",
-            "showInInventory": false
-        },
         { // HEFS -> 3OF26
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 3,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 5.50,
+               "impulseLevel" : 80,
+               "impulseRadius" : 3
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "125mm HE Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_3of26.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/3of26.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "db68b0e4-4091-4cf9-a39a-2516118d0005"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 3,
+            "diameter" : 1
+         },
+         "name" : "125mm HE Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_3of26.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/3of26.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "804c66ee-ca5f-49c0-a09e-c2c43f142787"
-        },
 		/*************************************************************************************************************/
 		/******************************************  M68A1 :: M1 Abrams  *********************************************/
         { // APFSDS -> M774
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 5,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 5.50,
+               "impulseLevel" : 80,
+               "impulseRadius" : 3
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "105mm APFSDS Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apfsds_bullet_m774.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/m774.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "804c66ee-ca5f-49c0-a09e-c2c43f142787"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 5,
+            "diameter" : 1
+         },
+         "name" : "105mm APFSDS Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/apfsds_bullet_m774.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/m774.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
-            },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "97223124-8714-4901-9887-ea341a2018ae",
-            "showInInventory": false
-        },
         { // HEATFS -> M456A2
-            "cylinder" : {
-                "axis" : "Y",
-                "depth" : 5,
-                "diameter" : 1
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 5.50,
+               "impulseLevel" : 80,
+               "impulseRadius" : 3
             },
-			"scripted": {
-				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
-				"classname": "Shell",
-				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
-				}
-			},
-			"ratings": {
-				"density": 5,
-				"durability": 10,
-				"friction": 3,
-				"buoyancy": 2
-			},
-			"carryItem" : true,
-			"name" : "105mm HEATFS Bullet",
-			"physicsMaterial" : "Metal",
-			"renderable" : {
-                "lodList": [
-                    {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_m456a2.fbx",
-                        "subMeshList": [
-                            {
-                                "material": "DifAsg",
-                                "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/m774.tga",
-                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
-                                ]
-                            }
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "97223124-8714-4901-9887-ea341a2018ae"
+      },
+      {
+         "carryItem" : true,
+         "cylinder" : {
+            "axis" : "Y",
+            "depth" : 5,
+            "diameter" : 1
+         },
+         "name" : "105mm HEATFS Bullet",
+         "physicsMaterial" : "Metal",
+         "ratings" : {
+            "buoyancy" : 2,
+            "density" : 5,
+            "durability" : 10,
+            "friction" : 3
+         },
+         "renderable" : {
+            "lodList" : [
+               {
+                  "mesh" : "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_m456a2.fbx",
+                  "subMeshList" : [
+                     {
+                        "material" : "DifAsg",
+                        "textureList" : [
+                           "$CONTENT_DATA/Objects/Textures/m774.tga",
+                           "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
                         ]
-                    }
-                ]
+                     }
+                  ]
+               }
+            ]
+         },
+         "rotationSet" : "TP_ShellRotation",
+         "scripted" : {
+            "classname" : "Shell",
+            "data" : {
+               "explosionLevel" : 4,
+               "explosionRadius" : 5.50,
+               "impulseLevel" : 80,
+               "impulseRadius" : 3
             },
-			"sticky": "+X-X-Y+Z-Z",
-            "rotationSet" : "TP_ShellRotation",
-			"uuid" : "e17ea55b-7506-4881-b4b9-93fe53b26615",
-            "showInInventory": false
-        }
-    ]
+            "filename" : "$CONTENT_DATA/Scripts/Shell.lua"
+         },
+         "showInInventory" : false,
+         "sticky" : "+X-X-Y+Z-Z",
+         "uuid" : "e17ea55b-7506-4881-b4b9-93fe53b26615"
+      }
+   ]
 }

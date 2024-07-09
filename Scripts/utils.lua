@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 local shrapnel = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce111")
 local shrapnelWeak = sm.uuid.new("5e8eeaae-b5c1-4992-bb21-dec5254ce222")
 
@@ -32,6 +33,7 @@ function getTableByValue(search, where, special)
                 end
             end
         end
+    ---@diagnostic disable-next-line: missing-return
     end
 end
 

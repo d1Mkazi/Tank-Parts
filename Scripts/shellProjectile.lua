@@ -1,3 +1,4 @@
+---@diagnostic disable: lowercase-global
 dofile("shellDB.lua")
 dofile("utils.lua")
 dofile("SCS.lua")
@@ -212,6 +213,7 @@ function ShellProjectile:cl_destroyShell(key)
         self.projectiles[key].effect:destroy()
     end
 
+    ---@diagnostic disable-next-line: need-check-nil
     self.projectiles[key] = nil
 end
 

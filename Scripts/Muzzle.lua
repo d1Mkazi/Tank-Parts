@@ -10,6 +10,11 @@ function Muzzle:server_onCreate()
     self:init()
 end
 
+function Muzzle:client_onCreate()
+    self.effect = sm.effect.createEffect("TankCannon - ShootMuzzleBrakeExhaust", self.interactable)
+    self.effect:setOffsetRotation(sm.quat.angleAxis(90, self.shape.at))
+end
+
 function Muzzle:server_onRefresh()
     self:init()
     print("Reloaded")
@@ -19,6 +24,32 @@ function Muzzle:init()
     self.sv = {
         hasBreech = false
     }
+end
+
+function Muzzle:sv_playEffect()
+    self.network:sendToClients("cl_playEffect")
+end
+
+function Muzzle:cl_playEffect()
+    self.effect:stop()
+    self.effect:start()
+end
+
+function Muzzle:client_onRefresh()
+    if self.effect:isPlaying() then
+        self.effect:stopImmediate()
+    end
+    self.effect:destroy()
+    self.effect = nil
+    self:client_onCreate()
+end
+
+function Muzzle:client_onDestroy()
+    if self.effect:isPlaying() then
+        self.effect:stopImmediate()
+    end
+    self.effect:destroy()
+    self.effect = nil
 end
 
 function Muzzle:server_onFixedUpdate()
