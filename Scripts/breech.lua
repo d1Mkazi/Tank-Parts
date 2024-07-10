@@ -232,10 +232,8 @@ function Breech:sv_dropCase()
     local at = self.shape.at
     local caseUuid = sm.uuid.new(self.sv.loaded.data.usedUuid)
     local offset = ((size.y * 0.5) + (sm.item.getShapeSize(caseUuid).y)) * 0.25
-    local ejectEffectOffset = (size.y * 0.5) * 0.25
 
     self.shellCasingShape = sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
-    sm.effect.playEffect("Breech - EjectShell", pos - at * ejectEffectOffset, nil, sm.vec3.getRotation(sm.vec3.new(0, 0, 1), -self.shape.at))
 
     self.sv.status = EMPTY
     self.sv.loaded = nil
@@ -475,6 +473,13 @@ function Breech:cl_updateAnimation(dt)
         self.network:sendToServer("sv_updateState", 1)
         progress = 1
         self.cl.animUpdate = 0
+
+        -- play effect here because it need to play even when you take out the shell manually and yes I acknowledge that this is fucking stupid
+        local size = sm.item.getShapeSize(self.shape.uuid)
+        local pos = self.shape.worldPosition + self.shape.right * ((size.x % 2 == 0 and -0.125 or 0))
+        local at = self.shape.at
+        local ejectEffectOffset = (size.y * 0.5) * 0.25
+        sm.effect.playEffect("Breech - EjectShell", pos - at * ejectEffectOffset, nil, sm.vec3.getRotation(sm.vec3.new(0, 0, 1), -self.shape.at))
     elseif progress <= 0 then
         self.network:sendToServer("sv_updateState", 0)
         progress = 0
