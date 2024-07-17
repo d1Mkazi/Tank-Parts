@@ -510,7 +510,7 @@ end
 function getFireSound(caliber)
     local special = {
         [152] = "TankCannonSound - ShootLarge",
-        [37] = "TankCannonSound - ShootSmall"
+        ["m5"] = "TankCannonSound - ShootSmall"
     }
 
     return special[caliber] or "TankCannonSound - ShootMedium"
@@ -521,7 +521,7 @@ end
 function getFireSmoke(caliber)
     local special = {
         [152] = "TankCannon - ShootSmokeLarge",
-        [37] = "TankCannon - ShootSmokeSmall"
+        ["m5"] = "TankCannon - ShootSmokeSmall"
     }
 
     return special[caliber] or "TankCannon - ShootSmokeMedium"
