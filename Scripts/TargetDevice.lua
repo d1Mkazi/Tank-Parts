@@ -75,6 +75,7 @@ function TargetDevice:server_onFixedUpdate(dt)
                     self.interactable:disconnect(child)
                 elseif not self.sv.binoculars then
                     self.sv.binoculars = child
+                    self.network:setClientData({ binoculars = child, hasBinoculars = true })
                 end
             end
         end
@@ -82,6 +83,7 @@ function TargetDevice:server_onFixedUpdate(dt)
 
     if not isAnyOf(self.sv.binoculars, children) then
         self.sv.binoculars = nil
+        self.network:setClientData({ hasBinoculars = false })
     end
 
     local bearings = self.interactable:getBearings()
@@ -255,6 +257,9 @@ function TargetDevice:client_onCreate()
         secondaryActive = false,
         speed = 10,
         maxSpeed = 10,
+        isAiming = false,
+        binoculars = nil,
+        fov = sm.camera.getDefaultFov(),
         anims = {
             RotHorizontal = {
                 progress = 0,
@@ -323,6 +328,10 @@ function TargetDevice:client_onUpdate(dt)
             self:cl_updateAnimation(anim, dt)
         end
     end
+
+    if self.cl.isAiming and self.cl.hasBinoculars then
+        self:cl_updateCamera(dt)
+    end
 end
 
 function TargetDevice:client_onAction(action, state)
@@ -336,6 +345,9 @@ function TargetDevice:client_onAction(action, state)
             self.network:sendToServer("sv_pressButton", { button = "Right", state = false })
             self.network:sendToServer("sv_pressButton", { button = "Left", state = false })
             self.cl.secondaryActive = false
+            self.cl.isAiming = false
+            sm.camera.setCameraState(1)
+            sm.camera.setFov(sm.camera.getDefaultFov())
 
             local text = GetLocalization("steer_MsgExit", sm.gui.getCurrentLanguage())
             sm.gui.displayAlertText(text, 2)
@@ -388,8 +400,32 @@ function TargetDevice:client_onAction(action, state)
                 self.network:sendToServer("sv_pressButton", { button = "Right", state = true })
             end
 
+        elseif (action == 18 and not self.cl.secondary.RMB) or (action == 16 and self.cl.secondary.RMB) then -- SPACE (aim)
+            self.cl.isAiming = not self.cl.isAiming
+            if self.cl.isAiming then
+                sm.camera.setFov(self.cl.fov)
+                sm.camera.setCameraState(3)
+            else
+                sm.camera.setFov(sm.camera.getDefaultFov())
+                sm.camera.setCameraState(1)
+            end
+
         elseif action == 19 then -- LMB
             self.network:sendToServer("sv_pressButton", { button = "Left", state = true })
+
+        elseif action == 20 then -- zoom in
+            local fov = sm.camera.getFov() - 5
+            if fov <= 0 then return true end
+
+            self.cl.fov = fov
+            sm.camera.setFov(fov)
+
+        elseif action == 21 then -- zoom out
+            local fov = sm.camera.getFov() + 5
+            if fov > 70 then return true end
+
+            self.cl.fov = fov
+            sm.camera.setFov(fov)
         end
     else
         if (swap.global and (action == 3 or action == 4)) or (not swap.global and (action == 1 or action == 2)) then -- A/D
@@ -547,6 +583,10 @@ function TargetDevice:cl_setButton(button)
 
     self.cl.gui:setButtonState("td_secondary_mode_button", mode)
     self.cl.gui:setButtonState("td_secondary_mode_toggle", not mode)
+end
+
+function TargetDevice:cl_updateCamera(dt)
+    sm.event.sendToInteractable(self.cl.binoculars, "cl_e_updateCamera", dt)
 end
 
 ---@param speed number the rotation speed

@@ -78,6 +78,7 @@ function Binoculars:client_onCreate()
         hasDevice = false,
         hasViewport = false,
         occupied = false,
+        fov = sm.camera.getDefaultFov()
     }
 
     local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Binoculars.layout")
@@ -146,7 +147,7 @@ function Binoculars:client_onInteract(character, state)
 
     self.cl.character = character
     sm.camera.setCameraState(3)
-    sm.camera.setFov(60)
+    sm.camera.setFov(self.cl.fov)
 end
 
 function Binoculars:client_canTinker(character)
@@ -172,4 +173,12 @@ function Binoculars:cl_unlockCharacter()
 
     sm.camera.setFov(sm.camera.getDefaultFov())
     sm.camera.setCameraState(1)
+end
+
+---@param dt number deltaTime
+function Binoculars:cl_e_updateCamera(dt)
+    local viewport = self.cl.viewport --[[@as Shape]]
+    local pos = (viewport:getInterpolatedWorldPosition() + viewport.velocity * dt) + viewport.at * 0.125
+    sm.camera.setPosition(pos)
+    sm.camera.setDirection(viewport.at)
 end
