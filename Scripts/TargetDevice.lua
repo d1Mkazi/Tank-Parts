@@ -44,7 +44,8 @@ function TargetDevice:init()
             right= false
         },
 
-        binoculars = nil
+        binoculars = nil,
+        hasBinoculars = false
     }
 
     self.saved = self.storage:load() or {
@@ -62,7 +63,7 @@ function TargetDevice:init()
 
     self.interactable.publicData = { smart_values = { ["Vertical Angle"] = 0, ["Horizontal Angle"] = 0, ["Left Mouse"] = false, ["Secondary Action"] = false } }
 
-    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = copyTable(self.saved.swap), secondary = copyTable(self.saved.secondary) })
+    self.network:setClientData({ maxSpeed = self.saved.maxSpeed, swap = self.saved.swap, secondary = self.saved.secondary })
 end
 
 function TargetDevice:server_onFixedUpdate(dt)
@@ -75,9 +76,19 @@ function TargetDevice:server_onFixedUpdate(dt)
                     self.interactable:disconnect(child)
                 elseif not self.sv.binoculars then
                     self.sv.binoculars = child
-                    self.network:setClientData({ binoculars = child, hasBinoculars = true })
+                    self.network:setClientData({ binoculars = child })
                 end
             end
+        end
+    end
+
+    local binoculars = self.cl.binoculars
+    if binoculars ~= nil and sm.exists(binoculars) then
+        local hasBinoculars = binoculars.publicData.hasViewport
+
+        if hasBinoculars ~= self.sv.hasBinoculars then
+            self.sv.hasBinoculars = hasBinoculars
+            self.network:setClientData({ hasBinoculars = hasBinoculars })
         end
     end
 
@@ -91,7 +102,6 @@ function TargetDevice:server_onFixedUpdate(dt)
     if #bearings ~= (#self.sv.bearings.ad + #self.sv.bearings.ws) then
         for k, bearing in ipairs(bearings) do
             if not (isAnyOfEx(bearing, ws, "id") or isAnyOfEx(bearing, ad, "id")) then
-                print("added BEARING")
                 bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
                 if sameAxis(bearing.zAxis, self.shape.zAxis) then
                     ad[#ad+1] = bearing
@@ -212,8 +222,6 @@ function TargetDevice:sv_setMaxSpeed(value)
 end
 
 function TargetDevice:sv_setSpeed(value)
-    self:sv_stopSound()
-
     if self.sv.turnDirection.ws ~= 0 then
         self:sv_applyImpulseWS({ to = self.sv.turnDirection.ws, speed = value })
     end
@@ -231,19 +239,19 @@ end
 ---@param args table possible keys: `controls: string`, `state: boolean`
 function TargetDevice:sv_swapControls(args)
     self.saved.swap[args.controls] = args.state
-    self.network:setClientData({ swap = copyTable(self.saved.swap) })
+    self.network:setClientData({ swap = self.saved.swap })
     self.storage:save(self.saved)
 end
 
 function TargetDevice:sv_setSecondary(rmb)
     self.saved.secondary.RMB = rmb
-    self.network:setClientData({ secondary = copyTable(self.saved.secondary) })
+    self.network:setClientData({ secondary = self.saved.secondary })
     self.storage:save(self.saved)
 end
 
 function TargetDevice:sv_setButton(button)
     self.saved.secondary.button = button
-    self.network:setClientData({ secondary = copyTable(self.saved.secondary) })
+    self.network:setClientData({ secondary = self.saved.secondary })
     self.storage:save(self.saved)
 end
 
@@ -331,7 +339,7 @@ function TargetDevice:client_onUpdate(dt)
         end
     end
 
-    if self.cl.isAiming and self.cl.hasBinoculars then
+    if self.cl.isAiming then
         self:cl_updateCamera(dt)
     end
 end
@@ -416,6 +424,8 @@ function TargetDevice:client_onAction(action, state)
             end
 
         elseif (action == 18 and not self.cl.secondary.RMB) or (action == 16 and self.cl.secondary.RMB) then -- SPACE (aim)
+            if not self.cl.hasBinoculars then return true end
+
             self.cl.isAiming = not self.cl.isAiming
             if self.cl.isAiming then
                 sm.camera.setFov(self.cl.fov)
@@ -573,9 +583,9 @@ function TargetDevice:cl_onSpeedChange(value)
     self.network:sendToServer("sv_setMaxSpeed", value + 1)
 end
 
+---@param button string
 function TargetDevice:cl_invertControls(button)
-    local _tmp = { td_controls_verticalSwap = "vertical", td_controls_horizontalSwap = "horizontal" }
-    local swap = _tmp[button]
+    local swap = button:sub(13, #button - 4)
     local state = not self.cl.swap[swap]
 
     self.cl.swap[swap] = state
@@ -611,6 +621,13 @@ function TargetDevice:cl_setButton(button)
 end
 
 function TargetDevice:cl_updateCamera(dt)
+    if not self.cl.hasBinoculars then
+        self.cl.isAiming = false
+        sm.camera.setCameraState(1)
+        sm.camera.setFov(sm.camera.getDefaultFov())
+        return
+    end
+
     sm.event.sendToInteractable(self.cl.binoculars, "cl_e_updateCamera", dt)
 end
 

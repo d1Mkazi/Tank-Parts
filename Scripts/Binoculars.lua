@@ -27,6 +27,8 @@ function Binoculars:init()
         hasDevice = false,
         hasViewport = false,
     }
+
+    self.interactable.publicData = { hasViewport = false }
 end
 
 function Binoculars:server_onFixedUpdate(dt)
@@ -50,6 +52,7 @@ function Binoculars:server_onFixedUpdate(dt)
     if not child then
         self.sv.hasViewport = false
         self.network:setClientData({ hasViewport = false })
+        self.interactable.publicData.hasViewport = false
     else
         if child.shape.uuid ~= VIEWPORT then
             self.interactable:disconnect(child)
@@ -59,6 +62,7 @@ function Binoculars:server_onFixedUpdate(dt)
         if not self.sv.hasViewport then
             self.sv.hasViewport = true
             self.network:setClientData({ viewport = child.shape, hasViewport = true })
+            self.interactable.publicData.hasViewport = true
         end
     end
 end
@@ -177,6 +181,8 @@ end
 
 ---@param dt number deltaTime
 function Binoculars:cl_e_updateCamera(dt)
+    if not self.cl.hasViewport then return end
+
     local viewport = self.cl.viewport --[[@as Shape]]
     local pos = (viewport:getInterpolatedWorldPosition() + viewport.velocity * dt) + viewport.at * 0.125
     sm.camera.setPosition(pos)
