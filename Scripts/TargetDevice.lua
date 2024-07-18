@@ -252,7 +252,9 @@ end
 
 function TargetDevice:client_onCreate()
     self.cl = {
-        effect = sm.effect.createEffect("Steer - Rotation", self.interactable),
+        effect = sm.effect.createEffect("TargetDevice - Loop", self.interactable),
+        effectPlay = false,
+        effectTimer = 0,
         occupied = false,
         secondaryActive = false,
         speed = 10,
@@ -331,6 +333,19 @@ function TargetDevice:client_onUpdate(dt)
 
     if self.cl.isAiming and self.cl.hasBinoculars then
         self:cl_updateCamera(dt)
+    end
+end
+
+function TargetDevice:client_onFixedUpdate(dt)
+    local timer = self.cl.effectTimer
+    if timer > 0 then
+        timer = timer - dt
+        if timer <= 0 then
+            timer = 0
+
+            self.cl.effect:setAutoPlay(true)
+        end
+        self.cl.effectTimer = timer
     end
 end
 
@@ -531,14 +546,24 @@ end
 
 function TargetDevice:cl_playSound(args)
     if args.play then
-        local effect = self.cl.effect
-        effect:setParameter("CAE_Pitch", args.speed * 4)
-        effect:setAutoPlay(true)
+        if not self.cl.effectPlay then
+            sm.effect.playHostedEffect("TargetDevice - Start", self.interactable)
+            local effect = self.cl.effect
+            effect:setAutoPlay(true)
+            self.cl.effectTimer = 0.5
+        end
 
         self.cl.effectPlay = true
     else
         self.cl.effect:setAutoPlay(false)
         self.cl.effect:stop()
+
+        self.cl.effectTimer = 0
+
+        if self.cl.effectPlay then
+            sm.effect.playHostedEffect("TargetDevice - End", self.interactable)
+        end
+
         self.cl.effectPlay = false
     end
 end

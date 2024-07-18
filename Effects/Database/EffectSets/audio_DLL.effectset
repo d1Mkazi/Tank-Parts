@@ -98,10 +98,55 @@
          }
       ],
       "parameterList" : {
-         "CAE_Pitch" : 0.950,
+         "CAE_Pitch" : 2.0,
          "CAE_Reverb" : 1.0,
          "CAE_ReverbIdx" : -1.0,
-         "CAE_Volume" : 90
+         "CAE_Volume" : 60
+      }
+   },
+   "TargetDevice - Start" : {
+      "effectList" : [
+         {
+            "name" : "targetDevice_start",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 1.0,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 0.5
+      }
+   },
+   "TargetDevice - Loop" : {
+      "effectList" : [
+         {
+            "name" : "targetDevice_loop",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 1.0,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 0.5
+      }
+   },
+   "TargetDevice - End" : {
+      "effectList" : [
+         {
+            "name" : "targetDevice_end",
+            "parameters" : [ "CAE_Volume", "CAE_Pitch", "CAE_Reverb", "CAE_ReverbIdx" ],
+            "type" : "audio"
+         }
+      ],
+      "parameterList" : {
+         "CAE_Pitch" : 1.0,
+         "CAE_Reverb" : 1.0,
+         "CAE_ReverbIdx" : -1.0,
+         "CAE_Volume" : 0.5
       }
    }
 }

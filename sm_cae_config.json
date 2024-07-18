@@ -23,6 +23,18 @@
         "no_penetration": {
             "path": "$CONTENT_DATA/Effects/Audio/no_penetration.mp3",
             "is3D": true
+        },
+        "targetDevice_start": {
+            "path": "$CONTENT_DATA/Effects/Audio/targetDevice_start.mp3",
+            "is3D": true
+        },
+        "targetDevice_loop": {
+            "path": "$CONTENT_DATA/Effects/Audio/targetDevice_loop.mp3",
+            "is3D": true
+        },
+        "targetDevice_end": {
+            "path": "$CONTENT_DATA/Effects/Audio/targetDevice_end.mp3",
+            "is3D": true
         }
     }
 }
