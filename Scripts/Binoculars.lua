@@ -85,10 +85,9 @@ function Binoculars:client_onCreate()
         fov = sm.camera.getDefaultFov()
     }
 
-    local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Binoculars.layout")
-    gui:setIconImage("bino_icon", self.shape.uuid)
-
-    self.cl.gui = gui
+    --local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Binoculars.layout")
+    --gui:setIconImage("bino_icon", self.shape.uuid)
+    --self.cl.gui = gui
 end
 
 function Binoculars:client_onDestroy()
