@@ -438,6 +438,51 @@
             "uuid": "b0fb8b9e-ac99-4033-abd2-4beb598431a2"
         },
         {
+            "color": "355535",
+            "box": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+            },
+            "name": "Targeting Device",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/joystick.dae",
+                        "subMeshList": [
+                            {
+                                "material": "SkelAnimDif",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/joystick_dif.png"
+                                ]
+                            }
+                        ],
+                        "animationList": [
+                            { "name": "RotHorizontal", "file": "$CONTENT_DATA/Objects/Mesh/animations/joystick/RotHorizontal.dae" },
+                            { "name": "RotVertical", "file": "$CONTENT_DATA/Objects/Mesh/animations/joystick/RotVertical.dae" },
+                            { "name": "PressRight", "file": "$CONTENT_DATA/Objects/Mesh/animations/joystick/PressRight.dae" },
+                            { "name": "PressLeft", "file": "$CONTENT_DATA/Objects/Mesh/animations/joystick/PressLeft.dae" }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "-Z",
+            "rotationSet": "PropZ",
+            "scripted": {
+                "classname": "TargetDevice",
+                "filename": "$CONTENT_DATA/Scripts/TargetDevice.lua"
+            },
+            "ratings": {
+                "density": 1,
+                "durability": 3,
+                "friction": 3,
+                "buoyancy": 3
+            },
+            "uuid": "3001760a-6d43-4492-a37e-5d7c649179fb"
+        },
+        {
             "color": "df7f00",
             "box": {
                 "x": 1,
