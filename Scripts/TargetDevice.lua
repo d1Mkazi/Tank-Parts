@@ -211,7 +211,6 @@ function TargetDevice:sv_pressButton(args)
     end
     self.interactable.publicData.smart_values[smart_value] = args.state
 
-
     self.network:sendToClients("cl_setAnimation", { anim = "Press"..args.button, target = args.state == true and 1 or 0 })
 end
 
@@ -629,10 +628,4 @@ function TargetDevice:cl_updateCamera(dt)
     end
 
     sm.event.sendToInteractable(self.cl.binoculars, "cl_e_updateCamera", dt)
-end
-
----@param speed number the rotation speed
----@return number target the animation target
-function getAnimTarget(speed)
-    return speed
 end
