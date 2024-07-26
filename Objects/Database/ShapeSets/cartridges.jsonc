@@ -401,7 +401,7 @@
 			"color": "555555",
 			"cylinder": {
 				"axis": "Y",
-				"depth": 3,
+				"depth": 1,
 				"diameter": 1
 			},
 			"ratings": {
