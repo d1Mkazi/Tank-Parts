@@ -525,8 +525,8 @@
                 ]
             },
             "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
-            "sticky": "-Z",
-            "rotationSet": "PropZ",
+            "sticky": "+X+Z-X-Y-Z",
+            "rotationSet": "TP_ShellRotation",
             "scripted": {
                 "classname": "Viewport",
                 "filename": "$CONTENT_DATA/Scripts/Viewport.lua",
