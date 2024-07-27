@@ -197,7 +197,7 @@
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3b55": {
         "title": "Механизм поворота башни",
-        "description": "Нажимайте AD или WS для поворота башни вместо использования кнопок или контроллера",
+        "description": "Press AD or WS to rotate connected bearings\n\nPress 1 to speed up and 2 to slow down the rotation speed\nCan be used with Extractor",
         "keywords": [ "колесо", "крутилка", "вращатель" ]
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3b22": {
@@ -232,11 +232,16 @@
     },
     "b0fb8b9e-ac99-4033-abd2-4beb598431a2": {
         "title": "Прибор наведения",
-        "description": "Никакой ОБТ не может обойтись без этой вещи!\n\nПодключите бинокуляры, чтобы использовать их как прицел.\nМожно использовать с Extractor-ом",
+        "description": "Press WASD to rotate connected bearings\n\nPress 1 to speed up and 2 to slow down the rotation speed\nConnect Binoculars to use them as a scope\nCan be used with Extractor",
         "keywords": [ "чебурашка", "Т-72", "Т-80", "Т-90" ]
     },
+    "3001760a-6d43-4492-a37e-5d7c649179fb": {
+        "title": "Джойстик",
+        "description": "Press WASD to rotate connected bearings\n\nPress 1 to speed up and 2 to slow down the rotation speed\nConnect Binoculars to use them as a scope\nCan be used with Extractor",
+        "keywords": [ "NATO", "Abrams" ]
+    },
     "d0ac640d-f3f3-403a-8b45-8629bfcc7b2a": {
-        "title": "Extractor",
+        "title": "Извлекатель",
         "description": "Выводит значение из интерактивного элемента",
         "keywords": [ "значение", "сигнал", "логика" ]
     },
