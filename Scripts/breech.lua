@@ -228,12 +228,13 @@ end
 
 function Breech:sv_dropCase()
     local size = sm.item.getShapeSize(self.shape.uuid)
-    local pos = self.shape.worldPosition + self.shape.right * ((size.x % 2 == 0 and -0.125 or 0))
+    local pos = self.shape.worldPosition + self.shape.right * -0.125 -- fuck sm
     local at = self.shape.at
     local caseUuid = sm.uuid.new(self.sv.loaded.data.usedUuid)
     local offset = ((size.y * 0.5) + (sm.item.getShapeSize(caseUuid).y)) * 0.25
 
-    self.shellCasingShape = sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
+    local shape = sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
+    self.network:setClientData({ ejectedCase = shape }, 2)
 
     self.sv.status = EMPTY
     self.sv.loaded = nil
@@ -290,6 +291,7 @@ function Breech:client_onCreate()
         animProgress = 0,
         hasMuzzle = false,
         offset = 1,
+        ejectedCase = nil,
         shellCasingSmokeTrail = sm.effect.createEffect("Shell - CasingSmokeTrail"),
         smokeTrailCountdown = 200,
         endOfGunSmoke = sm.effect.createEffect("TankCannon - SmokeAftermath", self.interactable)
@@ -309,7 +311,7 @@ end
 
 function Breech:client_onFixedUpdate(dt)
 
-    local effect, part = self.cl.shellCasingSmokeTrail, self.shellCasingShape
+    local effect, part = self.cl.shellCasingSmokeTrail, self.cl.ejectedCase
 
     if part and sm.exists(part) and self.cl.smokeTrailCountdown >= 0 then
         -- set effect's position
@@ -324,7 +326,7 @@ function Breech:client_onFixedUpdate(dt)
         end
     else
         -- stop tracking the part
-        self.shellCasingShape = nil
+        self.cl.ejectedCase = nil
 
         -- reset the countdown
         self.cl.smokeTrailCountdown = 200
