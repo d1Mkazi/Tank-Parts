@@ -33,7 +33,6 @@ function Extractor:init()
         extract = nil
     }
 
-    self.sv.connected = self.saved.extract ~= nil
     self:sv_onValueSelect(self.saved.extract)
 end
 
@@ -41,13 +40,13 @@ function Extractor:server_onFixedUpdate(dt)
     local parent = self.interactable:getSingleParent()
     if not parent then
         self.sv.connected = false
-        print("NOT CONNECTED")
+        --print("NOT CONNECTED")
         return
     end
 
     if not parent.publicData or not parent.publicData.smart_values then
         parent:disconnect(self.interactable)
-        print("DISCONNECTED parent")
+        --print("DISCONNECTED parent")
         return
     end
 
@@ -55,11 +54,11 @@ function Extractor:server_onFixedUpdate(dt)
     local value = smart_values[self.saved.extract]
     if value ~= self.sv.value then
         if type(value) == "boolean" then
-            self.interactable:setActive(value)
+            self.interactable.active = value
         elseif type(value) == "number" then
-            self.interactable:setPower(value)
+            self.interactable.power = value
         end
-        print("UPD VAL")
+        --print("UPD VAL", value)
 
         self.sv.value = value
     end
@@ -73,13 +72,13 @@ function Extractor:server_onFixedUpdate(dt)
         self.saved.extract = extractions[1]
         self:sv_onValueSelect(extractions[1])
         self.sv.connected = true
-        print("CONNECTED")
+        --print("CONNECTED")
     end
 end
 
 function Extractor:sv_onValueSelect(selected)
     self.saved.extract = selected
-    self.network:setClientData({ extract = selected })
+    self.network:setClientData({ extract = selected }, 2)
     self.storage:save(self.saved)
 end
 

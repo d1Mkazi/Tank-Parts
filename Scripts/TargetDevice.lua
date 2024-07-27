@@ -45,7 +45,8 @@ function TargetDevice:init()
         },
 
         binoculars = nil,
-        hasBinoculars = false
+        hasBinoculars = false,
+        hasViewport = false
     }
 
     self.saved = self.storage:load() or {
@@ -74,27 +75,18 @@ function TargetDevice:server_onFixedUpdate(dt)
             if child.shape.uuid == BINOCULARS then
                 if self.sv.binoculars and child ~= self.sv.binoculars then
                     self.interactable:disconnect(child)
+                    print("DISCONNECTED WRONG")
                 elseif not self.sv.binoculars then
-                    self.sv.binoculars = child
-                    self.network:setClientData({ binoculars = child })
+                    self:sv_setBinoculars(child)
+                    print("GOT BINOCULARS")
                 end
             end
         end
     end
 
-    local binoculars = self.cl.binoculars
-    if binoculars ~= nil and sm.exists(binoculars) then
-        local hasBinoculars = binoculars.publicData.hasViewport
-
-        if hasBinoculars ~= self.sv.hasBinoculars then
-            self.sv.hasBinoculars = hasBinoculars
-            self.network:setClientData({ hasBinoculars = hasBinoculars })
-        end
-    end
-
-    if not isAnyOf(self.sv.binoculars, children) then
-        self.sv.binoculars = nil
-        self.network:setClientData({ hasBinoculars = false })
+    if self.sv.hasBinoculars and not isAnyOf(self.sv.binoculars, children) then
+        self:sv_setBinoculars(nil)
+        print("LOST BINOCULARS")
     end
 
     local bearings = self.interactable:getBearings()
@@ -252,6 +244,25 @@ function TargetDevice:sv_setButton(button)
     self.saved.secondary.button = button
     self.network:setClientData({ secondary = self.saved.secondary })
     self.storage:save(self.saved)
+end
+
+function TargetDevice:sv_setBinoculars(binoculars)
+    self.sv.binoculars = binoculars
+    if binoculars ~= nil and sm.exists(binoculars) then
+        self.sv.hasBinoculars = true
+        local hasViewport = binoculars.publicData.hasViewport
+
+        if hasViewport ~= self.sv.hasViewport then
+            self.sv.hasViewport = hasViewport
+        end
+        print("BINOCULARS UPDATE 256")
+    else
+        self.sv.hasBinoculars = false
+        self.sv.hasViewport = false
+    end
+
+    self.network:setClientData({ binoculars = binoculars, hasViewport = self.sv.hasViewport }, 2)
+    print("BINOCULARS UPDATE 260:", { binoculars = binoculars, hasViewport = self.sv.hasViewport })
 end
 
 
@@ -423,7 +434,7 @@ function TargetDevice:client_onAction(action, state)
             end
 
         elseif (action == 18 and not self.cl.secondary.RMB) or (action == 16 and self.cl.secondary.RMB) then -- SPACE (aim)
-            if not self.cl.hasBinoculars then return true end
+            if not self.cl.hasViewport then return true end
 
             self.cl.isAiming = not self.cl.isAiming
             if self.cl.isAiming then
@@ -620,7 +631,7 @@ function TargetDevice:cl_setButton(button)
 end
 
 function TargetDevice:cl_updateCamera(dt)
-    if not self.cl.hasBinoculars then
+    if not self.cl.hasViewport then
         self.cl.isAiming = false
         sm.camera.setCameraState(1)
         sm.camera.setFov(sm.camera.getDefaultFov())
