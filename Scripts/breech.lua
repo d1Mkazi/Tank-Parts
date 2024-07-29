@@ -228,7 +228,7 @@ end
 
 function Breech:sv_dropCase()
     local size = sm.item.getShapeSize(self.shape.uuid)
-    local pos = self.shape.worldPosition + self.shape.right * -0.125 -- fuck sm
+    local pos = self.shape.worldPosition + self.shape.right * -0.125 + self.shape.up * -0.125 -- fuck sm
     local at = self.shape.at
     local caseUuid = sm.uuid.new(self.sv.loaded.data.usedUuid)
     local offset = ((size.y * 0.5) + (sm.item.getShapeSize(caseUuid).y)) * 0.25
