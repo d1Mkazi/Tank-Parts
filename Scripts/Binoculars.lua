@@ -1,9 +1,11 @@
+dofile("utils.lua")
+
 ---@class Binoculars : ShapeClass
 Binoculars = class()
 Binoculars.maxParentCount = 1
-Binoculars.maxChildCount = 1
+Binoculars.maxChildCount = -1
 Binoculars.connectionInput = sm.interactable.connectionType.logic
-Binoculars.connectionOutput = sm.interactable.connectionType.logic
+Binoculars.connectionOutput = sm.interactable.connectionType.logic + sm.interactable.connectionType.bearing
 Binoculars.colorNormal = sm.color.new("d8c836ff")
 Binoculars.colorHighlight = sm.color.new("f0e26bff")
 
@@ -25,8 +27,13 @@ end
 
 function Binoculars:init()
     self.sv = {
+        viewport = nil, --[[@type Interactable]]
         hasDevice = false,
         hasViewport = false,
+        bearings = {
+            ws = {},
+            ad = {}
+        }
     }
 
     self.interactable.publicData = { hasViewport = false }
@@ -49,28 +56,89 @@ function Binoculars:server_onFixedUpdate(dt)
         end
     end
 
-    local child = self.interactable:getChildren()[1] --[[@as Interactable]]
-    if not child then
+    local children = self.interactable:getChildren(1)
+    if #children > 0 then
+        for k, child in ipairs(children) do
+            if child.shape.uuid == VIEWPORT then
+                if not self.sv.hasViewport then
+                    self.sv.hasViewport = true
+                    self.sv.viewport = child
+                    self.network:setClientData({ viewport = child.shape, hasViewport = true })
+                    self.interactable.publicData.hasViewport = true
+                elseif self.sv.hasViewport and child ~= self.sv.viewport then
+                    self.interactable:disconnect(child)
+                end
+            else
+                self.interactable:disconnect(child)
+            end
+        end
+    else
         self.sv.hasViewport = false
+        self.sv.viewport = nil
         self.network:setClientData({ hasViewport = false })
         self.interactable.publicData.hasViewport = false
-    else
-        if child.shape.uuid ~= VIEWPORT then
-            self.interactable:disconnect(child)
-            return
+    end
+
+    local bearings = self.interactable:getBearings()
+    local ws, ad = self.sv.bearings.ws, self.sv.bearings.ad
+    if #bearings ~= (#self.sv.bearings.ad + #self.sv.bearings.ws) then
+        for k, bearing in ipairs(bearings) do
+            if not (isAnyOfEx(bearing, ws, "id") or isAnyOfEx(bearing, ad, "id")) then
+                bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 1000)
+                if sameAxis(bearing.zAxis, self.shape.zAxis) then
+                    ad[#ad+1] = bearing
+                else
+                    ws[#ws+1] = bearing
+                end
+            end
         end
 
-        if not self.sv.hasViewport then
-            self.sv.hasViewport = true
-            self.network:setClientData({ viewport = child.shape, hasViewport = true })
-            self.interactable.publicData.hasViewport = true
+        for k, bearing in pairs(ws) do
+            if not isAnyOfEx(bearing, bearings, "id") then
+                ws[k] = nil
+            end
         end
+        for k, bearing in pairs(ad) do
+            if not isAnyOfEx(bearing, bearings, "id") then
+                ad[k] = nil
+            end
+        end
+    elseif #bearings == 0 then
+        self.sv.bearings = { ws = {}, ad = {} }
     end
 end
 
 ---@param occupied boolean
 function Binoculars:sv_setOccupied(occupied)
     self.network:setClientData({ occupied = occupied })
+end
+
+---@param to number
+function Binoculars:sv_applyImpulseWS(to)
+    local bearings = self.sv.bearings.ws
+    if to ~= 0 then
+        for k, bearing in pairs(bearings) do
+            bearing:setMotorVelocity(1 * to, 100)
+        end
+    else
+        for k, bearing in pairs(bearings) do
+            bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 100)
+        end
+    end
+end
+
+---@param to number
+function Binoculars:sv_applyImpulseAD(to)
+    local bearings = self.sv.bearings.ad
+    if to ~= 0 then
+        for k, bearing in pairs(bearings) do
+            bearing:setMotorVelocity(1 * to, 100)
+        end
+    else
+        for k, bearing in pairs(bearings) do
+            bearing:setTargetAngle(bearing.angle * (bearing.reversed == true and 1 or -1), 5, 100)
+        end
+    end
 end
 
 
@@ -85,10 +153,6 @@ function Binoculars:client_onCreate()
         occupied = false,
         fov = sm.camera.getDefaultFov()
     }
-
-    --local gui = sm.gui.createGuiFromLayout("$CONTENT_DATA/Gui/Layouts/Binoculars.layout")
-    --gui:setIconImage("bino_icon", self.shape.uuid)
-    --self.cl.gui = gui
 end
 
 function Binoculars:client_onDestroy()
@@ -127,6 +191,30 @@ function Binoculars:client_onAction(action, state)
 
             self.cl.fov = fov
             sm.camera.setFov(fov)
+
+        elseif action == 1 or action == 2 then
+            local args = {
+                [1] = -1, -- left
+                [2] = 1, -- right
+            }
+
+            self.network:sendToServer("sv_applyImpulseAD", args[action])
+
+        elseif action == 3 or action == 4 then
+            local args = {
+                [3] = -1, -- forward
+                [4] = 1, -- backward
+            }
+
+            self.network:sendToServer("sv_applyImpulseWS", args[action])
+        end
+    else
+        if action == 1 or action == 2 then
+            self.network:sendToServer("sv_applyImpulseAD", 0)
+
+        elseif action == 3 or action == 4 then
+
+            self.network:sendToServer("sv_applyImpulseWS", 0)
         end
     end
 
@@ -152,22 +240,6 @@ function Binoculars:client_onInteract(character, state)
     self.cl.character = character
     sm.camera.setCameraState(3)
     sm.camera.setFov(self.cl.fov)
-end
-
-function Binoculars:client_canTinker(character)
-    sm.gui.setInteractionText("", sm.gui.getKeyBinding("Tinker", true), GetLocalization("base_Settings", sm.gui.getCurrentLanguage()))
-    return not self.cl.occupied
-end
-
-function Binoculars:client_onTinker(character, state)
-    if not state then return end
-    if not self.cl.gui:isActive() then self.cl.gui:close() end
-
-    local gui = self.cl.gui
-    gui:setText("bino_title", GetLocalization("base_Settings", getLang()))
-    gui:setText("bino_name", sm.shape.getShapeTitle(self.shape.uuid))
-
-    gui:open()
 end
 
 function Binoculars:cl_unlockCharacter()

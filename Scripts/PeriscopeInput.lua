@@ -46,7 +46,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     end
 
     if self.sv.sight ~= self.sv.sightOld then
-        self.network:setClientData({ sight = self.sv.sight, hasSight = self.sv.sight ~= nil })
+        self.network:setClientData({ sight = self.sv.sight, hasSight = self.sv.sight ~= nil }, 2)
         self.sv.sightOld = self.sv.sight
     end
 
