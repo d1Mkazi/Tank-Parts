@@ -32,8 +32,6 @@ function Extractor:init()
     self.saved = self.storage:load() or {
         extract = nil
     }
-
-    self:sv_onValueSelect(self.saved.extract)
 end
 
 function Extractor:server_onFixedUpdate(dt)
@@ -53,14 +51,7 @@ function Extractor:server_onFixedUpdate(dt)
     local smart_values = parent.publicData.smart_values
     local value = smart_values[self.saved.extract]
     if value ~= self.sv.value then
-        if type(value) == "boolean" then
-            self.interactable.active = value
-        elseif type(value) == "number" then
-            self.interactable.power = value
-        end
-        --print("UPD VAL", value)
-
-        self.sv.value = value
+        self:sv_updateValue(value)
     end
 
     if not self.sv.connected then
@@ -69,8 +60,9 @@ function Extractor:server_onFixedUpdate(dt)
             extractions[#extractions+1] = k
         end
         self.network:setClientData({ extractions = extractions })
-        self.saved.extract = extractions[1]
-        self:sv_onValueSelect(extractions[1])
+        local extract = (not isAnyOf(self.saved.extract, extractions)) and extractions[1] or self.saved.extract
+        self.saved.extract = extract
+        self:sv_onValueSelect(extract)
         self.sv.connected = true
         --print("CONNECTED")
     end
@@ -80,6 +72,18 @@ function Extractor:sv_onValueSelect(selected)
     self.saved.extract = selected
     self.network:setClientData({ extract = selected }, 2)
     self.storage:save(self.saved)
+end
+
+---@param value number|boolean
+function Extractor:sv_updateValue(value)
+    if type(value) == "boolean" then
+        self.interactable.active = value
+    elseif type(value) == "number" then
+        self.interactable.power = value
+    end
+    print("UPD VAL", value)
+
+    self.sv.value = value
 end
 
 
