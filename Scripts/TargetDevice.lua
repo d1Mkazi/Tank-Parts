@@ -44,7 +44,7 @@ function TargetDevice:init()
             right= false
         },
 
-        binoculars = nil,
+        binoculars = nil, --[[@type Interactable]]
         hasBinoculars = false,
         hasViewport = false
     }
@@ -87,6 +87,16 @@ function TargetDevice:server_onFixedUpdate(dt)
     if self.sv.hasBinoculars and not isAnyOf(self.sv.binoculars, children) then
         self:sv_setBinoculars(nil)
         print("LOST BINOCULARS")
+    end
+
+    if (self.sv.hasBinoculars and sm.exists(self.sv.binoculars)) then
+        local hasViewport = self.sv.binoculars.publicData.hasViewport
+
+        if hasViewport ~= self.sv.hasViewport then
+            self.sv.hasViewport = hasViewport
+            print("BINOCULARS UPDATE 97", hasViewport)
+            self.network:setClientData({ hasViewport = hasViewport }, 2)
+        end
     end
 
     local bearings = self.interactable:getBearings()
