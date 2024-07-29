@@ -128,13 +128,13 @@ function TargetDevice:server_onFixedUpdate(dt)
     end
 
     if #ws > 0 then
-        local angle = math.floor(ws[getFirstIndex(ws)].angle * 100) * 0.01
+        local angle = math.floor(math.deg(ws[getFirstIndex(ws)].angle) * 100) * 0.01
         if angle ~= self.interactable.publicData.smart_values["Vertical Angle"] then
             self.interactable.publicData.smart_values["Vertical Angle"] = angle
         end
     end
     if #ad > 0 then
-        local angle = math.floor(ad[getFirstIndex(ad)].angle * 100) * 0.01
+        local angle = math.floor(math.deg(ad[getFirstIndex(ad)].angle) * 100) * 0.01
         if angle ~= self.interactable.publicData.smart_values["Horizontal Angle"] then
             self.interactable.publicData.smart_values["Horizontal Angle"] = angle
         end
