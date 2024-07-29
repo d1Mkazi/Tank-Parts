@@ -9,6 +9,7 @@ Binoculars.colorHighlight = sm.color.new("f0e26bff")
 
 
 local TARGET_DEVICE = sm.uuid.new("b0fb8b9e-ac99-4033-abd2-4beb598431a2")
+local JOYSTICK = sm.uuid.new("3001760a-6d43-4492-a37e-5d7c649179fb")
 local VIEWPORT = sm.uuid.new("84145f0d-741c-4142-9aec-edd85ce026be")
 
 --[[ SERVER ]]--
@@ -37,7 +38,7 @@ function Binoculars:server_onFixedUpdate(dt)
         self.sv.hasDevice = false
         self.network:setClientData({ hasDevice = false })
     else
-        if parent.shape.uuid ~= TARGET_DEVICE then
+        if not isAnyOf(parent.shape.uuid, { TARGET_DEVICE, JOYSTICK }) then
             parent:disconnect(self.interactable)
             return
         end
