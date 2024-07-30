@@ -417,12 +417,13 @@ function Breech:cl_loadSeparated(final)
 end
 
 function Breech:cl_shoot(args)
+    local caliber = self.data.caliber
     -- play base shooting particle
-    sm.effect.playEffect("TankCannon - BaseExplosion", args.pos, nil, args.rot)
+    sm.effect.playEffect("TankCannon - BaseExplosion", args.pos, nil, args.rot, nil, getEffectParameters(caliber))
 
     -- play either a custom or a vanilla sound
     if sm.cae_injected then
-        sm.effect.playEffect(getFireSound(self.data.caliber), args.pos, nil, args.rot)
+        sm.effect.playEffect(getFireSound(caliber), args.pos, nil, args.rot)
     else
         sm.effect.playEffect("TankCannonSound - ShootExplosion", args.pos, nil, args.rot)
     end
@@ -431,7 +432,7 @@ function Breech:cl_shoot(args)
     if self.cl.hasMuzzle then
         sm.effect.playEffect("TankCannon - ShootSmokeMuzzleBrake", args.pos, nil, args.rot)
     else
-        sm.effect.playEffect(getFireSmoke(self.data.caliber), args.pos, nil, args.rot)
+        sm.effect.playEffect(getFireSmoke(caliber), args.pos, nil, args.rot)
     end
 
     self.cl.endOfGunSmoke:setOffsetPosition(sm.vec3.new(0, args.offset, 0))
@@ -527,4 +528,16 @@ function getFireSmoke(caliber)
     }
 
     return special[caliber] or "TankCannon - ShootSmokeMedium"
+end
+
+---@param caliber number the caliber
+---@return table|nil -- parameter list
+function getEffectParameters(caliber)
+    local special = {
+        [152] = { shakeStrength = 1.2, shakeRadius = 180 },
+        ["d25t"] = { shakeStrength = 0.6, shakeRadius = 90 },
+        ["m5"] = { shakeStrength = 0.05, shakeRadius = 15 }
+    }
+
+    return nil or special[caliber]
 end
