@@ -188,6 +188,11 @@
         "description": "Case for 122mm D-25T",
         "keywords": [ "cartridge", "122mm", "D-25T", "BR-471", "OF-471" ]
     },
+    "e64cb1bd-f23f-4f5c-beac-527a3fb8a5ee": {
+        "title": "125mm Powder Charge",
+        "description": "Charge for 125mm 2A46M",
+        "keywords": [ "case", "cartridge", "125mm", "2A46M", "3BM60", "3BK18M", "3OF26" ]
+    },
 
     // other.json
     "55a069ad-4512-421d-b46b-7d14fb7f3b53": {
@@ -212,6 +217,10 @@
     "66a069ab-4512-421d-b46b-7d14fb7f3d07": {
         "title": "Machine Gun Handle",
         "description": "Connect it to bearings to control them with WASD"
+    },
+    "66a069ab-4512-421d-b46b-7d14fb7f3d08": {
+        "title": "Scope",
+        "description": "Use Mouse Wheel to zoom in and out"
     },
     "66a069ab-4512-421d-b46b-7d14fb7f3d09": {
         "title": "Case Holder",
