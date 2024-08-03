@@ -169,7 +169,7 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel": 4,
-					"explosionRadius": 4,
+					"explosionRadius": 3,
 					"impulseLevel": 150,
 					"impulseRadius": 4
 				}
@@ -325,8 +325,8 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel": 4,
-					"explosionRadius": 4,
+					"explosionLevel": 3,
+					"explosionRadius": 3,
 					"impulseLevel": 150,
 					"impulseRadius": 4
 				}

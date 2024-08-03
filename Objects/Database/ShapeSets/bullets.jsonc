@@ -383,7 +383,7 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 4,
-					"explosionRadius" : 4.5,
+					"explosionRadius" : 2,
 					"impulseLevel" : 70,
 					"impulseRadius": 3
 				}
@@ -428,7 +428,7 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
+					"explosionRadius" : 2,
 					"impulseLevel" : 80,
 					"impulseRadius": 3
 				}
@@ -474,10 +474,10 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
-					"impulseRadius": 3
+					"explosionLevel" : 3,
+					"explosionRadius" : 3,
+					"impulseLevel" : 150,
+					"impulseRadius": 4
 				}
 			},
 			"ratings": {
@@ -520,9 +520,9 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
+					"explosionLevel" : 6,
+					"explosionRadius" : 1,
+					"impulseLevel" : 160,
 					"impulseRadius": 3
 				}
 			},
@@ -567,7 +567,7 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
+					"explosionRadius" : 2,
 					"impulseLevel" : 80,
 					"impulseRadius": 3
 				}
@@ -613,9 +613,9 @@
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
 				"data": {
-					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
+					"explosionLevel" : 3,
+					"explosionRadius" : 3,
+					"impulseLevel" : 150,
 					"impulseRadius": 3
 				}
 			},
@@ -660,8 +660,8 @@
 				"classname": "Shell",
 				"data": {
 					"explosionLevel" : 4,
-					"explosionRadius" : 5.5,
-					"impulseLevel" : 80,
+					"explosionRadius" : 3,
+					"impulseLevel" : 160,
 					"impulseRadius": 3
 				}
 			},
