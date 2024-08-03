@@ -32,6 +32,7 @@ function PeriscopeInput:sv_init()
 end
 
 function PeriscopeInput:server_onFixedUpdate(dt)
+    ---@type Interactable[]
     local children = self.interactable:getChildren()
     if #children > 0 then
         for k, child in ipairs(children) do
@@ -53,7 +54,7 @@ function PeriscopeInput:server_onFixedUpdate(dt)
     local bearings = self.interactable:getBearings()
     if #bearings > 0 then
         for k, bearing in ipairs(bearings) do
-            if sameAxis(bearing, self.shape) then
+            if sameAxis(bearing.zAxis, self.shape.zAxis) then
                 table.insert(self.sv.bearings.ad, bearing)
             else
                 table.insert(self.sv.bearings.ws, bearing)
