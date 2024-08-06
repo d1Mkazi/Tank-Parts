@@ -12,7 +12,7 @@ end
 
 function Muzzle:client_onCreate()
     self.effect = sm.effect.createEffect("TankCannon - ShootMuzzleBrakeExhaust", self.interactable)
-    self.effect:setOffsetRotation(sm.quat.angleAxis(90, self.shape.at))
+    self.effect:setOffsetRotation(sm.quat.angleAxis(math.rad(90), self.shape.at))
 end
 
 function Muzzle:server_onRefresh()
