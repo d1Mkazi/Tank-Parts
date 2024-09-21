@@ -21,7 +21,7 @@ end
 function ShellProjectile:init()
     raycast = sm.physics.raycast
     getGravity = sm.physics.getGravity
-    g = 10
+    g = 10 * 10
     ShellProjectile.tool = self.tool
 
     self.projectiles = {}
@@ -45,9 +45,9 @@ end
 function ShellProjectile:server_onFixedUpdate(dt)
     local _g = getGravity()
     if g ~= _g then
-        self.network:sendToClients("cl_setGravity", _g)
+        self.network:sendToClients("cl_setGravity", _g * _g)
     end
-    g = _g
+    g = _g * _g
 
     local projectiles = self.projectiles
     if projectiles ~= nil then
@@ -143,7 +143,7 @@ function ShellProjectile:cl_init()
     raycast = sm.physics.raycast
     MINIMAL_HEIGHT = -50
     yAxis = sm.vec3.new(0, 1, 0)
-    g = 10
+    g = 10 * 10
 
     self.projectiles = {}
 end
@@ -186,10 +186,11 @@ function ShellProjectile:client_onFixedUpdate(dt)
                 self:cl_destroyShell(k)
             elseif not proj.hit then
                 local pos = proj.pos
-
                 local vel = proj.vel
-                vel = vel - sm.vec3.new(0, 0, g^2 * dt)
-                local newPos = pos + vel * dt
+
+                local newVel = vel + sm.vec3.new(0, 0, -(g * dt))
+                local newPos = pos + (vel * dt) + sm.vec3.new(0, 0, -(g * dt * dt * 0.5))
+
                 local hit, result = raycast(pos, newPos)
                 if hit then
                     proj.hit = result
@@ -197,7 +198,7 @@ function ShellProjectile:client_onFixedUpdate(dt)
                 end
 
                 proj.pos = newPos
-                proj.vel = vel
+                proj.vel = newVel
 
                 if proj.penetrationLoss then
                     proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)

@@ -683,7 +683,7 @@ ShellList = {
                 },
                 usedUuid = "71e7eacc-7b16-4606-8660-e04d80eaab58"
             },
-            { -- APFSDS Shell
+            { -- HEATFS Shell
                 shellUuid = "31660af8-ec14-4c3b-8590-559315937018",
                 shellData = {
                     bulletUUID = "e17ea55b-7506-4881-b4b9-93fe53b26615",
