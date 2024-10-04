@@ -694,6 +694,146 @@
             "rotationSet" : "TP_ShellRotation",
 			"uuid" : "e17ea55b-7506-4881-b4b9-93fe53b26615",
             "showInInventory": false
+        },
+		/*************************************************************************************************************/
+		/*****************************************  M54 :: M56 Scorpion  *********************************************/
+        { // APHE -> M82
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 4,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 3,
+					"explosionRadius" : 3,
+					"impulseLevel" : 150,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "90mm APHE Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_m82.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m54_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "161b35eb-10fd-4843-9f0f-89a38db060cb",
+            "showInInventory": false
+        },
+        { // HE -> M71
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 5,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 3,
+					"impulseLevel" : 160,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "90mm HE Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_m71.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m54_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "8c1f90bd-cdf6-40d5-98dc-e6f3d57267f6",
+            "showInInventory": false
+        },
+        { // APCR -> M332
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 5,
+                "diameter" : 1
+            },
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel" : 4,
+					"explosionRadius" : 3,
+					"impulseLevel" : 160,
+					"impulseRadius": 3
+				}
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "90mm APCR Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apcr_bullet_m332.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m54_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "b0790545-2d49-4c1c-b5bf-e7702358c870",
+            "showInInventory": false
         }
     ]
 }

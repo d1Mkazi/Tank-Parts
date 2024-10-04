@@ -696,5 +696,56 @@ ShellList = {
                 usedUuid = "71e7eacc-7b16-4606-8660-e04d80eaab58"
             }
         },
+    },
+
+    -- american 90mm
+    ["m54"] = {
+        unitary = {
+            { -- AP Shell
+                shellUuid = "bb01be63-7a2c-4671-a434-d06f8c231bd1",
+                shellData = {
+                    bulletUUID = "161b35eb-10fd-4843-9f0f-89a38db060cb",
+                    initialSpeed = 853,
+                    mass = 10.91,
+                    penetrationCapacity = 35,
+                    penetrationLoss = 1.5,
+                    maxDurability = 8,
+                    fuseSensitivity = 5,
+                    maxAngle = 25,
+                    onHit = __hit_ap,
+                    explode = __exp_ap
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- HE Shell
+                shellUuid = "ad36f078-7d06-47a7-b7ea-5c9bfa61a8f2",
+                shellData = {
+                    bulletUUID = "8c1f90bd-cdf6-40d5-98dc-e6f3d57267f6",
+                    initialSpeed = 823,
+                    mass = 10.55,
+                    explosion = {
+                        strength = 4,
+                        impulse = 200,
+                        shrapnel = 40
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- APCR Shell
+                shellUuid = "f0bb7ce9-f6c8-4182-8fa6-a04602a06bc8",
+                shellData = {
+                    bulletUUID = "b0790545-2d49-4c1c-b5bf-e7702358c870",
+                    initialSpeed = 1165,
+                    mass = 5.7,
+                    penetrationCapacity = 55,
+                    penetrationLoss = 3,
+                    maxDurability = 9,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            }
+        },
     }
 }

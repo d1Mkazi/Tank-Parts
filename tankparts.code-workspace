@@ -6,6 +6,12 @@
 		}
 	],
 	"settings": {
-		"Lua.diagnostics.disable": ["need-check-nil", "lowercase-global"]
+		"Lua.diagnostics.disable": [
+			"need-check-nil",
+			"lowercase-global"
+		],
+		"Lua.workspace.library": [
+			"C:\\Just file\\ignore\\sm.lua"
+		]
 	}
 }

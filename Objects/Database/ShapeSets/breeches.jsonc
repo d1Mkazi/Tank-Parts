@@ -499,6 +499,61 @@
 			"sticky": "+X-X+Y+Z-Z",
 			"rotationSet": "TP_BreechRotation",
 			"uuid": "1fec172b-0a3a-4ca9-8433-a75b9301f483"
-		}
+		},
+        { // M54 :: M56
+            "color": "222222",
+            "hull": {
+                "x": 3,
+                "y": 3,
+                "z": 3,
+                "col": "$CONTENT_DATA/Objects/Collision/m54_breech.obj"
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Breech.lua",
+                "classname": "Breech",
+                "data": {
+                    "areaSizeX": 0.0625,
+                    "areaSizeY": 0.125,
+                    "areaSizeZ": 0.125,
+                    "areaOffsetX": 0,
+                    "areaOffsetY": -0.5,
+                    "areaOffsetZ": 0.25,
+                    "loading": "unitary",
+                    "caliber": "m54"
+                }
+            },
+            "ratings": {
+                "density": 7,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "name": "M54 Breech",
+            "physicsMaterial": "Metal",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/breeches/m54_breech.dae",
+                        "subMeshList": [
+                            {    
+                                "material": "SkelAnimDifAsgNor",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/blk_metal01_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_nor.tga"
+                                ]
+                            }
+                        ],
+                        "animationList": [
+                            { "name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/m54_breech.dae" }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "+X-X+Y+Z-Z",
+            "rotationSet": "TP_BreechRotation",
+            "uuid": "3f09656a-404f-464c-8fc0-149d876896a8"
+        }
     ]
 }

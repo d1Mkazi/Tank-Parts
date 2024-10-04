@@ -654,7 +654,146 @@
             "sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
             "uuid" : "31660af8-ec14-4c3b-8590-559315937018"
-        }
+        },
 		/*************************************************************************************************************/
+		/*****************************************  M54 :: M56 Scorpion  *********************************************/
+        { // APHE -> M82
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 4,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 1.25,
+                    "impulseLevel" : 150,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "AP Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_m82.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m54_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "bb01be63-7a2c-4671-a434-d06f8c231bd1"
+        },
+        { // HE -> M71
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 4,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 1.25,
+                    "impulseLevel" : 150,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "HE Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/he_shell_m71.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m54_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "ad36f078-7d06-47a7-b7ea-5c9bfa61a8f2"
+        },
+        { // APCR -> M332
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 4,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 1.25,
+                    "impulseLevel" : 150,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "APCR Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/apcr_shell_m332.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m54_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "f0bb7ce9-f6c8-4182-8fa6-a04602a06bc8"
+        }
     ]
 }
