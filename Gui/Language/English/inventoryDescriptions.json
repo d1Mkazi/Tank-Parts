@@ -59,6 +59,11 @@
         "description": "Breech of American MBT M1 Abrams\n\nUsed shells:\nAPFSDS: M774\nHEATFS: M456A2",
         "keywords": [ "breech", "cannon", "gun", "american" ]
     },
+    "3f09656a-404f-464c-8fc0-149d876896a8": { // M56 Scorpion
+        "title": "M54 Breech",
+        "description": "Breech of American Tank Destroyer M56 Scorpion\n\nUsed shells:\nAPHE: M82\nHE: M71\nAPCR: M332\nHEAT: M431",
+        "keywords": [ "breech", "cannon", "gun", "american" ]
+    },
 
     // shells.json
 
@@ -167,6 +172,28 @@
         "title": "M456A2",
         "description": "High-Explosive Anti-Tank Fin-Stabilized shell\nEffective against armored targets.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
         "keywords": [ "heat", "heatfs", "american", "M1 Abrams", "Abrams" ]
+    },
+
+    // M56 Scorpion
+    "bb01be63-7a2c-4671-a434-d06f8c231bd1": {
+        "title": "M82",
+        "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
+        "keywords": [ "ap", "american", "m56" ]
+    },
+    "ad36f078-7d06-47a7-b7ea-5c9bfa61a8f2": {
+        "title": "M71",
+        "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "he", "american", "m56" ]
+    },
+    "f0bb7ce9-f6c8-4182-8fa6-a04602a06bc8": {
+        "title": "M332",
+        "description": "Armor-Piercing Composite Rigid\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode",
+        "keywords": [ "apcr", "american", "m56" ]
+    },
+    "c7201b58-5d86-4be9-b83a-6757d8b3d0a6": {
+        "title": "M431",
+        "description": "High-Explosive Anti-Tank shell\nEffective against armored targets on long distance.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
+        "keywords": [ "heat", "american", "m56" ]
     },
 
     // legacy (maybe?)
