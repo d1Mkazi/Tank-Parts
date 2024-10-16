@@ -745,6 +745,18 @@ ShellList = {
                     onHit = __hit_ap
                 },
                 usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            },
+            { -- HEATFS Shell
+                shellUuid = "c7201b58-5d86-4be9-b83a-6757d8b3d0a6",
+                shellData = {
+                    bulletUUID = "b66f0b5d-ca0e-4c52-814b-dd7cdc8ca96b",
+                    initialSpeed = 1216,
+                    mass = 5.8,
+                    penetrationCapacity = 60,
+                    onHit = __hit_heat,
+                    isHEAT = true
+                },
+                usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
             }
         },
     }

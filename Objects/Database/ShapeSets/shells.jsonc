@@ -824,7 +824,7 @@
             "renderable" : {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/heat_bullet_M431.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/heat_shell_M431.fbx",
                         "subMeshList": [
                             {
                                 "material": "DifAsg",
