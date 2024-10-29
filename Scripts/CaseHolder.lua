@@ -5,6 +5,14 @@ Holder.connectionOutput = sm.interactable.connectionType.logic
 Holder.colorNormal = sm.color.new("ffd82b")
 Holder.colorHighlight = sm.color.new("ffdd47")
 
+-- contains every thing uuid which it can hold
+local HOLDABLES = {}
+
+local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.jsonc").partList
+for k, cartridge in ipairs(cartridges) do
+    HOLDABLES[#HOLDABLES+1] = cartridge.uuid
+end
+
 
 function Holder:server_onCreate()
     self:init()
@@ -48,7 +56,7 @@ function Holder:trigger_onEnter(trigger, results)
                     self.sv.hasCase = true
                     self.interactable.active = true
                     self.network:setClientData({ hasCase = true, case = uuid })
-                    self.interactable.publicData = { case = uuid }
+                    self.interactable.publicData = { hold = uuid }
                     shape:destroyPart(0)
                 end
             end
@@ -70,12 +78,12 @@ function Holder:sv_takeCase(container)
     self.interactable.publicData = {}
 end
 
-function Holder:sv_removeCase()
+function Holder:sv_removeHold()
     self.saved.case = nil
     self.sv.hasCase = false
     self.interactable.active = false
     self.storage:save(self.saved)
-    self.network:setClientData({ hasCase = false })
+    self.network:setClientData({ hasCase = false }, 2)
     self.interactable.publicData = {}
 end
 

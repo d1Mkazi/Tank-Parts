@@ -541,6 +541,161 @@
                 "buoyancy": 2
             },
             "uuid": "84145f0d-741c-4142-9aec-edd85ce026be"
+        },
+        {
+            "baseUuid": "74fb410d-b51f-4deb-9f2a-cb4429151f9e",
+            "color": "df7f00",
+            "cylinder": {
+                "axis": "Y",
+                "depth": 3,
+                "diameter": 1
+            },
+            "name": "Shell Holder 3",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder_3.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "Dif",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_holder.png"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
+            "sticky": "+X+Z-X-Y-Z",
+            "rotationSet": "PropY",
+            "scripted": {
+                "classname": "ShellHolder",
+                "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
+            },
+            "ratings": {
+                "density": 2,
+                "durability": 3,
+                "friction": 2,
+                "buoyancy": 2
+            },
+            "pipe": {
+                "extendable": true,
+                "openings": [
+                    {
+                        "side": "-Y",
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    }
+                ]
+            },
+            "uuid": "74fb410d-b51f-4deb-9f2a-cb4429151f9e"
+        },
+        {
+            "baseUuid": "74fb410d-b51f-4deb-9f2a-cb4429151f9e",
+            "color": "df7f00",
+            "cylinder": {
+                "axis": "Y",
+                "depth": 4,
+                "diameter": 1
+            },
+            "name": "Shell Holder 4",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder_4.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "Dif",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_holder.png"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
+            "sticky": "+X+Z-X-Y-Z",
+            "rotationSet": "PropY",
+            "scripted": {
+                "classname": "ShellHolder",
+                "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
+            },
+            "ratings": {
+                "density": 2,
+                "durability": 3,
+                "friction": 2,
+                "buoyancy": 2
+            },
+            "pipe": {
+                "extendable": true,
+                "openings": [
+                    {
+                        "side": "-Y",
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    }
+                ]
+            },
+            "showInInventory": false,
+            "uuid": "622fcd8f-2314-4bf5-b65d-930e12a32b5f"
+        },
+        {
+            "baseUuid": "74fb410d-b51f-4deb-9f2a-cb4429151f9e",
+            "color": "df7f00",
+            "cylinder": {
+                "axis": "Y",
+                "depth": 5,
+                "diameter": 1
+            },
+            "name": "Shell Holder 5",
+            "physicsMaterial": "Mechanical",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder_5.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "Dif",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_holder.png"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
+            "sticky": "+X+Z-X-Y-Z",
+            "rotationSet": "PropY",
+            "scripted": {
+                "classname": "ShellHolder",
+                "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
+            },
+            "ratings": {
+                "density": 2,
+                "durability": 3,
+                "friction": 2,
+                "buoyancy": 2
+            },
+            "pipe": {
+                "extendable": true,
+                "openings": [
+                    {
+                        "side": "-Y",
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    }
+                ]
+            },
+            "showInInventory": false,
+            "uuid": "13eb855c-74e8-4c53-8c03-917930e5f389"
         }
     ]
 }

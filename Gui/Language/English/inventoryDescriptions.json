@@ -284,5 +284,10 @@
     "84145f0d-741c-4142-9aec-edd85ce026be": {
         "title": "Modern Viewport",
         "keywords": [ "Periscope", "Binoculars", "Visor", "Vision", "MBT" ]
+    },
+    "74fb410d-b51f-4deb-9f2a-cb4429151f9e": {
+        "title": "Ammo Rack",
+        "description": "Holds ammo of smaller or equal size.\nPress Q to change size",
+        "keywords": [ "Shell", "Case", "Racks", "Ammunition", "Shelf" ]
     }
 }

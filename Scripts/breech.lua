@@ -23,6 +23,13 @@ local SHELLED = 4
 local GateOpened = { EMPTY, SHELLED }
 local GateClosed = { LOADED, FIRED }
 
+local HOLDERS = {
+    "66a069ab-4512-421d-b46b-7d14fb7f3d09", -- case holder
+    "74fb410d-b51f-4deb-9f2a-cb4429151f9e", -- ammo rack 3
+    "622fcd8f-2314-4bf5-b65d-930e12a32b5f", -- ammo rack 4
+    "13eb855c-74e8-4c53-8c03-917930e5f389" -- ammo rack 5
+}
+
 
 function Breech:server_onCreate()
     self:init()
@@ -118,27 +125,37 @@ function Breech:trigger_onEnter(trigger, results)
                     if isAnyOf(status, GateClosed) then return end
 
                     local uuid = tostring(shape.uuid)
+                    local holded = isAnyOf(uuid, HOLDERS)
+                    if holded then
+                        uuid = shape.interactable.publicData.hold
+                    end
                     local table = getTableByValue(uuid, shellTable, "shellUuid")
                     if self.data.loading == "unitary" then
                         if table then
-                            self:sv_loadShell(shape, table)
-                            shape:destroyPart(0)
+                            self:sv_loadShell(sm.uuid.new(uuid), table)
+                            if holded then
+                                sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
+                            else
+                                shape:destroyPart(0)
+                            end
                         end
                     else
                         if status == EMPTY then
                             if table then
-                                self:sv_loadSeparated(shape.uuid, table)
-                                shape:destroyPart(0)
+                                self:sv_loadSeparated(sm.uuid.new(uuid), table)
+                                if holded then
+                                    sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
+                                else
+                                    shape:destroyPart(0)
+                                end
                             end
                         else
                             if uuid == self.sv.loaded.data.caseUuid then
-                                self:sv_loadSeparated(shape.uuid)
-                                shape:destroyPart(0)
-                            elseif uuid == "66a069ab-4512-421d-b46b-7d14fb7f3d09" then
-                                local case = shape.interactable.publicData.case
-                                if case == self.sv.loaded.data.caseUuid then
-                                    self:sv_loadSeparated(case)
-                                    sm.event.sendToInteractable(shape.interactable, "sv_removeCase")
+                                self:sv_loadSeparated(sm.uuid.new(uuid))
+                                if holded then
+                                    sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
+                                else
+                                    shape:destroyPart(0)
                                 end
                             end
                         end
@@ -149,12 +166,12 @@ function Breech:trigger_onEnter(trigger, results)
     end
 end
 
----@param shape Shape The shell
+---@param uuid Uuid The shell
 ---@param dataTable table
-function Breech:sv_loadShell(shape, dataTable)
+function Breech:sv_loadShell(uuid, dataTable)
     local loaded = {}
     loaded.data = dataTable
-    loaded.shell = shape.uuid
+    loaded.shell = uuid
 
     self.interactable.active = true
 
