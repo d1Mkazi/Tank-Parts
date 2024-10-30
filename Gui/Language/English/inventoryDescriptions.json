@@ -206,12 +206,12 @@
     // cartridges.json
 
     "cc19cdbf-865e-401c-9c5e-f111ccc25801": {
-        "title": "152mm Sleeve",
+        "title": "152mm Case",
         "description": "Case for howitzer 152mm bullets",
         "keywords": [ "cartridge", "howitzer", "152mm" ]
     },
     "ec19cdbf-865e-401c-9c5e-f111ccc25802": {
-        "title": "122mm Sleeve",
+        "title": "122mm Case",
         "description": "Case for 122mm D-25T",
         "keywords": [ "cartridge", "122mm", "D-25T", "BR-471", "OF-471" ]
     },

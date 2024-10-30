@@ -140,3 +140,16 @@ function getFirstIndex(t)
         return k
     end
 end
+
+---@param v table|string
+function sizeof(v)
+    local size = 0
+    if type(v) == "string" then
+        size = #v
+    elseif type(v) == "table" then
+        for _, _ in pairs(v) do
+            size = size + 1
+        end
+    end
+    return size
+end

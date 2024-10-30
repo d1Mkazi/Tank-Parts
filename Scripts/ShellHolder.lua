@@ -3,6 +3,8 @@ dofile("localization.lua")
 ---@class ShellHolder : ShapeClass
 ShellHolder = class()
 ShellHolder.maxChildCount = -1
+ShellHolder.maxParentCount = 1
+ShellHolder.connectionInput = sm.interactable.connectionType.logic
 ShellHolder.connectionOutput = sm.interactable.connectionType.logic
 ShellHolder.colorNormal = sm.color.new("ffd82b")
 ShellHolder.colorHighlight = sm.color.new("ffdd47")
@@ -36,7 +38,7 @@ end
 function ShellHolder:init()
     self.saved = self.storage:load() or {}
     self.sv = {
-        hasShell = self.saved.shell ~= nil and true or false
+        holding = self.saved.hold ~= nil and true or false
     }
 
     local height = sm.item.getShapeSize(self.shape.uuid).y
@@ -48,25 +50,33 @@ function ShellHolder:init()
     self.sv.areaTrigger:bindOnEnter("trigger_onEnter")
     self.sv.areaTrigger:setShapeDetection(true)
 
-    self.network:setClientData({ hasShell = self.sv.hasShell, shell = self.saved.shell })
-    self.interactable.publicData = { shell = self.saved.shell }
+    self.network:setClientData({ holding = self.sv.holding, hold = self.saved.hold })
+    self.interactable.publicData = { hold = self.saved.hold }
+end
+
+function ShellHolder:server_onFixedUpdate(dt)
+    local parent = self.interactable:getSingleParent()
+
+    if parent and parent.active and self.sv.holding then
+        self:sv_dropHold()
+    end
 end
 
 function ShellHolder:trigger_onEnter(trigger, results)
-    if self.sv.hasShell then return end
+    if self.sv.holding then return end
 
     local shapes = trigger:getShapes()
     for _, shapeData in ipairs(shapes) do
         for k, shape in pairs(shapeData) do
             if k == "shape" then
-                if self.sv.hasShell then return end
+                if self.sv.holding then return end
 
                 local uuid = tostring(shape.uuid)
                 if shape.body ~= self.shape.body and isAnyOf(uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
-                    self.saved.shell = uuid
-                    self.sv.hasShell = true
+                    self.saved.hold = uuid
+                    self.sv.holding = true
                     self.interactable.active = true
-                    self.network:setClientData({ hasShell = true, shell = uuid })
+                    self.network:setClientData({ holding = true, hold = uuid })
                     self.interactable.publicData = { hold = uuid }
                     shape:destroyPart(0)
                 end
@@ -78,24 +88,40 @@ end
 ---@param container Container
 function ShellHolder:sv_takeShell(container)
     sm.container.beginTransaction()
-    sm.container.collect(container, sm.uuid.new(self.saved.shell), 1)
+    sm.container.collect(container, sm.uuid.new(self.saved.hold), 1)
     sm.container.endTransaction()
 
-    self.saved.shell = nil
-    self.sv.hasShell = false
+    self.saved.hold = nil
+    self.sv.holding = false
     self.interactable.active = false
+    self.network:setClientData({ holding = false })
     self.storage:save(self.saved)
-    self.network:setClientData({ hasShell = false })
     self.interactable.publicData = {}
 end
 
 function ShellHolder:sv_removeHold()
-    print("removing hold")
-    self.saved.shell = nil
-    self.sv.hasShell = false
+    self.saved.hold = nil
+    self.sv.holding = false
     self.interactable.active = false
+    self.network:setClientData({ holding = false })
     self.storage:save(self.saved)
-    self.network:setClientData({ hasShell = false }, 2)
+    self.interactable.publicData = {}
+end
+
+function ShellHolder:sv_dropHold()
+    local size = sm.item.getShapeSize(self.shape.uuid)
+    local pos = self.shape.worldPosition + self.shape.right * -0.125 + self.shape.up * -0.125 -- fuck sm
+    local at = self.shape.at
+    local uuid = sm.uuid.new(self.saved.hold)
+    local holdSize = sm.item.getShapeSize(uuid).y
+    local offset = -((size.y * 0.5) + (holdSize)) * 0.25 + (holdSize - 1) * 0.25
+    sm.shape.createPart(uuid, pos - at * offset, self.shape.worldRotation)
+
+    self.saved.hold = nil
+    self.sv.holding = false
+    self.interactable.active = false
+    self.network:setClientData({ holding = false })
+    self.storage:save(self.saved)
     self.interactable.publicData = {}
 end
 
@@ -111,17 +137,21 @@ function ShellHolder:client_onRefresh()
 end
 
 function ShellHolder:cl_init()
-    self.cl = {}
+    self.cl = {
+        hold = "",
+        holding = false,
+        showData = false
+    }
 end
 
 function ShellHolder:client_onClientDataUpdate(data)
     for k, v in pairs(data) do
         self.cl[k] = v
-        print(("[%s] = %s"):format(k, v))
     end
 
-    if self.cl.hasShell then
+    if self.cl.holding then
         self:cl_createShell()
+        self.cl.showData = sizeof(sm.item.getFeatureData(sm.uuid.new(self.cl.hold))) > 0
     else
         if self.cl.effect and self.cl.effect:isPlaying() then
             self.cl.effect:destroy()
@@ -132,13 +162,18 @@ end
 
 function ShellHolder:client_onUpdate(dt)
     local effect = self.cl.effect
-    if self.cl.hasShell and effect and not effect:isPlaying() then
+    if self.cl.holding and effect and not effect:isPlaying() then
         effect:start()
     end
 end
 
 function ShellHolder:client_canInteract(character)
-    return self.cl.hasShell
+    if self.cl.holding and self.cl.showData then
+        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_holds", getLang()):format(sm.shape.getShapeTitle(sm.uuid.new(self.cl.hold))))
+    elseif self.cl.holdind and not self.cl.showData then
+        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_take", getLang()))
+    end
+    return self.cl.holding
 end
 
 function ShellHolder:client_onInteract(character, state)
@@ -149,13 +184,13 @@ end
 
 function ShellHolder:cl_createShell()
     local effect = sm.effect.createEffect("ShapeRenderable", self.interactable)
-    local uuid = sm.uuid.new(self.cl.shell)
+    local uuid = sm.uuid.new(self.cl.hold)
     effect:setParameter("uuid", uuid)
     local height = sm.item.getShapeSize(uuid).y
-    local offset = (0.5 - (0.5 * ((height * 0.5) % 2 == 0 and height * 0.5 or height * 0.5 - 1)) - 0.05) * 0.25
+    local offset = (sm.item.getShapeSize(self.shape.uuid).y - height) * 0.25 / 2
     effect:setOffsetPosition(sm.vec3.new(0, offset, 0))
-    effect:setOffsetRotation(sm.quat.fromEuler(sm.vec3.new(0, 0, 0)))
-    effect:setScale(sm.vec3.new(0.25, 0.25, 0.25))
+    effect:setOffsetRotation(sm.quat.fromEuler(sm.vec3.new(0, 0, 180)))
+    effect:setScale(sm.vec3.new(0.24, 0.25, 0.24))
     effect:start()
 
     self.cl.effect = effect

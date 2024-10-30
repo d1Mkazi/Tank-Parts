@@ -83,7 +83,7 @@ function Holder:sv_removeHold()
     self.sv.hasCase = false
     self.interactable.active = false
     self.storage:save(self.saved)
-    self.network:setClientData({ hasCase = false }, 2)
+    self.network:setClientData({ hasCase = false })
     self.interactable.publicData = {}
 end
 
