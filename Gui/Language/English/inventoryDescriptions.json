@@ -287,7 +287,7 @@
     },
     "74fb410d-b51f-4deb-9f2a-cb4429151f9e": {
         "title": "Ammo Rack",
-        "description": "Holds ammo of smaller or equal size.\nPress Q to change size",
+        "description": "Holds ammo of smaller or equal size.\nPress Q to change size\n\nDrops shell/case on logic signal",
         "keywords": [ "Shell", "Case", "Racks", "Ammunition", "Shelf" ]
     }
 }
