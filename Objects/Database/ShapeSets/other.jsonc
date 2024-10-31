@@ -560,7 +560,7 @@
                             {
                                 "material": "Dif",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_holder.png"
+                                    "$CONTENT_DATA/Objects/Textures/ammorack_dif.png"
                                 ]
                             }
                         ]
@@ -611,7 +611,7 @@
                             {
                                 "material": "Dif",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_holder.png"
+                                    "$CONTENT_DATA/Objects/Textures/ammorack_dif.png"
                                 ]
                             }
                         ]
@@ -663,7 +663,7 @@
                             {
                                 "material": "Dif",
                                 "textureList": [
-                                    "$CONTENT_DATA/Objects/Textures/shell_holder.png"
+                                    "$CONTENT_DATA/Objects/Textures/ammorack_dif.png"
                                 ]
                             }
                         ]

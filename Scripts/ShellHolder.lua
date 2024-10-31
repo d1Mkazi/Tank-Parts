@@ -117,12 +117,7 @@ function ShellHolder:sv_dropHold()
     local offset = -((size.y * 0.5) + (holdSize)) * 0.25 + (holdSize - 1) * 0.25
     sm.shape.createPart(uuid, pos - at * offset, self.shape.worldRotation)
 
-    self.saved.hold = nil
-    self.sv.holding = false
-    self.interactable.active = false
-    self.network:setClientData({ holding = false })
-    self.storage:save(self.saved)
-    self.interactable.publicData = {}
+    self:sv_removeHold()
 end
 
 
