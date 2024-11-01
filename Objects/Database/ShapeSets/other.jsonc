@@ -569,7 +569,7 @@
             },
             "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
             "sticky": "+X+Z-X-Y-Z",
-            "rotationSet": "PropY",
+            "rotationSet": "TP_TopOnly",
             "scripted": {
                 "classname": "ShellHolder",
                 "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
@@ -620,7 +620,7 @@
             },
             "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
             "sticky": "+X+Z-X-Y-Z",
-            "rotationSet": "PropY",
+            "rotationSet": "TP_TopOnly",
             "scripted": {
                 "classname": "ShellHolder",
                 "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
@@ -672,7 +672,7 @@
             },
             "previewRotation": [ 1, 0, 0, 0, -1, 0, 0, 0, -1 ],
             "sticky": "+X+Z-X-Y-Z",
-            "rotationSet": "PropY",
+            "rotationSet": "TP_TopOnly",
             "scripted": {
                 "classname": "ShellHolder",
                 "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"

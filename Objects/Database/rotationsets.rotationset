@@ -46,6 +46,13 @@
 			]
 		},
 		{
+			"name": "TP_TopOnly",
+			"prop": true,
+			"rotation": [
+				{ "south": "-Y", "east": "X" }
+			]
+		},
+		{
 			"name": "TP_propALL",
 			"prop": true,
 			"rotation": [
