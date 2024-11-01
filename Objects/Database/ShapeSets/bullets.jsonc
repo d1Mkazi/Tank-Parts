@@ -880,6 +880,98 @@
             "rotationSet" : "TP_ShellRotation",
 			"uuid" : "b66f0b5d-ca0e-4c52-814b-dd7cdc8ca96b",
             "showInInventory": false
+        },
+		/*************************************************************************************************************/
+		/***********************************************  KwK44 :: Maus  *********************************************/
+        { // APHE -> PzGr 43
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 4,
+                    "explosionRadius" : 3,
+                    "impulseLevel" : 160,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 3,
+                "buoyancy": 2
+            },
+            "carryItem" : true,
+            "name" : "128mm APHE Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/aphe_bullet_PzGr43_128mm.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "3f0abfd6-9bd0-46f4-a6ac-05857b150cd8"
+        },
+        { // HE -> Sprgr. L/5
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 4,
+                    "explosionRadius" : 3,
+                    "impulseLevel" : 160,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 3,
+                "buoyancy": 2
+            },
+            "carryItem" : true,
+            "name" : "128mm HE Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_SprgrL_5_128mm.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "a44f4ef7-124f-42b4-944a-7da591f4eb86"
         }
     ]
 }

@@ -643,6 +643,42 @@ ShellList = {
             },
         }
     },
+    -- german 128mm
+    ["kwk44"] = {
+        separated = {
+            { -- APFSDS Shell
+                shellUuid = "3f0abfd6-9bd0-46f4-a6ac-05857b150cd8",
+                caseUuid = "fce41974-bc8e-4409-ac3a-71e060894ee2",
+                shellData = {
+                    bulletUUID = "3f0abfd6-9bd0-46f4-a6ac-05857b150cd8",
+                    initialSpeed = 950,
+                    mass = 28.3,
+                    penetrationCapacity = 60,
+                    penetrationLoss = 1.5,
+                    maxDurability = 9.25,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "a97411f0-a7aa-4fae-be28-c75cc3d42d06"
+            },
+            { -- HEFS Shell
+                shellUuid = "a44f4ef7-124f-42b4-944a-7da591f4eb86",
+                caseUuid = "fce41974-bc8e-4409-ac3a-71e060894ee2",
+                shellData = {
+                    bulletUUID = "a44f4ef7-124f-42b4-944a-7da591f4eb86",
+                    initialSpeed = 750,
+                    mass = 28,
+                    explosion = {
+                        strength = 4,
+                        impulse = 220,
+                        shrapnel = 60
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "a97411f0-a7aa-4fae-be28-c75cc3d42d06"
+            }
+        }
+    },
 
     --[[ AMERICAN ]]--
 

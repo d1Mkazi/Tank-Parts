@@ -433,6 +433,89 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "71e7eacc-7b16-4606-8660-e04d80eaab58",
             "showInInventory": false
+		},
+		{ // KwK44 filled
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 4,
+				"diameter": 1
+			},
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+					"explosionLevel": 3,
+					"explosionRadius": 3,
+					"impulseLevel": 150,
+					"impulseRadius": 4
+				}
+			},
+			"ratings": {
+				"density": 4,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Powder Charge",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/kwk44_filled.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "fce41974-bc8e-4409-ac3a-71e060894ee2"
+		},
+        { // KwK44 used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 4,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 3,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Empty Charge",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/kwk44_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+			"uuid": "a97411f0-a7aa-4fae-be28-c75cc3d42d06",
+            "showInInventory": false
 		}
     ]
 }

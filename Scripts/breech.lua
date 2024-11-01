@@ -552,6 +552,7 @@ end
 function getEffectParameters(caliber)
     local special = {
         [152] = { shakeStrength = 1.2, shakeRadius = 180 },
+        ["kwk44"] = { shakeStrength = 1, shakeRadius = 140 },
         ["d25t"] = { shakeStrength = 0.6, shakeRadius = 90 },
         ["m5"] = { shakeStrength = 0.05, shakeRadius = 15 }
     }
