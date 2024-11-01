@@ -77,6 +77,7 @@ function ShellHolder:trigger_onEnter(trigger, results)
                     self.sv.holding = true
                     self.interactable.active = true
                     self.network:setClientData({ holding = true, hold = uuid })
+                    self.storage:save(self.saved)
                     self.interactable.publicData = { hold = uuid }
                     shape:destroyPart(0)
                 end
