@@ -646,7 +646,7 @@ ShellList = {
     -- german 128mm
     ["kwk44"] = {
         separated = {
-            { -- APFSDS Shell
+            { -- APHE Shell
                 shellUuid = "3f0abfd6-9bd0-46f4-a6ac-05857b150cd8",
                 caseUuid = "fce41974-bc8e-4409-ac3a-71e060894ee2",
                 shellData = {
@@ -656,12 +656,13 @@ ShellList = {
                     penetrationCapacity = 60,
                     penetrationLoss = 1.5,
                     maxDurability = 9.25,
-                    maxAngle = 25,
-                    onHit = __hit_ap
+                    maxAngle = 20,
+                    onHit = __hit_ap,
+                    explode = __exp_ap
                 },
                 usedUuid = "a97411f0-a7aa-4fae-be28-c75cc3d42d06"
             },
-            { -- HEFS Shell
+            { -- HE Shell
                 shellUuid = "a44f4ef7-124f-42b4-944a-7da591f4eb86",
                 caseUuid = "fce41974-bc8e-4409-ac3a-71e060894ee2",
                 shellData = {
