@@ -656,6 +656,7 @@ ShellList = {
                     penetrationCapacity = 60,
                     penetrationLoss = 1.5,
                     maxDurability = 9.25,
+                    fuseSensitivity = 5,
                     maxAngle = 20,
                     onHit = __hit_ap,
                     explode = __exp_ap
