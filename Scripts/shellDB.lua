@@ -253,7 +253,7 @@ function __hit_heat(data)
 end
 
 function __hit_he(data)
-    local pos = data.hit.pointWorld
+    local pos = data.hit.pointWorld - data.vel:normalize() * 0.25
     local shrapnelVelocity = data.vel:normalize() * 30
     local explosionData = data.explosion
 
@@ -261,7 +261,7 @@ function __hit_he(data)
         explode(pos, explosionData.strength, 1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
         shrapnelVelocity = -shrapnelVelocity --[[@as Vec3]]
     else
-        explode(pos, 1, 0.1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
+        explode(pos, explosionData.strength, 1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
     end
 
     shrapnelExplosion(pos, shrapnelVelocity, explosionData.shrapnel, 360, 80)
@@ -270,7 +270,7 @@ function __hit_he(data)
 end
 
 function __hit_he_howitzer(data)
-    local pos = data.hit.pointWorld
+    local pos = data.hit.pointWorld - data.vel:normalize() * 0.25
 
     -- play sound
     if sm.cae_injected then
@@ -671,7 +671,7 @@ ShellList = {
                     initialSpeed = 750,
                     mass = 28,
                     explosion = {
-                        strength = 4,
+                        strength = 5,
                         impulse = 220,
                         shrapnel = 60
                     },
