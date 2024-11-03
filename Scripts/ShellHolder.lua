@@ -50,8 +50,22 @@ function ShellHolder:init()
     self.sv.areaTrigger:bindOnEnter("trigger_onEnter")
     self.sv.areaTrigger:setShapeDetection(true)
 
-    self.network:setClientData({ holding = self.sv.holding, hold = self.saved.hold })
-    self.interactable.publicData = { hold = self.saved.hold }
+    if self.sv.holding then
+        local uuid = self.saved.hold
+        self.saved.hold = uuid
+        self.sv.holding = true
+        self.interactable.active = true
+        self.storage:save(self.saved)
+        self.interactable.publicData = { hold = uuid }
+
+        local scripted = sm.item.getFeatureData(sm.uuid.new(self.saved.hold))
+        if scripted.classname == "Shell" then
+            self.sv.explode = true
+            self.sv.scripted = scripted.data
+        end
+
+        self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
+    end
 end
 
 function ShellHolder:server_onFixedUpdate(dt)
@@ -62,6 +76,24 @@ function ShellHolder:server_onFixedUpdate(dt)
     end
 end
 
+function ShellHolder:server_onProjectile()
+    self:sv_explode()
+end
+
+function ShellHolder:server_onExplosion()
+    self:sv_explode()
+end
+
+function ShellHolder:sv_explode()
+    if not self.sv.explode then return end
+
+    local pos = self.shape.worldPosition
+    local data = self.sv.scripted
+    sm.physics.explode(pos, data.explosionLevel, data.explosionRadius, data.impulseRadius, data.impulseLevel, "PropaneTank - ExplosionSmall")
+    shrapnelExplosion(pos, self.shape.at * 50, 5, 360, 100)
+    self.shape:destroyPart(0)
+end
+
 function ShellHolder:trigger_onEnter(trigger, results)
     if self.sv.holding then return end
 
@@ -69,24 +101,37 @@ function ShellHolder:trigger_onEnter(trigger, results)
     for _, shapeData in ipairs(shapes) do
         for k, shape in pairs(shapeData) do
             if k == "shape" then
-                if self.sv.holding then return end
+                if self.sv.holding or not sm.exists(shape) then return end
 
                 local uuid = tostring(shape.uuid)
                 if shape.body ~= self.shape.body and isAnyOf(uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
                     if shape.interactable.publicData.claimed then return end
                     shape.interactable.publicData.claimed = true
 
-                    self.saved.hold = uuid
-                    self.sv.holding = true
-                    self.interactable.active = true
-                    self.network:setClientData({ holding = true, hold = uuid })
-                    self.storage:save(self.saved)
-                    self.interactable.publicData = { hold = uuid }
-                    shape:destroyPart(0)
+                    self:sv_holdShell(shape)
                 end
             end
         end
     end
+end
+
+---@param shell Shape
+function ShellHolder:sv_holdShell(shell)
+    local uuid = tostring(shell.uuid)
+    self.saved.hold = uuid
+    self.sv.holding = true
+    self.interactable.active = true
+    self.storage:save(self.saved)
+    self.interactable.publicData = { hold = uuid }
+
+    local scripted = sm.item.getFeatureData(shell.uuid)
+    if scripted.classname == "Shell" then
+        self.sv.explode = true
+        self.sv.scripted = scripted.data
+    end
+
+    self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
+    shell:destroyPart(0)
 end
 
 ---@param container Container
@@ -150,7 +195,6 @@ function ShellHolder:client_onClientDataUpdate(data)
 
     if self.cl.holding then
         self:cl_createShell()
-        self.cl.showData = sm.item.getFeatureData(sm.uuid.new(self.cl.hold)).classname ~= "EmptyCase"
     else
         if self.cl.effect and self.cl.effect:isPlaying() then
             self.cl.effect:destroy()
@@ -168,9 +212,9 @@ end
 
 function ShellHolder:client_canInteract(character)
     if self.cl.holding and self.cl.showData then
-        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_holds", getLang()):format(sm.shape.getShapeTitle(sm.uuid.new(self.cl.hold))))
+        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_take", getLang()):format(sm.shape.getShapeTitle(sm.uuid.new(self.cl.hold))))
     elseif self.cl.holding and not self.cl.showData then
-        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_take", getLang()))
+        sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("breech_TakeCase", getLang()))
     end
     return self.cl.holding
 end
@@ -189,7 +233,7 @@ function ShellHolder:cl_createShell()
     local offset = (sm.item.getShapeSize(self.shape.uuid).y - height) * 0.25 / 2
     effect:setOffsetPosition(sm.vec3.new(0, offset, 0))
     effect:setOffsetRotation(sm.quat.fromEuler(sm.vec3.new(0, 0, 180)))
-    effect:setScale(sm.vec3.new(0.24, 0.25, 0.24))
+    effect:setScale(sm.vec3.new(0.235, 0.25, 0.235))
     effect:start()
 
     self.cl.effect = effect

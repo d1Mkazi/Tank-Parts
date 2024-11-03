@@ -32,13 +32,9 @@ local languages = {
         English = "Dismount character",
         Russian = "Спешиться"
     },
-    rack_holds = {
-        English = "Holds %s",
-        Russian = "Содержит %s"
-    },
     rack_take = {
-        English = "Take",
-        Russian = "Взять"
+        English = "Take %s",
+        Russian = "Взять %s"
     },
 
     -- GUI
