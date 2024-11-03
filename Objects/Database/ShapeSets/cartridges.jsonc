@@ -34,6 +34,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "cc19cdbf-865e-401c-9c5e-f111ccc25800",
             "showInInventory": false
 		},
@@ -71,6 +75,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "cc19cdbf-865e-122c-9c5e-f111ccc25800",
             "showInInventory": false
 		},
@@ -154,6 +162,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25801",
 			"showInInventory": false
 		},
@@ -237,6 +249,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25803",
 			"showInInventory": false
 		},
@@ -274,6 +290,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "ec19cdbf-865e-401c-9c5e-f111ccc25804",
 			"showInInventory": false
 		},
@@ -311,6 +331,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "922a09d0-0c62-45c6-8152-10e3418fd17d",
 			"showInInventory": false
 		},
@@ -394,6 +418,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "25eb1652-5709-4072-b585-8af149e58565",
             "showInInventory": false
 		},
@@ -431,6 +459,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "71e7eacc-7b16-4606-8660-e04d80eaab58",
             "showInInventory": false
 		},
@@ -514,6 +546,10 @@
             },
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
 			"uuid": "a97411f0-a7aa-4fae-be28-c75cc3d42d06",
             "showInInventory": false
 		}

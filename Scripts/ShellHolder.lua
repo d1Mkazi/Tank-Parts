@@ -73,6 +73,9 @@ function ShellHolder:trigger_onEnter(trigger, results)
 
                 local uuid = tostring(shape.uuid)
                 if shape.body ~= self.shape.body and isAnyOf(uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
+                    if shape.interactable.publicData.claimed then return end
+                    shape.interactable.publicData.claimed = true
+
                     self.saved.hold = uuid
                     self.sv.holding = true
                     self.interactable.active = true
@@ -147,7 +150,7 @@ function ShellHolder:client_onClientDataUpdate(data)
 
     if self.cl.holding then
         self:cl_createShell()
-        self.cl.showData = sizeof(sm.item.getFeatureData(sm.uuid.new(self.cl.hold))) > 0
+        self.cl.showData = sm.item.getFeatureData(sm.uuid.new(self.cl.hold)).classname ~= "EmptyCase"
     else
         if self.cl.effect and self.cl.effect:isPlaying() then
             self.cl.effect:destroy()
@@ -166,7 +169,7 @@ end
 function ShellHolder:client_canInteract(character)
     if self.cl.holding and self.cl.showData then
         sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_holds", getLang()):format(sm.shape.getShapeTitle(sm.uuid.new(self.cl.hold))))
-    elseif self.cl.holdind and not self.cl.showData then
+    elseif self.cl.holding and not self.cl.showData then
         sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_take", getLang()))
     end
     return self.cl.holding

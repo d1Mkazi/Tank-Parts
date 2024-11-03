@@ -132,6 +132,9 @@ function Breech:trigger_onEnter(trigger, results)
                     local table = getTableByValue(uuid, shellTable, "shellUuid")
                     if self.data.loading == "unitary" then
                         if table then
+                            if shape.interactable.publicData.claimed then return end
+                            shape.interactable.publicData.claimed = true
+
                             self:sv_loadShell(sm.uuid.new(uuid), table)
                             if holded then
                                 sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
@@ -142,6 +145,9 @@ function Breech:trigger_onEnter(trigger, results)
                     else
                         if status == EMPTY then
                             if table then
+                                if shape.interactable.publicData.claimed then return end
+                                shape.interactable.publicData.claimed = true
+
                                 self:sv_loadSeparated(sm.uuid.new(uuid), table)
                                 if holded then
                                     sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
