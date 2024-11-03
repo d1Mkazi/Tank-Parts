@@ -516,8 +516,8 @@
                     "areaSizeY": 0.125,
                     "areaSizeZ": 0.125,
                     "areaOffsetX": 0,
-                    "areaOffsetY": -0.5,
-                    "areaOffsetZ": 0.25,
+                    "areaOffsetY": -0.375,
+                    "areaOffsetZ": 0.125,
                     "loading": "unitary",
                     "caliber": "m54"
                 }
