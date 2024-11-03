@@ -275,8 +275,8 @@ function TargetDevice:sv_setBinoculars(binoculars)
     print("BINOCULARS UPDATE 260:", { hasViewport = self.sv.hasViewport })
 end
 
-function TargetDevice:sv_updateCamera(_, sender)
-    sm.event.sendToInteractable(self.sv.binoculars, "sv_e_updateCamera", sender)
+function TargetDevice:sv_updateCamera(dt, sender)
+    sm.event.sendToInteractable(self.sv.binoculars, "sv_e_updateCamera", { dt = dt, client = sender })
 end
 
 
@@ -652,6 +652,5 @@ function TargetDevice:cl_updateCamera(dt)
         return
     end
 
-    self.network:sendToServer("sv_updateCamera")
-    sm.event.sendToInteractable(self.cl.binoculars, "cl_e_updateCamera", dt)
+    self.network:sendToServer("sv_updateCamera", dt)
 end

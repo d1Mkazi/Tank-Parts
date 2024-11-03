@@ -141,8 +141,8 @@ function Binoculars:sv_applyImpulseAD(to)
     end
 end
 
-function Binoculars:sv_e_updateCamera(client)
-    self.network:sendToClient(client, "cl_e_updateCamera")
+function Binoculars:sv_e_updateCamera(args)
+    self.network:sendToClient(args.client, "cl_e_updateCamera", args.dt)
 end
 
 
