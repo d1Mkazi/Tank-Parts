@@ -555,7 +555,7 @@
             "renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder_3.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder/shell_holder_3.fbx",
                         "subMeshList": [
                             {
                                 "material": "Dif",
@@ -606,7 +606,7 @@
             "renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder_4.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder/shell_holder_4.fbx",
                         "subMeshList": [
                             {
                                 "material": "Dif",
@@ -658,7 +658,7 @@
             "renderable": {
                 "lodList": [
                     {
-                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder_5.fbx",
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shell_holder/shell_holder_5.fbx",
                         "subMeshList": [
                             {
                                 "material": "Dif",
