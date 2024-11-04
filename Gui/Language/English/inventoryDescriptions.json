@@ -69,6 +69,11 @@
         "description": "Breech of German heavy tank Maus\n\nUsed shells:\nAPHE: PzGr 43\nHE: Sprgr. L/5",
         "keywords": [ "breech", "cannon", "gun", "german" ]
     },
+    "1cb8fd1e-ed24-4eab-98e4-e4cca2d99b5b": { // M4 Sherman
+        "title": "M3 Breech",
+        "description": "Breech of American medium tank M4 Sherman\n\nUsed shells:\nAPHE: M61\nHE: M48\nAP: M72",
+        "keywords": [ "breech", "cannon", "gun", "american" ]
+    },
 
     // shells.json
 
@@ -211,6 +216,23 @@
         "title": "Sprgr. L/5",
         "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
         "keywords": [ "he", "german", "maus", "sturer emil", "kwk44" ]
+    },
+
+    // M4 Sherman
+    "a067f00c-ec16-421b-bbcc-82df6f01c448": {
+        "title": "M61",
+        "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
+        "keywords": [ "aphe", "american", "sherman" ]
+    },
+    "e20f23e8-c4aa-4bdd-a5ce-388aba69e9ba": {
+        "title": "M48",
+        "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "he", "american", "sherman" ]
+    },
+    "ff7b4634-237b-4e68-8c54-ae61bc5f9bb9": {
+        "title": "M72",
+        "description": "Armor-Piercing shell\nEffective against armored targets",
+        "keywords": [ "ap", "american", "sherman" ]
     },
 
     // legacy (maybe?)

@@ -268,7 +268,8 @@
             "classname": "Holder",
             "filename": "$CONTENT_DATA/Scripts/CaseHolder.lua"
             },
-            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d09"
+            "uuid": "66a069ab-4512-421d-b46b-7d14fb7f3d09",
+            "showInInventory": false
         },
         {
             "color": "df7f00",

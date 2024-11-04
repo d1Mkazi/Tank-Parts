@@ -972,6 +972,146 @@
             "sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
             "uuid" : "a44f4ef7-124f-42b4-944a-7da591f4eb86"
+        },
+		/*************************************************************************************************************/
+		/*******************************************  M3 :: M4 Sherman  **********************************************/
+        { // APHE -> M61
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 2,
+                    "explosionRadius" : 3,
+                    "impulseLevel" : 60,
+                    "impulseRadius": 2
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 3,
+                "buoyancy": 2
+            },
+            "carryItem" : true,
+            "name" : "75mm APHE Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/aphe_bullet_m61.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "3eb358dc-d276-4408-bfd6-08e9e8cdba86",
+            "showInInventory": false
+        },
+        { // HE -> M48
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 3,
+                    "impulseLevel" : 60,
+                    "impulseRadius": 2
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 3,
+                "buoyancy": 2
+            },
+            "carryItem" : true,
+            "name" : "75mm HE Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_m48.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "5ef9a05f-4236-4756-82fe-55ff6f60f093",
+            "showInInventory": false
+        },
+        { // HE -> M72
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell"
+                //"data": {
+                //    "explosionLevel" : 3,
+                //    "explosionRadius" : 3,
+                //    "impulseLevel" : 60,
+                //    "impulseRadius": 2
+                //}
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 3,
+                "buoyancy": 2
+            },
+            "carryItem" : true,
+            "name" : "75mm AP Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_m72.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "ffa2d2c1-48a1-4a4f-a970-1ccb3ce266d3",
+            "showInInventory": false
         }
     ]
 }

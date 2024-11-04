@@ -494,7 +494,7 @@ ShellList = {
                     initialSpeed = 850,
                     mass = 23,
                     explosion = {
-                        strength = 6,
+                        strength = 4,
                         impulse = 200,
                         shrapnel = 65
                     },
@@ -749,7 +749,7 @@ ShellList = {
                     penetrationLoss = 1.5,
                     maxDurability = 8,
                     fuseSensitivity = 5,
-                    maxAngle = 25,
+                    maxAngle = 20,
                     onHit = __hit_ap,
                     explode = __exp_ap
                 },
@@ -795,6 +795,57 @@ ShellList = {
                     isHEAT = true
                 },
                 usedUuid = "cc19cdbf-865e-122c-9c5e-f111ccc25800"
+            }
+        },
+    },
+
+    -- american 75mm
+    ["m3sherman"] = {
+        unitary = {
+            { -- APHE Shell
+                shellUuid = "a067f00c-ec16-421b-bbcc-82df6f01c448",
+                shellData = {
+                    bulletUUID = "3eb358dc-d276-4408-bfd6-08e9e8cdba86",
+                    initialSpeed = 618,
+                    mass = 6.79,
+                    penetrationCapacity = 30,
+                    penetrationLoss = 1.5,
+                    maxDurability = 8,
+                    fuseSensitivity = 5,
+                    maxAngle = 20,
+                    onHit = __hit_ap,
+                    explode = __exp_ap
+                },
+                usedUuid = "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7"
+            },
+            { -- HE Shell
+                shellUuid = "ad36f078-7d06-47a7-b7ea-5c9bfa61a8f2",
+                shellData = {
+                    bulletUUID = "5ef9a05f-4236-4756-82fe-55ff6f60f093",
+                    initialSpeed = 463,
+                    mass = 6.3,
+                    explosion = {
+                        strength = 3,
+                        impulse = 100,
+                        shrapnel = 40
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7"
+            },
+            { -- AP Shell
+                shellUuid = "f0bb7ce9-f6c8-4182-8fa6-a04602a06bc8",
+                shellData = {
+                    bulletUUID = "ffa2d2c1-48a1-4a4f-a970-1ccb3ce266d3",
+                    initialSpeed = 619,
+                    mass = 6.3,
+                    penetrationCapacity = 24,
+                    penetrationLoss = 1.5,
+                    maxDurability = 8,
+                    maxAngle = 20,
+                    onHit = __hit_ap
+                },
+                usedUuid = "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7"
             }
         },
     }

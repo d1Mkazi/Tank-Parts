@@ -552,6 +552,47 @@
             },
 			"uuid": "a97411f0-a7aa-4fae-be28-c75cc3d42d06",
             "showInInventory": false
+		},
+        { // M3sherman used
+			"color": "555555",
+			"cylinder": {
+				"axis": "Y",
+				"depth": 2,
+				"diameter": 1
+			},
+			"ratings": {
+				"density": 3,
+				"durability": 3,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem": true,
+			"name": "Empty Case",
+			"physicsMaterial": "Metal",
+			"renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/cartridges/m3sherman_empty.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/shell_texture_KWK44.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet": "TP_ShellRotation",
+            "scripted": {
+                "classname": "EmptyCase",
+                "filename": "$CONTENT_DATA/Scripts/EmptyCase.lua"
+            },
+			"uuid": "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7",
+            "showInInventory": false
 		}
     ]
 }
