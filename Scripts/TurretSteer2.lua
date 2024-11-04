@@ -30,7 +30,7 @@ function TurretSteer2:init()
 
     self.interactable.publicData = { smart_values = { ["Angle"] = 0 } }
 
-    self.network:setClientData({ speed = self.saved.maxSpeed, WSmode = self.saved.WSmode })
+    self.network:setClientData({ speed = self.saved.maxSpeed, maxSpeed = self.saved.maxSpeed, WSmode = self.saved.WSmode })
 end
 
 function TurretSteer2:server_onFixedUpdate(dt)
