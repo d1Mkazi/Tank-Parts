@@ -75,8 +75,8 @@
     /***************************************************************
     DESCRIPTIONS:
     * AP: Armor-Piercing shell\nEffective against armored targets.
-    * APCR: Armor-Piercing Composite Rigid\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode
     * APHE: Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor
+    * APCR: Armor-Piercing Composite Rigid\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode
     * HE: High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit
     * HEAT: High-Explosive Anti-Tank shell\nEffective against armored targets on long distance.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target
     ***************************************************************/
@@ -85,7 +85,7 @@
     "ec19cdbf-865e-401c-9c5e-f111bad25840": {
         "title": "BR-350B",
         "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "ap", "bullet", "soviet" ]
+        "keywords": [ "aphe", "bullet", "soviet" ]
     },
     "ec19cdbf-865e-401c-9c5e-f111bad25841": {
         "title": "OF-350M",
@@ -102,7 +102,7 @@
     "ec18cdbf-865e-122c-9c5e-f111bad25840": {
         "title": "PzGr 39",
         "description": "Armor-Piercing High-Explosive shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "ap", "german", "tiger" ]
+        "keywords": [ "aphe", "german", "tiger" ]
     },
     "ec18cdbf-865e-122c-9c5e-f111bad25841": {
         "title": "Sprgr",
@@ -119,7 +119,7 @@
     "58f3b1cd-187d-4d61-bcaf-a69a53d1e57b": {
         "title": "PzGr 39/42",
         "description": "Armor-Piercing High-Explosive shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "ap", "german", "panther" ]
+        "keywords": [ "aphe", "german", "panther" ]
     },
     "58f3b1cd-187d-4d61-bcaf-a69a53d1e57c": {
         "title": "Sprgr 42",
@@ -142,7 +142,7 @@
     "ec19cdbf-865e-401c-9c5e-f122bed25803": {
         "title": "BR-471",
         "description": "Armor-Piercing High-Explosive shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "ap", "soviet", "is-2" ]
+        "keywords": [ "aphe", "soviet", "is-2" ]
     },
     "ec19cdbf-865e-401c-9c5e-f122bed25804": {
         "title": "OF-471",
@@ -183,7 +183,7 @@
     "bb01be63-7a2c-4671-a434-d06f8c231bd1": {
         "title": "M82",
         "description": "Armor-Piercing shell\nEffective against armored targets.\n\nExplodes behind the armor",
-        "keywords": [ "ap", "american", "m56" ]
+        "keywords": [ "aphe", "american", "m56" ]
     },
     "ad36f078-7d06-47a7-b7ea-5c9bfa61a8f2": {
         "title": "M71",
