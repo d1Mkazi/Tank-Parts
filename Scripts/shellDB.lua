@@ -819,7 +819,7 @@ ShellList = {
                 usedUuid = "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7"
             },
             { -- HE Shell
-                shellUuid = "ad36f078-7d06-47a7-b7ea-5c9bfa61a8f2",
+                shellUuid = "e20f23e8-c4aa-4bdd-a5ce-388aba69e9ba",
                 shellData = {
                     bulletUUID = "5ef9a05f-4236-4756-82fe-55ff6f60f093",
                     initialSpeed = 463,
@@ -834,7 +834,7 @@ ShellList = {
                 usedUuid = "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7"
             },
             { -- AP Shell
-                shellUuid = "f0bb7ce9-f6c8-4182-8fa6-a04602a06bc8",
+                shellUuid = "ff7b4634-237b-4e68-8c54-ae61bc5f9bb9",
                 shellData = {
                     bulletUUID = "ffa2d2c1-48a1-4a4f-a970-1ccb3ce266d3",
                     initialSpeed = 619,
