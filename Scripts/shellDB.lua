@@ -444,7 +444,7 @@ ShellList = {
                     initialSpeed = 795,
                     mass = 25,
                     explosion = {
-                        strength = 4,
+                        strength = 5,
                         impulse = 120,
                         shrapnel = 60
                     },
@@ -494,7 +494,7 @@ ShellList = {
                     initialSpeed = 850,
                     mass = 23,
                     explosion = {
-                        strength = 4,
+                        strength = 6,
                         impulse = 200,
                         shrapnel = 65
                     },
