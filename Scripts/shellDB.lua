@@ -494,7 +494,7 @@ ShellList = {
                     initialSpeed = 850,
                     mass = 23,
                     explosion = {
-                        strength = 4,
+                        strength = 6,
                         impulse = 200,
                         shrapnel = 65
                     },
@@ -557,7 +557,7 @@ ShellList = {
                     penetrationLoss = 1.5,
                     maxDurability = 8.5,
                     fuseSensitivity = 5,
-                    maxAngle = 25,
+                    maxAngle = 20,
                     onHit = __hit_ap,
                     explode = __exp_ap
                 },
