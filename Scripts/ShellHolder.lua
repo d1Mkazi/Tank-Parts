@@ -128,6 +128,7 @@ function ShellHolder:sv_holdShell(shell)
     if scripted.classname == "Shell" then
         self.sv.explode = true
         self.sv.scripted = scripted.data
+        self.interactable.publicData.isShell = true
     end
 
     self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
