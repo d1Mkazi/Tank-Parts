@@ -242,6 +242,7 @@ function __hit_heat(data)
         print("[TANK PARTS] HEAT HIT AIR")
         durability = 10
         print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+        explode(data.pos, 3, 0.75, 15, 0)
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
@@ -289,7 +290,7 @@ end
 -- Explosion functions
 
 function __exp_ap(data)
-    shrapnelExplosion(data.pos, data.vel, 15, 80, 85)
+    shrapnelExplosion(data.pos + data.dir * 0.25, data.vel, 20, 90, 85)
 end
 
 
