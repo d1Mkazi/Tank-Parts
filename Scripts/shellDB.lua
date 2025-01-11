@@ -242,7 +242,6 @@ function __hit_heat(data)
         print("[TANK PARTS] HEAT HIT AIR")
         durability = 10
         print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
-        explode(data.pos, 3, 0.75, 15, 0)
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
