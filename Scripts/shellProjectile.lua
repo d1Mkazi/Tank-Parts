@@ -78,6 +78,21 @@ function ShellProjectile:server_onFixedUpdate(dt)
                         local hit, result = raycast(lastHit.pointWorld - proj.dir, raycastDestination)
                         proj.hit = result
                         print("[TANK PARTS] IF HIT?")
+                        -- IN THE NAME OF GOD, PLEASE WORK
+                        --print("[TANK PARTS] HIT INFO:")
+                        --print(("[TANK PARTS] result.type = %s | lastHit.type = %s"):format(result.type, lastHit.type))
+                        --print("[TANK PARTS] ----------------------------------------------------")
+                        --print(("[TANK PARTS] result:getShape()  -> %s"):format(result:getShape()))
+                        --print(("[TANK PARTS] lastHit:getShape() -> %s"):format(lastHit:getShape()))
+                        --print("[TANK PARTS] ----------------------------------------------------")
+                        --if result:getShape() and lastHit:getShape() then
+                        --    print("[TANK PARTS] ----------------------------------------------------")
+                        --    print(("[TANK PARTS] result:getShape().worldPosition  = %s"):format(result:getShape().worldPosition))
+                        --    print(("[TANK PARTS] lastHit:getShape().worldPosition = %s"):format(lastHit:getShape().worldPosition))
+                        --    print("[TANK PARTS] ----------------------------------------------------")
+                        --else
+                        --    print("[TANK PARTS] NO GETSHAPE() FOUND")
+                        --end
                         if not hit and not proj.isHEAT then -- raycast 0 & HEAT 0
                             print("[TANK PARTS] NO HIT AFTER HIT")
                             if proj.fuse and proj.explode and proj.fuse >= proj.fuseSensitivity then
@@ -95,7 +110,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                                 self.network:sendToClients("cl_updateShell", { shelldata = { pos = proj.pos, vel = proj.vel }, key = k })
                             end
                         elseif ((result.type == "body" and lastHit.type == "body")
-                                and (lastHit:getShape() and result:getShape()) and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition))
+                                and (lastHit:getShape() and result:getShape()))-- and (lastHit:getShape().worldPosition ~= result:getShape().worldPosition))
                                 or result.type ~= "body" or proj.isHEAT then -- raycast 1 || HEAT 1
                             print("[TANK PARTS] HIT AFTER HIT")
                             local success, res = pcall(proj.onHit, proj)
