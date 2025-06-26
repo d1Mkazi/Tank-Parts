@@ -67,11 +67,14 @@ function __hit_ap(data)
     elseif raycastTarget == "body" then
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
-        if shape.interactable and shape.interactable.publicData and shape.interactable.publicData.isShell then
-            print("[TANK PARTS] HIT SHELL")
-            sm.event.sendToInteractable(shape.interactable, "sv_explode")
-            data.alive = false
-            return
+        if shape.interactable then
+            local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
+            if success and publicData and publicData.isShell then
+                print("[TANK PARTS] HIT SHELL")
+                sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                data.alive = false
+                return
+            end
         end
         durability = sm.item.getQualityLevel(shape.uuid) or 1
         if angle <= data.maxAngle then
@@ -173,17 +176,20 @@ function __hit_heat(data)
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
         local uuid = shape.uuid
-        if shape.interactable and shape.interactable.publicData then
-            if shape.interactable.publicData.isShell then
-                print("[TANK PARTS] HIT SHELL")
-                sm.event.sendToInteractable(shape.interactable, "sv_explode")
-                data.alive = false
-                return
-            elseif shape.interactable.publicData.isDA then
-                print("[TANK PARTS] HIT DYNAMIC ARMOR")
-                sm.event.sendToInteractable(shape.interactable, "sv_explode")
-                data.alive = false
-                return
+        if shape.interactable then
+            local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
+            if success and publicData then
+                if publicData.isShell then
+                    print("[TANK PARTS] HIT SHELL")
+                    sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                    data.alive = false
+                    return
+                elseif publicData.isDA then
+                    print("[TANK PARTS] HIT DYNAMIC ARMOR")
+                    sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                    data.alive = false
+                    return
+                end
             end
         end
 
