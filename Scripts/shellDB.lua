@@ -18,11 +18,7 @@ end
 ---@param angle number hit angle
 ---@return number
 local function getDurability(base, angle)
-    -- idk how to call them so...
-    local x = math.floor(angle * 100 / 90)
-    local y = (100 - x) * 0.85
-    local z = base / 100
-    return base + z * y
+    return base + (2 * math.cos(math.rad(angle)))
 end
 
 ---@param vel Vec3 velocity (direction)
