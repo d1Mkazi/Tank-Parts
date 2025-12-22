@@ -147,6 +147,7 @@ function ShellHolder:sv_takeShell(container)
     self.network:setClientData({ holding = false })
     self.storage:save(self.saved)
     self.interactable.publicData = {}
+    self.sv.explode = false
 end
 
 function ShellHolder:sv_removeHold()
