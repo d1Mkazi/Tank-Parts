@@ -119,7 +119,7 @@ function Breech:trigger_onEnter(trigger, results)
     local shapes = trigger:getShapes()
     for _, shapeData in ipairs(shapes) do
         for k, shape in pairs(shapeData) do
-            if k == "shape" then
+            if (k == "shape") and (shape.interactable) and (shape.interactable.publicData) then
                 if shape.body ~= self.shape.body then
                     local status = self.sv.status
                     if isAnyOf(status, GateClosed) then return end
@@ -240,6 +240,10 @@ function Breech:sv_shoot()
     local shell = self.sv.loaded.data.shellData
 
     sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.sv.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
+
+    if shell.sabot then
+        shrapnelExplosion(pos, at * shell.initialSpeed, 3, 30, 20, true)
+    end
 
     local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)
     sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
