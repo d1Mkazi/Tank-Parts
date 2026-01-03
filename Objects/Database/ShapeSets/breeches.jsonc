@@ -663,6 +663,60 @@
             "sticky": "+X-X+Y+Z-Z",
             "rotationSet": "TP_BreechRotation",
             "uuid": "1cb8fd1e-ed24-4eab-98e4-e4cca2d99b5b"
+        },
+        { // M256 :: Abrams M1
+            "color": "555555",
+			"box": {
+				"x": 3,
+				"y": 3,
+				"z": 3
+			},
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Breech.lua",
+                "classname": "Breech",
+                "data": {
+                    "areaSizeX": 0.0625,
+                    "areaSizeY": 0.125,
+                    "areaSizeZ": 0.125,
+                    "areaOffsetX": 0,
+                    "areaOffsetY": -0.375,
+                    "areaOffsetZ": 0.125,
+                    "loading": "unitary",
+                    "caliber": "m256"
+                }
+            },
+            "ratings": {
+                "density": 9,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "name": "M256 Breech",
+            "physicsMaterial": "Metal",
+            "renderable": {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/breeches/m256_breech.fbx",
+                        "subMeshList": [
+                            {    
+                                "material": "SkelAnimDifAsgNor",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/blk_metal01_dif_big.tga",
+                                    "$CONTENT_DATA/Objects/Textures/blk_metal01_asg_big.tga",
+                                    "$CONTENT_DATA/Objects/Textures/blk_metal01_nor_big.tga"
+                                ]
+                            }
+                        ],
+                        "animationList": [
+                            { "name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/m256_breech.fbx" }
+                        ]
+                    }
+                ]
+            },
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+            "sticky": "+X-X+Y+Z-Z",
+            "rotationSet": "TP_BreechRotation",
+            "uuid": "886bbfe6-129a-463b-9bba-cc8b4af0206a"
         }
     ]
 }

@@ -249,7 +249,7 @@ function __hit_heat(data)
         print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
         if not data.exploded then
             data.exploded = true
-            explode(data.pos, 3, 0.5, 1, 5, nil --[[ Dirt explosion ]])
+            explode(data.pos + data.dir, 5, 0.5, 1, 5, nil --[[ Dirt explosion ]])
         end
 
         pos = data.pos + data.dir
@@ -861,5 +861,53 @@ ShellList = {
                 usedUuid = "d4122545-0fb9-4fdc-a8ed-34d004fdbfe7"
             }
         },
-    }
+    },
+
+    -- american 120mm
+    ["m256"] = {
+        unitary = {
+            { -- APFSDS Shell
+                shellUuid = "35ca2783-6a02-440c-8633-a84e7f9c8067",
+                shellData = {
+                    bulletUUID = "e9822cc7-b885-4011-bfce-06fc1f4c4656",
+                    sabot = true,
+                    initialSpeed = 1509,
+                    mass = 4.27,
+                    penetrationCapacity = 118,
+                    penetrationLoss = 1.5,
+                    maxDurability = 9.5,
+                    maxAngle = 25,
+                    onHit = __hit_ap
+                },
+                usedUuid = "1fcd0f8c-3653-4e3a-a7e3-3a2cff68f77a"
+            },
+            { -- HE Shell
+                shellUuid = "9416f557-f12c-4a3c-8a83-6615feedbf94",
+                shellData = {
+                    bulletUUID = "55bdb3fc-e70b-4861-89b1-a217a38e8434",
+                    initialSpeed = 1410,
+                    mass = 6.3,
+                    explosion = {
+                        strength = 4,
+                        impulse = 150,
+                        shrapnel = 40
+                    },
+                    onHit = __hit_he
+                },
+                usedUuid = "1fcd0f8c-3653-4e3a-a7e3-3a2cff68f77a"
+            },
+            { -- HEATFS Shell
+                shellUuid = "e53a9f68-64e1-432f-904b-dfa8fed440f1",
+                shellData = {
+                    bulletUUID = "875d6145-d3cd-48a1-a7db-29255850c869",
+                    initialSpeed = 1410,
+                    mass = 11.4,
+                    penetrationCapacity = 85,
+                    onHit = __hit_heat,
+                    isHEAT = true
+                },
+                usedUuid = "1fcd0f8c-3653-4e3a-a7e3-3a2cff68f77a"
+            }
+        },
+    },
 }

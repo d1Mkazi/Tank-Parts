@@ -1001,6 +1001,146 @@
             "sticky": "+X-X-Y+Z-Z",
             "rotationSet" : "TP_ShellRotation",
             "uuid" : "ff7b4634-237b-4e68-8c54-ae61bc5f9bb9"
+        },
+		/*************************************************************************************************************/
+		/*******************************************  M256 :: M1 Abrams  *********************************************/
+        { // APFSDS -> M829A2
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 5,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 0.75,
+                    "impulseLevel" : 70,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "APFSDS Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/M829A2_m256.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m256_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "35ca2783-6a02-440c-8633-a84e7f9c8067"
+        },
+        { // HE -> M1028
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 5,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 0.75,
+                    "impulseLevel" : 70,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "HE Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/M1028_m256.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m256_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "9416f557-f12c-4a3c-8a83-6615feedbf94"
+        },
+        { // HEATFS -> M830A1
+            "color" : "555555",
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 5,
+                "diameter" : 1
+            },
+            "scripted": {
+                "filename": "$CONTENT_DATA/Scripts/Shell.lua",
+                "classname": "Shell",
+                "data": {
+                    "explosionLevel" : 3,
+                    "explosionRadius" : 0.75,
+                    "impulseLevel" : 70,
+                    "impulseRadius": 3
+                }
+            },
+            "ratings": {
+                "density": 5,
+                "durability": 10,
+                "friction": 4,
+                "buoyancy": 5
+            },
+            "carryItem" : true,
+            "name" : "HE Shell",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/M830_m256.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m256_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "e53a9f68-64e1-432f-904b-dfa8fed440f1"
         }
     ]
 }

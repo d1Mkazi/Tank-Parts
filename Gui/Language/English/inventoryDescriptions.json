@@ -74,6 +74,11 @@
         "description": "Breech of American medium tank M4 Sherman\n\nUsed shells:\nAPHE: M61\nHE: M48\nAP: M72",
         "keywords": [ "breech", "cannon", "gun", "american" ]
     },
+    "886bbfe6-129a-463b-9bba-cc8b4af0206a": {
+        "title": "M256 Breech",
+        "description": "Breech of American MBT M1 Abrams\n\nUsed shells:\nAPFSDS: M829A1\nHEATFS: M830A2\nHE: M1028",
+        "keywords": [ "breech", "cannon", "gun", "american" ]
+    },
 
     // shells.json
 
@@ -233,6 +238,23 @@
         "title": "M72",
         "description": "Armor-Piercing shell\nEffective against armored targets",
         "keywords": [ "ap", "american", "sherman" ]
+    },
+
+    // M1 Abrams
+    "35ca2783-6a02-440c-8633-a84e7f9c8067": {
+        "title": "M829A1",
+        "description": "Armor-Piercing Fin-Stabilized Discarding Sabot shell\nEffective against heavily armored targets.\n\nLose a lot of penetration capacity with distance and doesn't explode",
+        "keywords": [ "apfsds", "apfs", "apds", "american", "M1 Abrams", "Abrams" ]
+    },
+    "e53a9f68-64e1-432f-904b-dfa8fed440f1": {
+        "title": "M830A2",
+        "description": "High-Explosive Anti-Tank Fin-Stabilized shell\nEffective against armored targets.\n\nDoes not lose penetration capacity with distance, but lose 10 of it for each air block behind the target",
+        "keywords": [ "heat", "heatfs", "american", "M1 Abrams", "Abrams" ]
+    },
+    "9416f557-f12c-4a3c-8a83-6615feedbf94": {
+        "title": "M1028",
+        "description": "High-Explosive shell\nEffective against manpower and lightly armored targets.\n\nExplodes with a lot of shrapnel at any hit",
+        "keywords": [ "he", "american", "M1 Abrams", "Abrams" ]
     },
 
     // legacy (maybe?)

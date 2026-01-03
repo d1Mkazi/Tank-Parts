@@ -1112,6 +1112,98 @@
             "rotationSet" : "TP_ShellRotation",
             "uuid" : "ffa2d2c1-48a1-4a4f-a970-1ccb3ce266d3",
             "showInInventory": false
+        },
+		/*************************************************************************************************************/
+		/******************************************  Abrams M1 :: M256  **********************************************/
+        { // APFSDS -> M829A2
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "carryItem" : true,
+            "name" : "120mm APFSDS Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/apfsds_bullet_M829A2.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m256_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "e9822cc7-b885-4011-bfce-06fc1f4c4656",
+            "showInInventory": false
+        },
+        { // HE -> M1028
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 2,
+                "diameter" : 1
+            },
+            "carryItem" : true,
+            "name" : "120mm HE Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_M1028.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m256_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "55bdb3fc-e70b-4861-89b1-a217a38e8434",
+            "showInInventory": false
+        },
+        { // HEATFS -> M830A1
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+            "carryItem" : true,
+            "name" : "120mm HEATFS Bullet",
+            "physicsMaterial" : "Metal",
+            "renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/heat_bullet_M830.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/m256_dif.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+            "uuid" : "875d6145-d3cd-48a1-a7db-29255850c869",
+            "showInInventory": false
         }
     ]
 }
