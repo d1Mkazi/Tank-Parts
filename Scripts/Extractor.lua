@@ -76,14 +76,19 @@ end
 
 ---@param value number|boolean
 function Extractor:sv_updateValue(value)
+    local state = false
     if type(value) == "boolean" then
         self.interactable.active = value
+        state = value
     elseif type(value) == "number" then
         self.interactable.power = value
+        state = value ~= 0
     end
     print("UPD VAL", value)
 
     self.sv.value = value
+
+    self.network:setClientData({ state = state })
 end
 
 
@@ -92,13 +97,18 @@ end
 function Extractor:client_onCreate()
     self.cl = {
         extract = nil,
-        extractions = {}
+        extractions = {},
+        state = false,
     }
 end
 
 function Extractor:client_onClientDataUpdate(data)
     for k, v in pairs(data) do
         self.cl[k] = v
+    end
+
+    if data.state ~= nil then
+        self:cl_updateValue(data.state)
     end
 end
 
@@ -128,4 +138,8 @@ end
 
 function Extractor:cl_onValueSelect(selected)
     self.network:sendToServer("sv_onValueSelect", selected)
+end
+
+function Extractor:cl_updateValue(state)
+    self.interactable:setUvFrameIndex((state == false) and (0) or (6))
 end
