@@ -164,7 +164,8 @@ function __hit_heat(data)
     local raycastTarget = result.type
     if raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
         print("[TANK PARTS] HIT TERRAIN")
-        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+        --explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+        explode(pos, 3, 0.25, 0.25, 1, nil --[[ Dirt explosion ]])
         data.alive = false
         return
 
@@ -207,6 +208,7 @@ function __hit_heat(data)
                 shape:destroyPart(0)
             end
         end
+        data.exploded = nil
 
     elseif raycastTarget == "joint" then
         local joint = result:getJoint()
@@ -230,6 +232,7 @@ function __hit_heat(data)
         end
 
         durability = 0.5
+        data.exploded = nil
 
     elseif raycastTarget == "character" then
         print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
@@ -244,6 +247,12 @@ function __hit_heat(data)
         print("[TANK PARTS] HEAT HIT AIR")
         durability = 10
         print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+        if not data.exploded then
+            data.exploded = true
+            explode(data.pos, 3, 0.5, 1, 5, nil --[[ Dirt explosion ]])
+        end
+
+        pos = data.pos + data.dir
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
