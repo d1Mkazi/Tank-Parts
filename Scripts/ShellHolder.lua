@@ -38,7 +38,7 @@ end
 function ShellHolder:init()
     self.saved = self.storage:load() or {}
     self.sv = {
-        holding = self.saved.hold ~= nil and true or false
+        holding = (self.saved.hold ~= nil) and (true) or (false)
     }
 
     local height = sm.item.getShapeSize(self.shape.uuid).y
@@ -69,6 +69,10 @@ function ShellHolder:init()
 end
 
 function ShellHolder:server_onFixedUpdate(dt)
+    if (not self.interactable.active) and self.sv.holding then
+        self.interactable.active = true
+    end
+
     local parent = self.interactable:getSingleParent()
 
     if parent and parent.active and self.sv.holding then
