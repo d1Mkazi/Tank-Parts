@@ -124,13 +124,15 @@ function Breech:trigger_onEnter(trigger, results)
                     local status = self.sv.status
                     if isAnyOf(status, GateClosed) then return end
 
-                    if shape.interactable.publicData.claimed then return end
-                    shape.interactable.publicData.claimed = true
+                    local publicData = shape.interactable.publicData
+
+                    if publicData.claimed or publicData.emptyCase then return end
+                    publicData.claimed = true
 
                     local uuid = tostring(shape.uuid)
                     local holded = isAnyOf(uuid, HOLDERS)
                     if holded then
-                        uuid = shape.interactable.publicData.hold
+                        uuid = publicData.hold
                     end
                     local table = getTableByValue(uuid, shellTable, "shellUuid")
                     if self.data.loading == "unitary" then
@@ -138,7 +140,7 @@ function Breech:trigger_onEnter(trigger, results)
                             self:sv_loadShell(sm.uuid.new(uuid), table)
                             if holded then
                                 sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
-                                shape.interactable.publicData.claimed = false
+                                claimed = false
                             else
                                 shape:destroyPart(0)
                             end
@@ -150,7 +152,7 @@ function Breech:trigger_onEnter(trigger, results)
                                 self:sv_loadSeparated(sm.uuid.new(uuid), table)
                                 if holded then
                                     sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
-                                    shape.interactable.publicData.claimed = false
+                                    publicData.claimed = false
                                 else
                                     shape:destroyPart(0)
                                 end
@@ -160,7 +162,7 @@ function Breech:trigger_onEnter(trigger, results)
                                 self:sv_loadSeparated(sm.uuid.new(uuid))
                                 if holded then
                                     sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
-                                    shape.interactable.publicData.claimed = false
+                                    publicData.claimed = false
                                 else
                                     shape:destroyPart(0)
                                 end
