@@ -8,7 +8,7 @@ Viewport.colorHighlight = sm.color.new("78a1d6ff")
 
 function Viewport:server_onFixedUpdate(dt)
     local parent = self.interactable:getSingleParent()
-    if parent and tostring(parent.shape.uuid) ~= self.data.connectableUuid then
+    if parent and parent.shape.uuid ~= self.data.connectableUuid then
         parent:disconnect(self.interactable)
     end
 end
