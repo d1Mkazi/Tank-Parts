@@ -1,9 +1,9 @@
 {
    "shapeSetList" : [
-      "$CONTENT_DATA/Objects/Database/ShapeSets/breeches.jsonc",
-      "$CONTENT_DATA/Objects/Database/ShapeSets/shells.jsonc",
-      "$CONTENT_DATA/Objects/Database/ShapeSets/bullets.jsonc",
-      "$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.jsonc",
-      "$CONTENT_DATA/Objects/Database/ShapeSets/other.jsonc"
+      "$CONTENT_DATA/Objects/Database/ShapeSets/breeches.json",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/shells.json",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/bullets.json",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.json",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/other.json"
    ]
 }
