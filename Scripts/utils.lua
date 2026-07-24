@@ -85,7 +85,7 @@ function getCases()
 
     CASE_LIST = {}
 
-    local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.jsonc").partList
+    local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.json").partList
     for k, cartridge in ipairs(cartridges) do
         CASE_LIST[#CASE_LIST+1] = cartridge.uuid
     end
@@ -98,7 +98,7 @@ function getBreech()
 
     BREECH_LIST = {}
 
-    local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/breeches.jsonc").partList
+    local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/breeches.json").partList
     for k, cartridge in ipairs(cartridges) do
         BREECH_LIST[#BREECH_LIST+1] = cartridge.uuid
     end

@@ -12,15 +12,15 @@ ShellHolder.colorHighlight = sm.color.new("ffdd47")
 -- contains every thing uuid which it can hold
 local HOLDABLES = {}
 
-local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.jsonc").partList
+local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.json").partList
 for k, cartridge in ipairs(cartridges) do
     HOLDABLES[#HOLDABLES+1] = cartridge.uuid
 end
-local shells = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/shells.jsonc").partList
+local shells = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/shells.json").partList
 for k, shell in ipairs(shells) do
     HOLDABLES[#HOLDABLES+1] = shell.uuid
 end
-local bullets = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/bullets.jsonc").partList
+local bullets = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/bullets.json").partList
 for k, bullet in ipairs(bullets) do
     HOLDABLES[#HOLDABLES+1] = bullet.uuid
 end
@@ -107,8 +107,7 @@ function ShellHolder:trigger_onEnter(trigger, results)
             if k == "shape" then
                 if self.sv.holding or not sm.exists(shape) then return end
 
-                local uuid = tostring(shape.uuid)
-                if shape.body ~= self.shape.body and isAnyOf(uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
+                if shape.body ~= self.shape.body and isAnyOf(shape.uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
                     if shape.interactable.publicData.claimed then return end
                     shape.interactable.publicData.claimed = true
 
@@ -156,6 +155,7 @@ end
 
 function ShellHolder:sv_removeHold()
     self.saved.hold = nil
+    self.sv.explode = false
     self.sv.holding = false
     self.interactable.active = false
     self.network:setClientData({ holding = false })
