@@ -55,10 +55,10 @@ end
 function Muzzle:server_onFixedUpdate()
     local parent = self.interactable:getSingleParent()
     if parent then
-        if self.sv.hasBreech and not isAnyOf(tostring(parent.shape.uuid), BREECH_LIST) then
+        if self.sv.hasBreech and not isAnyOf(parent.shape.uuid, BREECH_LIST) then
             print("Muzzle DISCONNETED PARENT:")
             print("hasBreech =", self.sv.hasBreech)
-            print("isAnyOf =", isAnyOf(tostring(parent.shape.uuid), BREECH_LIST))
+            print("isAnyOf =", isAnyOf(parent.shape.uuid, BREECH_LIST))
             parent:disconnect(self.interactable)
         else
             self.sv.hasBreech = true
