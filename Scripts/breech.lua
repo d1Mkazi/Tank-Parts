@@ -24,10 +24,10 @@ local GateOpened = { EMPTY, SHELLED }
 local GateClosed = { LOADED, FIRED }
 
 local HOLDERS = {
-    "66a069ab-4512-421d-b46b-7d14fb7f3d09", -- case holder
-    "74fb410d-b51f-4deb-9f2a-cb4429151f9e", -- ammo rack 3
-    "622fcd8f-2314-4bf5-b65d-930e12a32b5f", -- ammo rack 4
-    "13eb855c-74e8-4c53-8c03-917930e5f389" -- ammo rack 5
+    sm.uuid.new("66a069ab-4512-421d-b46b-7d14fb7f3d09"), -- case holder
+    sm.uuid.new("74fb410d-b51f-4deb-9f2a-cb4429151f9e"), -- ammo rack 3
+    sm.uuid.new("622fcd8f-2314-4bf5-b65d-930e12a32b5f"), -- ammo rack 4
+    sm.uuid.new("13eb855c-74e8-4c53-8c03-917930e5f389") -- ammo rack 5
 }
 
 
@@ -130,14 +130,14 @@ function Breech:trigger_onEnter(trigger, results)
                     publicData.claimed = true
 
                     local uuid = tostring(shape.uuid)
-                    local holded = isAnyOf(uuid, HOLDERS)
+                    local holded = isAnyOf(shape.uuid, HOLDERS)
                     if holded then
                         uuid = publicData.hold
                     end
                     local table = getTableByValue(uuid, shellTable, "shellUuid")
                     if self.data.loading == "unitary" then
                         if table then
-                            self:sv_loadShell(sm.uuid.new(uuid), table)
+                            self:sv_loadShell(shape.uuid, table)
                             if holded then
                                 sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
                                 claimed = false
