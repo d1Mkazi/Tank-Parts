@@ -38,7 +38,9 @@ end
 function ShellHolder:init()
     self.saved = self.storage:load() or {}
     self.sv = {
-        holding = (self.saved.hold ~= nil) and (true) or (false)
+        holding = (self.saved.hold ~= nil) and (true) or (false),
+        burning = 0,
+        maxburn = math.random(3, 6),
     }
 
     local height = sm.item.getShapeSize(self.shape.uuid).y
@@ -78,6 +80,16 @@ function ShellHolder:server_onFixedUpdate(dt)
     if parent and parent.active and self.sv.holding then
         self:sv_dropHold()
     end
+
+    if self.shape:getBurning() and self.sv.holding then
+        self.sv.burning = self.sv.burning + dt
+
+        if self.sv.burning >= self.sv.maxburn then
+            self:sv_explode()
+        end
+    else
+        self.sv.burning = 0
+    end
 end
 
 function ShellHolder:server_onProjectile()
@@ -95,6 +107,7 @@ function ShellHolder:sv_explode()
     local data = self.sv.scripted
     sm.physics.explode(pos, data.explosionLevel, data.explosionRadius, data.impulseRadius, data.impulseLevel, "PropaneTank - ExplosionSmall")
     shrapnelExplosion(pos, self.shape.at * 50, 5, 360, 100)
+    sm.fire.igniteSphere(pos, data.explosionRadius, true)
     self.shape:destroyPart(0)
 end
 

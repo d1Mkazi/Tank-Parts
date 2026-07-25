@@ -1,3 +1,4 @@
+// vim: syntax=jsonc
 {
     // breech.json
 
@@ -353,7 +354,7 @@
     },
     "74fb410d-b51f-4deb-9f2a-cb4429151f9e": {
         "title": "Ammo Rack",
-        "description": "Holds ammo of smaller or equal size.\nPress Q to change size\n\nDrops shell/case on logic signal\n\n",
+        "description": "Holds ammo of smaller or equal size.\nLets your ammo burn a little longer before explosion.\nPress Q to change size\n\nDrops shell/case on logic signal\n\n",
         "keywords": [ "Shell", "Case", "Racks", "Ammunition", "Shelf" ]
     }
 }

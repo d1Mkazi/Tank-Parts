@@ -90,6 +90,7 @@
 				"depth": 2,
 				"diameter": 1
 			},
+            "flammable": true,
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
@@ -177,6 +178,7 @@
 				"depth": 3,
 				"diameter": 1
 			},
+            "flammable": true,
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
@@ -346,6 +348,7 @@
 				"depth": 2,
 				"diameter": 1
 			},
+            "flammable": true,
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
@@ -474,6 +477,7 @@
 				"depth": 4,
 				"diameter": 1
 			},
+            "flammable": true,
 			"scripted": {
 				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
 				"classname": "Shell",
