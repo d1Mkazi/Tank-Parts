@@ -2005,7 +2005,7 @@
 				"glow_strength" : 1.0,
 				"guid" : 56,
 				"height" : 0.25,
-				"keep_local" : true,
+				"keep_local" : false,
 				"lifetime_loss" : 0.5,
 				"max_particles" : 5,
 				"name" : "Base (Low)",
