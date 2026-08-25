@@ -676,7 +676,7 @@
 				],
 				"keep_local" : false,
 				"max_particles" : 50,
-				"name" : "Minimal smoke (Low]",
+				"name" : "Minimal smoke (Low)",
 				"normal" : true,
 				"normal_range" : 0.75,
 				"params" : 8,
@@ -1208,6 +1208,7 @@
 				"max_particles" : 15,
 				"min_quality" : "high",
 				"name" : "Flash burst (High)",
+				"params" : 0,
 				"power_glow" : true,
 				"rotation_axis" : 
 				[
@@ -1456,6 +1457,7 @@
 				"max_particles" : 10,
 				"min_quality" : "high",
 				"name" : "Glowing smoke (High)",
+				"params" : 0,
 				"radius" : 1.0,
 				"rotation" : 
 				[
@@ -2142,7 +2144,7 @@
 						],
 						"time_to_live" : 0.5,
 						"velocity" : 0.0,
-						"water_mask" : "none",
+						"water_mask" : "under_water",
 						"width" : 
 						[
 							1.0,
@@ -2152,7 +2154,7 @@
 				],
 				"time_to_live" : 2.0,
 				"velocity" : 10.0,
-				"water_mask" : "none",
+				"water_mask" : "under_water",
 				"width" : 0.25,
 				"wind" : 10.0
 			}
