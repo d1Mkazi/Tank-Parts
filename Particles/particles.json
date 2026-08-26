@@ -17,7 +17,7 @@
                 "Particles/cannons/calibers/p_cannon_shoot_medium.json", //Normal cannons
                 "Particles/cannons/calibers/p_cannon_shoot_small.json",  //37mm
             //Shells
-                "Particles/cannons/shells/p_smokescreen.json",
-                "Particles/cannons/shells/p_smokescreen_smoke.json"
+                "Particles/cannons/shells/p_smokescreen.json"//,
+                //"Particles/cannons/shells/p_smokescreen_smoke.json"
     ]
 }
