@@ -21,7 +21,12 @@
         "effectList": [
             {
                 "offset": [ 0.0, 0.0, 0.0 ],
-                "particles": [ "p_smokescreen" ],
+                "particles": [ "p_shell_smokescreen" ],
+                "type": "particle"
+            },
+            {
+                "offset": [ 0.0, 0.0, 0.0 ],
+                "particles": [ "p_shell_smokescreen_smoke" ],
                 "type": "particle"
             }
         ],

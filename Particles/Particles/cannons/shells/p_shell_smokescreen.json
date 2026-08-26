@@ -602,7 +602,7 @@
 								]
 							]
 						],
-						"guid" : 24,
+						"guid" : 16,
 						"name" : "Color"
 					},
 					{
@@ -622,7 +622,7 @@
 								1.39407
 							]
 						],
-						"guid" : 25,
+						"guid" : 17,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					},
@@ -630,7 +630,7 @@
 						"animation" : "sheet",
 						"end_texture_coords_range" : 1,
 						"fps" : 30,
-						"guid" : 26,
+						"guid" : 18,
 						"name" : "TextureAnimator"
 					},
 					{
@@ -646,7 +646,7 @@
 							]
 						],
 						"fade" : 0.5,
-						"guid" : 27,
+						"guid" : 19,
 						"length" : 0.5,
 						"name" : "Cutoff"
 					}
@@ -655,7 +655,7 @@
 				"emission_rate" : 1000,
 				"glow" : true,
 				"glow_strength" : 1.0,
-				"guid" : 23,
+				"guid" : 15,
 				"height" : 4.0,
 				"keep_local" : false,
 				"max_particles" : 3,
@@ -733,7 +733,7 @@
 								]
 							]
 						],
-						"guid" : 29,
+						"guid" : 21,
 						"name" : "Color"
 					},
 					{
@@ -760,7 +760,7 @@
 								0.80699
 							]
 						],
-						"guid" : 30,
+						"guid" : 22,
 						"max_scale" : 1.0,
 						"name" : "Scale"
 					},
@@ -797,7 +797,7 @@
 								2.0
 							]
 						],
-						"guid" : 31,
+						"guid" : 23,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					},
@@ -814,7 +814,7 @@
 							]
 						],
 						"fade" : 0.25,
-						"guid" : 32,
+						"guid" : 24,
 						"length" : 0.75,
 						"name" : "Cutoff"
 					},
@@ -831,7 +831,7 @@
 								1.03945
 							]
 						],
-						"guid" : 33,
+						"guid" : 25,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					}
@@ -840,7 +840,7 @@
 				"emission_rate" : 250,
 				"glow" : true,
 				"glow_strength" : 1.0,
-				"guid" : 28,
+				"guid" : 20,
 				"height" : 2.0,
 				"keep_local" : false,
 				"max_particles" : 15,
@@ -943,14 +943,14 @@
 								]
 							]
 						],
-						"guid" : 35,
+						"guid" : 27,
 						"name" : "Color"
 					},
 					{
 						"animation" : "sheet",
 						"end_texture_coords_range" : 53,
 						"fps" : 30,
-						"guid" : 36,
+						"guid" : 28,
 						"name" : "TextureAnimator",
 						"start_texture_coords_range" : 15
 					},
@@ -966,7 +966,7 @@
 								1.2697
 							]
 						],
-						"guid" : 37,
+						"guid" : 29,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					},
@@ -987,7 +987,7 @@
 							]
 						],
 						"fade" : 0.1,
-						"guid" : 38,
+						"guid" : 30,
 						"length" : 1.0,
 						"name" : "Cutoff",
 						"toggle" : false
@@ -1017,7 +1017,7 @@
 								0.94076
 							]
 						],
-						"guid" : 39,
+						"guid" : 31,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					},
@@ -1034,7 +1034,7 @@
 								0.52302
 							]
 						],
-						"guid" : 40,
+						"guid" : 32,
 						"max" : 1.0,
 						"name" : "Velocity"
 					},
@@ -1063,7 +1063,7 @@
 								0.22368
 							]
 						],
-						"guid" : 41,
+						"guid" : 33,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					}
@@ -1084,7 +1084,7 @@
 				"glow" : true,
 				"glow_masked" : true,
 				"glow_strength" : 1.0,
-				"guid" : 34,
+				"guid" : 26,
 				"height" : 
 				[
 					3.0,
@@ -1206,14 +1206,14 @@
 								]
 							]
 						],
-						"guid" : 43,
+						"guid" : 35,
 						"name" : "Color"
 					},
 					{
 						"animation" : "sheet",
 						"end_texture_coords_range" : 32,
 						"fps" : 30,
-						"guid" : 44,
+						"guid" : 36,
 						"name" : "TextureAnimator",
 						"toggle" : false
 					},
@@ -1242,7 +1242,7 @@
 								2.49671
 							]
 						],
-						"guid" : 45,
+						"guid" : 37,
 						"max_scale" : 3.0,
 						"name" : "Scale"
 					},
@@ -1275,7 +1275,7 @@
 								1.74608
 							]
 						],
-						"guid" : 46,
+						"guid" : 38,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					}
@@ -1285,7 +1285,7 @@
 				"friction" : 0.75,
 				"glow" : true,
 				"glow_strength" : 1.0,
-				"guid" : 42,
+				"guid" : 34,
 				"height" : 
 				[
 					1.5,
@@ -1397,7 +1397,7 @@
 								]
 							]
 						],
-						"guid" : 48,
+						"guid" : 40,
 						"name" : "Color"
 					},
 					{
@@ -1417,7 +1417,7 @@
 								1.39407
 							]
 						],
-						"guid" : 49,
+						"guid" : 41,
 						"max_scale" : 2.0,
 						"name" : "Scale"
 					},
@@ -1425,7 +1425,7 @@
 						"animation" : "sheet",
 						"end_texture_coords_range" : 1,
 						"fps" : 30,
-						"guid" : 50,
+						"guid" : 42,
 						"name" : "TextureAnimator"
 					},
 					{
@@ -1441,7 +1441,7 @@
 							]
 						],
 						"fade" : 0.69998,
-						"guid" : 51,
+						"guid" : 43,
 						"length" : 0.2,
 						"name" : "Cutoff"
 					}
@@ -1450,7 +1450,7 @@
 				"emission_rate" : 1000,
 				"glow" : true,
 				"glow_strength" : 1.0,
-				"guid" : 47,
+				"guid" : 39,
 				"height" : 3.599999905,
 				"keep_local" : false,
 				"max_particles" : 2,
@@ -1522,7 +1522,7 @@
 								]
 							]
 						],
-						"guid" : 53,
+						"guid" : 45,
 						"name" : "Color"
 					},
 					{
@@ -1541,7 +1541,7 @@
 								3.3355
 							]
 						],
-						"guid" : 54,
+						"guid" : 46,
 						"max_scale" : 3.5,
 						"name" : "Scale"
 					}
@@ -1550,7 +1550,7 @@
 				"emission_rate" : 1000,
 				"glow" : true,
 				"glow_strength" : 1.0,
-				"guid" : 52,
+				"guid" : 44,
 				"height" : 
 				[
 					2.5,
@@ -1591,7 +1591,7 @@
 				"duration" : 1.0,
 				"emission_mode" : "burst",
 				"emission_rate" : 10,
-				"guid" : 55,
+				"guid" : 47,
 				"height" : 6.0,
 				"hidden" : true,
 				"keep_local" : true,
