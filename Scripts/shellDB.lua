@@ -292,14 +292,7 @@ function __hit_he(data)
     local shrapnelVelocity = data.vel:normalize() * 30
     local explosionData = data.explosion
 
-    if data.hit.type == "body" and sm.item.getQualityLevel(data.hit:getShape().uuid) > explosionData.strength then
-        explode(pos, explosionData.strength, 1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
-        shrapnelVelocity = -shrapnelVelocity --[[@as Vec3]]
-    else
-        explode(pos, explosionData.strength, 1, 5, explosionData.impulse, "PropaneTank - ExplosionBig")
-    end
-
-    shrapnelExplosion(pos, shrapnelVelocity, explosionData.shrapnel, 360, 80)
+    explode(pos, 1, 0.1, 5, explosionData.impulse, "SmokeGrenade - Smoke")
 
     data.alive = false
 end
