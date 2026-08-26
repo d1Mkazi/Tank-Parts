@@ -54,7 +54,9 @@ function __hit_ap(data)
     local durability = 0
 
     local raycastTarget = result.type
-    if raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
+    if not result.valid then
+        -- nothing
+    elseif raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
         print("[TANK PARTS] HIT TERRAIN")
         explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
         data.alive = false
@@ -63,6 +65,9 @@ function __hit_ap(data)
     elseif raycastTarget == "body" then
         print("[TANK PARTS] HIT BODY")
         local shape = result:getShape()
+        if not shape then
+            return
+        end
         if shape.interactable then
             local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
             if success and publicData and publicData.isShell then
@@ -124,16 +129,29 @@ function __hit_ap(data)
         durability = 0.5
 
     elseif raycastTarget == "character" then
-        print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
+        --print("[TANK PARTS] HIT PLAYER", result:getCharacter():getPlayer().name)
+        sm.log.warning("[TANK PARTS] HIT PLAYER")
         killPlayer(result:getCharacter(), vel)
         data.alive = false
         return
 
     elseif raycastTarget == "harvestable" then
+        print("[TANK PARTS] HIT HARVESTABLE")
+        sm.log.warning("[TANK PARTS] AP HIT HARVESTABLE")
+
         local harvestable = result:getHarvestable()
         point = harvestable.worldPosition
         explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
         durability = 3
+    elseif raycastTarget == "voxelTerrain" then
+        print("[TANK PARTS] HIT VOXEL TERRAIN")
+        data.alive = false
+        return
+    else
+        print("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+        sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+        data.alive = false
+        return
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability
@@ -162,7 +180,17 @@ function __hit_heat(data)
     local durability = 0
 
     local raycastTarget = result.type
-    if raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
+    if not result.valid then
+        print("[TANK PARTS] HEAT HIT AIR")
+        durability = 10
+        print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+        if not data.exploded then
+            data.exploded = true
+            explode(data.pos + data.dir, 5, 0.5, 1, 5, nil --[[ Dirt explosion ]])
+        end
+
+        pos = data.pos + data.dir
+    elseif raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
         print("[TANK PARTS] HIT TERRAIN")
         --explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
         explode(pos, 3, 0.25, 0.25, 1, nil --[[ Dirt explosion ]])
@@ -235,24 +263,20 @@ function __hit_heat(data)
         data.exploded = nil
 
     elseif raycastTarget == "character" then
-        print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
+        --print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
+        sm.log.warning("[TANK PARTS] HIT PLAYER")
         killPlayer(result:getCharacter(), vel)
 
     elseif raycastTarget == "harvestable" then
+        print("[TANK PARTS] HIT HARVESTABLE")
         explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
         durability = 3
         data.alive = false
         return
     else
-        print("[TANK PARTS] HEAT HIT AIR")
-        durability = 10
-        print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
-        if not data.exploded then
-            data.exploded = true
-            explode(data.pos + data.dir, 5, 0.5, 1, 5, nil --[[ Dirt explosion ]])
-        end
-
-        pos = data.pos + data.dir
+        --print("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+        sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+        data.alive = false
     end
 
     data.penetrationCapacity = data.penetrationCapacity - durability

@@ -122,6 +122,7 @@ function ShellProjectile:server_onFixedUpdate(dt)
                             end
                         elseif not result:getShape().isBlock then
                             print("[TANK PARTS] HIT SAME SHAPE")
+                            sm.log.warning("[TANK PARTS] HIT SAME SHAPE")
                             proj.hit = nil
                             proj.lastAngle = nil
                             proj.fuse = nil

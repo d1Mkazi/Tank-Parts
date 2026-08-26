@@ -76,6 +76,7 @@ function errorMsg(message)
     print("[Tank Parts]", "-------------------[ ERROR CATCHED ]-------------------")
     print("[Tank Parts]", message)
     print("[Tank Parts]", "-------------------------------------------------------")
+    sm.log.error("[TANK PARTS]", message) 
 end
 
 
