@@ -1,32 +1,76 @@
 {
-    "Breech - EjectShell": {
-        "effectList": [
-            {
-                "offset": [ 0.0, 0.0, 0.0 ],
-                "particles": [ "p_cannon_smoke_aftermath_back" ],
-                "type": "particle"
-            }
-        ]
-    },
-    "DynamicArmor - Explosion": {
-        "effectList": [
-            {
-                "offset": [ 0.0, 0.0, 0.0 ],
-                "particles": [ "p_dynamic_armor_pop" ],
-                "type": "particle"
-            }
-        ]
-    },
-    "SmokeGrenade - Smoke": {
-        "effectList": [
-            {
-                "offset": [ 0.0, 0.0, 0.0 ],
-                "particles": [ "p_smokescreen" ],
-                "type": "particle"
-            }
-        ],
-        "parameterList": {
-            "lifetimeMultiplier": 40.0
-        }
-    }
+	"Breech - EjectShell" : 
+	{
+		"effectList" : 
+		[
+			{
+				"offset" : 
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				"particles" : 
+				[
+					"p_cannon_smoke_aftermath_back"
+				],
+				"type" : "particle"
+			}
+		]
+	},
+	"DynamicArmor - Explosion" : 
+	{
+		"effectList" : 
+		[
+			{
+				"offset" : 
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				"particles" : 
+				[
+					"p_dynamic_armor_pop"
+				],
+				"type" : "particle"
+			}
+		]
+	},
+	"SmokeGrenade - Smoke" : 
+	{
+		"effectList" : 
+		[
+			{
+				"offset" : 
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				"particles" : 
+				[
+					"p_smokescreen"
+				],
+				"type" : "particle"
+			},
+			{
+				"offset" : 
+				[
+					0.0,
+					0.0,
+					0.0
+				],
+				"particles" : 
+				[
+					"p_smokescreen_smoke"
+				],
+				"type" : "particle"
+			}
+		],
+		"parameterList" : 
+		{
+			"lifetimeMultiplier" : 40.0
+		}
+	}
 }
