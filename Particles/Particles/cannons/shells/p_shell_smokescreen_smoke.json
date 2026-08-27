@@ -365,7 +365,7 @@
 				]
 			},
 			{
-				"angle" : 15.0,
+				"angle" : 45.0,
 				"bounce" : 0.5,
 				"category" : "2 - Trails",
 				"collision" : "die",
@@ -377,13 +377,7 @@
 					1.0
 				],
 				"diffuse" : "$GAME_DATA/Textures/ConnectTool/motorpoint.png",
-				"direction" : 
-				[
-					1.0,
-					0.0,
-					1.0
-				],
-				"direction_type" : "constant",
+				"direction_type" : "shape",
 				"duration" : 1.0,
 				"editorColor" : 
 				[
@@ -590,7 +584,8 @@
 				"time_to_live" : 0.100000001,
 				"velocity" : 10.0,
 				"water_mask" : "under_water",
-				"width" : 0.25
+				"width" : 0.25,
+				"wind" : 100.0
 			}
 		],
 		"min_quality" : "low"
