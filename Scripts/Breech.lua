@@ -1,10 +1,8 @@
----@diagnostic disable: undefined-field, lowercase-global
 dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("shellDB.lua")
 dofile("utils.lua")
 dofile("localization.lua")
 
----@class Breech : ShapeClass
 Breech = class()
 Breech.maxParentCount = 1
 Breech.maxChildCount = 2
@@ -55,6 +53,7 @@ function Breech:init()
         offset = 1
     }
 
+    --[[
     self.network:sendToClients("cl_open")
 
     self.network:setClientData({ shootDistance = self.saved.shootDistance, status = EMPTY })
@@ -67,6 +66,7 @@ function Breech:init()
     self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable, size, offset, sm.quat.identity(), filter)
     self.sv.areaTrigger:bindOnEnter("trigger_onEnter")
     self.sv.areaTrigger:setShapeDetection(true)
+    ]]
 end
 
 function Breech:server_onFixedUpdate(dt)
@@ -337,7 +337,15 @@ function Breech:client_onCreate()
     self.cl.gui = gui
 
     self.interactable:setAnimEnabled("Opening", true)
+
+    self._effect = sm.effect.createEffect("ShapeRenderable", self.shape)
+    self._effect:setParameter("uuid", sm.uuid.new("5f41af56-df4c-4837-9b3c-10781335757f"))
+    self._effect:setScale(sm.vec3.new(0.375, 0.3125, 0.5))
+    self._effect:setOffsetPosition(sm.vec3.new(0, -0.21875, 0))
+    self._effect:start()
 end
+
+
 
 function Breech:client_onFixedUpdate(dt)
 
@@ -426,6 +434,8 @@ function Breech:client_onDestroy()
     end
     self.cl.shellCasingSmokeTrail:destroy()
     self.cl.shellCasingSmokeTrail = nil
+
+    self._effect:destroy()
 end
 
 function Breech:cl_loadShell()
@@ -540,7 +550,7 @@ end
 
 ---@param caliber number the caliber
 ---@return string -- effect name
-function getFireSound(caliber)
+local function getFireSound(caliber)
     local special = {
         [152] = "TankCannonSound - ShootLarge",
         ["m5"] = "TankCannonSound - ShootSmall"
@@ -551,7 +561,7 @@ end
 
 ---@param caliber number the caliber
 ---@return string -- effect name
-function getFireSmoke(caliber)
+local function getFireSmoke(caliber)
     local special = {
         [152] = "TankCannon - ShootSmokeLarge",
         ["m5"] = "TankCannon - ShootSmokeSmall"
@@ -562,7 +572,7 @@ end
 
 ---@param caliber number the caliber
 ---@return table|nil -- parameter list
-function getEffectParameters(caliber)
+local function getEffectParameters(caliber)
     local special = {
         [152] = { shakeStrength = 1.2, shakeRadius = 180 },
         ["kwk44"] = { shakeStrength = 1, shakeRadius = 140 },
@@ -570,5 +580,5 @@ function getEffectParameters(caliber)
         ["m5"] = { shakeStrength = 0.05, shakeRadius = 15 }
     }
 
-    return nil or special[caliber]
+    return special[caliber] or nil
 end
