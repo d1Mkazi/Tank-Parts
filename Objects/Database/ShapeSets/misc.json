@@ -1,4 +1,4 @@
-// vim: syntax=jsonc
+// vim: syntax=jsonc filetype=jsonc
 {
    "partList": [
         { // DOESN'T WORK //
@@ -19,7 +19,7 @@
             "uuid": "55a069ad-4512-421d-b46b-7d14fb7f3b00",
             "showInInventory": false
         },
-        { // DEPRECATED //
+        { // DEPRECATED
             "color": "222222",
             "box": {
                 "x": 1,

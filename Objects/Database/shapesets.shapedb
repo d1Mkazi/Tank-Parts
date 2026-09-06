@@ -4,6 +4,6 @@
       "$CONTENT_DATA/Objects/Database/ShapeSets/shells.json",
       "$CONTENT_DATA/Objects/Database/ShapeSets/bullets.json",
       "$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.json",
-      "$CONTENT_DATA/Objects/Database/ShapeSets/other.json"
+      "$CONTENT_DATA/Objects/Database/ShapeSets/misc.json"
    ]
 }
