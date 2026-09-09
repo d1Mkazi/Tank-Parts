@@ -1,38 +1,43 @@
----@diagnostic disable: lowercase-global
 dofile("shellDB.lua")
 dofile("utils.lua")
 dofile("SCS.lua")
 
----@class ShellProjectile : ToolClass
-ShellProjectile = class()
+ShellTool = class()
+
+
+sm.TankParts = sm.TankParts or {
+    hooked = false
+}
+
+local raycast = sm.physics.raycast
+local getGravity = sm.physics.getGravity
+local g
 
 
 --[[  SERVER  ]]--
 
-function ShellProjectile:server_onCreate()
+function ShellTool:server_onCreate()
     self:init()
 end
 
-function ShellProjectile:server_onRefresh()
+function ShellTool:server_onRefresh()
     self:init()
-    print("[TANK PARTS] (SERVER) ShellProjectile reloaded")
+    print("[TANK PARTS] (SERVER) ShellTool reloaded")
 end
 
-function ShellProjectile:init()
-    raycast = sm.physics.raycast
-    getGravity = sm.physics.getGravity
-    g = 10 * 10
-    ShellProjectile.tool = self.tool
+function ShellTool:init()
+    --ShellTool.tool = self.tool
 
     self.projectiles = {}
     getCases()
     getBreech()
 
-    _LOADED_FEATURES = true
+    g = getGravity()
+    g = g * g
 end
 
 ---@param data table
-function ShellProjectile:sv_createShell(data)
+function ShellTool:sv_createShell(data)
     local shellData = data.data
     local newShell = copyTable(getTableByValue(shellData.shellUuid, ShellList[shellData.caliber][shellData.loading], "shellUuid").shellData)
     newShell.pos = data.pos
@@ -42,7 +47,7 @@ function ShellProjectile:sv_createShell(data)
     self.network:sendToClients("cl_createShell", { shell = newShell, key = k })
 end
 
-function ShellProjectile:server_onFixedUpdate(dt)
+function ShellTool:server_onFixedUpdate(dt)
     local _g = getGravity()
     if g ~= _g then
         self.network:sendToClients("cl_setGravity", _g * _g)
@@ -145,17 +150,17 @@ end
 
 --[[  CLIENT  ]]--
 
-function ShellProjectile:client_onCreate()
+function ShellTool:client_onCreate()
     check() -- Check is the mod infected
     self:cl_init()
 end
 
-function ShellProjectile:client_onReload()
+function ShellTool:client_onReload()
     self:cl_init()
-    print("[TANK PARTS] (CLIENT) ShellProjectile reloaded")
+    print("[TANK PARTS] (CLIENT) ShellTool reloaded")
 end
 
-function ShellProjectile:cl_init()
+function ShellTool:cl_init()
     raycast = sm.physics.raycast
     MINIMAL_HEIGHT = -50
     yAxis = sm.vec3.new(0, 1, 0)
@@ -164,7 +169,7 @@ function ShellProjectile:cl_init()
     self.projectiles = {}
 end
 
-function ShellProjectile:cl_createShell(data)
+function ShellTool:cl_createShell(data)
     local k = data.key
     local shell = self.projectiles[k] or data.shell
     local effect = sm.effect.createEffect("ShapeRenderable")
@@ -180,7 +185,7 @@ function ShellProjectile:cl_createShell(data)
     end
 end
 
-function ShellProjectile:client_onUpdate(dt)
+function ShellTool:client_onUpdate(dt)
     if self.projectiles ~= nil then
         for k, proj in pairs(self.projectiles) do
             if proj.effect then
@@ -195,7 +200,7 @@ function ShellProjectile:client_onUpdate(dt)
     end
 end
 
-function ShellProjectile:client_onFixedUpdate(dt)
+function ShellTool:client_onFixedUpdate(dt)
     if self.projectiles ~= nil then
         for k, proj in pairs(self.projectiles) do
             if proj.pos.z < MINIMAL_HEIGHT then
@@ -225,7 +230,7 @@ function ShellProjectile:client_onFixedUpdate(dt)
 end
 
 ---@param key? number
-function ShellProjectile:cl_destroyShell(key)
+function ShellTool:cl_destroyShell(key)
     if self.projectiles[key].effect then
         self.projectiles[key].effect:destroy()
     end
@@ -234,15 +239,15 @@ function ShellProjectile:cl_destroyShell(key)
     self.projectiles[key] = nil
 end
 
-function ShellProjectile:cl_getShell(data)
+function ShellTool:cl_getShell(data)
     self.projectiles[data.key] = data.shell
 end
 
-function ShellProjectile:cl_setGravity(gravity)
+function ShellTool:cl_setGravity(gravity)
     g = gravity
 end
 
-function ShellProjectile:cl_updateShell(data)
+function ShellTool:cl_updateShell(data)
     local shelldata = data.shelldata
 
     if not shelldata then
@@ -256,4 +261,17 @@ function ShellProjectile:cl_updateShell(data)
     shell.vel = shelldata.vel
 
     self.projectiles[key] = shell
+end
+
+
+-- HOOK
+
+print("[TANK PARTS] Hooking")
+local _uuidNew = sm.uuid.new
+sm.uuid.new = function(uuid)
+    if not sm.TankParts.hooked then
+        dofile("$CONTENT_88ba8635-775e-4759-9a69-3df71f653f19/Scripts/Hook.lua")
+    end
+
+    return _uuidNew(uuid)
 end
