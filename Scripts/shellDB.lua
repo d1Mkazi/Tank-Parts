@@ -5,7 +5,6 @@ local explode = sm.physics.explode
 
 local _killPlayerVec3 = sm.vec3.new(0.5, 0, 0)
 local _shrapnelVec3 = sm.vec3.new(0, 70, 0)
-local _dynarmorUuid = sm.uuid.new("20c1cd64-f44b-4022-9f67-502254caec69")
 
 
 ---@param result RaycastResult
@@ -274,7 +273,6 @@ function __hit_heat(data)
         data.alive = false
         return
     else
-        --print("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
         sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
         data.alive = false
     end

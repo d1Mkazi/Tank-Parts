@@ -1,14 +1,13 @@
+// vim: syntax=jsonc filetype=jsonc
 {
 	"toolList": [
 		{
-			"name": "tank_autotool",
 			"uuid": "aeb1b2cc-abd1-4d29-bfc7-536b9d377837",
 			"previewRenderable": "$GAME_DATA/Character/Char_Tools/char_connecttool_preview.rend",
 			"previewRotation": [1, 0, 0, 0, 0, -1, 0, 1, 0],
 			"script": {
 				"file": "$CONTENT_DATA/Scripts/ShellTool.lua",
-				"class": "ShellTool",
-				"data": {}
+				"class": "ShellTool"
 			},
 			"showInInventory": false,
 			"autoTool": true

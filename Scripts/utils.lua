@@ -115,7 +115,7 @@ end
 ---@param ... boolean
 function xor(...)
     local res = false
-    for k, stm in pairs{...} do
+    for k, stm in pairs({...}) do
         res = res ~= stm
     end
     return res

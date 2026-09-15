@@ -1,4 +1,4 @@
-// vim: syntax=jsonc
+// vim: syntax=jsonc filetype=jsonc
 /*
 * "areaOffsetX": n,
 * "areaOffsetY": n,

@@ -1,8 +1,8 @@
-dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("shellDB.lua")
 dofile("utils.lua")
 dofile("localization.lua")
 
+---@class ShapeClass
 Breech = class()
 Breech.maxParentCount = 1
 Breech.maxChildCount = 2
@@ -18,15 +18,50 @@ local FIRED = 3
 local SHELLED = 4
 
 -- status lists
-local GateOpened = { EMPTY, SHELLED }
+--local GateOpened = { EMPTY, SHELLED }
 local GateClosed = { LOADED, FIRED }
 
 local HOLDERS = {
-    sm.uuid.new("66a069ab-4512-421d-b46b-7d14fb7f3d09"), -- case holder
     sm.uuid.new("74fb410d-b51f-4deb-9f2a-cb4429151f9e"), -- ammo rack 3
     sm.uuid.new("622fcd8f-2314-4bf5-b65d-930e12a32b5f"), -- ammo rack 4
     sm.uuid.new("13eb855c-74e8-4c53-8c03-917930e5f389") -- ammo rack 5
 }
+
+
+---@param caliber number the caliber
+---@return string -- effect name
+local function getFireSound(caliber)
+    local special = {
+        [152] = "TankCannonSound - ShootLarge",
+        ["m5"] = "TankCannonSound - ShootSmall"
+    }
+
+    return special[caliber] or "TankCannonSound - ShootMedium"
+end
+
+---@param caliber number the caliber
+---@return string -- effect name
+local function getFireSmoke(caliber)
+    local special = {
+        [152] = "TankCannon - ShootSmokeLarge",
+        ["m5"] = "TankCannon - ShootSmokeSmall"
+    }
+
+    return special[caliber] or "TankCannon - ShootSmokeMedium"
+end
+
+---@param caliber number the caliber
+---@return table|nil -- parameter list
+local function getEffectParameters(caliber)
+    local special = {
+        [152] = { shakeStrength = 1.2, shakeRadius = 180 },
+        ["kwk44"] = { shakeStrength = 1, shakeRadius = 140 },
+        ["d25t"] = { shakeStrength = 0.6, shakeRadius = 90 },
+        ["m5"] = { shakeStrength = 0.05, shakeRadius = 15 }
+    }
+
+    return special[caliber] or nil
+end
 
 
 function Breech:server_onCreate()
@@ -40,6 +75,9 @@ end
 
 function Breech:init()
     self.sv = {
+        ---@class table
+        ---@field data table
+        ---@field shell Uuid
         loaded = nil,
         status = EMPTY,
         animProgress = 0,
@@ -556,39 +594,4 @@ function Breech:cl_setMuzzle(state)
     self.cl.hasMuzzle = state
 
     self.cl.gui:setVisible("breech_barrelLength", not state)
-end
-
----@param caliber number the caliber
----@return string -- effect name
-local function getFireSound(caliber)
-    local special = {
-        [152] = "TankCannonSound - ShootLarge",
-        ["m5"] = "TankCannonSound - ShootSmall"
-    }
-
-    return special[caliber] or "TankCannonSound - ShootMedium"
-end
-
----@param caliber number the caliber
----@return string -- effect name
-local function getFireSmoke(caliber)
-    local special = {
-        [152] = "TankCannon - ShootSmokeLarge",
-        ["m5"] = "TankCannon - ShootSmokeSmall"
-    }
-
-    return special[caliber] or "TankCannon - ShootSmokeMedium"
-end
-
----@param caliber number the caliber
----@return table|nil -- parameter list
-local function getEffectParameters(caliber)
-    local special = {
-        [152] = { shakeStrength = 1.2, shakeRadius = 180 },
-        ["kwk44"] = { shakeStrength = 1, shakeRadius = 140 },
-        ["d25t"] = { shakeStrength = 0.6, shakeRadius = 90 },
-        ["m5"] = { shakeStrength = 0.05, shakeRadius = 15 }
-    }
-
-    return special[caliber] or nil
 end

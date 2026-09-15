@@ -60,8 +60,10 @@ function Shell:sv_explode()
     if self.data.noExplode then return end
 
     local pos = self.shape.worldPosition
-    sm.physics.explode(pos, self.data.explosionLevel, self.data.explosionRadius, self.data.impulseRadius, self.data.impulseLevel, "PropaneTank - ExplosionSmall")
+
+    sm.physics.explode(pos, self.data.explosionLevel, self.data.explosionRadius, self.data.impulseRadius, self.data.impulseLevel, "PropaneTank - ExplosionSmall", self.shape)
     shrapnelExplosion(pos, self.shape.at * 50, 5, 360, 100)
     sm.fire.igniteSphere(pos, self.data.explosionRadius, true)
+
     self.shape:destroyPart(0)
 end
