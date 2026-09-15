@@ -18,10 +18,9 @@ end
 local _onEquip = CarryTool.client_onEquip
 ---@diagnostic disable-next-line: duplicate-set-field
 function CarryTool:client_onEquip(animate)
-    local breechlist = (sm.TankParts.query(sm.container.itemUuid(sm.localPlayer.getCarry())[1]) or {}).breechlist
-
-    if breechlist then
-        self.cl.tpBreechlist = breechlist
+    local query = sm.TankParts.query(sm.container.itemUuid(sm.localPlayer.getCarry())[1])
+    if query and query.breechlist then
+        self.cl.tpBreechlist = query.breechlist
     end
 
     return _onEquip(self, animate)
