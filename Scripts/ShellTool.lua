@@ -1,39 +1,46 @@
+dofile("TankParts.lua")
+dofile("$SURVIVAL_DATA/Scripts/util.lua")
 dofile("shellDB.lua")
 dofile("utils.lua")
 dofile("SCS.lua")
 
+
+---@class ToolClass
 ShellTool = class()
 
-
-sm.TankParts = sm.TankParts or {
-    hooked = false
-}
 
 local raycast = sm.physics.raycast
 local getGravity = sm.physics.getGravity
 local g
 
+local yAxis -- client
+
 
 --[[  SERVER  ]]--
 
 function ShellTool:server_onCreate()
-    self:init()
+    self:sv_init()
 end
 
 function ShellTool:server_onRefresh()
-    self:init()
+    self:sv_init()
     print("[TANK PARTS] (SERVER) ShellTool reloaded")
 end
 
-function ShellTool:init()
-    --ShellTool.tool = self.tool
+function ShellTool:sv_init()
+    ShellTool.tool = self.tool
 
-    self.projectiles = {}
+    --self.projectiles = {}
     getCases()
     getBreech()
 
     g = getGravity()
     g = g * g
+
+    sm.TankParts.fetch()
+
+    --self.network:setClientData({ g = g })
+    --self.network:sendToClients("cl_setGravity", g)
 end
 
 ---@param data table
@@ -49,21 +56,24 @@ end
 
 function ShellTool:server_onFixedUpdate(dt)
     local _g = getGravity()
+    _g = _g * _g
     if g ~= _g then
-        self.network:sendToClients("cl_setGravity", _g * _g)
+        sm.TankParts.log(("SET NEW GRAVITY (%g => %g)"):format(g, _g))
+        g = _g
+        self.network:sendToClients("cl_setGravity", g)
     end
-    g = _g * _g
 
-    local projectiles = self.projectiles
-    if projectiles ~= nil then
-        for k, proj in pairs(projectiles) do
+
+    --local projectiles = self.projectiles
+    if self.projectiles ~= nil then
+        for k, proj in pairs(self.projectiles) do
             if proj.hit ~= nil then
                 local lastHit = proj.hit
                 if not proj.lastAngle then -- first hit
                     print("[TANK PARTS] CALCULATING FIRST HIT")
                     local success, res = pcall(proj.onHit, proj)
                     if not success then
-                        errorMsg(("onHit function: %s"):format(tostring(res)))
+                        sm.TankParts.error("onHit fail:", res)
                         print("[TANK PARTS] DESTROYING SHELL")
                         self.network:sendToClients("cl_updateShell", { key = k })
                         return
@@ -120,7 +130,7 @@ function ShellTool:server_onFixedUpdate(dt)
                             print("[TANK PARTS] HIT AFTER HIT")
                             local success, res = pcall(proj.onHit, proj)
                             if not success then
-                                errorMsg(("onHit function: %s"):format(tostring(res)))
+                                sm.TankParts.error("onHit fail:", res)
                                 print("[TANK PARTS] DESTROYING SHELL")
                                 self.network:sendToClients("cl_updateShell", { key = k })
                                 return
@@ -151,7 +161,7 @@ end
 --[[  CLIENT  ]]--
 
 function ShellTool:client_onCreate()
-    check() -- Check is the mod infected
+    check() -- Check if the mod is infected
     self:cl_init()
 end
 
@@ -164,9 +174,10 @@ function ShellTool:cl_init()
     raycast = sm.physics.raycast
     MINIMAL_HEIGHT = -50
     yAxis = sm.vec3.new(0, 1, 0)
-    g = 10 * 10
 
     self.projectiles = {}
+
+    sm.TankParts.fetch()
 end
 
 function ShellTool:cl_createShell(data)
@@ -229,13 +240,12 @@ function ShellTool:client_onFixedUpdate(dt)
     end
 end
 
----@param key? number
+---@param key number
 function ShellTool:cl_destroyShell(key)
     if self.projectiles[key].effect then
         self.projectiles[key].effect:destroy()
     end
 
-    ---@diagnostic disable-next-line: need-check-nil
     self.projectiles[key] = nil
 end
 
@@ -264,14 +274,14 @@ function ShellTool:cl_updateShell(data)
 end
 
 
--- HOOK
+--[[ HOOK ]]--
 
-print("[TANK PARTS] Hooking")
-local _uuidNew = sm.uuid.new
 sm.uuid.new = function(uuid)
     if not sm.TankParts.hooked then
         dofile("$CONTENT_88ba8635-775e-4759-9a69-3df71f653f19/Scripts/Hook.lua")
+    else
+        sm.uuid.new = sm.TankParts.uuidNew -- restore old behavior
     end
 
-    return _uuidNew(uuid)
+    return sm.TankParts.uuidNew(uuid)
 end

@@ -175,6 +175,16 @@ function Breech:trigger_onEnter(trigger, results)
     end
 end
 
+function Breech:sv_receiveLoad(args)
+    print(args)
+    sm.container.beginTransaction()
+    sm.container.spend(args.container, args.uuid, 1)
+    sm.container.endTransaction()
+    local table = getTableByValue(tostring(args.uuid), ShellList["zis5"]["unitary"], "shellUuid")
+
+    self:sv_loadShell(uuid, table)
+end
+
 ---@param uuid Uuid The shell
 ---@param dataTable table
 function Breech:sv_loadShell(uuid, dataTable)
@@ -241,7 +251,7 @@ function Breech:sv_shoot()
 
     local shell = self.sv.loaded.data.shellData
 
-    sm.event.sendToTool(ShellProjectile.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.sv.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
+    sm.event.sendToTool(ShellTool.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.sv.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
 
     if shell.sabot then
         shrapnelExplosion(pos, at * shell.initialSpeed, 3, 30, 20, true)
