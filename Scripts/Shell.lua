@@ -61,9 +61,17 @@ function Shell:sv_explode()
 
     local pos = self.shape.worldPosition
 
-    sm.physics.explode(pos, self.data.explosionLevel, self.data.explosionRadius, self.data.impulseRadius, self.data.impulseLevel, "PropaneTank - ExplosionSmall", self.shape)
+    -- temporary compatibility
+    -- TODO: remove it
+    local explosion = self.data.explosion or {
+        level = self.data.explosionLevel,
+        radius = self.data.explosionRadius,
+        impulse = self.data.impulseLevel
+    }
+
+    sm.physics.explode(pos, explosion.level, explosion.radius, explosion.radius * 2, explosion.impulse, "PropaneTank - ExplosionSmall", self.shape)
     shrapnelExplosion(pos, self.shape.at * 50, 5, 360, 100)
-    sm.fire.igniteSphere(pos, self.data.explosionRadius, true)
+    sm.fire.igniteSphere(pos, explosion.radius, true)
 
     self.shape:destroyPart(0)
 end
