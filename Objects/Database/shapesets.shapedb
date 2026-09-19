@@ -1,6 +1,7 @@
 {
    "shapeSetList" : [
-      "$CONTENT_DATA/Objects/Database/ShapeSets/zis5.json",
-      "$CONTENT_DATA/Objects/Database/ShapeSets/misc.json"
+      "$CONTENT_DATA/Objects/Database/ShapeSets/zis5_f34.json",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/misc.json",
+      "$CONTENT_DATA/Objects/Database/ShapeSets/legacy.json"
    ]
 }
