@@ -2,21 +2,11 @@ local ammodb = {}
 
 
 sm.TankParts = {
-    version = 20260910,
+    version = 20260919,
 
     -- hook
     hooked = false,
     uuidNew = sm.uuid.new,
-
-    log = function(...)
-        sm.log.info("[TANK PARTS]", ...)
-    end,
-    warning = function(...)
-        sm.log.warning("[TANK PARTS]", ...)
-    end,
-    error = function(...)
-        sm.log.error("[TANK PARTS]", ...)
-    end,
 
     -- fetch Breech and Shell data from JSON files
     fetch = function()
@@ -52,4 +42,4 @@ sm.TankParts = {
     end
 }
 
-sm.TankParts.log("version:", sm.TankParts.version)
+sm.log.info("Tank Parts version:", sm.TankParts.version)

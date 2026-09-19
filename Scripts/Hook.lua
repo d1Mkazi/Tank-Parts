@@ -1,5 +1,5 @@
 if _G["EffectManager"] == nil then
-    sm.TankParts.error("Not hooked")
+    sm.log.error("[TANK PARTS] Not hooked")
 	return
 end
 sm.TankParts.hooked = true

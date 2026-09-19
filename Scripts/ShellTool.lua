@@ -73,7 +73,7 @@ function ShellTool:server_onFixedUpdate(dt)
                     print("[TANK PARTS] CALCULATING FIRST HIT")
                     local success, res = pcall(proj.onHit, proj)
                     if not success then
-                        sm.TankParts.error("onHit fail:", res)
+                        sm.log.error("onHit fail:", res)
                         print("[TANK PARTS] DESTROYING SHELL")
                         self.network:sendToClients("cl_updateShell", { key = k })
                         return
@@ -130,7 +130,7 @@ function ShellTool:server_onFixedUpdate(dt)
                             print("[TANK PARTS] HIT AFTER HIT")
                             local success, res = pcall(proj.onHit, proj)
                             if not success then
-                                sm.TankParts.error("onHit fail:", res)
+                                sm.log.error("onHit fail:", res)
                                 print("[TANK PARTS] DESTROYING SHELL")
                                 self.network:sendToClients("cl_updateShell", { key = k })
                                 return
