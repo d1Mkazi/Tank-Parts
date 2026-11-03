@@ -18,9 +18,11 @@ end
 local _onEquip = CarryTool.client_onEquip
 ---@diagnostic disable-next-line: duplicate-set-field
 function CarryTool:client_onEquip(animate)
-    local query = sm.TankParts.query(sm.container.itemUuid(sm.localPlayer.getCarry())[1])
-    if query and query.breechlist then
-        self.cl.tpBreechlist = query.breechlist
+    if not self.cl.tpBreechlist then
+        local query = sm.TankParts.query(sm.container.itemUuid(sm.localPlayer.getCarry())[1])
+        if query and query.breechlist then
+            self.cl.tpBreechlist = query.breechlist
+        end
     end
 
     return _onEquip(self, animate)
@@ -54,8 +56,8 @@ local _client_onUpdate = CarryTool.client_onUpdate
 ---@diagnostic disable-next-line: duplicate-set-field
 function CarryTool:client_onUpdate(dt)
     if self.cl.tpInsert then
-        sm.gui.setProgressFraction(self.cl.tpInsertProgress)
         self.cl.tpInsertProgress = self.cl.tpInsertProgress + dt
+        sm.gui.setProgressFraction(self.cl.tpInsertProgress)
 
         if self.cl.tpInsertProgress >= 1 then
             local carry = sm.localPlayer.getCarry()
@@ -104,6 +106,16 @@ function CarryTool:cl_tryInsert(character, primary, carry, carryUuid, color)
 
     return _cl_tryInsert(self, character, primary, carry, carryUuid, color)
 end
+
+local _client_onUnequip = CarryTool.client_onUnequip
+---@diagnostic disable-next-line: duplicate-set-field
+function CarryTool:client_onUnequip(animate)
+    self.cl.tpInsert = nil
+    self.cl.tpInsertProgress = nil
+
+    return _client_onUnequip(self, animate)
+end
+
 
 function CarryTool:sv_sendInsertShell(args)
     sm.event.sendToInteractable(args.interactable, "sv_receiveLoad", { container = args.container, uuid = args.uuid })
