@@ -91,20 +91,19 @@ function Breech:init()
         offset = 1
     }
 
-    --[[
     self.network:sendToClients("cl_open")
 
     self.network:setClientData({ shootDistance = self.saved.shootDistance, status = EMPTY })
 
-    local data = self.data
-    local size = sm.vec3.new(data.areaSizeX, data.areaSizeY, data.areaSizeZ)
-    local offset = sm.vec3.new(data.areaOffsetX, data.areaOffsetY, data.areaOffsetZ)
-    local filter = sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
-
-    self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable, size, offset, sm.quat.identity(), filter)
+    local insertArea = self.data.insertArea
+    self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable,
+        sm.vec3.new(insertArea[1], insertArea[2], insertArea[3]),
+        sm.vec3.new(insertArea[4], insertArea[5], insertArea[6]),
+        sm.quat.identity(),
+        sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
+    )
     self.sv.areaTrigger:bindOnEnter("trigger_onEnter")
     self.sv.areaTrigger:setShapeDetection(true)
-    ]]
 end
 
 function Breech:server_onFixedUpdate(dt)
@@ -218,9 +217,13 @@ function Breech:sv_receiveLoad(args)
     sm.container.beginTransaction()
     sm.container.spend(args.container, args.uuid, 1)
     sm.container.endTransaction()
-    local table = getTableByValue(tostring(args.uuid), ShellList["zis5"]["unitary"], "shellUuid")
+    local t = getTableByValue(tostring(args.uuid), ShellList["zis5"]["unitary"], "shellUuid")
 
-    self:sv_loadShell(uuid, table)
+    local a = {}
+    a.h = 1
+    a.b = a.h
+
+    self:sv_loadShell(args.uuid, t)
 end
 
 ---@param uuid Uuid The shell
@@ -289,7 +292,7 @@ function Breech:sv_shoot()
 
     local shell = self.sv.loaded.data.shellData
 
-    sm.event.sendToTool(ShellTool.tool, "sv_createShell", { data = { caliber = self.data.caliber, loading = self.data.loading, shellUuid = self.sv.loaded.data.shellUuid }, pos = pos, vel = at * shell.initialSpeed })
+    --sm.event.sendToTool(ShellTool.tool, "sv_createShell")
 
     if shell.sabot then
         shrapnelExplosion(pos, at * shell.initialSpeed, 3, 30, 20, true)
@@ -386,11 +389,14 @@ function Breech:client_onCreate()
 
     self.interactable:setAnimEnabled("Opening", true)
 
-    self._effect = sm.effect.createEffect("ShapeRenderable", self.shape)
-    self._effect:setParameter("uuid", sm.uuid.new("5f41af56-df4c-4837-9b3c-10781335757f"))
-    self._effect:setScale(sm.vec3.new(0.375, 0.3125, 0.5))
-    self._effect:setOffsetPosition(sm.vec3.new(0, -0.21875, 0))
-    self._effect:start()
+    if false then -- DEBUG
+        local _a = self.data.insertArea
+        self._effect = sm.effect.createEffect("ShapeRenderable", self.shape)
+        self._effect:setParameter("uuid", sm.uuid.new("5f41af56-df4c-4837-9b3c-10781335757f")) -- glass
+        self._effect:setScale(sm.vec3.new(_a[1], _a[2], _a[3]))
+        self._effect:setOffsetPosition(sm.vec3.new(_a[4], _a[5], _a[6]))
+        self._effect:start()
+    end
 end
 
 

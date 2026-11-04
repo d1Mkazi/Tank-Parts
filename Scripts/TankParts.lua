@@ -12,7 +12,7 @@ sm.TankParts = {
     fetch = function()
         local REQUIRED_SHELL_FIELDS = {
             type = "string",
-            initialSpeed = "number",
+            initialSpeed = "number", -- temporary
             mass = "number",
             caliber = "number",
             headCurve = "number",
@@ -34,7 +34,10 @@ sm.TankParts = {
                 local breeches = {}
                 for _, part in pairs(breechset.partList) do
                     if part.type == "breech" then
-                        breeches[#breeches + 1] = part.uuid
+                        breeches[#breeches + 1] = {
+                            part.uuid,
+                            part.insertArea
+                        }
                         print("Added breech \""..part.name.."\"")
                     elseif part.type == "shell" then
                         local shellData = part.scripted.data.shellData

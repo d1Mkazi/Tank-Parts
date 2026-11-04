@@ -6,6 +6,43 @@ sm.TankParts.hooked = true
 print("Tank Parts hooked")
 
 
+---@param any any
+---@param of table
+---@param sub string|number key of `of` table: `of[sub]`
+function isAnyOfSub(any, of, sub)
+    for k, v in pairs(of) do
+        if any == v[sub] then
+            return true
+        end
+    end
+    return false
+end
+
+---@param value any
+---@param t table
+---@param sub string|number
+function getTableBySubValue(value, t, sub)
+    for k, v in pairs(t) do
+        if value == v[sub] then
+            return v
+        end
+    end
+    return nil
+end
+
+---@param pos Vec3
+---@param center Vec3
+---@param dx number
+---@param dy number
+---@param dz number
+function isInBoxCentered(pos, center, dx, dy, dz)
+    return
+        ((math.abs(center.x - pos.x)) <= dx) and
+        ((math.abs(center.y - pos.y)) <= dy) and
+        ((math.abs(center.z - pos.z)) <= dz)
+end
+
+
 dofile("$SURVIVAL_DATA/Scripts/game/tools/CarryTool.lua")
 
 
@@ -36,10 +73,6 @@ function CarryTool:client_onEquippedUpdate(primary, secondary)
 	local characterShape = sm.item.getCharacterShape(carryUuid)
 	local character = self.tool:getOwner().character
 
-    if self.cl.tpInsert then
-        local hit, raycastResult = sm.localPlayer.getRaycast(2)
-    end
-
     self:cl_tryTumbleDrop(character, playerCarry, carryUuid, characterShape, playerCarryColor)
 
     if primary == sm.tool.interactState.start and characterShape or secondary == sm.tool.interactState.start  then
@@ -65,7 +98,6 @@ function CarryTool:client_onUpdate(dt)
 
             self.cl.tpInsert = nil
             self.cl.tpInsertProgress = nil
-            self.cl.tpBreechlist = nil
         end
     end
 
@@ -78,13 +110,16 @@ function CarryTool:cl_tryInsert(character, primary, carry, carryUuid, color)
     if self.cl.tpBreechlist then
         local hit, raycastResult = sm.localPlayer.getRaycast(2)
 
-        if self.cl.tpInsert and not (hit and (raycastResult.type == "body") and (raycastResult:getShape() == self.cl.tpInsert)) then
+        if self.cl.tpInsert and not (hit and (raycastResult.type == "body") and (raycastResult:getShape() == self.cl.tpInsert) and (true)) then
             self.cl.tpInsert = nil
             self.cl.tpInsertProgress = nil
         elseif hit and (raycastResult.type == "body") then
-            local uuid = raycastResult:getShape().uuid
+            local shape = raycastResult:getShape()
+            if not shape.interactable then
+                return false
+            end
 
-            if isAnyOf(uuid, self.cl.tpBreechlist) then
+            if isAnyOfSub(shape.uuid, self.cl.tpBreechlist, 1) then
                 showInsertInteraction()
 
                 if (primary == sm.tool.interactState.start) or (primary == sm.tool.interactState.hold) then
@@ -95,7 +130,43 @@ function CarryTool:cl_tryInsert(character, primary, carry, carryUuid, color)
                 else
                     self.cl.tpInsert = nil
                     self.cl.tpInsertProgress = nil
+
+                    return false
                 end
+            end
+
+
+            local pos = shape.worldPosition
+            local area = getTableBySubValue(shape.uuid, self.cl.tpBreechlist, 1)
+            if not area then
+                return false
+            end
+            area = area[2]
+
+            pos = pos + shape.right * area[4] + shape.at * area[5] + shape.up * area[6]
+            --print(pos)
+            --print(raycastResult.pointWorld)
+            local diff = pos - raycastResult.pointWorld
+            print(("DIFF:   { %g %g %g }"):format(diff.x * 4, diff.y * 4, diff.z * 4))
+            print(("VALID:  { %g %g %g }"):format(area[1] * 4, area[2] * 4, area[3] * 4))
+            print(("AVAIL:  { %g %g %g }"):format((area[1] - math.abs(diff.x)) * 4, (area[2] - math.abs(diff.y)) * 4, (area[3] - math.abs(diff.z)) * 4))
+
+            --[[
+            if not self._effect then
+                self._effect = sm.effect.createEffect("ShapeRenderable", shape)
+                self._effect:setParameter("uuid", sm.uuid.new("5f41af56-df4c-4837-9b3c-10781335757f")) -- glass
+                self._effect:setScale(sm.vec3.new(area[1], area[2], area[3]))
+                self._effect:setOffsetPosition(sm.vec3.new(area[4], area[5], area[6]))
+                self._effect:start()
+            end
+            ]]
+
+            local inbox = isInBoxCentered(raycastResult.pointWorld, pos, area[1], area[2], area[3])
+            print(inbox)
+            if not inbox then
+                self.cl.tpInsert = nil
+                self.cl.tpInsertProgress = nil
+                return false
             end
 
             return true
@@ -112,6 +183,13 @@ local _client_onUnequip = CarryTool.client_onUnequip
 function CarryTool:client_onUnequip(animate)
     self.cl.tpInsert = nil
     self.cl.tpInsertProgress = nil
+
+    --[[
+    if self._effect then
+        self._effect:destroy()
+        self._effect = nil
+    end
+    ]]
 
     return _client_onUnequip(self, animate)
 end
