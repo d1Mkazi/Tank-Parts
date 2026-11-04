@@ -24,9 +24,9 @@
                     "cases": [],
                     "areaTrigger": [
                         // size
-                        0.25, 0.5625, 0.5,
+                        0.125, 0.25, 0.25,
                         // offset
-                        0, -0.34375, 0
+                        0, -0.25, 0.125
                     ]
 				}
 			},
@@ -82,11 +82,12 @@
                     },
                     "shellData": {
                         "type": "aphe",
-                        "initialSpeed": 655,
+                        "initialSpeed": 655, // temporary
                         "mass": 6.5,
                         "caliber": 76,
                         "headCurve": 1,
-                        "density": 10
+                        "density": 10,
+                        "bullet": "ec19cdbf-865e-401c-9c5e-f122bed25800"
                         //"cases": []
                     },
                     "caseData": {
@@ -130,6 +131,35 @@
 			"sticky": "+X-X-Y+Z-Z",
 			"rotationSet" : "TP_ShellRotation",
 			"uuid" : "ec19cdbf-865e-401c-9c5e-f111bad25840"
+		},
+        { // APHE BR-350
+            "type": "bullet",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 3,
+				"diameter" : 1
+			},
+			"name" : "",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/ap_bullet_76.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "rotationSet" : "Default",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25800",
+            "showInInventory": false
 		},
 		{ // HE OF-350
             "type": "shell",
@@ -283,7 +313,7 @@
 			"uuid" : "c6c071b9-eb8b-4fea-af79-27781272aebb"
 		},
         {
-            "type": "case",
+            "type": "empty",
 			"name": "Shell Case",
             "scripted": {
                 "classname": "EmptyCase",
@@ -324,5 +354,42 @@
 			"rotationSet": "TP_ShellRotation",
 			"uuid": "cc19cdbf-865e-401c-9c5e-f111ccc25800"
         }
+        /*
+        { // HE -> OF-350M
+            "cylinder" : {
+                "axis" : "Y",
+                "depth" : 3,
+                "diameter" : 1
+            },
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 3,
+				"buoyancy": 2
+			},
+			"carryItem" : true,
+			"name" : "HE Bullet",
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/bullets/he_bullet_76.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/of350m_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+            "rotationSet" : "TP_ShellRotation",
+			"uuid" : "ec19cdbf-865e-401c-9c5e-f122bed25801",
+            "showInInventory": false
+        },*/
     ]
 }

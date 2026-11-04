@@ -27,6 +27,8 @@ sm.TankParts = {
             local shapeset = shapeSetList[i]
             print("shapeset =", shapeset)
 
+            local ammoTypes = sm.json.open("$CONTENT_88ba8635-775e-4759-9a69-3df71f653f19/ammoTypes.json")
+
             if shapeset:sub(-9, -6) ~= "misc" then
                 print("OPEN [", shapeset, "]")
                 local breechset = sm.json.open(shapeset)
@@ -41,6 +43,7 @@ sm.TankParts = {
                         print("Added breech \""..part.name.."\"")
                     elseif part.type == "shell" then
                         local shellData = part.scripted.data.shellData
+                        local caseData = part.scripted.data.caseData
 
                         if type(shellData) ~= "table" then
                             sm.log.error("Field \"shellData\" is missing or incorrect type in shell "..part.name)
@@ -54,23 +57,56 @@ sm.TankParts = {
                             end
 
                             if correct then
+                                shellData.onHit = ammoTypes.bullets[shellData.type].onHit
                                 ammodb[tostring(part.uuid)] = {
                                     breechlist = breeches,
-                                    data = shellData
+                                    shell = shellData,
+                                    case = caseData
                                 }
                                 print("Added shell \""..part.name.."\"")
                             end
                         end
+                    elseif part.type == "case" then
+                        local caseData = part.scripted.data.caseData
+
+                        local correct = true
+
+                        if correct then
+                            ammodb[tostring(part.uuid)] = {
+                                breechlist = breeches,
+                                case = caseData
+                            }
+                            print("Added shell \""..part.name.."\"")
+                        end
+                    else
+                        print("Ignoring unhandled type \""..part.type.."\" of \""..part.name.."\"")
                     end
                 end
             end
         end
     end,
 
+    ---@class ShellData
+    ---@field type string
+    ---@field mass number
+    ---@field caliber number
+    ---@field bullet Uuid
+    ---@field cases table<Uuid>
+
+    ---@class CaseData
+    ---@field force number
+    ---@field power string
+    ---@field empty Uuid
+
+    ---@class AmmoDBEntry
+    ---@field breechlist table<Uuid>
+    ---@field shell ShellData?
+    ---@field case CaseData?
+
     -- Requires sm.TankParts.fetch() first
     -- Returns shell data from ammodb
-    ---@param uuid Uuid
-    ---@return table breeches table of breeches
+    ---@param uuid Uuid uuid of ammo (bullet, case, rocket)
+    ---@return AmmoDBEntry
     query = function(uuid)
         return ammodb[tostring(uuid)]
     end

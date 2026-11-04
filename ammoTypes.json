@@ -1,0 +1,47 @@
+// vim: syntax=jsonc filetype=jsonc
+{
+    "bullets": {
+        "ap": { // Armor-Piercing
+            "onHit": "ap"
+        },
+        "aphe": { // Armor-Piercing High Explosive
+            "onHit": "ap"
+        },
+        "apcr": { // Armor-Piercing Composite Rigid
+            "onHit": "ap"
+        },
+        "apfsds": { // Armor-Piercing Fin-Stabilized Discarding Sabot
+            "onHit": "apcr"
+        },
+        "he": { // High Explosive
+            "onHit": "he"
+        },
+        "heat": { // High Explosive Anti-Tank
+            "onHit": "heat"
+        }
+    },
+    "powders": {
+        "ww2": { // World War II
+            "gamma": 1.24,
+            "energy": 900000, // Joule/kg
+            "max_p0": 300000000 // M Pascal
+        },
+        "ww2r": { // World War II Reinforced
+            "gamma": 1.22,
+            "energy": 1050000, // Joule/kg
+            "max_p0": 380000000 // M Pascal
+        },
+        "cw": { // Cold War
+            "gamma": 1.26,
+            "energy": 1150000, // Joule/kg
+            "max_p0": 450000000 // M Pascal
+        },
+        "modern": {
+            "gamma": 1.28,
+            "energy": 1280000, // Joule/kg
+            "max_p0": 580000000 // M Pascal
+        }
+    },
+    "rockets": {
+    }
+}

@@ -75,15 +75,16 @@ end
 
 function Breech:init()
     self.sv = {
-        ---@class table
-        ---@field data table
-        ---@field shell Uuid
-        loaded = nil,
+        loaded = {
+            shell = nil,
+            case = nil
+        },
         status = EMPTY,
         animProgress = 0,
         dropping = false,
         lastActive = false,
         hasMuzzle = false,
+        expectedCases = nil,
     }
 
     self.saved = self.storage:load() or {
@@ -95,10 +96,10 @@ function Breech:init()
 
     self.network:setClientData({ shootDistance = self.saved.shootDistance, status = EMPTY })
 
-    local insertArea = self.data.insertArea
+    local area = self.data.areaTrigger
     self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable,
-        sm.vec3.new(insertArea[1], insertArea[2], insertArea[3]),
-        sm.vec3.new(insertArea[4], insertArea[5], insertArea[6]),
+        sm.vec3.new(area[1], area[2], area[3]),
+        sm.vec3.new(area[4], area[5], area[6]),
         sm.quat.identity(),
         sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
     )
@@ -150,60 +151,51 @@ function Breech:server_onMelee()
 end
 
 function Breech:trigger_onEnter(trigger, results)
-    if isAnyOf(self.sv.status, GateClosed) then return end
+    local status = self.sv.status
+    if (status == LOADED) or (status == FIRED) then
+        return
+    end
 
-    local shellTable = ShellList[self.data.caliber][self.data.loading]
+    local bullets = self.data.bullets
+    local cases = self.data.cases
+    local expected = self.sv.expectedCases
+
     local shapes = trigger:getShapes()
     for _, shapeData in ipairs(shapes) do
         for k, shape in pairs(shapeData) do
             if (k == "shape") and (shape.interactable) and (shape.interactable.publicData) then
                 if shape.body ~= self.shape.body then
-                    local status = self.sv.status
-                    if isAnyOf(status, GateClosed) then return end
+                    status = self.sv.status
+                    if (status == LOADED) or (status == FIRED) then
+                        return
+                    end
 
                     local publicData = shape.interactable.publicData
 
-                    if publicData.claimed or publicData.emptyCase then return end
+                    if publicData.claimed or publicData.emptyCase then
+                        return
+                    end
                     publicData.claimed = true
 
-                    local uuid = tostring(shape.uuid)
-                    local holded = isAnyOf(shape.uuid, HOLDERS)
-                    if holded then
-                        uuid = publicData.hold
-                    end
-                    local table = getTableByValue(uuid, shellTable, "shellUuid")
-                    if self.data.loading == "unitary" then
-                        if table then
-                            self:sv_loadShell(shape.uuid, table)
-                            if holded then
+                    if publicData.hold then
+                        local uuid = publicData.hold
+                        if uuid and isAnyOf(uuid, bullets) or isAnyOf(uuid, cases) then
+                            if self:sv_load(uuid) then
                                 sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
-                                claimed = false
-                            else
-                                shape:destroyPart(0)
                             end
                         end
+                        publicData.claimed = nil
                     else
-                        if status == EMPTY then
-                            if table then
+                        local uuid = shape.uuid
 
-                                self:sv_loadSeparated(sm.uuid.new(uuid), table)
-                                if holded then
-                                    sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
-                                    publicData.claimed = false
-                                else
-                                    shape:destroyPart(0)
-                                end
+                        if isAnyOf(uuid, bullets) or isAnyOf(uuid, cases) then
+                            if self:sv_load(uuid) then
+                                shape:destroyPart(0)
+                            else
+                                publicData.claimed = nil
                             end
                         else
-                            if uuid == self.sv.loaded.data.caseUuid then
-                                self:sv_loadSeparated(sm.uuid.new(uuid))
-                                if holded then
-                                    sm.event.sendToInteractable(shape.interactable, "sv_removeHold")
-                                    publicData.claimed = false
-                                else
-                                    shape:destroyPart(0)
-                                end
-                            end
+                            publicData.claimed = nil
                         end
                     end
                 end
@@ -213,61 +205,46 @@ function Breech:trigger_onEnter(trigger, results)
 end
 
 function Breech:sv_receiveLoad(args)
-    print(args)
     sm.container.beginTransaction()
     sm.container.spend(args.container, args.uuid, 1)
     sm.container.endTransaction()
-    local t = getTableByValue(tostring(args.uuid), ShellList["zis5"]["unitary"], "shellUuid")
 
-    local a = {}
-    a.h = 1
-    a.b = a.h
-
-    self:sv_loadShell(args.uuid, t)
+    self:sv_load(args.uuid)
 end
 
----@param uuid Uuid The shell
----@param dataTable table
-function Breech:sv_loadShell(uuid, dataTable)
-    local loaded = {}
-    loaded.data = dataTable
-    loaded.shell = uuid
+---@param uuid Uuid
+function Breech:sv_load(uuid)
+    local query = sm.TankParts.query(uuid)
 
-    self.interactable.active = true
+    if query.shell then
+        if self.sv.status ~= EMPTY then
+            return false
+        end
 
-    self.sv.loaded = loaded
-    self.network:sendToClients("cl_loadShell")
-    self.sv.status = LOADED
-    self:sv_updateClientData()
-    self.storage:save(self.saved)
-end
-
----@param uuid Uuid The shell
----@param dataTable? table
-function Breech:sv_loadSeparated(uuid, dataTable)
-    local status = self.sv.status
-    local loaded = {}
-    if status == EMPTY then
-        loaded.data = dataTable
-        loaded.shell = uuid
-        self.sv.loaded = loaded
-
-        self.interactable.active = true
-        status = SHELLED
-    else
-        self.sv.loaded.case = uuid
-
-        self.interactable.active = true
-        status = LOADED
+        self.sv.loaded.shell = query.shell
+        self.sv.expectedCases = query.shell.cases
+        self.sv.status = SHELLED
     end
 
-    self.sv.status = status
-    self.network:sendToClients("cl_loadSeparated", status == LOADED and true or false)
+    if query.case then
+        if self.sv.status ~= SHELLED then
+            return false
+        end
+
+        self.sv.loaded.case = query.case
+        self.interactable.active = true
+        self.network:sendToClients("cl_loadShell")
+        self.sv.status = LOADED
+    end
+
     self:sv_updateClientData()
-    self.storage:save(self.saved)
+
+    return true
 end
 
-function Breech:sv_updateState(value) self.sv.animProgress = value end
+function Breech:sv_updateState(value)
+    self.sv.animProgress = value
+end
 
 function Breech:sv_shoot()
 	self.interactable.active = false
@@ -290,9 +267,11 @@ function Breech:sv_shoot()
         rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
     end
 
-    local shell = self.sv.loaded.data.shellData
+    --[[
+    local shell = self.sv.loaded
 
-    --sm.event.sendToTool(ShellTool.tool, "sv_createShell")
+    local shellData = sm.TankParts.query(self.sv.loaded.shell).data
+    sm.event.sendToTool(ShellTool.tool, "sv_createShell", { ammoData = shellData, pos = pos, vel = at * shellData.initialSpeed })
 
     if shell.sabot then
         shrapnelExplosion(pos, at * shell.initialSpeed, 3, 30, 20, true)
@@ -300,27 +279,28 @@ function Breech:sv_shoot()
 
     local recoil = shell.initialSpeed * (shell.mass or 0) * (self.sv.hasMuzzle == true and 0.65 or 1)
     sm.physics.applyImpulse(self.shape.body, -at * recoil, true)
+    ]]
 
     self.network:sendToClients("cl_shoot", { pos = pos, rot = rot, offset = offset })
     self.sv.status = FIRED
     self:sv_updateClientData()
-    self.storage:save(self.saved)
+    --self.storage:save(self.saved)
 end
 
 function Breech:sv_dropCase()
     local size = sm.item.getShapeSize(self.shape.uuid)
     local pos = self.shape.worldPosition + self.shape.right * -0.125 + self.shape.up * -0.125 -- fuck sm
     local at = self.shape.at
-    local caseUuid = sm.uuid.new(self.sv.loaded.data.usedUuid)
+    local caseUuid = sm.uuid.new(self.sv.loaded.case.empty)
     local offset = ((size.y * 0.5) + (sm.item.getShapeSize(caseUuid).y)) * 0.25
 
     local shape = sm.shape.createPart(caseUuid, pos - at * offset, self.shape.worldRotation)
     self.network:setClientData({ ejectedCase = shape }, 2)
 
     self.sv.status = EMPTY
-    self.sv.loaded = nil
+    self.sv.loaded = {}
     self:sv_updateClientData()
-    self.storage:save(self.saved)
+    --self.storage:save(self.saved)
 end
 
 ---@param args table Possible keys are `distance`, `offset`
@@ -338,13 +318,13 @@ end
 ---@param container Container Player carry container
 function Breech:sv_unload(container)
     sm.container.beginTransaction()
-    sm.container.collect(container, sm.uuid.new(self.sv.loaded.data.usedUuid), 1)
+    sm.container.collect(container, sm.uuid.new(self.sv.loaded.case.empty), 1)
     sm.container.endTransaction()
 
     self.sv.status = EMPTY
-    self.sv.loaded = nil
+    self.sv.loaded = {}
     self:sv_updateClientData()
-    self.storage:save(self.saved)
+    --self.storage:save(self.saved)
 end
 
 function Breech:sv_updateClientData()
@@ -440,7 +420,7 @@ function Breech:client_canInteract()
     if self.cl.status ~= FIRED then return false end
 
     local takeCase = GetLocalization("breech_TakeCase", getLang())
-    sm.gui.setCenterIcon("Use")
+    --sm.gui.setCenterIcon("Use")
     sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), takeCase)
     return true
 end
