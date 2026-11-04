@@ -144,12 +144,12 @@ function CarryTool:cl_tryInsert(character, primary, carry, carryUuid, color)
             area = area[2]
 
             pos = pos + shape.right * area[4] + shape.at * area[5] + shape.up * area[6]
-            --print(pos)
-            --print(raycastResult.pointWorld)
+            --[[
             local diff = pos - raycastResult.pointWorld
             print(("DIFF:   { %g %g %g }"):format(diff.x * 4, diff.y * 4, diff.z * 4))
             print(("VALID:  { %g %g %g }"):format(area[1] * 4, area[2] * 4, area[3] * 4))
             print(("AVAIL:  { %g %g %g }"):format((area[1] - math.abs(diff.x)) * 4, (area[2] - math.abs(diff.y)) * 4, (area[3] - math.abs(diff.z)) * 4))
+            --]]
 
             --[[
             if not self._effect then
@@ -161,9 +161,7 @@ function CarryTool:cl_tryInsert(character, primary, carry, carryUuid, color)
             end
             ]]
 
-            local inbox = isInBoxCentered(raycastResult.pointWorld, pos, area[1], area[2], area[3])
-            print(inbox)
-            if not inbox then
+            if not isInBoxCentered(raycastResult.pointWorld, pos, area[1], area[2], area[3]) then
                 self.cl.tpInsert = nil
                 self.cl.tpInsertProgress = nil
                 return false
