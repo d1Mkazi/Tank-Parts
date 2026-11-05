@@ -9,24 +9,6 @@ AmmoRack.connectionOutput = sm.interactable.connectionType.logic
 AmmoRack.colorNormal = sm.color.new("ffd82b")
 AmmoRack.colorHighlight = sm.color.new("ffdd47")
 
---[[
--- contains every thing uuid which it can hold
-local HOLDABLES = {}
-
-local cartridges = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/cartridges.json").partList
-for k, cartridge in ipairs(cartridges) do
-    HOLDABLES[#HOLDABLES+1] = cartridge.uuid
-end
-local shells = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/shells.json").partList
-for k, shell in ipairs(shells) do
-    HOLDABLES[#HOLDABLES+1] = shell.uuid
-end
-local bullets = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/bullets.json").partList
-for k, bullet in ipairs(bullets) do
-    HOLDABLES[#HOLDABLES+1] = bullet.uuid
-end
-]]--
-
 
 function AmmoRack:server_onCreate()
     self:init()
@@ -43,6 +25,7 @@ function AmmoRack:init()
         holding = (self.saved.hold ~= nil) and (true) or (false),
         burning = 0,
         maxburn = math.random(3, 6),
+        maxLength = sm.item.getShapeSize(self.shape.uuid).y,
     }
 
     local height = sm.item.getShapeSize(self.shape.uuid).y
@@ -54,21 +37,10 @@ function AmmoRack:init()
     self.sv.areaTrigger:bindOnEnter("trigger_onEnter")
     self.sv.areaTrigger:setShapeDetection(true)
 
+    self.interactable.publicData = {}
+
     if self.sv.holding then
-        local uuid = self.saved.hold
-        self.saved.hold = uuid
-        self.sv.holding = true
-        self.interactable.active = true
-        self.storage:save(self.saved)
-        self.interactable.publicData = { hold = uuid }
-
-        local scripted = sm.item.getFeatureData(sm.uuid.new(self.saved.hold))
-        if scripted.classname == "Shell" then
-            self.sv.explode = true
-            self.sv.scripted = scripted.data
-        end
-
-        self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
+        self:sv_storeShell(self.saved.hold)
     end
 end
 
@@ -128,13 +100,15 @@ function AmmoRack:trigger_onEnter(trigger, results)
                     return
                 end
 
-                if shape.body ~= self.shape.body and isAnyOf(shape.uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
+                local uuid = shape.uuid
+                if shape.body ~= self.shape.body and sm.TankParts.rackInfo(uuid) <= self.sv.maxLength then
                     if shape.interactable.publicData.claimed then
                         return
                     end
                     shape.interactable.publicData.claimed = true
 
-                    self:sv_holdShell(shape)
+                    self:sv_storeShell(uuid)
+                    shape:destroyShape(0)
                 end
             end
         end
@@ -159,6 +133,24 @@ function AmmoRack:sv_holdShell(shell)
 
     self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
     shell:destroyPart(0)
+end
+
+---@param uuid Uuid
+function AmmoRack:sv_storeShell(uuid)
+    local scripted = sm.item.getFeatureData(uuid)
+    if scripted.classname == "Shell" then
+        self.sv.explode = true
+        self.sv.scripted = scripted.data
+        self.interactable.publicData.isShell = true
+    end
+
+    self.saved.hold = uuid
+    self.sv.holding = true
+    self.interactable.active = true
+    self.interactable.publicData.hold = uuid
+
+    self.storage:save(self.saved)
+    self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
 end
 
 ---@param container Container

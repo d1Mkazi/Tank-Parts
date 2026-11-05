@@ -1,4 +1,5 @@
 local ammodb = {}
+local holdables = {}
 
 
 sm.TankParts = {
@@ -66,6 +67,8 @@ sm.TankParts = {
                                 print("Added shell \""..part.name.."\"")
                             end
                         end
+
+                        holdables[tostring(part.uuid)] = part.cylinder.depth
                     elseif part.type == "case" then
                         local caseData = part.scripted.data.caseData
 
@@ -78,6 +81,10 @@ sm.TankParts = {
                             }
                             print("Added shell \""..part.name.."\"")
                         end
+
+                        holdables[tostring(part.uuid)] = part.cylinder.depth
+                    elseif part.type == "empty" then
+                        holdables[tostring(part.uuid)] = part.cylinder.depth
                     else
                         print("Ignoring unhandled type \""..part.type.."\" of \""..part.name.."\"")
                     end
@@ -109,6 +116,12 @@ sm.TankParts = {
     ---@return AmmoDBEntry
     query = function(uuid)
         return ammodb[tostring(uuid)]
+    end,
+
+    ---@param uuid Uuid
+    ---@return number # length
+    rackInfo = function(uuid)
+        return holdables[tostring(uuid)]
     end
 }
 
