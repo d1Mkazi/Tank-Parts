@@ -115,24 +115,12 @@ function AmmoRack:trigger_onEnter(trigger, results)
     end
 end
 
----@param shell Shape
-function AmmoRack:sv_holdShell(shell)
-    local uuid = tostring(shell.uuid)
-    self.saved.hold = uuid
-    self.sv.holding = true
-    self.interactable.active = true
-    self.storage:save(self.saved)
-    self.interactable.publicData = { hold = uuid }
+function AmmoRack:sv_receiveLoad(args)
+    sm.container.beginTransaction()
+    sm.container.spend(args.container, args.uuid, 1)
+    sm.container.endTransaction()
 
-    local scripted = sm.item.getFeatureData(shell.uuid)
-    if scripted.classname == "Shell" then
-        self.sv.explode = true
-        self.sv.scripted = scripted.data
-        self.interactable.publicData.isShell = true
-    end
-
-    self.network:setClientData({ holding = true, hold = uuid, showData = scripted.classname ~= "EmptyCase" })
-    shell:destroyPart(0)
+    self:sv_storeShell(args.uuid)
 end
 
 ---@param uuid Uuid
@@ -154,28 +142,12 @@ function AmmoRack:sv_storeShell(uuid)
 end
 
 ---@param container Container
-function AmmoRack:sv_takeShell(container)
+function AmmoRack:sv_grabShell(container)
     sm.container.beginTransaction()
     sm.container.collect(container, sm.uuid.new(self.saved.hold), 1)
     sm.container.endTransaction()
 
-    self.saved.hold = nil
-    self.sv.holding = false
-    self.interactable.active = false
-    self.network:setClientData({ holding = false })
-    self.storage:save(self.saved)
-    self.interactable.publicData = {}
-    self.sv.explode = false
-end
-
-function AmmoRack:sv_removeHold()
-    self.saved.hold = nil
-    self.sv.explode = false
-    self.sv.holding = false
-    self.interactable.active = false
-    self.network:setClientData({ holding = false })
-    self.storage:save(self.saved)
-    self.interactable.publicData = {}
+    self:sv_removeHold()
 end
 
 function AmmoRack:sv_dropHold()
@@ -188,6 +160,16 @@ function AmmoRack:sv_dropHold()
     sm.shape.createPart(uuid, pos - at * offset, self.shape.worldRotation)
 
     self:sv_removeHold()
+end
+
+function AmmoRack:sv_removeHold()
+    self.saved.hold = nil
+    self.sv.explode = false
+    self.sv.holding = false
+    self.interactable.active = false
+    self.network:setClientData({ holding = false })
+    self.storage:save(self.saved)
+    self.interactable.publicData = {}
 end
 
 
@@ -243,7 +225,7 @@ end
 function AmmoRack:client_onInteract(character, state)
     if not state then return end
 
-    self.network:sendToServer("sv_takeShell", sm.localPlayer.getPlayer():getCarry())
+    self.network:sendToServer("sv_grabShell", sm.localPlayer.getPlayer():getCarry())
 end
 
 function AmmoRack:cl_createShell()
