@@ -549,7 +549,7 @@
                 "depth": 3,
                 "diameter": 1
             },
-            "name": "Shell Holder 3",
+            "name": "Ammo Rack 3",
             "physicsMaterial": "Mechanical",
             "renderable": {
                 "lodList": [
@@ -571,8 +571,8 @@
             "rotationSet": "TP_TopOnly",
             "flammable": true,
             "scripted": {
-                "classname": "ShellHolder",
-                "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
+                "classname": "AmmoRack",
+                "filename": "$CONTENT_DATA/Scripts/AmmoRack.lua"
             },
             "ratings": {
                 "density": 2,
@@ -601,7 +601,7 @@
                 "depth": 4,
                 "diameter": 1
             },
-            "name": "Shell Holder 4",
+            "name": "Ammo Rack 4",
             "physicsMaterial": "Mechanical",
             "renderable": {
                 "lodList": [
@@ -623,8 +623,8 @@
             "rotationSet": "TP_TopOnly",
             "flammable": true,
             "scripted": {
-                "classname": "ShellHolder",
-                "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
+                "classname": "AmmoRack",
+                "filename": "$CONTENT_DATA/Scripts/AmmoRack.lua"
             },
             "ratings": {
                 "density": 2,
@@ -654,7 +654,7 @@
                 "depth": 5,
                 "diameter": 1
             },
-            "name": "Shell Holder 5",
+            "name": "Ammo Rack 5",
             "physicsMaterial": "Mechanical",
             "renderable": {
                 "lodList": [
@@ -676,8 +676,8 @@
             "rotationSet": "TP_TopOnly",
             "flammable": true,
             "scripted": {
-                "classname": "ShellHolder",
-                "filename": "$CONTENT_DATA/Scripts/ShellHolder.lua"
+                "classname": "AmmoRack",
+                "filename": "$CONTENT_DATA/Scripts/AmmoRack.lua"
             },
             "ratings": {
                 "density": 2,

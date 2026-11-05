@@ -1,14 +1,15 @@
 dofile("localization.lua")
 
 ---@class ShellHolder : ShapeClass
-ShellHolder = class()
-ShellHolder.maxChildCount = -1
-ShellHolder.maxParentCount = 1
-ShellHolder.connectionInput = sm.interactable.connectionType.logic
-ShellHolder.connectionOutput = sm.interactable.connectionType.logic
-ShellHolder.colorNormal = sm.color.new("ffd82b")
-ShellHolder.colorHighlight = sm.color.new("ffdd47")
+AmmoRack = class()
+AmmoRack.maxChildCount = -1
+AmmoRack.maxParentCount = 1
+AmmoRack.connectionInput = sm.interactable.connectionType.logic
+AmmoRack.connectionOutput = sm.interactable.connectionType.logic
+AmmoRack.colorNormal = sm.color.new("ffd82b")
+AmmoRack.colorHighlight = sm.color.new("ffdd47")
 
+--[[
 -- contains every thing uuid which it can hold
 local HOLDABLES = {}
 
@@ -24,18 +25,19 @@ local bullets = sm.json.open("$CONTENT_DATA/Objects/Database/ShapeSets/bullets.j
 for k, bullet in ipairs(bullets) do
     HOLDABLES[#HOLDABLES+1] = bullet.uuid
 end
+]]--
 
 
-function ShellHolder:server_onCreate()
+function AmmoRack:server_onCreate()
     self:init()
 end
 
-function ShellHolder:server_onRefresh()
+function AmmoRack:server_onRefresh()
     self:init()
     print("RELOADED")
 end
 
-function ShellHolder:init()
+function AmmoRack:init()
     self.saved = self.storage:load() or {}
     self.sv = {
         holding = (self.saved.hold ~= nil) and (true) or (false),
@@ -70,7 +72,7 @@ function ShellHolder:init()
     end
 end
 
-function ShellHolder:server_onFixedUpdate(dt)
+function AmmoRack:server_onFixedUpdate(dt)
     if (not self.interactable.active) and self.sv.holding then
         self.interactable.active = true
     end
@@ -92,16 +94,18 @@ function ShellHolder:server_onFixedUpdate(dt)
     end
 end
 
-function ShellHolder:server_onProjectile()
+function AmmoRack:server_onProjectile()
     self:sv_explode()
 end
 
-function ShellHolder:server_onExplosion()
+function AmmoRack:server_onExplosion()
     self:sv_explode()
 end
 
-function ShellHolder:sv_explode()
-    if not self.sv.explode then return end
+function AmmoRack:sv_explode()
+    if not self.sv.explode then
+        return
+    end
 
     local pos = self.shape.worldPosition
     local data = self.sv.scripted
@@ -111,17 +115,23 @@ function ShellHolder:sv_explode()
     self.shape:destroyPart(0)
 end
 
-function ShellHolder:trigger_onEnter(trigger, results)
-    if self.sv.holding then return end
+function AmmoRack:trigger_onEnter(trigger, results)
+    if self.sv.holding then
+        return
+    end
 
     local shapes = trigger:getShapes()
     for _, shapeData in ipairs(shapes) do
         for k, shape in pairs(shapeData) do
             if k == "shape" then
-                if self.sv.holding or not sm.exists(shape) then return end
+                if self.sv.holding or not sm.exists(shape) then
+                    return
+                end
 
                 if shape.body ~= self.shape.body and isAnyOf(shape.uuid, HOLDABLES) and sm.item.getShapeSize(shape.uuid).y <= sm.item.getShapeSize(self.shape.uuid).y then
-                    if shape.interactable.publicData.claimed then return end
+                    if shape.interactable.publicData.claimed then
+                        return
+                    end
                     shape.interactable.publicData.claimed = true
 
                     self:sv_holdShell(shape)
@@ -132,7 +142,7 @@ function ShellHolder:trigger_onEnter(trigger, results)
 end
 
 ---@param shell Shape
-function ShellHolder:sv_holdShell(shell)
+function AmmoRack:sv_holdShell(shell)
     local uuid = tostring(shell.uuid)
     self.saved.hold = uuid
     self.sv.holding = true
@@ -152,7 +162,7 @@ function ShellHolder:sv_holdShell(shell)
 end
 
 ---@param container Container
-function ShellHolder:sv_takeShell(container)
+function AmmoRack:sv_takeShell(container)
     sm.container.beginTransaction()
     sm.container.collect(container, sm.uuid.new(self.saved.hold), 1)
     sm.container.endTransaction()
@@ -166,7 +176,7 @@ function ShellHolder:sv_takeShell(container)
     self.sv.explode = false
 end
 
-function ShellHolder:sv_removeHold()
+function AmmoRack:sv_removeHold()
     self.saved.hold = nil
     self.sv.explode = false
     self.sv.holding = false
@@ -176,7 +186,7 @@ function ShellHolder:sv_removeHold()
     self.interactable.publicData = {}
 end
 
-function ShellHolder:sv_dropHold()
+function AmmoRack:sv_dropHold()
     local size = sm.item.getShapeSize(self.shape.uuid)
     local pos = self.shape.worldPosition + self.shape.right * -0.125 + self.shape.up * -0.125 -- fuck sm
     local at = self.shape.at
@@ -191,15 +201,15 @@ end
 
 --[[ CLIENT ]]--
 
-function ShellHolder:client_onCreate()
+function AmmoRack:client_onCreate()
     self:cl_init()
 end
 
-function ShellHolder:client_onRefresh()
+function AmmoRack:client_onRefresh()
     self:cl_init()
 end
 
-function ShellHolder:cl_init()
+function AmmoRack:cl_init()
     self.cl = {
         hold = "",
         holding = false,
@@ -207,7 +217,7 @@ function ShellHolder:cl_init()
     }
 end
 
-function ShellHolder:client_onClientDataUpdate(data)
+function AmmoRack:client_onClientDataUpdate(data)
     for k, v in pairs(data) do
         self.cl[k] = v
     end
@@ -222,14 +232,14 @@ function ShellHolder:client_onClientDataUpdate(data)
     end
 end
 
-function ShellHolder:client_onUpdate(dt)
+function AmmoRack:client_onUpdate(dt)
     local effect = self.cl.effect
     if self.cl.holding and effect and not effect:isPlaying() then
         effect:start()
     end
 end
 
-function ShellHolder:client_canInteract(character)
+function AmmoRack:client_canInteract(character)
     if self.cl.holding and self.cl.showData then
         sm.gui.setInteractionText("", sm.gui.getKeyBinding("Use", true), GetLocalization("rack_take", getLang()):format(sm.shape.getShapeTitle(sm.uuid.new(self.cl.hold))))
     elseif self.cl.holding and not self.cl.showData then
@@ -238,13 +248,13 @@ function ShellHolder:client_canInteract(character)
     return self.cl.holding
 end
 
-function ShellHolder:client_onInteract(character, state)
+function AmmoRack:client_onInteract(character, state)
     if not state then return end
 
     self.network:sendToServer("sv_takeShell", sm.localPlayer.getPlayer():getCarry())
 end
 
-function ShellHolder:cl_createShell()
+function AmmoRack:cl_createShell()
     local effect = sm.effect.createEffect("ShapeRenderable", self.interactable)
     local uuid = sm.uuid.new(self.cl.hold)
     effect:setParameter("uuid", uuid)
