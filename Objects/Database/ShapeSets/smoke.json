@@ -1,0 +1,132 @@
+// vim: syntax=jsonc filetype=jsonc
+{
+    "partList": [
+		{ // Smoke Mortar
+            "type": "breech",
+            "insertArea": [
+                // size: RIGHT AT UP
+                //0.375, 0.3125, 0.5, // debug
+                0.125, 0.125, 0.125,
+                // offset: RIGHT AT UP
+                0, 0, 0
+            ],
+			"name": "Smoke Mortar",
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Breech.lua",
+				"classname": "Breech",
+				"data": {
+                    "caliber": 1,
+                    "bullets": [
+                        "05f45ac6-ad82-4d0f-9e9b-1a77587d3592" // Smoke Grenade
+                    ],
+                    "cases": [],
+                    "areaTrigger": [
+                        // size
+                        0.125, 0.25, 0.25,
+                        // offset
+                        0, -0.25, 0.125
+                    ]
+				}
+			},
+			"color": "555555",
+			"cylinder": {
+				"axis" : "Z",
+				"depth" : 2,
+				"diameter" : 1
+			},
+			"ratings": {
+				"density": 3,
+				"durability": 5,
+				"friction": 4,
+				"buoyancy": 3
+			},
+			"physicsMaterial": "Metal",
+			"renderable": {
+				"lodList": [
+					{
+						"mesh": "$CONTENT_DATA/Objects/Mesh/smoke_mortar.fbx",
+						"subMeshList": [
+							{
+								"material": "DifAsgNor",
+								"textureList": [
+									"$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga",
+									"$GAME_DATA/Objects/Textures/Blocks/blk_metal01_nor.tga"
+								]
+							}
+						]//,
+						//"animationList": [
+						//	{"name": "Opening", "file": "$CONTENT_DATA/Objects/Mesh/breeches/zis5_breech.fbx"}
+						//]
+					}
+				]
+			},
+			"sticky": "-Z",
+			"rotationSet": "PropZ",
+            "previewRotation": [ 1, 0, 0, 0, 1, 0, 0, 0, 1 ],
+			"uuid": "8b2cb69c-c690-4337-8e00-5d53d20fc65c"
+		},
+        { // Smoke Grenade
+            "type": "shell",
+			"name" : "Smoke Grenade",
+			"scripted": {
+				"filename": "$CONTENT_DATA/Scripts/Shell.lua",
+				"classname": "Shell",
+				"data": {
+                    "explosion": {
+                        "level": 4,
+                        "radius": 3,
+                        "impulse": 80
+                    },
+                    "shellData": {
+                        "type": "he",
+                        "initialSpeed": 10, // temporary
+                        "mass": 6.5,
+                        "caliber": 76,
+                        "headCurve": 1,
+                        "density": 10,
+                        "bullet": "05f45ac6-ad82-4d0f-9e9b-1a77587d3592"
+                    },
+                    "caseData": {
+                        "force": 50,
+                        "powder": "ww2"
+                    }
+				}
+			},
+			"color" : "555555",
+			"cylinder" : {
+				"axis" : "Y",
+				"depth" : 4,
+				"diameter" : 1
+			},
+			"ratings": {
+				"density": 5,
+				"durability": 10,
+				"friction": 4,
+				"buoyancy": 5
+			},
+			"carryItem" : true,
+            "flammable": true,
+			"physicsMaterial" : "Metal",
+			"renderable" : {
+                "lodList": [
+                    {
+                        "mesh": "$CONTENT_DATA/Objects/Mesh/shells/ap_shell_76.fbx",
+                        "subMeshList": [
+                            {
+                                "material": "DifAsg",
+                                "textureList": [
+                                    "$CONTENT_DATA/Objects/Textures/soviet_shell_texture.tga",
+                                    "$GAME_DATA/Objects/Textures/Blocks/blk_metal01_asg.tga"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+			"sticky": "+X-X-Y+Z-Z",
+			"rotationSet" : "TP_ShellRotation",
+			"uuid" : "05f45ac6-ad82-4d0f-9e9b-1a77587d3592"
+		}
+    ]
+}
