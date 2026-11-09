@@ -35,215 +35,218 @@ end
 
 -- Hit functions
 
-function __hit_ap(data)
-    local result = data.hit
-    local pos = result.pointWorld
+OnHit = {
+    ap = function(data)
+        local result = data.hit
+        local pos = result.pointWorld
 
-    if not data.lastAngle then
-        data.lastAngle = getAngle(result)
-    end
-    local angle = data.lastAngle
-
-    local vel = data.vel
-    if not data.dir then
-        data.dir = vel:normalize() / 4
-    end
-    local dir = data.dir
-
-    local durability = 0
-
-    local raycastTarget = result.type
-    if not result.valid then
-        -- nothing
-    elseif raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
-        print("[TANK PARTS] HIT TERRAIN")
-        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
-        data.alive = false
-        return
-
-    elseif raycastTarget == "body" then
-        print("[TANK PARTS] HIT BODY")
-        local shape = result:getShape()
-        if not shape then
-            return
+        if not data.lastAngle then
+            data.lastAngle = getAngle(result)
         end
-        if shape.interactable then
-            local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
-            if success and publicData and publicData.isShell then
-                print("[TANK PARTS] HIT SHELL")
-                sm.event.sendToInteractable(shape.interactable, "sv_explode")
-                data.alive = false
-                return
-            end
-        end
-        durability = sm.item.getQualityLevel(shape.uuid) or 1
-        if angle <= data.maxAngle then
-            print("[TANK PARTS] RICOCHET")
-            data.vel = doRicochet(vel, result.normalWorld)
-            data.dir = data.vel:normalize() / 4
-            data.penetrationCapacity = data.penetrationCapacity - durability * 0.2
-            data.alive = true
-            explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
-            return
-        end
-        durability = getDurability(durability, angle)
-        print("[TANK PARTS] DURALITY:", durability, "/", data.maxDurability, "| Capacity:", data.penetrationCapacity)
+        local angle = data.lastAngle
 
-        if durability > data.maxDurability or durability > data.penetrationCapacity then
-            print("[TANK PARTS] TOO DURAB BLOCK HIT")
-            shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
-            explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+        local vel = data.vel
+        if not data.dir then
+            data.dir = vel:normalize() / 4
+        end
+        local dir = data.dir
+
+        local durability = 0
+
+        local raycastTarget = result.type
+        if not result.valid then
+            -- nothing
+        elseif raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
+            print("[TANK PARTS] HIT TERRAIN")
+            explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
             data.alive = false
             return
-        else
-            if shape.isBlock then
-                local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
-                shape:destroyBlock(targetLocalPosition, sm.vec3.one())
-            else
-                shape:destroyPart(0)
+
+        elseif raycastTarget == "body" then
+            print("[TANK PARTS] HIT BODY")
+            local shape = result:getShape()
+            if not shape then
+                return
             end
-        end
-
-    elseif raycastTarget == "joint" then
-        local joint = result:getJoint()
-
-        local shapeA = joint.shapeA
-        local body = shapeA.body
-        local uuid = shapeA.uuid
-        local _pos = shapeA:getClosestBlockLocalPosition(pos)
-
-        if shapeA.isBlock then
-            shapeA:destroyBlock(_pos, sm.vec3.one())
-
-            body:createBlock(uuid, sm.vec3.one(), _pos)
-        else
-            local xAxis = shapeA.xAxis
-            local zAxis = shapeA.zAxis
-
-            shapeA:destroyPart(0)
-
-            body:createPart(uuid, _pos, zAxis, xAxis)
-        end
-
-        durability = 0.5
-
-    elseif raycastTarget == "character" then
-        --print("[TANK PARTS] HIT PLAYER", result:getCharacter():getPlayer().name)
-        sm.log.warning("[TANK PARTS] HIT PLAYER")
-        killPlayer(result:getCharacter(), vel)
-        data.alive = false
-        return
-
-    elseif raycastTarget == "harvestable" then
-        print("[TANK PARTS] HIT HARVESTABLE")
-        sm.log.warning("[TANK PARTS] AP HIT HARVESTABLE")
-
-        local harvestable = result:getHarvestable()
-        point = harvestable.worldPosition
-        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
-        durability = 3
-    elseif raycastTarget == "voxelTerrain" then
-        print("[TANK PARTS] HIT VOXEL TERRAIN")
-        data.alive = false
-        return
-    else
-        print("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
-        sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
-        data.alive = false
-        return
-    end
-
-    data.penetrationCapacity = data.penetrationCapacity - durability
-    data.fuse = (data.fuse or 0) + durability
-
-    data.pos = pos
-
-    data.alive = true
-end
-
-function __hit_heat(data)
-    local result = data.hit
-    local pos = result.pointWorld
-
-    if not data.lastAngle then
-        data.lastAngle = getAngle(result)
-    end
-    local angle = data.lastAngle
-
-    local vel = data.vel
-    if not data.dir then
-        data.dir = vel:normalize() / 4
-    end
-    local dir = data.dir
-
-    local durability = 0
-
-    local raycastTarget = result.type
-    if not result.valid then
-        print("[TANK PARTS] HEAT HIT AIR")
-        durability = 10
-        print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
-        if not data.exploded then
-            data.exploded = true
-            explode(data.pos + data.dir, 5, 0.5, 1, 5, nil --[[ Dirt explosion ]])
-        end
-
-        pos = data.pos + data.dir
-    elseif raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
-        print("[TANK PARTS] HIT TERRAIN")
-        --explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
-        explode(pos, 3, 0.25, 0.25, 1, nil --[[ Dirt explosion ]])
-        data.alive = false
-        return
-
-    elseif raycastTarget == "body" then
-        print("[TANK PARTS] HIT BODY")
-        local shape = result:getShape()
-        local uuid = shape.uuid
-        if shape.interactable then
-            local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
-            if success and publicData then
-                if publicData.isShell then
+            if shape.interactable then
+                local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
+                if success and publicData and publicData.isShell then
                     print("[TANK PARTS] HIT SHELL")
-                    sm.event.sendToInteractable(shape.interactable, "sv_explode")
-                    data.alive = false
-                    return
-                elseif publicData.isDA then
-                    print("[TANK PARTS] HIT DYNAMIC ARMOR")
                     sm.event.sendToInteractable(shape.interactable, "sv_explode")
                     data.alive = false
                     return
                 end
             end
-        end
+            durability = sm.item.getQualityLevel(shape.uuid) or 1
+            --if angle <= data.maxAngle then
+            if false then -- BUGPLUG
+                print("[TANK PARTS] RICOCHET")
+                data.vel = doRicochet(vel, result.normalWorld)
+                data.dir = data.vel:normalize() / 4
+                --data.penetrationCapacity = data.penetrationCapacity - durability * 0.2 -- BUGPLUG
+                data.alive = true
+                explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 4, CAE_Pitch = 5 })
+                return
+            end
+            durability = getDurability(durability, angle)
+            print("[TANK PARTS] DURALITY:", durability, "/", data.maxDurability, "| Capacity:", data.penetrationCapacity)
 
-        durability = sm.item.getQualityLevel(uuid) or 1
-        durability = getDurability(durability, angle)
-        print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+            --if durability > data.maxDurability or durability > data.penetrationCapacity then
+            if false then -- BUGPLUG
+                print("[TANK PARTS] TOO DURAB BLOCK HIT")
+                shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
+                explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+                data.alive = false
+                return
+            else
+                if shape.isBlock then
+                    local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
+                    shape:destroyBlock(targetLocalPosition, sm.vec3.one())
+                else
+                    shape:destroyPart(0)
+                end
+            end
 
-        if durability > data.penetrationCapacity then
-            print("[TANK PARTS] TOO DURAB BLOCK HIT")
-            shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
-            explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+        elseif raycastTarget == "joint" then
+            local joint = result:getJoint()
+
+            local shapeA = joint.shapeA
+            local body = shapeA.body
+            local uuid = shapeA.uuid
+            local _pos = shapeA:getClosestBlockLocalPosition(pos)
+
+            if shapeA.isBlock then
+                shapeA:destroyBlock(_pos, sm.vec3.one())
+
+                body:createBlock(uuid, sm.vec3.one(), _pos)
+            else
+                local xAxis = shapeA.xAxis
+                local zAxis = shapeA.zAxis
+
+                shapeA:destroyPart(0)
+
+                body:createPart(uuid, _pos, zAxis, xAxis)
+            end
+
+            durability = 0.5
+
+        elseif raycastTarget == "character" then
+            --print("[TANK PARTS] HIT PLAYER", result:getCharacter():getPlayer().name)
+            sm.log.warning("[TANK PARTS] HIT PLAYER")
+            killPlayer(result:getCharacter(), vel)
+            data.alive = false
+            return
+
+        elseif raycastTarget == "harvestable" then
+            print("[TANK PARTS] HIT HARVESTABLE")
+            sm.log.warning("[TANK PARTS] AP HIT HARVESTABLE")
+
+            local harvestable = result:getHarvestable()
+            point = harvestable.worldPosition
+            explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+            durability = 3
+        elseif raycastTarget == "voxelTerrain" then
+            print("[TANK PARTS] HIT VOXEL TERRAIN")
             data.alive = false
             return
         else
-            if shape.isBlock then
-                local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
-                shape:destroyBlock(targetLocalPosition, sm.vec3.one())
-            else
-                shape:destroyPart(0)
-            end
+            print("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+            sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+            data.alive = false
+            return
         end
-        data.exploded = nil
 
-    elseif raycastTarget == "joint" then
-        local joint = result:getJoint()
+        --data.penetrationCapacity = data.penetrationCapacity - durability -- BUGPLUG
+        data.fuse = (data.fuse or 0) + durability
 
-        local shapeA = joint.shapeA
-        local body = shapeA.body
-        local uuid = shapeA.uuid
-        local _pos = shapeA:getClosestBlockLocalPosition(pos)
+        data.pos = pos
+
+        data.alive = true
+    end,
+
+    heat = function(data)
+        local result = data.hit
+        local pos = result.pointWorld
+
+        if not data.lastAngle then
+            data.lastAngle = getAngle(result)
+        end
+        local angle = data.lastAngle
+
+        local vel = data.vel
+        if not data.dir then
+            data.dir = vel:normalize() / 4
+        end
+        local dir = data.dir
+
+        local durability = 0
+
+        local raycastTarget = result.type
+        if not result.valid then
+            print("[TANK PARTS] HEAT HIT AIR")
+            durability = 10
+            print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+            if not data.exploded then
+                data.exploded = true
+                explode(data.pos + data.dir, 5, 0.5, 1, 5, nil --[[ Dirt explosion ]])
+            end
+
+            pos = data.pos + data.dir
+        elseif raycastTarget == "terrainSurface" or raycastTarget == "terrainAsset" then
+            print("[TANK PARTS] HIT TERRAIN")
+            --explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+            explode(pos, 3, 0.25, 0.25, 1, nil --[[ Dirt explosion ]])
+            data.alive = false
+            return
+
+        elseif raycastTarget == "body" then
+            print("[TANK PARTS] HIT BODY")
+            local shape = result:getShape()
+            local uuid = shape.uuid
+            if shape.interactable then
+                local success, publicData = pcall(shape.interactable.getPublicData, shape.interactable)
+                if success and publicData then
+                    if publicData.isShell then
+                        print("[TANK PARTS] HIT SHELL")
+                        sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                        data.alive = false
+                        return
+                    elseif publicData.isDA then
+                        print("[TANK PARTS] HIT DYNAMIC ARMOR")
+                        sm.event.sendToInteractable(shape.interactable, "sv_explode")
+                        data.alive = false
+                        return
+                    end
+                end
+            end
+
+            durability = sm.item.getQualityLevel(uuid) or 1
+            durability = getDurability(durability, angle)
+            print("[TANK PARTS] DURALITY:", durability, "/ INF", "| Capacity:", data.penetrationCapacity)
+
+            if durability > data.penetrationCapacity then
+                print("[TANK PARTS] TOO DURAB BLOCK HIT")
+                shrapnelExplosion(pos - dir * 0.5, vel, 5, 5, 35, true)
+                explode(pos, 1, 0.1, 1, 1, "Shell - NoPenetration", nil, { CAE_Volume = 6, CAE_Pitch = 0.7 })
+                data.alive = false
+                return
+            else
+                if shape.isBlock then
+                    local targetLocalPosition = shape:getClosestBlockLocalPosition(pos)
+                    shape:destroyBlock(targetLocalPosition, sm.vec3.one())
+                else
+                    shape:destroyPart(0)
+                end
+            end
+            data.exploded = nil
+
+        elseif raycastTarget == "joint" then
+            local joint = result:getJoint()
+
+            local shapeA = joint.shapeA
+            local body = shapeA.body
+            local uuid = shapeA.uuid
+            local _pos = shapeA:getClosestBlockLocalPosition(pos)
 
         if shapeA.isBlock then
             shapeA:destroyBlock(_pos, sm.vec3.one())
@@ -261,56 +264,57 @@ function __hit_heat(data)
         durability = 0.5
         data.exploded = nil
 
-    elseif raycastTarget == "character" then
-        --print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
-        sm.log.warning("[TANK PARTS] HIT PLAYER")
-        killPlayer(result:getCharacter(), vel)
+        elseif raycastTarget == "character" then
+            --print("SENDING DAMAGE TO player", result:getCharacter():getPlayer().name)
+            sm.log.warning("[TANK PARTS] HIT PLAYER")
+            killPlayer(result:getCharacter(), vel)
 
-    elseif raycastTarget == "harvestable" then
-        print("[TANK PARTS] HIT HARVESTABLE")
-        explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
-        durability = 3
+        elseif raycastTarget == "harvestable" then
+            print("[TANK PARTS] HIT HARVESTABLE")
+            explode(pos, 1, 0.1, 1, 1, nil --[[ Dirt explosion ]])
+            durability = 3
+            data.alive = false
+            return
+        else
+            sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+            data.alive = false
+        end
+
+        data.penetrationCapacity = data.penetrationCapacity - durability
+        data.fuse = (data.fuse or 0) + durability
+
+        data.pos = pos
+
+        data.alive = data.penetrationCapacity > 0
+    end,
+
+    he = function(data)
+        local pos = data.hit.pointWorld - data.vel:normalize() * 0.25
+        local shrapnelVelocity = data.vel:normalize() * 30
+        local explosionData = data.explosion
+
+        explode(pos, 1, 0.1, 5, explosionData.impulse, "SmokeGrenade - Smoke")
+
         data.alive = false
-        return
-    else
-        sm.log.error("[TANK PARTS] HIT UNHANDLED TARGET", raycastTarget)
+    end,
+
+    howitzer_he = function(data)
+        local pos = data.hit.pointWorld - data.vel:normalize() * 0.25
+
+        -- play sound
+        if sm.cae_injected then
+            sm.effect.playEffect("Shell - HowitzerHit", pos)
+        else
+            sm.effect.playEffect("Shell - HowitzerHitVanilla", pos)
+        end
+
+        -- explode
+        explode(pos, 7, 3, 6, 250, "Shell - HowitzerExplosion")
+        shrapnelExplosion(pos, _shrapnelVec3, 80, 360, 100)
+
         data.alive = false
-    end
-
-    data.penetrationCapacity = data.penetrationCapacity - durability
-    data.fuse = (data.fuse or 0) + durability
-
-    data.pos = pos
-
-    data.alive = data.penetrationCapacity > 0
-end
-
-function __hit_he(data)
-    local pos = data.hit.pointWorld - data.vel:normalize() * 0.25
-    local shrapnelVelocity = data.vel:normalize() * 30
-    local explosionData = data.explosion
-
-    explode(pos, 1, 0.1, 5, explosionData.impulse, "SmokeGrenade - Smoke")
-
-    data.alive = false
-end
-
-function __hit_he_howitzer(data)
-    local pos = data.hit.pointWorld - data.vel:normalize() * 0.25
-
-    -- play sound
-    if sm.cae_injected then
-        sm.effect.playEffect("Shell - HowitzerHit", pos)
-    else
-        sm.effect.playEffect("Shell - HowitzerHitVanilla", pos)
-    end
-
-    -- explode
-    explode(pos, 7, 3, 6, 250, "Shell - HowitzerExplosion")
-    shrapnelExplosion(pos, _shrapnelVec3, 80, 360, 100)
-
-    data.alive = false
-end
+    end,
+}
 
 -- Explosion functions
 

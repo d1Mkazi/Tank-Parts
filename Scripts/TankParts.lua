@@ -16,8 +16,10 @@ sm.TankParts = {
             initialSpeed = "number", -- temporary
             mass = "number",
             caliber = "number",
-            headCurve = "number",
-            density = "number"
+            area = "number",
+            resistance = "number",
+            bullet = "Uuid"
+            --density = "number"
         }
 
         local ammoRack3_breech = {

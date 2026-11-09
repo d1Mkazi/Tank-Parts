@@ -14,6 +14,7 @@ local getGravity = sm.physics.getGravity
 local g
 
 local yAxis -- client
+local vec025 -- client
 
 
 --[[  SERVER  ]]--
@@ -34,31 +35,59 @@ function ShellTool:sv_init()
     getCases()
     getBreech()
 
-    g = getGravity()
-    g = g * g
-
-    sm.TankParts.fetch()
+    --sm.TankParts.fetch()
 
     --self.network:setClientData({ g = g })
     --self.network:sendToClients("cl_setGravity", g)
 end
 
----@param data table
+---@alias AmmoType
+---| "ap"
+---| "he"
+---| "heat"
+---| "apcr"
+---| "rocket"
+
+---@class AmmoData
+---@field resistance number resistance coefficient
+---@field onHit string OnHit function name
+---@field caliber number
+---@field type AmmoType
+---@field area number cross section area
+---@field mass number
+---@field bullet Uuid
+
+---@class ShellData
+---@field ammoData AmmoData
+---@field pos Vec3
+---@field vel Vec3
+
+---@param data ShellData
 function ShellTool:sv_createShell(data)
-    local shellData = data.data
-    local newShell = copyTable(getTableByValue(shellData.shellUuid, ShellList[shellData.caliber][shellData.loading], "shellUuid").shellData)
-    newShell.pos = data.pos
-    newShell.vel = data.vel
-    local k = #self.projectiles+1
-    self.projectiles[k] = newShell
-    self.network:sendToClients("cl_createShell", { shell = newShell, key = k })
+    local ammo = data.ammoData
+    local id = #self.projectiles + 1
+
+    local shellData = {
+        onHit = OnHit[ammo.onHit],
+        pos = data.pos,
+        vel = data.vel,
+        mass = ammo.mass,
+        area = ammo.area,
+        type = ammo.type,
+        caliber = ammo.caliber,
+        resistance = ammo.resistance,
+    }
+
+    self.projectiles[id] = shellData
+
+    self.network:sendToClients("cl_createShell", { shellData = shellData, id = id, bullet = ammo.bullet })
 end
 
 function ShellTool:server_onFixedUpdate(dt)
     local _g = getGravity()
     _g = _g * _g
     if g ~= _g then
-        sm.TankParts.log(("SET NEW GRAVITY (%g => %g)"):format(g, _g))
+        sm.log.info(("[TANK PARTS] SET NEW GRAVITY (%g => %g)"):format(g or -1, _g))
         g = _g
         self.network:sendToClients("cl_setGravity", g)
     end
@@ -73,7 +102,7 @@ function ShellTool:server_onFixedUpdate(dt)
                     print("[TANK PARTS] CALCULATING FIRST HIT")
                     local success, res = pcall(proj.onHit, proj)
                     if not success then
-                        sm.log.error("onHit fail:", res)
+                        sm.log.error("[TANK PARTS] onHit fail:", res)
                         print("[TANK PARTS] DESTROYING SHELL")
                         self.network:sendToClients("cl_updateShell", { key = k })
                         return
@@ -130,7 +159,7 @@ function ShellTool:server_onFixedUpdate(dt)
                             print("[TANK PARTS] HIT AFTER HIT")
                             local success, res = pcall(proj.onHit, proj)
                             if not success then
-                                sm.log.error("onHit fail:", res)
+                                sm.log.error("[TANK PARTS] onHit fail:", res)
                                 print("[TANK PARTS] DESTROYING SHELL")
                                 self.network:sendToClients("cl_updateShell", { key = k })
                                 return
@@ -177,22 +206,28 @@ function ShellTool:cl_init()
 
     self.projectiles = {}
 
+    vec025 = sm.vec3.new(0.25, 0.25, 0.25)
+
     sm.TankParts.fetch()
 end
 
 function ShellTool:cl_createShell(data)
-    local k = data.key
-    local shell = self.projectiles[k] or data.shell
+    local id = data.id
+    local shellData = data.shellData
+
+    print("Bullet =", data.bullet)
+
     local effect = sm.effect.createEffect("ShapeRenderable")
-    effect:setParameter("uuid", sm.uuid.new(shell.bulletUUID))
-    effect:setPosition(shell.pos)
-    effect:setScale(sm.vec3.one() * 0.25)
+    effect:setParameter("uuid", sm.uuid.new(data.bullet))
+    effect:setPosition(shellData.pos)
+    effect:setScale(vec025)
     effect:start()
-    if self.projectiles[k] then
-        self.projectiles[k].effect = effect
+    shellData.effect = effect
+
+    if self.projectiles[id] then
+        self.projectiles[id].effect = effect
     else
-        shell.effect = effect
-        self.projectiles[k] = shell
+        self.projectiles[id] = shellData
     end
 end
 
@@ -212,29 +247,91 @@ function ShellTool:client_onUpdate(dt)
 end
 
 function ShellTool:client_onFixedUpdate(dt)
+    dt = dt / 100
     if self.projectiles ~= nil then
         for k, proj in pairs(self.projectiles) do
             if proj.pos.z < MINIMAL_HEIGHT then
                 self:cl_destroyShell(k)
             elseif not proj.hit then
-                local pos = proj.pos
-                local vel = proj.vel
 
-                local newVel = vel + sm.vec3.new(0, 0, -(g * dt))
-                local newPos = pos + (vel * dt) + sm.vec3.new(0, 0, -(g * dt * dt * 0.5))
-
-                local hit, result = raycast(pos, newPos)
+                local newPos = proj.pos + proj.vel * dt
+                local hit, result = raycast(proj.pos, newPos)
                 if hit then
                     proj.hit = result
                     newPos = result.pointWorld
                 end
-
                 proj.pos = newPos
-                proj.vel = newVel
 
-                if proj.penetrationLoss then
-                    proj.penetrationCapacity = proj.penetrationCapacity - proj.penetrationCapacity * (proj.penetrationLoss * dt)
-                end
+                local dragForce = proj.vel * -0.5 * 1.225 * proj.resistance * proj.vel:length()
+                local downForce = sm.vec3.new(0, 0, proj.mass * g * dt)
+                local totalForce = dragForce + downForce
+                local acceleration = totalForce / proj.mass
+
+                proj.vel = proj.vel + acceleration * dt
+                --[[
+
+                    Definitions:
+                        Velocity(U) = speed * direction
+                        Diameter(d) = caliber
+
+                        Mass(m)
+                        Force(F)
+                        Acceleration(a) = F / m
+
+                        Mach(M) = U / c
+
+                        Volume(V)
+                        Density(p) = m / V
+
+
+                        Measures:
+                            Force           Newtons
+                            Speed           m/s
+                            Acceleration    m/s^2
+                            Mass            kg
+                            Area            m^2
+                            Volume          m^3
+
+                        Assumptions:
+                            T = 20C = 293K
+                            p(air) = 1.225 kg/m^3
+
+
+                    Fdrag = -0.5 * p * Cx * S * |Urel| * Urel
+
+                        p    = air density
+                        Cx   = resistance coefficient   // SHOULD BE PRECALCULATED
+                        S    = Pi * r^2 = Pi * d^2 / 4  // SHOULD BE PRECALCULATED
+                        Urel = Ushell - Uwind
+
+                    Cx = 0.05 + 0.18/i + 0.08 * r  // referenced as Cx0
+
+                        i = L / d
+                        r = r / d  // if there's flat area on the head. Otherwise, =1
+
+
+                    Cx(Mach > 0.8) = Cx0 * (1 + k * Mach)  // simplified
+
+                        k = ?
+
+
+                    Cx(Math > 1) = (0.8 / (i * sqrt(M^2 - 1))) + Cx0
+
+
+                    c = sqrt(y * R * T) = sqrt(yR * T)  // speed of sound
+
+                        y = 1.4
+                        R = 287.053 J/(kg * K)
+
+                        yR = 401.8742
+
+
+                    A bullet is affected by:
+                        drag force Fdrag
+                        down force Fdown
+
+                --]]
+
             end
         end
     end

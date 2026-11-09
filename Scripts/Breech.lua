@@ -98,8 +98,8 @@ function Breech:init()
 
     local area = self.data.areaTrigger
     self.sv.areaTrigger = sm.areaTrigger.createAttachedBox(self.interactable,
-        sm.vec3.new(area[1], area[2], area[3]),
-        sm.vec3.new(area[4], area[5], area[6]),
+        sm.vec3.new(area[1], area[2], area[3]), -- size
+        sm.vec3.new(area[4], area[5], area[6]), -- offset
         sm.quat.identity(),
         sm.areaTrigger.filter.staticBody + sm.areaTrigger.filter.dynamicBody
     )
@@ -267,6 +267,9 @@ function Breech:sv_shoot()
         rot = sm.vec3.getRotation(sm.vec3.new(0, 0, 1), self.shape.at)
     end
 
+    local shell = self.sv.loaded.shell
+    local initialSpeed = shell.initialSpeed or 0
+    sm.event.sendToTool(ShellTool.tool, "sv_createShell", { ammoData = shell, pos = pos, vel = at * initialSpeed })
     --[[
     local shell = self.sv.loaded
 
@@ -469,7 +472,9 @@ function Breech:client_onDestroy()
     self.cl.shellCasingSmokeTrail:destroy()
     self.cl.shellCasingSmokeTrail = nil
 
-    self._effect:destroy()
+    if self._effect then
+        self._effect:destroy()
+    end
 end
 
 function Breech:cl_loadShell()
