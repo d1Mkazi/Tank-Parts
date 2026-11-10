@@ -9,7 +9,7 @@ dofile("SCS.lua")
 ShellTool = class()
 
 
-local raycast = sm.physics.raycast
+local raycast
 local getGravity = sm.physics.getGravity
 local g
 
@@ -31,14 +31,8 @@ end
 function ShellTool:sv_init()
     ShellTool.tool = self.tool
 
-    --self.projectiles = {}
     getCases()
     getBreech()
-
-    --sm.TankParts.fetch()
-
-    --self.network:setClientData({ g = g })
-    --self.network:sendToClients("cl_setGravity", g)
 end
 
 ---@alias AmmoType
@@ -87,7 +81,6 @@ function ShellTool:server_onFixedUpdate(dt)
     local _g = getGravity()
     _g = _g * _g
     if g ~= _g then
-        sm.log.info(("[TANK PARTS] SET NEW GRAVITY (%g => %g)"):format(g or -1, _g))
         g = _g
         self.network:sendToClients("cl_setGravity", g)
     end
@@ -104,7 +97,7 @@ function ShellTool:server_onFixedUpdate(dt)
                     if not success then
                         sm.log.error("[TANK PARTS] onHit fail:", res)
                         print("[TANK PARTS] DESTROYING SHELL")
-                        self.network:sendToClients("cl_updateShell", { key = k })
+                        self.network:sendToClients("cl_destroyShell", k)
                         return
                     end
                     if not proj.alive then
@@ -113,7 +106,7 @@ function ShellTool:server_onFixedUpdate(dt)
                         proj.lastAngle = nil
                         proj.fuse = nil
                         print("[TANK PARTS] DESTROYING SHELL")
-                        self.network:sendToClients("cl_updateShell", { key = k })
+                        self.network:sendToClients("cl_destroyShell", k)
                     end
                 else -- not first hit
                     print("[TANK PARTS] CALCULATING SECOND HIT")
@@ -143,7 +136,7 @@ function ShellTool:server_onFixedUpdate(dt)
                                 print("[TANK PARTS] SHELL FUSED")
                                 proj:explode()
                                 print("[TANK PARTS] DESTROYING SHELL")
-                                self.network:sendToClients("cl_updateShell", { key = k })
+                                self.network:sendToClients("cl_destroyShell", k)
                             else
                                 print("[TANK PARTS] SHELL NOT FUSED")
                                 proj.hit = nil
@@ -161,7 +154,7 @@ function ShellTool:server_onFixedUpdate(dt)
                             if not success then
                                 sm.log.error("[TANK PARTS] onHit fail:", res)
                                 print("[TANK PARTS] DESTROYING SHELL")
-                                self.network:sendToClients("cl_updateShell", { key = k })
+                                self.network:sendToClients("cl_destroyShell", k)
                                 return
                             end
                         elseif not result:getShape().isBlock then
@@ -178,7 +171,7 @@ function ShellTool:server_onFixedUpdate(dt)
                         proj.lastAngle = nil
                         proj.fuse = nil
                         print("[TANK PARTS] DESTROYING SHELL")
-                        self.network:sendToClients("cl_updateShell", { key = k })
+                        self.network:sendToClients("cl_destroyShell", k)
                     end
                 end
             end
@@ -194,7 +187,7 @@ function ShellTool:client_onCreate()
     self:cl_init()
 end
 
-function ShellTool:client_onReload()
+function ShellTool:client_onRefresh()
     self:cl_init()
     print("[TANK PARTS] (CLIENT) ShellTool reloaded")
 end
@@ -208,14 +201,15 @@ function ShellTool:cl_init()
 
     vec025 = sm.vec3.new(0.25, 0.25, 0.25)
 
-    sm.TankParts.fetch()
+    if not fetched then
+        sm.TankParts.fetch()
+        fetched = true
+    end
 end
 
 function ShellTool:cl_createShell(data)
     local id = data.id
     local shellData = data.shellData
-
-    print("Bullet =", data.bullet)
 
     local effect = sm.effect.createEffect("ShapeRenderable")
     effect:setParameter("uuid", sm.uuid.new(data.bullet))
@@ -248,6 +242,7 @@ end
 
 function ShellTool:client_onFixedUpdate(dt)
     dt = dt / 100
+
     if self.projectiles ~= nil then
         for k, proj in pairs(self.projectiles) do
             if proj.pos.z < MINIMAL_HEIGHT then
@@ -262,7 +257,8 @@ function ShellTool:client_onFixedUpdate(dt)
                 end
                 proj.pos = newPos
 
-                local dragForce = proj.vel * -0.5 * 1.225 * proj.resistance * proj.vel:length()
+                local vel = proj.vel -- proj.vel - wind.vel
+                local dragForce = vel * -0.5 * 1.225 * proj.resistance * vel:length()
                 local downForce = sm.vec3.new(0, 0, proj.mass * g * dt)
                 local totalForce = dragForce + downForce
                 local acceleration = totalForce / proj.mass
@@ -350,24 +346,17 @@ function ShellTool:cl_getShell(data)
     self.projectiles[data.key] = data.shell
 end
 
-function ShellTool:cl_setGravity(gravity)
-    g = gravity
+function ShellTool:cl_setGravity(_g)
+    sm.log.info(("[TANK PARTS] SET NEW GRAVITY (%g => %g)"):format(g or -1, _g))
+    g = _g
 end
 
 function ShellTool:cl_updateShell(data)
     local shelldata = data.shelldata
 
-    if not shelldata then
-        self:cl_destroyShell(data.key)
-        return
-    end
-
     local key = data.key
-    local shell = self.projectiles[key]
-    shell.pos = shelldata.pos
-    shell.vel = shelldata.vel
-
-    self.projectiles[key] = shell
+    self.projectiles[key].pos = shelldata.pos
+    self.projectiles[key].vel = shelldata.vel
 end
 
 
